@@ -16,13 +16,13 @@ class OnUserSelected extends VouchForAMemberEvent {
   String toString() => 'OnUserSelected: { User: $user }';
 }
 
-class OnConfirmVouchForMemberTab extends VouchForAMemberEvent {
+class OnConfirmVouchForMemberTap extends VouchForAMemberEvent {
   final MemberModel user;
 
-  const OnConfirmVouchForMemberTab(this.user);
+  const OnConfirmVouchForMemberTap(this.user);
 
   @override
-  String toString() => 'OnConfirmVouchForMemberTab: { User: $user }';
+  String toString() => 'OnConfirmVouchForMemberTap: { User: $user }';
 }
 
 class ClearPageCommand extends VouchForAMemberEvent {

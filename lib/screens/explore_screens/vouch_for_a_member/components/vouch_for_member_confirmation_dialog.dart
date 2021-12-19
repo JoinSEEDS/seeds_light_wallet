@@ -29,7 +29,7 @@ class VouchForMemberConfirmationDialog extends StatelessWidget {
               Navigator.of(context).pop();
             },
             onRightButtonPressed: () {
-              BlocProvider.of<VouchForAMemberBloc>(context).add(OnConfirmVouchForMemberTab(selectedMember));
+              BlocProvider.of<VouchForAMemberBloc>(context).add(OnConfirmVouchForMemberTap(selectedMember));
               Navigator.of(context).pop();
             },
             children: [
