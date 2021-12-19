@@ -32,7 +32,7 @@ class GetInitialDeepLinkUseCase {
       );
     } else if (placeHolder.contains("invoice")) {
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvoice;
-      final Future<Result> esrData = getSigningRequestUseCase.run(linkData);
+      final Result esrData = await getSigningRequestUseCase.run(linkData);
 
       return DeepLinkData(
         {"invoice": esrData},

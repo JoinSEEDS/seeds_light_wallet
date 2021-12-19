@@ -32,9 +32,9 @@ class DeepLinkStateMapper extends StateMapper {
           return currentState;
         }
       case DeepLinkPlaceHolder.linkInvoice:
-        final invite = deepLinkData.data["invoice"] as Result<ScanQrCodeResultData>;
+        final invite = deepLinkData.data["invoice"] as Result<dynamic>;
         if(invite.isValue) {
-          return currentState.copyWith(signingRequest: invite.valueOrCrash);
+          return currentState.copyWith(signingRequest: invite.valueOrNull);
         } else {
           return currentState;
         }
