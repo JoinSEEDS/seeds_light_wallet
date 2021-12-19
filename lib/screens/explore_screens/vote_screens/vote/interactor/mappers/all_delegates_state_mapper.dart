@@ -4,6 +4,7 @@ import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 const int _allianceDelegateResponseIndex = 0;
 const int _campaingDelegateResponseIndex = 1;

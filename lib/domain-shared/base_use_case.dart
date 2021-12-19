@@ -12,13 +12,9 @@ export 'package:async/src/result/result.dart';
 /// When depending on multiple input parameters, define an private data class in the use case so this can be
 /// used as an Input parameter.
 abstract class _BaseUseCase<T> {
-  bool areAllResultsError(List<Result> results) {
-    return results.where((Result element) => element.isValue).isEmpty;
-  }
+  bool areAllResultsError(List<Result> results) => results.where((Result element) => element.isValue).isEmpty;
 
-  bool areAllResultsSuccess(List<Result> results) {
-    return results.where((Result element) => element.isError).isEmpty;
-  }
+  bool areAllResultsSuccess(List<Result> results) => results.where((Result element) => element.isError).isEmpty;
 }
 
 abstract class InputUseCase<T, I> extends _BaseUseCase {
@@ -27,8 +23,4 @@ abstract class InputUseCase<T, I> extends _BaseUseCase {
 
 abstract class NoInputUseCase<T> extends _BaseUseCase<T> {
   Future<Result<T>> run();
-}
-
-extension ValueResult<T> on Result<T> {
-  T? get valueOrNull => isValue ? asValue!.value : null;
 }

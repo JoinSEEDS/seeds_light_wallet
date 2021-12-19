@@ -6,6 +6,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 const int _profileResultIndex = 0;
 const int _contributionScoreResultIndex = 1;
