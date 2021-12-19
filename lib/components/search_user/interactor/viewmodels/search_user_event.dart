@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'search_user_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class SearchUserEvent extends Equatable {
+  const SearchUserEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -11,13 +10,14 @@ abstract class SearchUserEvent extends Equatable {
 class OnSearchChange extends SearchUserEvent {
   final String searchQuery;
 
-  OnSearchChange({required this.searchQuery});
+  const OnSearchChange({required this.searchQuery});
 
   @override
   String toString() => 'OnSearchChange: { searchQuery: $searchQuery }';
 }
 
 class ClearIconTapped extends SearchUserEvent {
+  const ClearIconTapped();
 
   @override
   String toString() => 'ClearIconTapped';

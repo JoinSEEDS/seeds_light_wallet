@@ -1,14 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/user_citizenship_status.dart';
+part of 'search_user_bloc.dart';
 
 class SearchUserState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final List<MemberModel> users;
-  final IconData searchBarIcon;
+  final bool showClearIcon;
   final List<String>? noShowUsers;
   final UserCitizenshipStatus? showOnlyCitizenshipStatus;
 
@@ -16,7 +12,7 @@ class SearchUserState extends Equatable {
     required this.pageState,
     this.errorMessage,
     required this.users,
-    required this.searchBarIcon,
+    required this.showClearIcon,
     this.noShowUsers,
     this.showOnlyCitizenshipStatus,
   });
@@ -26,7 +22,7 @@ class SearchUserState extends Equatable {
         pageState,
         errorMessage,
         users,
-        searchBarIcon,
+        showClearIcon,
         noShowUsers,
         showOnlyCitizenshipStatus,
       ];
@@ -35,7 +31,7 @@ class SearchUserState extends Equatable {
     PageState? pageState,
     String? errorMessage,
     List<MemberModel>? users,
-    IconData? searchBarIcon,
+    bool? showClearIcon,
     List<String>? noShowUsers,
     UserCitizenshipStatus? showOnlyCitizenshipStatus,
   }) {
@@ -43,7 +39,7 @@ class SearchUserState extends Equatable {
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       users: users ?? this.users,
-      searchBarIcon: searchBarIcon ?? this.searchBarIcon,
+      showClearIcon: showClearIcon ?? this.showClearIcon,
       noShowUsers: noShowUsers ?? this.noShowUsers,
       showOnlyCitizenshipStatus: showOnlyCitizenshipStatus ?? this.showOnlyCitizenshipStatus,
     );
@@ -53,7 +49,7 @@ class SearchUserState extends Equatable {
     return SearchUserState(
       pageState: PageState.initial,
       users: [],
-      searchBarIcon: Icons.search,
+      showClearIcon: false,
       noShowUsers: noShowUsers,
       showOnlyCitizenshipStatus: filterByCitizenshipStatus,
     );

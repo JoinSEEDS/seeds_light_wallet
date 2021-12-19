@@ -1,19 +1,23 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/search_user/interactor/mappers/search_user_state_mapper.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
-import 'package:seeds/components/search_user/interactor/viewmodels/search_user_events.dart';
-import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
+import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/user_citizenship_status.dart';
 
-/// --- BLOC
+part 'search_user_event.dart';
+part 'search_user_state.dart';
+
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final int _minTextLengthBeforeValidSearch = 2;
 
   SearchUserBloc(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus)
-      : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus));
+      : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus)) {
+    on<OnSearchChange>(_onSearchChange);
+    on<ClearIconTapped>(_clearIconTapped);
+  }
 
   @override
   Stream<Transition<SearchUserEvent, SearchUserState>> transformEvents(
@@ -31,28 +35,23 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     return MergeStream([nonDebounceStream, debounceStream]).switchMap(transitionFn);
   }
 
-  @override
-  Stream<SearchUserState> mapEventToState(SearchUserEvent event) async* {
-    if (event is OnSearchChange) {
-      if (event.searchQuery.isEmpty) {
-        yield state.copyWith(searchBarIcon: Icons.search);
-      } else {
-        yield state.copyWith(searchBarIcon: Icons.clear);
-      }
-
-      if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
-        yield state.copyWith(pageState: PageState.loading);
-        final results = await SearchForMemberUseCase().run(event.searchQuery);
-        yield SearchUserStateMapper().mapResultToState(
-          currentState: state,
-          seedsMembersResult: results[0],
-          telosResult: results[1],
-          fullNameResult: results[2],
-          noShowUsers: state.noShowUsers,
-        );
-      }
-    } else if (event is ClearIconTapped) {
-      yield SearchUserState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus);
+  Future<void> _onSearchChange(OnSearchChange event, Emitter<SearchUserState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading, showClearIcon: event.searchQuery.isNotEmpty));
+    if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
+      final results = await SearchForMemberUseCase().run(event.searchQuery);
+      emit(SearchUserStateMapper().mapResultToState(
+        currentState: state,
+        seedsMembersResult: results[0],
+        telosResult: results[1],
+        fullNameResult: results[2],
+        noShowUsers: state.noShowUsers,
+      ));
+    } else {
+      emit(state.copyWith(pageState: PageState.success));
     }
+  }
+
+  void _clearIconTapped(ClearIconTapped event, Emitter<SearchUserState> emit) {
+    emit(SearchUserState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus));
   }
 }
