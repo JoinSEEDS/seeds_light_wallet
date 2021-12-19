@@ -31,9 +31,12 @@ class VouchedTab extends StatelessWidget {
                     child: FlatButtonLong(
                       title: 'Vouch for a member',
                       onPressed: () async {
-                        await NavigationService.of(context).navigateTo(Routes.vouchForAMember);
-                        // ignore: use_build_context_synchronously
-                        BlocProvider.of<VouchedBloc>(context).add(const LoadUserVouchedList());
+                        final shouldScreenReload =
+                            await NavigationService.of(context).navigateTo(Routes.vouchForAMember);
+                        if (shouldScreenReload != null) {
+                          // ignore: use_build_context_synchronously
+                          BlocProvider.of<VouchedBloc>(context).add(const LoadUserVouchedList());
+                        }
                       },
                     ),
                   ),

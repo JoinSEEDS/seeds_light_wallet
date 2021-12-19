@@ -14,7 +14,7 @@ class VouchSuccessDialog extends StatelessWidget {
         return WillPopScope(
           onWillPop: () async {
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
             return true;
           },
           child: CustomDialog(
@@ -22,7 +22,7 @@ class VouchSuccessDialog extends StatelessWidget {
             singleLargeButtonTitle: "Close",
             onSingleLargeButtonPressed: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(true);
             },
             children: [
               const SizedBox(height: 10.0),
