@@ -5,6 +5,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 part 'sponsor_event.dart';
+
 part 'sponsor_state.dart';
 
 class SponsorBloc extends Bloc<SponsorEvent, SponsorState> {

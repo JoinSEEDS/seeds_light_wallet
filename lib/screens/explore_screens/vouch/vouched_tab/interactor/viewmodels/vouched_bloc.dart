@@ -5,6 +5,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 part 'vouched_event.dart';
+
 part 'vouched_state.dart';
 
 class VouchedBloc extends Bloc<VouchedEvent, VouchedState> {
