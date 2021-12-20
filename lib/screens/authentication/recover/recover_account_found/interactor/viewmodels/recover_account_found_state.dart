@@ -1,8 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
+part of 'recover_account_found_bloc.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
@@ -82,7 +78,7 @@ class RecoverAccountFoundState extends Equatable {
       linkToActivateGuardians: null,
       userGuardiansData: [],
       confirmedGuardianSignatures: 0,
-      recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
+      recoveryStatus: RecoveryStatus.waitingForGuardiansToSign,
       alreadySignedGuardians: [],
       timeLockExpirySeconds: 0,
       userAccount: userAccount,
@@ -91,7 +87,7 @@ class RecoverAccountFoundState extends Equatable {
 }
 
 enum RecoveryStatus {
-  WAITING_FOR_GUARDIANS_TO_SIGN,
-  WAITING_FOR_24_HOUR_COOL_PERIOD,
-  READY_TO_CLAIM_ACCOUNT,
+  waitingForGuardiansToSign,
+  waitingFor24HourCoolPeriod,
+  readyToClaimAccount,
 }

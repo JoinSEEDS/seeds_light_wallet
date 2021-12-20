@@ -1,6 +1,6 @@
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 
 ///Seconds in a day
 const int _daySecond = 60 * 60 * 24;
