@@ -8,12 +8,7 @@ class LoadSponsorsStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Sponsors');
     } else {
-
-      return currentState.copyWith(
-        pageState: PageState.success,
-        sponsors: result.asValue!.value
-
-      );
+      return currentState.copyWith(pageState: PageState.success, sponsors: result.asValue!.value);
     }
   }
 }
