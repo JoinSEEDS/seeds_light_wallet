@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart'
 import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
 import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
@@ -42,12 +42,12 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       if ((userGuardiansModel.guardians.length == 3 && confirmedGuardianSignatures >= 2) ||
           (userGuardiansModel.guardians.length > 3 && confirmedGuardianSignatures >= 3)) {
         if (timeLockExpirySeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
-          recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
+          recoveryStatus = RecoveryStatus.readyToClaimAccount;
         } else {
-          recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
+          recoveryStatus = RecoveryStatus.waitingFor24HourCoolPeriod;
         }
       } else {
-        recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
+        recoveryStatus = RecoveryStatus.waitingForGuardiansToSign;
       }
 
       /// Save Recovery values

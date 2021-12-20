@@ -14,10 +14,8 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/components/guardian_row_widget.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/recover_account_found_bloc.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:share/share.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
@@ -28,8 +26,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
     // ignore: cast_nullable_to_non_nullable
     final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
-      create: (_) =>
-          RecoverAccountFoundBloc(userAccount, BlocProvider.of<AuthenticationBloc>(context))..add(FetchInitialData()),
+      create: (_) => RecoverAccountFoundBloc(userAccount)..add(const FetchInitialData()),
       child: BlocConsumer<RecoverAccountFoundBloc, RecoverAccountFoundState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -42,6 +39,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
             SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
           } else if (pageCommand is CancelRecoveryProcess) {
             Navigator.of(context).pop();
+          } else if (pageCommand is OnRecoverAccountSuccess) {
+            BlocProvider.of<AuthenticationBloc>(context).add(const OnRecoverAccount());
           }
         },
         builder: (context, state) {
@@ -58,7 +57,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
                         icon: const Icon(Icons.refresh),
-                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnRefreshTap()),
+                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnRefreshTapped()),
                       ),
                     )
                   ],
@@ -80,11 +79,11 @@ class RecoverAccountFoundScreen extends StatelessWidget {
         return FullPageErrorIndicator(
           errorMessage: state.errorMessage,
           buttonTitle: "Cancel Process".i18n,
-          buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCancelProcessTap()),
+          buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
         );
       case PageState.success:
         switch (state.recoveryStatus) {
-          case RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN:
+          case RecoveryStatus.waitingForGuardiansToSign:
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -152,7 +151,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: FlatButtonLong(
                         title: "Cancel Process".i18n,
-                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCancelProcessTap()),
+                        onPressed: () =>
+                            BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
                       ),
                     ),
                   ],
@@ -164,9 +164,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
               bottomSheet: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
                 child: FlatButtonLong(
-                  enabled: state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT,
+                  enabled: state.recoveryStatus == RecoveryStatus.readyToClaimAccount,
                   title: "Claim account".i18n,
-                  onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnClaimAccountTap()),
+                  onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnClaimAccountTapped()),
                 ),
               ),
               body: SafeArea(
@@ -224,7 +224,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        if (state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT)
+                        if (state.recoveryStatus == RecoveryStatus.readyToClaimAccount)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [Text('Account recovered '.i18n), Text(state.userAccount)],
