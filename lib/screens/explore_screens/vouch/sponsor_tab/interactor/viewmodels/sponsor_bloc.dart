@@ -1,9 +1,10 @@
-import 'package:async/src/result/result.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vouch/sponsor_tab/mappers/load_sponsors_mapper.dart';
 import 'package:seeds/screens/explore_screens/vouch/sponsor_tab/usecases/load_sponsors_use_case.dart';
 
@@ -20,6 +21,5 @@ class SponsorBloc extends Bloc<SponsorEvent, SponsorState> {
     emit(state.copyWith(pageState: PageState.loading));
     final Result<List<MemberModel>> results = await LoadSponsorsUseCase().run();
     emit(LoadSponsorsStateMapper().mapResultToState(state, results));
-
   }
 }
