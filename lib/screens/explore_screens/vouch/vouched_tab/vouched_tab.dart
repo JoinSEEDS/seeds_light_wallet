@@ -7,7 +7,7 @@ import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/vouch/vouched_tab//interactor/viewmodels/vouched_bloc.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouched_tab/interactor/viewmodels/vouched_bloc.dart';
 
 class VouchedTab extends StatelessWidget {
   const VouchedTab({Key? key}) : super(key: key);
