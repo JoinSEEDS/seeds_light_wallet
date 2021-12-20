@@ -5,8 +5,6 @@ class OnAccountNameGenerated extends PageCommand {}
 
 class StartScan extends PageCommand {}
 
-class StopScan extends PageCommand {}
-
 class OnAccountCreated extends PageCommand {
   final AuthDataModel authData;
   OnAccountCreated(this.authData);

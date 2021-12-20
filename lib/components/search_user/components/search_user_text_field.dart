@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/search_user/interactor/search_user_bloc.dart';
-import 'package:seeds/components/search_user/interactor/viewmodels/search_user_events.dart';
-import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
+import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
+
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
@@ -45,10 +44,10 @@ class _SearchUserTextFieldState extends State<SearchUserTextField> {
                     child: const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(AppColors.green)),
                   )
                 : IconButton(
-                    icon: Icon(state.searchBarIcon, color: AppColors.white, size: 26),
+                    icon: Icon(state.showClearIcon ? Icons.clear : Icons.search, color: AppColors.white, size: 26),
                     onPressed: () {
-                      if (state.searchBarIcon == Icons.clear) {
-                        BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
+                      if (state.showClearIcon) {
+                        BlocProvider.of<SearchUserBloc>(context).add(const ClearIconTapped());
                         _controller.clear();
                       }
                     },

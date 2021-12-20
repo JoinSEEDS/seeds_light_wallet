@@ -22,6 +22,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/deleg
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
+import 'package:seeds/screens/explore_screens/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -65,6 +66,7 @@ class Routes {
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
   static const vouch = 'vouch';
+  static const vouchForAMember = 'vouchForAMember';
   static const unPlantSeeds = 'unPlantSeeds';
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
@@ -106,6 +108,7 @@ class NavigationService {
     Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.vouch: (_) => const VouchScreen(),
+    Routes.vouchForAMember: (_) => const VouchForAMemberScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
@@ -129,12 +132,14 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
+
   // iOS: full screen routes pop up from the bottom and disappear vertically too
   // On iOS that's a standard full screen dialog
   // Has no effect on Android.
   final _fullScreenRoutes = {
     Routes.verification,
   };
+
   // iOS transition: Pages that slides in from the right and exits in reverse.
   final _cupertinoRoutes = {
     Routes.citizenship,

@@ -11,7 +11,12 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendTransactionStateMapper extends StateMapper {
-  SendConfirmationState mapResultToState(SendConfirmationState currentState, Result result, RatesState rateState) {
+  SendConfirmationState mapResultToState(
+    SendConfirmationState currentState,
+    Result result,
+    RatesState rateState,
+    bool shouldShowInAppReview,
+  ) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
@@ -19,7 +24,7 @@ class SendTransactionStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: transactionResultPageCommand(resultResponse, rateState),
+        pageCommand: transactionResultPageCommand(resultResponse, rateState, shouldShowInAppReview),
       );
     }
   }
@@ -28,7 +33,10 @@ class SendTransactionStateMapper extends StateMapper {
   // known and generic (unknown) types of transactions results. Now we have generic and transfer, could
   // add invite, guardians, etc - all transactions we know about.
   static TransactionPageCommand transactionResultPageCommand(
-      SendTransactionResponse resultResponse, RatesState rateState) {
+    SendTransactionResponse resultResponse,
+    RatesState rateState,
+    bool shouldShowInAppReview,
+  ) {
     if (resultResponse.isTransfer) {
       final transfer = resultResponse.transferTransactionModel!;
 
@@ -43,11 +51,11 @@ class SendTransactionStateMapper extends StateMapper {
       }
 
       return ShowTransferSuccess(
-        transactionModel: transfer,
-        from: resultResponse.parseFromUser,
-        to: resultResponse.parseToUser,
-        fiatAmount: fiatAmount,
-      );
+          transactionModel: transfer,
+          from: resultResponse.parseFromUser,
+          to: resultResponse.parseToUser,
+          fiatAmount: fiatAmount,
+          shouldShowInAppReview: shouldShowInAppReview);
     } else {
       return ShowTransactionSuccess(resultResponse.transactionModel);
     }

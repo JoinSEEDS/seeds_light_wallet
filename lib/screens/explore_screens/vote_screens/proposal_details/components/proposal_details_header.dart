@@ -62,7 +62,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
-                      state.proposals[state.currentIndex].proposalCategoryLabel.i18n.inCaps,
+                      state.proposals[state.currentIndex].proposalCategory.name.i18n.inCaps,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ),

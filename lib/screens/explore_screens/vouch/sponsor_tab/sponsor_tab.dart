@@ -35,7 +35,7 @@ class SponsorTab extends StatelessWidget {
                           )
                         : ListView(
                             padding: const EdgeInsets.only(top: 10),
-                            children: [for (final i in state.sponsors) MemberInfoRow(member: i)],
+                            children: [for (final i in state.sponsors) MemberInfoRow(i)],
                           ),
                   ),
                 ),
