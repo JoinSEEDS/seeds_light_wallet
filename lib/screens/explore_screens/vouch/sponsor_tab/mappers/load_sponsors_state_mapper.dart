@@ -6,7 +6,7 @@ import 'package:seeds/screens/explore_screens/vouch/sponsor_tab/interactor/viewm
 class LoadSponsorsStateMapper extends StateMapper {
   SponsorState mapResultToState(SponsorState currentState, Result<List<MemberModel>> result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Sponsors');
     } else {
 
       return currentState.copyWith(
