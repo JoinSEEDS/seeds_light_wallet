@@ -6,7 +6,7 @@ import 'package:seeds/screens/explore_screens/vouch/vouched_tab/interactor/viewm
 class LoadVouchedListStateMapper extends StateMapper {
   VouchedState mapResultToState(VouchedState currentState, Result<List<MemberModel>> result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Vouch");
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Vouched");
     } else {
       return currentState.copyWith(
         pageState: PageState.success,
