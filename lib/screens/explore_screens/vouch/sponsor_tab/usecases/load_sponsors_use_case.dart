@@ -33,4 +33,3 @@ class LoadSponsorsUseCase extends NoInputUseCase<List<MemberModel>> {
     }
   }
 }
-

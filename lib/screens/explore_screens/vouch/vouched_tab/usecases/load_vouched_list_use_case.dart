@@ -20,17 +20,16 @@ class LoadVouchedListUseCase extends NoInputUseCase<List<MemberModel>> {
     } else {
       final List<VouchModel> vouchedList = result.asValue!.value;
       final List<Future<Result<MemberModel?>>> futures =
-      vouchedList.map((e) => _membersRepository.getMemberByAccountName(e.account)).toList();
+          vouchedList.map((e) => _membersRepository.getMemberByAccountName(e.account)).toList();
 
       final List<Result<MemberModel?>> futureMembersModel = await Future.wait(futures);
 
       futureMembersModel.removeWhere((element) => element.isError);
 
       final List<MemberModel> vouchedListAsMember =
-      futureMembersModel.map((Result<MemberModel?> i) => i.asValue!.value).whereType<MemberModel>().toList();
+          futureMembersModel.map((Result<MemberModel?> i) => i.asValue!.value).whereType<MemberModel>().toList();
 
       return Result.value(vouchedListAsMember);
     }
   }
 }
-
