@@ -1,2 +1,16 @@
 {
+  "onboardingTransactionsSubtitle": "Realize pagamentos globalmente sem taxas.\nObtenha recompensas enquanto apoia\npessoas e organizações 'regenerativas'.",
+  "@onboardingTransactionsSubtitle": {},
+  "onboardingCampaignsTitle": "Campanhas\nde Cidadãos",
+  "@onboardingCampaignsTitle": {},
+  "onboardingTransactionsTitle": "Mejor\nQue Transacciones\nGratis",
+  "@onboardingTransactionsTitle": {},
+  "onboardingCampaignsSubtitle": "Participa y vota directamente en proyectos\nde impacto social y ambiental que te\ninteresen.",
+  "@onboardingCampaignsSubtitle": {},
+  "onboardingEconomyTitle": "Economía\nRegenerativa",
+  "@onboardingEconomyTitle": {},
+  "onboardingEconomySubtitle": "Únete a un movimiento global de\norganizaciones y personas para regenerar\nnuestro planeta y sanar nuestra economía.",
+  "@onboardingEconomySubtitle": {},
+  "onboardingJoinButtonTitle": "Únete ahora",
+  "@onboardingJoinButtonTitle": {}
 }
