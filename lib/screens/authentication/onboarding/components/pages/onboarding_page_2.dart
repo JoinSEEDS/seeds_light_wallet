@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class SecondPage extends StatelessWidget {

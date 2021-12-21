@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class FirstPage extends StatelessWidget {
