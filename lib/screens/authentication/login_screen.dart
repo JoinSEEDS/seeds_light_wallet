@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
             if (settingsStorage.inRecoveryMode) {
               NavigationService.of(context).navigateTo(Routes.recoverAccountFound, settingsStorage.accountName);
             } else {
-              NavigationService.of(context).navigateTo(Routes.recoverAccount);
+              NavigationService.of(context).navigateTo(Routes.recoverAccountSearch);
             }
           },
           child: Row(
