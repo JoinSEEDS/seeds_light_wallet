@@ -43,10 +43,7 @@ class VouchForAMemberState extends Equatable {
   factory VouchForAMemberState.initial(List<MemberModel> alreadyVouched) {
     final List<String> noShowUsers = [settingsStorage.accountName];
 
-    for (int i = 0; i < alreadyVouched.length; i++) {
-      final element = alreadyVouched[i];
-      noShowUsers.add(element.account);
-    }
+    noShowUsers.addAll(alreadyVouched.map((e) => e.account));
 
     return VouchForAMemberState(
       pageState: PageState.success,
