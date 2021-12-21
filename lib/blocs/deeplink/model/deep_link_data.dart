@@ -5,4 +5,9 @@ class DeepLinkData {
   DeepLinkData(this.data, this.deepLinkPlaceHolder);
 }
 
-enum DeepLinkPlaceHolder { linkGuardians, linkInvite, linkUnknown }
+enum DeepLinkPlaceHolder {
+  linkGuardians,
+  linkInvite,
+  linkInvoice,
+  linkUnknown,
+}

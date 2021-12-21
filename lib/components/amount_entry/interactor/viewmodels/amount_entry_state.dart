@@ -1,17 +1,9 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/utils/rate_states_extensions.dart';
-
-enum CurrencyInput { fiat, token }
+part of 'amount_entry_bloc.dart';
 
 class AmountEntryState extends Equatable {
+  final PageCommand? pageCommand;
   final CurrencyInput currentCurrencyInput;
   final RatesState ratesState;
-  final PageCommand? pageCommand;
   final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final String textInput;
@@ -19,50 +11,52 @@ class AmountEntryState extends Equatable {
   bool get switchCurrencyEnabled => fiatAmount != null;
 
   const AmountEntryState({
+    this.pageCommand,
     required this.currentCurrencyInput,
     required this.ratesState,
     required this.tokenAmount,
-    this.pageCommand,
     required this.fiatAmount,
     required this.textInput,
   });
 
   @override
   List<Object?> get props => [
+        pageCommand,
         currentCurrencyInput,
         ratesState,
         tokenAmount,
-        pageCommand,
         fiatAmount,
         textInput,
       ];
 
   AmountEntryState copyWith({
+    PageCommand? pageCommand,
     CurrencyInput? currentCurrencyInput,
     RatesState? ratesState,
     TokenDataModel? tokenAmount,
-    PageCommand? pageCommand,
     FiatDataModel? fiatAmount,
     String? textInput,
   }) {
     return AmountEntryState(
+      pageCommand: pageCommand,
       currentCurrencyInput: currentCurrencyInput ?? this.currentCurrencyInput,
       ratesState: ratesState ?? this.ratesState,
       tokenAmount: tokenAmount ?? this.tokenAmount,
-      pageCommand: pageCommand,
       fiatAmount: fiatAmount ?? this.fiatAmount,
       textInput: textInput ?? this.textInput,
     );
   }
 
-  factory AmountEntryState.initial(RatesState ratesState, {required TokenDataModel tokenDataModel}) {
-    final tokenData = tokenDataModel;
-    final fiatData = ratesState.tokenToFiat(tokenData, settingsStorage.selectedFiatCurrency);
+  factory AmountEntryState.initial(RatesState ratesState, TokenDataModel tokenDataModel) {
+    final fiatData = ratesState.tokenToFiat(tokenDataModel, settingsStorage.selectedFiatCurrency);
     return AmountEntryState(
-        currentCurrencyInput: CurrencyInput.token,
-        ratesState: ratesState,
-        tokenAmount: tokenData,
-        fiatAmount: fiatData,
-        textInput: "0");
+      currentCurrencyInput: CurrencyInput.token,
+      ratesState: ratesState,
+      tokenAmount: tokenDataModel,
+      fiatAmount: fiatData,
+      textInput: 0.toString(),
+    );
   }
 }
+
+enum CurrencyInput { fiat, token }

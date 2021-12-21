@@ -50,7 +50,7 @@ class ClaimedInviteRow extends StatelessWidget {
                 ),
               ),
             ),
-            Text(status != null ? status!.toShortString() : ""),
+            Text(status?.name ?? ''),
           ],
         ),
       ),

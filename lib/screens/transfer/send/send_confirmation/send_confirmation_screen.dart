@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
@@ -37,6 +38,10 @@ class SendConfirmationScreen extends StatelessWidget {
             listener: (context, state) {
               final pageCommand = state.pageCommand;
               if (pageCommand is ShowTransferSuccess) {
+                if (pageCommand.shouldShowInAppReview) {
+                  InAppReview.instance.requestReview();
+                }
+
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false, // user must tap button

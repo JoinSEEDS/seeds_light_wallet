@@ -24,6 +24,7 @@ const String _tableCspoints = 'cspoints';
 const String _tableRep = 'rep';
 const String _tablePlanted = 'planted';
 const String _tabletxpoints = 'txpoints';
+const String _tableVouches = 'vouches';
 
 enum SeedsTable {
   tableBalances,
@@ -52,6 +53,7 @@ enum SeedsTable {
   tableRep,
   tablePlanted,
   tableTxpoints,
+  tableVouches,
 }
 
 extension SeedsTableExtension on SeedsTable {
@@ -109,8 +111,8 @@ extension SeedsTableExtension on SeedsTable {
         return _tablePlanted;
       case SeedsTable.tableTxpoints:
         return _tabletxpoints;
-      default:
-        return '';
+      case SeedsTable.tableVouches:
+        return _tableVouches;
     }
   }
 }

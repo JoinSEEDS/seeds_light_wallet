@@ -85,6 +85,11 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                           Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline5)
                         ],
                       ),
+                      if (transaction.memo.isNullOrEmpty) const SizedBox.shrink() else const SizedBox(height: 20.0),
+                      if (transaction.memo.isNullOrEmpty)
+                        const SizedBox.shrink()
+                      else
+                        Text("Memo: ${transaction.memo}", maxLines: 4, overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 20.0),
                       InkWell(
                         customBorder: const CircleBorder(),

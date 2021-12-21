@@ -10,11 +10,11 @@ class UpdateProfileUseCase {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
       nickname: newName ?? '',
-      image: profile.image ?? '',
-      story: profile.story ?? '',
-      roles: profile.roles ?? '',
-      skills: profile.skills ?? '',
-      interests: profile.interests ?? '',
+      image: profile.image,
+      story: profile.story,
+      roles: profile.roles,
+      skills: profile.skills,
+      interests: profile.interests,
     );
   }
 }
