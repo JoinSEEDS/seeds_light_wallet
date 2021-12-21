@@ -4,6 +4,7 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_user/search_user.dart';
 import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/components/vouch_for_member_confirmation_dialog.dart';
@@ -16,8 +17,10 @@ class VouchForAMemberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final alreadyVouched = ModalRoute.of(context)?.settings.arguments as List<MemberModel>?;
+
     return BlocProvider(
-      create: (_) => VouchForAMemberBloc(),
+      create: (_) => VouchForAMemberBloc(alreadyVouched ?? []),
       child: BlocConsumer<VouchForAMemberBloc, VouchForAMemberState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {

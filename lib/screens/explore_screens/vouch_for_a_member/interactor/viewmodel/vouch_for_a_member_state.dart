@@ -4,7 +4,7 @@ class VouchForAMemberState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final MemberModel? selectedMember;
-  final Set<String> noShowUsers;
+  final List<String> noShowUsers;
   final PageCommand? pageCommand;
 
   const VouchForAMemberState({
@@ -28,7 +28,7 @@ class VouchForAMemberState extends Equatable {
     PageState? pageState,
     String? errorMessage,
     MemberModel? selectedMember,
-    Set<String>? noShowUsers,
+    List<String>? noShowUsers,
     PageCommand? pageCommand,
   }) {
     return VouchForAMemberState(
@@ -40,8 +40,13 @@ class VouchForAMemberState extends Equatable {
     );
   }
 
-  factory VouchForAMemberState.initial() {
-    final Set<String> noShowUsers = {settingsStorage.accountName};
+  factory VouchForAMemberState.initial(List<MemberModel> alreadyVouched) {
+    final List<String> noShowUsers = [settingsStorage.accountName];
+
+    for (int i = 0; i < alreadyVouched.length; i++) {
+      final element = alreadyVouched[i];
+      noShowUsers.add(element.account);
+    }
 
     return VouchForAMemberState(
       pageState: PageState.success,
