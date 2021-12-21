@@ -39,6 +39,7 @@ class VouchForAMemberScreen extends StatelessWidget {
               context: context,
               barrierDismissible: false,
               builder: (_) {
+                FocusScope.of(context).unfocus();
                 return const VouchSuccessDialog();
               },
             );
@@ -60,7 +61,7 @@ class VouchForAMemberScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SearchUser(
-                        noShowUsers: state.noShowUsers,
+                        noShowUsers: state.noShowUsers.toList(),
                         onUserSelected: (selectedUser) {
                           BlocProvider.of<VouchForAMemberBloc>(context).add(OnUserSelected(selectedUser));
                         },

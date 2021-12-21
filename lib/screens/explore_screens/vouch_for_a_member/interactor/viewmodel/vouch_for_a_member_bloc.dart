@@ -2,8 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/mappers/vouch_for_a_member_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/usecases/vouch_for_a_member_usecase.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
 
 part 'vouch_for_a_member_event.dart';
@@ -18,8 +22,9 @@ class VouchForAMemberBloc extends Bloc<VouchForAMemberEvent, VouchForAMemberStat
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  // TODO(ggui004): to be finish on next pr
   Future<void> _onConfirmVouchForMemberTap(OnConfirmVouchForMemberTap event, Emitter<VouchForAMemberState> emit) async {
-    emit(state.copyWith(pageState: PageState.success, pageCommand: ShowVouchForMemberSuccess()));
+    emit(state.copyWith(pageState: PageState.loading));
+    final Result<TransactionResponse> result = await VouchForAMemberUseCase().run(state.selectedMember!.account);
+    emit(VouchForAMemberStateMapper().mapResultToState(state, result));
   }
 }
