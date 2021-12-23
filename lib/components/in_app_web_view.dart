@@ -38,11 +38,11 @@ class _InAppWebViewState extends State<InAppWebView> {
         },
         javascriptChannels: {
           JavascriptChannel(
-            name: "LightWalletChannel",
-            onMessageReceived: (JavascriptMessage message) async {
+            name: "lw",
+            onMessageReceived: (javascriptMessage) async {
               // Decode message
-              final data = jsonDecode(message.message);
-
+              final data = jsonDecode(javascriptMessage.message);
+/* 
               if (data['messageType'] == 'login') {
                 final callbackName = data['callbackName'];
                 // Inject JS code (notify web)
@@ -58,7 +58,7 @@ class _InAppWebViewState extends State<InAppWebView> {
                 await _webViewController.runJavascript("window.LightWallet['$callbackName'('$transactionId')");
               } else {
                 throw ArgumentError("messageType is not supported");
-              }
+              } */
             },
           )
         },

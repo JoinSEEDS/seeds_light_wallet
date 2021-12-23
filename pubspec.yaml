@@ -60,11 +60,8 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   palette_generator: ^0.3.2
-<<<<<<< HEAD
   webview_flutter: ^3.0.0
-=======
   in_app_review: ^2.0.3
->>>>>>> 779b40f7a1cad64aa2c3cd96b017a94c57256f48
 
 dev_dependencies:
   flutter_test:
