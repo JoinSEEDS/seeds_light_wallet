@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passcode_screen/circle.dart';
-import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_created_dialog.dart';
+import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
@@ -21,6 +20,12 @@ class VerifyPasscode extends StatefulWidget {
 
 class _VerifyPasscodeState extends State<VerifyPasscode> {
   final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
+
+  @override
+  void dispose() {
+    _verificationNotifier.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +70,12 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
         child: BlocBuilder<VerificationBloc, VerificationState>(
           builder: (context, state) {
             return PasscodeScreen(
-              cancelButton: const SizedBox.shrink(),
-              deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
-              passwordDigits: 4,
               title: Text((state.isCreateMode ?? false) ? 'Re-enter Pincode'.i18n : 'Enter Pincode'.i18n,
                   style: Theme.of(context).textTheme.subtitle2),
-              backgroundColor: AppColors.primary,
               shouldTriggerVerification: _verificationNotifier.stream,
-              passwordEnteredCallback: (passcode) =>
-                  BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-              isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
+              onPasswordCompleted: (passcode) {
+                BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode));
+              },
               bottomWidget: !state.authError! && settingsStorage.biometricActive!
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -91,17 +92,10 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                               textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2)),
                     )
                   : const SizedBox.shrink(),
-              circleUIConfig: const CircleUIConfig(circleSize: 14),
             );
           },
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _verificationNotifier.close();
-    super.dispose();
   }
 }
