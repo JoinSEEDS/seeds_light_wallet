@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
@@ -28,16 +28,8 @@ class SeedsApp extends StatelessWidget {
             builder: (context) {
               final navigator = NavigationService.of(context);
               return MaterialApp(
-                localizationsDelegates: [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: [
-                  const Locale('en', 'US'),
-                  const Locale('es', 'ES'),
-                  const Locale('pt', 'BR'),
-                ],
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
                 theme: SeedsAppTheme.darkTheme,
                 navigatorKey: navigator.appNavigatorKey,
                 onGenerateRoute: navigator.onGenerateRoute,

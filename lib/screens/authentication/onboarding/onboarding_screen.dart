@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_1.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_2.dart';
@@ -40,7 +40,7 @@ class OnboardingState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -91,7 +91,8 @@ class OnboardingState extends State<OnboardingScreen> {
                       width: 100,
                       child: TextButton(
                         onPressed: () => NavigationService.of(context).navigateTo(Routes.login, null, true),
-                        child: Text("Join Now".i18n, style: Theme.of(context).textTheme.subtitle1),
+                        child:
+                            Text(localization.onboardingJoinButtonTitle, style: Theme.of(context).textTheme.subtitle1),
                       ),
                     )
                   else
