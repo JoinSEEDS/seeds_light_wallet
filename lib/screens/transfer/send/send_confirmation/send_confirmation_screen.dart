@@ -51,12 +51,11 @@ class SendConfirmationScreen extends StatelessWidget {
                   ),
                 );
               } else if (pageCommand is ShowTransactionSuccess) {
-                Navigator.of(context).pop(); // pop this screen
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false, // user must tap button
                   builder: (_) => GenericTransactionSuccessDialog(pageCommand.transactionModel),
-                );
+                ).whenComplete(() => Navigator.of(context).pop(true));
               }
             },
             builder: (context, state) {
