@@ -45,11 +45,8 @@ class SendConfirmationScreen extends StatelessWidget {
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false, // user must tap button
-                  builder: (_) => SendTransactionSuccessDialog.fromPageCommand(
-                    onCloseButtonPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
-                    pageCommand: pageCommand,
-                  ),
-                );
+                  builder: (_) => SendTransactionSuccessDialog.fromPageCommand(pageCommand),
+                ).whenComplete(() => Navigator.of(context).pop(true));
               } else if (pageCommand is ShowTransactionSuccess) {
                 showDialog<void>(
                   context: context,

@@ -29,6 +29,18 @@ class _InAppWebViewState extends State<InAppWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final msg = 'Success';
+          await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
+          await _webViewController.runJavascript('window.lightWalletResponseCallback($msg)');
+        },
+        child: const Text(
+          'Send String to JS',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 10),
+        ),
+      ),
       body: SafeArea(
         child: WebView(
           initialUrl: 'https://ptm-dev.hypha.earth/',
@@ -53,10 +65,10 @@ class _InAppWebViewState extends State<InAppWebView> {
                 // ignore: unawaited_futures, use_build_context_synchronously
                 final wasSuccess = await NavigationService.of(context).navigateTo(
                     Routes.sendConfirmation, SendConfirmationArguments(transaction: scanQrCodeResult.transaction));
-                if (wasSuccess != null) {
-                  final msg = 'Success';
-                  await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
-                }
+                // if (wasSuccess != null) {
+                //   final msg = 'Success';
+                //   await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
+                // }
 
                 // Decode message
                 // final data = jsonDecode(javascriptMessage.message);

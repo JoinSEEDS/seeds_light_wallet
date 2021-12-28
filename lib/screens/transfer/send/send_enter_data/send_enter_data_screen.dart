@@ -61,21 +61,15 @@ class SendEnterDataScreen extends StatelessWidget {
               ),
             );
           } else if (command is ShowTransferSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
               InAppReview.instance.requestReview();
             }
-
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (_) => SendTransactionSuccessDialog.fromPageCommand(
-                onCloseButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                pageCommand: command,
-              ),
+              builder: (_) => SendTransactionSuccessDialog.fromPageCommand(command),
             );
           } else if (command is ShowTransactionSuccess) {
             Navigator.of(context).pop(); // pop send
