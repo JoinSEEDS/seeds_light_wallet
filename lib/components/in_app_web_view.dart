@@ -1,8 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:seeds/datasource/local/qr_code_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/local/util/seeds_esr.dart';
+import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/utils/result_extension.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class InAppWebView extends StatefulWidget {
@@ -26,45 +30,61 @@ class _InAppWebViewState extends State<InAppWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(
-        initialUrl: 'https://ptm-dev.hypha.earth/',
-        gestureNavigationEnabled: true,
-        backgroundColor: AppColors.white,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (webViewController) => _webViewController = webViewController,
-        onProgress: (progress) => print('WebView is loading (progress : $progress%)'),
-        onWebResourceError: (error) {
-          print(error);
+/*       floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          var msg = 'Message from Flutter';
+          await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
         },
-        javascriptChannels: {
-          JavascriptChannel(
-            name: "lw",
-            onMessageReceived: (javascriptMessage) async {
-              // Decode message
-              final data = jsonDecode(javascriptMessage.message);
-/* 
-              if (data['messageType'] == 'login') {
-                final callbackName = data['callbackName'];
-                // Inject JS code (notify web)
-                await _webViewController
-                    .runJavascript("window.LightWallet['$callbackName']('${settingsStorage.accountName}')");
-              } else if (data['messageType'] == 'sendTransaction') {
-                final callbackName = data['callbackName'];
-                // Decode actions
-                final actions = jsonDecode(data['actions']);
-                // Verify transaction to back-end
-                final transactionId = await confirmTransaction(actions);
-                // Inject JS code (notify web)
-                await _webViewController.runJavascript("window.LightWallet['$callbackName'('$transactionId')");
-              } else {
-                throw ArgumentError("messageType is not supported");
-              } */
-            },
-          )
-        },
-        onPageStarted: (url) {
-          print('Page started loading: $url');
-        },
+        child: const Icon(Icons.message),
+      ), */
+      body: SafeArea(
+        child: WebView(
+          initialUrl: 'https://ptm-dev.hypha.earth/',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (webViewController) => _webViewController = webViewController,
+          onPageStarted: (url) => print('Page started loading: $url'),
+          onProgress: (progress) => print('WebView is loading (progress : $progress%)'),
+          onWebResourceError: (error) => print(error),
+          javascriptChannels: {
+            JavascriptChannel(
+              name: "lw",
+              onMessageReceived: (javascriptMessage) async {
+                final esr = SeedsESR(uri: javascriptMessage.message);
+                final result = await esr
+                    .resolve(account: settingsStorage.accountName)
+                    .then((value) => esr.processResolvedRequest())
+                    .catchError((_) {
+                  print(" processQrCode : Error processing QR code");
+                  return ErrorResult("Error processing QR code");
+                });
+                final scanQrCodeResult = result.asValue!.value as ScanQrCodeResultData;
+                // ignore: unawaited_futures, use_build_context_synchronously
+                NavigationService.of(context).navigateTo(
+                    Routes.sendConfirmation, SendConfirmationArguments(transaction: scanQrCodeResult.transaction));
+
+                // Decode message
+                // final data = jsonDecode(javascriptMessage.message);
+                /* 
+                if (data['messageType'] == 'login') {
+                  final callbackName = data['callbackName'];
+                  // Inject JS code (notify web)
+                  await _webViewController
+                      .runJavascript("window.LightWallet['$callbackName']('${settingsStorage.accountName}')");
+                } else if (data['messageType'] == 'sendTransaction') {
+                  final callbackName = data['callbackName'];
+                  // Decode actions
+                  final actions = jsonDecode(data['actions']);
+                  // Verify transaction to back-end
+                  final transactionId = await confirmTransaction(actions);
+                  // Inject JS code (notify web)
+                  await _webViewController.runJavascript("window.LightWallet['$callbackName'('$transactionId')");
+                } else {
+                  throw ArgumentError("messageType is not supported");
+                } */
+              },
+            )
+          },
+        ),
       ),
     );
   }

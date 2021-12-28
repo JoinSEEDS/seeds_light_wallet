@@ -41,7 +41,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments, true);
             }
           },
           child: Column(
