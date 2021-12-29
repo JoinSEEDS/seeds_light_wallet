@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
@@ -29,21 +30,10 @@ class _InAppWebViewState extends State<InAppWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final msg = 'Success';
-          await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
-          await _webViewController.runJavascript('window.lightWalletResponseCallback($msg)');
-        },
-        child: const Text(
-          'Send String to JS',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 10),
-        ),
-      ),
       body: SafeArea(
         child: WebView(
           initialUrl: 'https://ptm-dev.hypha.earth/',
+          debuggingEnabled: true,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (webViewController) => _webViewController = webViewController,
           onPageStarted: (url) => print('Page started loading: $url'),
@@ -65,10 +55,10 @@ class _InAppWebViewState extends State<InAppWebView> {
                 // ignore: unawaited_futures, use_build_context_synchronously
                 final wasSuccess = await NavigationService.of(context).navigateTo(
                     Routes.sendConfirmation, SendConfirmationArguments(transaction: scanQrCodeResult.transaction));
-                // if (wasSuccess != null) {
-                //   final msg = 'Success';
-                //   await _webViewController.runJavascript('lightWalletResponseCallback($msg)');
-                // }
+                if (wasSuccess != null) {
+                  final msg = 'Success';
+                  await _webViewController.runJavascript("lightWalletResponseCallback('$msg')");
+                }
 
                 // Decode message
                 // final data = jsonDecode(javascriptMessage.message);
