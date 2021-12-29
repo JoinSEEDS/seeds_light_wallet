@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
@@ -9,6 +8,8 @@ class SendTransactionRepository extends EosRepository {
     required EOSTransaction eosTransaction,
     required String accountName,
   }) async {
+    print("send eos tx");
+
     final actions = eosTransaction.actions
         .map(
           (e) => Action()
@@ -30,11 +31,21 @@ class SendTransactionRepository extends EosRepository {
 
     final transaction = buildFreeTransaction(actions, accountName);
 
+    print("[eos] PUSH ${transaction.toJson()}");
+
+    // final client = buildEosClient();
+
+    // print("[eos] got client $client");
+
     return buildEosClient()
         .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              print("push success! ${response.toString()}");
               return response["transaction_id"];
             }))
-        .catchError((error) => mapEosError(error));
+        .catchError((error) {
+      print("EOS ERROR $error");
+      mapEosError(error);
+    });
   }
 }

@@ -6,12 +6,11 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import "package:pointycastle/api.dart" show PublicKeyParameter;
-import 'package:pointycastle/ecc/api.dart'
-    show ECPublicKey, ECSignature, ECPoint;
+import 'package:pointycastle/ecc/api.dart' show ECPublicKey, ECSignature, ECPoint;
 import "package:pointycastle/signers/ecdsa_signer.dart";
 import 'package:pointycastle/macs/hmac.dart';
 import "package:pointycastle/digests/sha256.dart";
-import 'package:pointycastle/src/utils.dart';
+import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
 
 import './exception.dart';
 import './key.dart';
@@ -33,8 +32,7 @@ class EOSSignature extends EOSKey {
     this.keyType = keyType;
 
     if (buffer.lengthInBytes != 65) {
-      throw InvalidKey(
-          'Invalid signature length, got: ${buffer.lengthInBytes}');
+      throw InvalidKey('Invalid signature length, got: ${buffer.lengthInBytes}');
     }
 
     i = buffer.first;
@@ -52,7 +50,9 @@ class EOSSignature extends EOSKey {
   factory EOSSignature.fromString(String signatureStr) {
     RegExp sigRegex = RegExp(r"^SIG_([A-Za-z0-9]+)_([A-Za-z0-9]+)",
         // ignore: avoid_redundant_argument_values
-        caseSensitive: true, multiLine: false);
+        caseSensitive: true,
+        // ignore: avoid_redundant_argument_values
+        multiLine: false);
     Iterable<Match> match = sigRegex.allMatches(signatureStr);
 
     if (match.length == 1) {
@@ -152,8 +152,7 @@ class EOSSignature extends EOSKey {
   }
 
   /// Find the public key recovery factor
-  static int calcPubKeyRecoveryParam(
-      BigInt e, ECSignature ecSig, EOSPublicKey publicKey) {
+  static int calcPubKeyRecoveryParam(BigInt e, ECSignature ecSig, EOSPublicKey publicKey) {
     for (int i = 0; i < 4; i++) {
       ECPoint? Qprime = recoverPubKey(e, ecSig, i);
       if (Qprime == publicKey.q) {
