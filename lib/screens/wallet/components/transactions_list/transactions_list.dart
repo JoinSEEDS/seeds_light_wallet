@@ -10,8 +10,6 @@ import 'package:seeds/screens/wallet/components/transactions_list/components/tra
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_loading_row.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_bloc.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_events.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/bloc.dart';
 
 class TransactionsList extends StatefulWidget {
