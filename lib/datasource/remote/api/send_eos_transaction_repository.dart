@@ -8,8 +8,6 @@ class SendTransactionRepository extends EosRepository {
     required EOSTransaction eosTransaction,
     required String accountName,
   }) async {
-    print("send eos tx");
-
     final actions = eosTransaction.actions
         .map(
           (e) => Action()
@@ -26,16 +24,7 @@ class SendTransactionRepository extends EosRepository {
           ..permission = permissionActive
       ];
     }
-
-    print("[eos] send transaction ${actions[0].toString()}");
-
     final transaction = buildFreeTransaction(actions, accountName);
-
-    print("[eos] PUSH ${transaction.toJson()}");
-
-    // final client = buildEosClient();
-
-    // print("[eos] got client $client");
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -43,9 +32,6 @@ class SendTransactionRepository extends EosRepository {
               print("push success! ${response.toString()}");
               return response["transaction_id"];
             }))
-        .catchError((error) {
-      print("EOS ERROR $error");
-      mapEosError(error);
-    });
+        .catchError((error) => mapEosError(error));
   }
 }
