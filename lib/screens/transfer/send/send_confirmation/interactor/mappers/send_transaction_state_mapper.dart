@@ -22,9 +22,20 @@ class SendTransactionStateMapper extends StateMapper {
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
+      final int currentDate = DateTime.now().millisecondsSinceEpoch;
+      bool _shouldShowInAppReview = shouldShowInAppReview;
+
+      if (settingsStorage.dateSinceLastAsk != null && shouldShowInAppReview) {
+        final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
+        final dateUntilAppRateCanAsk = settingsStorage.dateSinceLastAsk! + millisecondsPerMoth;
+        if (currentDate < dateUntilAppRateCanAsk) {
+          _shouldShowInAppReview = false;
+        }
+      }
+
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: transactionResultPageCommand(resultResponse, rateState, shouldShowInAppReview),
+        pageCommand: transactionResultPageCommand(resultResponse, rateState, _shouldShowInAppReview),
       );
     }
   }

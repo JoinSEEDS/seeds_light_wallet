@@ -25,6 +25,7 @@ const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
 const String _kIsFirstTimeOnDelegateScreen = 'is_first_time_on_delegate_screen';
+const String _kDateSinceLastAsked = 'date_since_last_asked';
 
 class _SettingsStorage {
   late SharedPreferences _preferences;
@@ -76,6 +77,8 @@ class _SettingsStorage {
   bool get isFirstTimeOnDelegateScreen => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
 
   List<String> get recoveryWords => _recoveryWords;
+
+  int? get dateSinceLastAsk => _preferences.getInt(_kDateSinceLastAsked);
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
@@ -145,6 +148,12 @@ class _SettingsStorage {
 
   set isFirstTimeOnDelegateScreen(bool value) {
     _preferences.setBool(_kIsFirstTimeOnDelegateScreen, value);
+  }
+
+  set dateSinceLastAsk(int? value) {
+    if (value != null) {
+      _preferences.setInt(_kDateSinceLastAsked, value);
+    }
   }
 
   Future<void> initialise() async {
@@ -298,6 +307,9 @@ class _SettingsStorage {
 
   // ignore: use_setters_to_change_properties
   void saveFirstTimeOnDelegateScreen(bool value) => isFirstTimeOnDelegateScreen = value;
+
+  // ignore: use_setters_to_change_properties
+  void saveDateSinceLastAsked(int value) => dateSinceLastAsk = value;
 
   Future<void> removeAccount() async {
     await _preferences.clear();

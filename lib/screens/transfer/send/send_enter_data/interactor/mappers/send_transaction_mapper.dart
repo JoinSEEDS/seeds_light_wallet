@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -16,10 +17,22 @@ class SendTransactionMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
+
+      final int currentDate = DateTime.now().millisecondsSinceEpoch;
+      bool _shouldShowInAppReview = shouldShowInAppReview;
+
+      if (settingsStorage.dateSinceLastAsk != null && _shouldShowInAppReview) {
+        final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
+        final dateUntilAppRateCanAsk = settingsStorage.dateSinceLastAsk! + millisecondsPerMoth;
+        if (currentDate < dateUntilAppRateCanAsk) {
+          _shouldShowInAppReview = false;
+        }
+      }
+
       final pageCommand = SendTransactionStateMapper.transactionResultPageCommand(
         resultResponse,
         currentState.ratesState,
-        shouldShowInAppReview,
+        _shouldShowInAppReview,
       );
       if (resultResponse.isTransfer) {
         eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
