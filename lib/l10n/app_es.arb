@@ -23,7 +23,7 @@
   "@importKeyImportUsingRecoveryPhraseActionLink": {},
   "importKeyImportUsingRecoveryPhraseDescription": "si desea importar utilizando su Frase de recuperación.",
   "@importKeyImportUsingRecoveryPhraseDescription": {},
-  "importKeyInvalidPrivateKeyError": "'Llave privada no es válida",
+  "importKeyInvalidPrivateKeyError": "Llave privada no es válida",
   "@importKeyInvalidPrivateKeyError": {},
   "importKeyNoAccountsFoundError": "No se encontraron cuentas",
   "@importKeyNoAccountsFoundError": {},
