@@ -5,5 +5,17 @@
     "onboardingCampaignsSubtitle": "Participate and vote directly on social and\nenvironmental impact projects you care\nabout.",
     "onboardingEconomyTitle": "Regenerative\nEconomy",
     "onboardingEconomySubtitle": "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy.",
-    "onboardingJoinButtonTitle": "Join Now"
+    "onboardingJoinButtonTitle": "Join Now",
+    "globalUnknownError": "Oops, something went wrong",
+    "importKeySearchButtonTitle": "Search",
+    "importKeyPrivateKeyFieldPlaceholder": "Private Key",
+    "importKeyImportUsingRecoveryPhraseActionLink": "Tap here",
+    "importKeyImportUsingRecoveryPhraseDescription": "if you want to import using your Recovery Phrase.",
+    "importKeyInvalidPrivateKeyError": "Private key is not valid",
+    "importKeyNoAccountsFoundError": "No accounts found",
+    "importKeyUnableToLoadAccountError": "Error loading accounts",
+    "importKeyNoPublicKeyFoundError": "No public key found",
+    "importKeyImportUsingRecoveryPhraseTitle": "Enter your 12-Word Recovery Phrase to recover your account.",
+    "importKeyImportUsingPrivateKeyActionLink": "Tap here",
+    "importKeyImportUsingPrivateKeyDescription": "if you want to import using your Private Key."
 }

@@ -2,19 +2,19 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
+import 'package:seeds/screens/authentication/import_key/import_key_errors.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/viewmodels/switch_account_bloc.dart';
 
 class FindAccountsResultStateMapper extends StateMapper {
   SwitchAccountState mapResultsToState(SwitchAccountState currentState, List<Result> results, List<Keys> keys) {
     // No account found. Show error
     if (results.isEmpty) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "No accounts found".i18n);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.NoAccountsFound);
     }
 
     // Accounts found, but errors fetching data happened.
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts".i18n);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.UnableToLoadAccount);
     } else {
       final List<ProfileModel> profiles = results
           .where((Result result) => result.isValue)

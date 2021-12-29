@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
+import 'package:seeds/screens/authentication/import_key/import_key_errors.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/mappers/import_key_state_mapper.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/check_private_key_use_case.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_recovery_words_use_case.dart';
@@ -29,7 +29,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     emit(state.copyWith(pageState: PageState.loading));
     final publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
     if (publicKey == null || publicKey.isEmpty) {
-      emit(state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n));
+      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
     } else {
       final results = await ImportKeyUseCase().run(publicKey);
       emit(ImportKeyStateMapper()
