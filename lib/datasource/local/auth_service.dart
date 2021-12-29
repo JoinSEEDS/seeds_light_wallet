@@ -49,6 +49,58 @@ class AuthService {
     /// 2 - use hd wallet to derive a private key
     /// 3 - use the ETH private key to create an EOS private key
     ///
+    ///
+    /// https://github.com/rudijs/eos-bip39-mnemonic-generator/blob/master/wallet.js
+
+    /// Passport code (JS)
+    ///
+//   generateKeysFromMnemonic(unsafeMnemonic) {
+//     const mnemonic = ((unsafeMnemonic || "").match(/\b\w+\b/g) || [])
+//       .join(" ")
+//       .toLowerCase();
+//     // This was 70% Inpspired by:
+//     // https://github.com/rudijs/eos-bip39-mnemonic-generator/blob/master/wallet.js
+//     // We create the mnemonic, generate the Ethereum Keys and then
+//     // convert the keys to EOS format. This is needed as we can't yet generate
+//     // EOS keys directly from the bip39 seed
+//     const ethKey = this.generateAddressesFromSeed(mnemonic);
+//     const eosKey = this.createEosKeyFromEthKey(ethKey);
+//     eosKey.mnemonic = mnemonic;
+//     return eosKey;
+//   }
+
+//   generateAddressesFromSeed(seed) {
+//     const hdWallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(seed));
+
+//     console.log("HD entropy "+bip39.mnemonicToSeedHex(seed))
+
+//     const walletHdpath = "m/44'/60'/0'/0/1";
+//     const wallet = hdWallet.derivePath(walletHdpath).getWallet();
+//     const address = "0x" + wallet.getAddress().toString("hex");
+//     const privateKey = wallet.getPrivateKey().toString("hex");
+//     return { address: address, privateKey: privateKey };
+//   }
+
+//   createEosKeyFromEthKey(ethAddress) {
+//     const ethereumPrivateKey = ethAddress.privateKey;
+//     const Buffer = buffer.Buffer;
+
+//     if (eth.isValidPrivate(Buffer.from(ethereumPrivateKey, "hex"))) {
+//       // Create EOS keys
+//       const eosWIF = ecc
+//         .PrivateKey(Buffer.from(ethereumPrivateKey, "hex"))
+//         .toWif();
+//       const convertedEOSPrivateKey = eosWIF;
+//       const convertedEOSPublicKey = ecc.privateToPublic(eosWIF);
+//       return {
+//         privateKey: convertedEOSPrivateKey,
+//         publicKey: convertedEOSPublicKey,
+//       };
+//     } else {
+//       throw new Error("Invalid Ethereum Private Key");
+//     }
+//   }
+// }
     return EOSPrivateKey.fromSeed(words.join(' '));
   }
 
