@@ -1,5 +1,5 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/utils/mnemonic_code/hex.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
@@ -25,7 +25,7 @@ class AuthService {
     return EOSPrivateKey.fromSeed(words.join('-'));
   }
 
-    /// Creates 12 random words Mnemonic.
+  /// Creates 12 random words Mnemonic.
   List<String> _createRandom12Words() {
     final bytes = randomBytes(STRENGTH_FOR_TWELVE_WORDS);
     return entropyToMnemonic(HEX.encode(bytes)).split('-');

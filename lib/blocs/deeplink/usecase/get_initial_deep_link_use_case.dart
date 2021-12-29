@@ -20,7 +20,7 @@ class GetInitialDeepLinkUseCase {
 
       await request.resolve(account: settingsStorage.accountName);
       final action = request.actions.first;
-      final data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
+      final data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkGuardians;
       return DeepLinkData(data, deepLinkPlaceHolder);
