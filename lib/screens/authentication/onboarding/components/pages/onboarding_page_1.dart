@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class FirstPage extends StatelessWidget {
@@ -8,13 +8,12 @@ class FirstPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding5.png",
       topPadding: 30,
-      title: "Better\nThan Free\nTransactions".i18n,
-      subTitle:
-          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organizations and people."
-              .i18n,
+      title: localization.onboardingTransactionsTitle,
+      subTitle: localization.onboardingTransactionsSubtitle,
       topLeaf1: Positioned(
         right: 80,
         top: -10,

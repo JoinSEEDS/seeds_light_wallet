@@ -9,7 +9,7 @@ import 'package:seeds/screens/authentication/import_key/import_words_screen.dart
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
@@ -55,7 +55,7 @@ class Routes {
   static const importWords = 'importWords';
   static const verification = 'verification';
   static const signup = 'signup';
-  static const recoverAccount = 'recoverAccount';
+  static const recoverAccountSearch = 'recoverAccountSearch';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
   static const transfer = 'transfer';
@@ -98,7 +98,7 @@ class NavigationService {
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.importWords: (_) => const ImportWordsScreen(),
-    Routes.recoverAccount: (_) => const RecoverAccountScreen(),
+    Routes.recoverAccountSearch: (_) => const RecoverAccountSearchScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(),
     Routes.app: (_) => const App(),

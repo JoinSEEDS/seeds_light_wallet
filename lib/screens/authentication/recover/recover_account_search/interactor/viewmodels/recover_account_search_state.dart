@@ -1,9 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'recover_account_search_bloc.dart';
 
-class RecoverAccountState extends Equatable {
+class RecoverAccountSearchState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
   final String? errorMessage;
@@ -11,7 +8,7 @@ class RecoverAccountState extends Equatable {
   final List<String> userGuardians;
   final MemberModel? accountInfo;
 
-  const RecoverAccountState({
+  const RecoverAccountSearchState({
     this.pageCommand,
     required this.pageState,
     this.errorMessage,
@@ -32,7 +29,7 @@ class RecoverAccountState extends Equatable {
 
   bool get accountFound => accountInfo != null;
 
-  RecoverAccountState copyWith({
+  RecoverAccountSearchState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
     String? errorMessage,
@@ -40,7 +37,7 @@ class RecoverAccountState extends Equatable {
     List<String>? userGuardians,
     MemberModel? accountInfo,
   }) {
-    return RecoverAccountState(
+    return RecoverAccountSearchState(
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
@@ -50,8 +47,8 @@ class RecoverAccountState extends Equatable {
     );
   }
 
-  factory RecoverAccountState.initial() {
-    return const RecoverAccountState(
+  factory RecoverAccountSearchState.initial() {
+    return const RecoverAccountSearchState(
       pageState: PageState.initial,
       isGuardianActive: false,
       userGuardians: [],

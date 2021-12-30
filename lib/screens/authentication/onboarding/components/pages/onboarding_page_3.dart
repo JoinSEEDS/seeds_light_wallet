@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class ThirdPage extends StatelessWidget {
@@ -9,13 +9,12 @@ class ThirdPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding3.png",
       topPadding: 50,
-      title: "Regenerative\nEconomy".i18n,
-      subTitle:
-          "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy."
-              .i18n,
+      title: localization.onboardingEconomyTitle,
+      subTitle: localization.onboardingEconomySubtitle,
       topLeaf1: Positioned(
         right: -20,
         top: -90,

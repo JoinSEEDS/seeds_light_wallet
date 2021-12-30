@@ -70,7 +70,17 @@ String entropyToMnemonic(String entropyString) {
   return words;
 }
 
+bool _isSha256Hash(String s) {
+  return s.length == 64 && BigInt.tryParse(s, radix: 16) != null;
+}
+
 String secretFromMnemonic(String mnemonic) {
+  /// mnemonic is either a 12 word string, or it is a hex string that is
+  /// already the secret. If it is a hex string, we assume it is a secret and
+  /// just return it.
+  if (_isSha256Hash(mnemonic)) {
+    return mnemonic;
+  }
   return sha256.convert(utf8.encode(mnemonic)).toString();
 }
 
