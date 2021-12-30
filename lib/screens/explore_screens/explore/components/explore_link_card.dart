@@ -5,12 +5,14 @@ import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
 
 class ExploreLinkCard extends StatelessWidget {
   final String backgroundImage;
+  final String title;
   final GestureTapCallback onTap;
 
   const ExploreLinkCard({
     Key? key,
     required this.backgroundImage,
     required this.onTap,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class ExploreLinkCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: Center(child: Text("P2P App".i18n, style: Theme.of(context).textTheme.buttonWhiteL)),
+          child: Center(child: Text(title.i18n, style: Theme.of(context).textTheme.buttonWhiteL)),
         ),
       ),
     );

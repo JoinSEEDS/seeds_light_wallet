@@ -41,12 +41,15 @@ class ExploreScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ExploreLinkCard(
+                      title: 'P2P app',
                       backgroundImage: 'assets/images/explore/p2p_app.jpg',
                       onTap: () => NavigationService.of(context).navigateTo(Routes.p2p),
                     ),
                   ),
+                  const SizedBox(width: 16.0),
                   Expanded(
                     child: ExploreLinkCard(
+                      title: 'Get Seeds',
                       backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
                       onTap: () => launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false),
                     ),
