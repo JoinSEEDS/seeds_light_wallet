@@ -67,14 +67,6 @@ class ExploreScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 20),
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
@@ -82,19 +74,6 @@ class ExploreScreen extends StatelessWidget {
                         },
                         title: 'Vouch'.i18n,
                         icon: const CustomPaint(size: Size(31, 41), painter: Vouch()),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: ExploreCard(
-                        onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vote));
-                        },
-                        title: 'Vote'.i18n,
-                        icon: const Padding(
-                          padding: EdgeInsets.only(right: 6.0),
-                          child: CustomPaint(size: Size(40, 40), painter: Vote()),
-                        ),
                       ),
                     ),
                   ],
@@ -121,6 +100,27 @@ class ExploreScreen extends StatelessWidget {
                         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vote));
+                        },
+                        title: 'Vote'.i18n,
+                        icon: const Padding(
+                          padding: EdgeInsets.only(right: 6.0),
+                          child: CustomPaint(size: Size(40, 40), painter: Vote()),
+                        ),
+                      ),
+                    ),
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                    const SizedBox(width: 20),
                   ],
                 ),
                 const SizedBox(height: 150),
