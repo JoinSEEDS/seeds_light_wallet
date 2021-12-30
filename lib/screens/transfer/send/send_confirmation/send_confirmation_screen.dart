@@ -41,7 +41,7 @@ class SendConfirmationScreen extends StatelessWidget {
               if (pageCommand is ShowTransferSuccess) {
                 if (pageCommand.shouldShowInAppReview) {
                   InAppReview.instance.requestReview();
-                  settingsStorage.saveDateSinceLastAsked(DateTime.now().millisecondsSinceEpoch);
+                  settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
                 }
 
                 showDialog<void>(

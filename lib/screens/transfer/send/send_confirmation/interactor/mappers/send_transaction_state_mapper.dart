@@ -25,9 +25,9 @@ class SendTransactionStateMapper extends StateMapper {
       final int currentDate = DateTime.now().millisecondsSinceEpoch;
       bool _shouldShowInAppReview = shouldShowInAppReview;
 
-      if (settingsStorage.dateSinceLastAsk != null && shouldShowInAppReview) {
+      if (settingsStorage.dateSinceRateAppPrompted != null && shouldShowInAppReview) {
         final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
-        final dateUntilAppRateCanAsk = settingsStorage.dateSinceLastAsk! + millisecondsPerMoth;
+        final dateUntilAppRateCanAsk = settingsStorage.dateSinceRateAppPrompted! + millisecondsPerMoth;
         if (currentDate < dateUntilAppRateCanAsk) {
           _shouldShowInAppReview = false;
         }
