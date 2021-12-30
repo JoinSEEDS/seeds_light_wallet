@@ -6,7 +6,6 @@ import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_state.dart';
 
 class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
   const WalletAppBar({Key? key}) : super(key: key);
