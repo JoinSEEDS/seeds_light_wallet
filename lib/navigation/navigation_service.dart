@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/in_app_web_view.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
@@ -16,6 +15,7 @@ import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
+import 'package:seeds/screens/explore_screens/p2p/p2p_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
@@ -72,7 +72,7 @@ class Routes {
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
-  static const inAppWebView = 'inAppWebView';
+  static const p2p = 'p2p';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -116,7 +116,7 @@ class NavigationService {
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
-    Routes.inAppWebView: (_) => const InAppWebView(),
+    Routes.p2p: (_) => const P2PScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),

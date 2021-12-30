@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -41,10 +42,15 @@ class ExploreScreen extends StatelessWidget {
                   Expanded(
                     child: ExploreLinkCard(
                       backgroundImage: 'assets/images/explore/p2p_app.jpg',
-                      onTap: () => NavigationService.of(context).navigateTo(Routes.inAppWebView),
+                      onTap: () => NavigationService.of(context).navigateTo(Routes.p2p),
                     ),
                   ),
-                  const Expanded(child: SizedBox.shrink()),
+                  Expanded(
+                    child: ExploreLinkCard(
+                      backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
+                      onTap: () => launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false),
+                    ),
+                  ),
                 ],
               ),
             ),
