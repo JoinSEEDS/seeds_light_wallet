@@ -5,6 +5,7 @@ const String urlBuySeeds = 'https://www.joinseeds.earth/buy-seeds?acc=';
 const String domainAppUriPrefix = 'https://seedswallet.page.link';
 const String targetLink = 'https://joinseeds.com/?placeholder=&inviteMnemonic=';
 const String guardianTargetLink = 'https://joinseeds.com/?placeholder=&guardian=';
+const String invoiceTargetLink = 'https://joinseeds.com/?placeholder=&invoice=';
 const String androidPacakageName = 'com.joinseeds.seedswallet';
 const String iosBundleId = 'com.joinseeds.seedslight';
 const String iosAppStoreId = '1507143650';

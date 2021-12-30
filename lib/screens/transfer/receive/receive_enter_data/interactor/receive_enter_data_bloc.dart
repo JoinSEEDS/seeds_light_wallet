@@ -38,10 +38,11 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield state.copyWith(description: event.description);
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await ReceiveSeedsInvoiceUseCase().run(
+      final Result<ReceiveInvoiceResponse> result =
+          await ReceiveSeedsInvoiceUseCase().run(ReceiveSeedsInvoiceUseCase.input(
         tokenAmount: state.tokenAmount,
         memo: state.description,
-      );
+      ));
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
     } else if (event is ClearReceiveEnterDataState) {
       yield state.copyWith(

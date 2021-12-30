@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'recover_account_found_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class RecoverAccountFoundEvent extends Equatable {
   const RecoverAccountFoundEvent();
 
@@ -11,38 +8,50 @@ abstract class RecoverAccountFoundEvent extends Equatable {
 }
 
 class FetchInitialData extends RecoverAccountFoundEvent {
+  const FetchInitialData();
+
   @override
   String toString() => 'FetchInitialData';
 }
 
-class OnClaimAccountTap extends RecoverAccountFoundEvent {
+class OnClaimAccountTapped extends RecoverAccountFoundEvent {
+  const OnClaimAccountTapped();
+
   @override
-  String toString() => 'OnClaimAccountTap';
+  String toString() => 'OnClaimAccountTapped';
 }
 
-class OnCopyIconTap extends RecoverAccountFoundEvent {
+class OnCopyIconTapped extends RecoverAccountFoundEvent {
+  const OnCopyIconTapped();
+
   @override
-  String toString() => 'OnCopyIconTab';
+  String toString() => 'OnCopyIconTapped';
 }
 
-class OnRefreshTap extends RecoverAccountFoundEvent {
+class OnRefreshTapped extends RecoverAccountFoundEvent {
+  const OnRefreshTapped();
+
   @override
-  String toString() => 'OnRefreshTap';
+  String toString() => 'OnRefreshTapped';
 }
 
-class OnCancelProcessTap extends RecoverAccountFoundEvent {
+class OnCancelProcessTapped extends RecoverAccountFoundEvent {
+  const OnCancelProcessTapped();
+
   @override
-  String toString() => 'OnCancelProcessTap';
+  String toString() => 'OnCancelProcessTapped';
 }
 
 class ClearRecoverPageCommand extends RecoverAccountFoundEvent {
+  const ClearRecoverPageCommand();
+
   @override
   String toString() => 'ClearRecoverPageCommand';
-
-  const ClearRecoverPageCommand();
 }
 
 class StartCycleCountdown extends RecoverAccountFoundEvent {
+  const StartCycleCountdown();
+
   @override
   String toString() => 'StartCycleCountdown';
 }

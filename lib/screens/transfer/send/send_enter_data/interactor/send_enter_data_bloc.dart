@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -62,7 +63,9 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
         ),
       );
 
-      yield SendTransactionMapper().mapResultToState(state, result);
+      final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
+
+      yield SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview);
     } else if (event is ClearPageCommand) {
       yield state.copyWith();
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/alert_input_value.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
@@ -60,6 +61,10 @@ class SendEnterDataScreen extends StatelessWidget {
               ),
             );
           } else if (command is ShowTransferSuccess) {
+            if (command.shouldShowInAppReview) {
+              InAppReview.instance.requestReview();
+            }
+
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button

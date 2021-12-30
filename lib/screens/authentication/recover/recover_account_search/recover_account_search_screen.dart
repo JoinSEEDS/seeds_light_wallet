@@ -10,20 +10,18 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/recover_account_bloc.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
 import 'package:seeds/utils/debouncer.dart';
 
-class RecoverAccountScreen extends StatefulWidget {
-  const RecoverAccountScreen({Key? key}) : super(key: key);
+class RecoverAccountSearchScreen extends StatefulWidget {
+  const RecoverAccountSearchScreen({Key? key}) : super(key: key);
 
   @override
-  _RecoverAccountScreenState createState() => _RecoverAccountScreenState();
+  _RecoverAccountSearchScreenState createState() => _RecoverAccountSearchScreenState();
 }
 
-class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
+class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen> {
   final TextEditingController _keyController = TextEditingController();
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
@@ -42,8 +40,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RecoverAccountBloc(),
-      child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
+      create: (_) => RecoverAccountSearchBloc(),
+      child: BlocConsumer<RecoverAccountSearchBloc, RecoverAccountSearchState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
@@ -59,7 +57,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
               child: FlatButtonLong(
                 title: 'Next'.i18n,
                 enabled: state.isGuardianActive,
-                onPressed: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                onPressed: () => BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnNextButtonTapped()),
               ),
             ),
             body: SafeArea(
@@ -80,8 +78,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                         canClear: _keyController.text.isNotEmpty,
                       ),
                       onChanged: (value) {
-                        _debouncer
-                            .run(() => BlocProvider.of<RecoverAccountBloc>(context).add(OnUsernameChanged(value)));
+                        _debouncer.run(
+                            () => BlocProvider.of<RecoverAccountSearchBloc>(context).add(OnUsernameChanged(value)));
                       },
                     ),
                     if (state.accountFound)
@@ -92,7 +90,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                         ),
                         child: SearchResultRow(
                           member: state.accountInfo!,
-                          onTap: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                          onTap: () =>
+                              BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnNextButtonTapped()),
                         ),
                       ),
                     const SizedBox(height: 30),

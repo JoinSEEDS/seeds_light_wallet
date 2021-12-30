@@ -2,11 +2,14 @@ import 'package:async/async.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
+import 'package:seeds/blocs/deeplink/usecase/get_signing_request_use_case.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/local/util/seeds_esr.dart';
 
 class GetInitialDeepLinkUseCase {
-  Future<Result> run(Uri newLink) async {
+  GetSigningRequestUseCase getSigningRequestUseCase = GetSigningRequestUseCase();
+
+  Future<DeepLinkData> run(Uri newLink) async {
     final splitUri = newLink.query.split('=');
     final placeHolder = splitUri[0];
     final linkData = splitUri[1];
@@ -20,19 +23,27 @@ class GetInitialDeepLinkUseCase {
       final data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkGuardians;
-      return ValueResult(DeepLinkData(data, deepLinkPlaceHolder));
+      return DeepLinkData(data, deepLinkPlaceHolder);
     } else if (placeHolder.contains("invite")) {
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvite;
-      return ValueResult(DeepLinkData(
+      return DeepLinkData(
         {"Mnemonic": linkData},
         deepLinkPlaceHolder,
-      ));
+      );
+    } else if (placeHolder.contains("invoice")) {
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvoice;
+      final Result esrData = await getSigningRequestUseCase.run(linkData);
+
+      return DeepLinkData(
+        {"invoice": esrData},
+        deepLinkPlaceHolder,
+      );
     } else {
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkUnknown;
-      return ValueResult(DeepLinkData(
+      return DeepLinkData(
         {},
         deepLinkPlaceHolder,
-      ));
+      );
     }
   }
 }

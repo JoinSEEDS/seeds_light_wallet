@@ -1,16 +1,8 @@
-
-
-import 'package:flutter/foundation.dart';
-
 enum GuardianStatus {
   alreadyGuardian,
   requestedMe,
   requestSent,
   noRelationship,
-}
-
-extension GuardianTypeExtension on GuardianStatus {
-  String get name => describeEnum(this);
 }
 
 GuardianStatus fromStatusName(String? name) {

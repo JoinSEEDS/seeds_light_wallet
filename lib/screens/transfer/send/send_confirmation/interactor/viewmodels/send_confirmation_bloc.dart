@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -13,6 +14,8 @@ part 'send_confirmation_event.dart';
 part 'send_confirmation_state.dart';
 
 class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationState> {
+  final InAppReview inAppReview = InAppReview.instance;
+
   SendConfirmationBloc(SendConfirmationArguments arguments) : super(SendConfirmationState.initial(arguments)) {
     on<OnSendTransactionButtonPressed>(_onSendTransaction);
   }
@@ -20,6 +23,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
   Future<void> _onSendTransaction(OnSendTransactionButtonPressed event, Emitter<SendConfirmationState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final Result result = await SendTransactionUseCase().run(state.transaction);
-    emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates));
+    final bool shouldShowInAppReview = await inAppReview.isAvailable();
+    emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
   }
 }

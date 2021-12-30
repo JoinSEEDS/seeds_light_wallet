@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/constants/app_colors.dart';
 
-class SeedsQRCodeScannerWidget extends StatelessWidget {
+class QRCodeView extends StatelessWidget {
   final GlobalKey? qrKey;
-  final QRViewCreatedCallback? onQRViewCreated;
+  final QRViewCreatedCallback onQRViewCreated;
 
-  const SeedsQRCodeScannerWidget({this.onQRViewCreated, Key? key, this.qrKey}) : super(key: key);
+  const QRCodeView({required this.onQRViewCreated, Key? key, this.qrKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SeedsQRCodeScannerWidget extends StatelessWidget {
                 height: width,
                 child: QRView(
                   key: qrKey!,
-                  onQRViewCreated: onQRViewCreated!,
+                  onQRViewCreated: onQRViewCreated,
                 ),
               ),
             ),
