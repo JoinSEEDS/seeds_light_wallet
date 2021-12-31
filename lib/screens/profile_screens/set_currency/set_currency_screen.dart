@@ -8,7 +8,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/set_currency//set_currency.i18n.dart';
-import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_bloc.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
   const SetCurrencyScreen({Key? key}) : super(key: key);
