@@ -1,13 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'send_enter_data_bloc.dart';
 
-class SendEnterDataPageState extends Equatable {
+class SendEnterDataState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
@@ -23,7 +16,7 @@ class SendEnterDataPageState extends Equatable {
   final bool showAlert;
   final bool showSendingAnimation;
 
-  const SendEnterDataPageState({
+  const SendEnterDataState({
     required this.pageState,
     this.pageCommand,
     this.errorMessage,
@@ -58,7 +51,7 @@ class SendEnterDataPageState extends Equatable {
         showSendingAnimation,
       ];
 
-  SendEnterDataPageState copyWith({
+  SendEnterDataState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
     String? errorMessage,
@@ -74,7 +67,7 @@ class SendEnterDataPageState extends Equatable {
     bool? showAlert,
     bool? showSendingAnimation,
   }) {
-    return SendEnterDataPageState(
+    return SendEnterDataState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
@@ -92,8 +85,8 @@ class SendEnterDataPageState extends Equatable {
     );
   }
 
-  factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
-    return SendEnterDataPageState(
+  factory SendEnterDataState.initial(MemberModel memberModel, RatesState ratesState) {
+    return SendEnterDataState(
       pageState: PageState.initial,
       sendTo: memberModel,
       ratesState: ratesState,

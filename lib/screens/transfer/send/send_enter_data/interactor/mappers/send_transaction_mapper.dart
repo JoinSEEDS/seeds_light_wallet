@@ -4,14 +4,10 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 
 class SendTransactionMapper extends StateMapper {
-  SendEnterDataPageState mapResultToState(
-    SendEnterDataPageState currentState,
-    Result result,
-    bool shouldShowInAppReview,
-  ) {
+  SendEnterDataState mapResultToState(SendEnterDataState currentState, Result result, bool shouldShowInAppReview) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
@@ -24,10 +20,7 @@ class SendTransactionMapper extends StateMapper {
       if (resultResponse.isTransfer) {
         eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
       }
-      return currentState.copyWith(
-        pageState: PageState.success,
-        pageCommand: pageCommand,
-      );
+      return currentState.copyWith(pageState: PageState.success, pageCommand: pageCommand);
     }
   }
 }

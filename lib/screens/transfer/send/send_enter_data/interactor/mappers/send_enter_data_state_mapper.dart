@@ -4,12 +4,12 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendEnterDataStateMapper extends StateMapper {
-  SendEnterDataPageState mapResultToState(
-      SendEnterDataPageState currentState, Result<BalanceModel> result, RatesState rateState, String quantity) {
+  SendEnterDataState mapResultToState(
+      SendEnterDataState currentState, Result<BalanceModel> result, RatesState rateState, String quantity) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
