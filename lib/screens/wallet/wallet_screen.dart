@@ -4,7 +4,7 @@ import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/transactions_list.dart';
 import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 /// Wallet SCREEN
 class WalletScreen extends StatefulWidget {

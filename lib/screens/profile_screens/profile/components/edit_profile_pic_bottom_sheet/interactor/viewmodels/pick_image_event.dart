@@ -1,11 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
+part of 'pick_image_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class PickImageEvent extends Equatable {
   const PickImageEvent();
+
   @override
   List<Object> get props => [];
 }

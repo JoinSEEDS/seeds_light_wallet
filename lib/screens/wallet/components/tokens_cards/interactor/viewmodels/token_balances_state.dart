@@ -1,8 +1,4 @@
-import 'package:collection/collection.dart';
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+part of 'token_balances_bloc.dart';
 
 class TokenBalancesState extends Equatable {
   final PageState pageState;
