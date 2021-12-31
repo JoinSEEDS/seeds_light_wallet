@@ -4,7 +4,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet/wallet.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
 
 class ReceiveSendButtons extends StatelessWidget {
   const ReceiveSendButtons({Key? key}) : super(key: key);

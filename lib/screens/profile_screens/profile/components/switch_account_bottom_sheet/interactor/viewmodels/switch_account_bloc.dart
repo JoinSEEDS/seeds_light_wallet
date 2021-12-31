@@ -8,7 +8,7 @@ import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
+import 'package:seeds/screens/authentication/import_key/import_key_errors.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/check_private_key_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/mappers/find_accounts_result_state_mapper.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/mappers/set_private_key_state_mapper.dart';
@@ -32,7 +32,7 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
           .toList();
       final List<String?> publicKeys = keys.map((i) => i.publicKey).toList();
       if (publicKeys.contains(null) || publicKeys.contains('')) {
-        yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n);
+        yield state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey);
       } else {
         final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
         yield FindAccountsResultStateMapper().mapResultsToState(state, results, keys);

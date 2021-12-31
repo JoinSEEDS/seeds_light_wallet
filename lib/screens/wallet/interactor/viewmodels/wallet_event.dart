@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'wallet_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class WalletEvent extends Equatable {
   const WalletEvent();
 
@@ -12,6 +9,7 @@ abstract class WalletEvent extends Equatable {
 
 class OnLoadWalletData extends WalletEvent {
   const OnLoadWalletData();
+
   @override
   String toString() => 'OnLoadWalletData';
 }

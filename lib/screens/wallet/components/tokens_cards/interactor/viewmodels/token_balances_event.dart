@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'token_balances_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class TokenBalancesEvent extends Equatable {
   const TokenBalancesEvent();
+
   @override
   List<Object> get props => [];
 }
