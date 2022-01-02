@@ -1,10 +1,5 @@
-import 'dart:io';
+part of 'profile_bloc.dart';
 
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
-/// --- EVENTS
-@immutable
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
 
