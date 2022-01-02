@@ -1,8 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/transaction_model.dart';
+part of 'transactions_list_bloc.dart';
 
 abstract class TransactionsListEvent extends Equatable {
   const TransactionsListEvent();
+
   @override
   List<Object> get props => [];
 }
