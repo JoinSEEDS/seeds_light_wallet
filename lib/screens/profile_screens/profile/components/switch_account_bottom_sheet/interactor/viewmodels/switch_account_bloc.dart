@@ -21,29 +21,31 @@ part 'switch_account_state.dart';
 class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
   final AuthenticationBloc _authenticationBloc;
   SwitchAccountBloc(this._authenticationBloc, isRecoverPharseEnabled)
-      : super(SwitchAccountState.initial(isRecoverPharseEnabled));
+      : super(SwitchAccountState.initial(isRecoverPharseEnabled)) {
+    on<FindAccountsByKey>(_findAccountsByKey);
+    on<OnAccountSelected>(_onAccountSelected);
+  }
 
-  @override
-  Stream<SwitchAccountState> mapEventToState(SwitchAccountEvent event) async* {
-    if (event is FindAccountsByKey) {
-      yield state.copyWith(pageState: PageState.loading);
-      final List<Keys> keys = settingsStorage.privateKeysList
-          .map((i) => Keys(publicKey: CheckPrivateKeyUseCase().isKeyValid(i), privateKey: i))
-          .toList();
-      final List<String?> publicKeys = keys.map((i) => i.publicKey).toList();
-      if (publicKeys.contains(null) || publicKeys.contains('')) {
-        yield state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey);
-      } else {
-        final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
-        yield FindAccountsResultStateMapper().mapResultsToState(state, results, keys);
-      }
-    } else if (event is OnAccountSelected) {
-      yield state.copyWith(currentAcccout: event.profile);
-      final result = await GetPublicKeyFromAccountUseCase().run(event.profile.account);
-      yield SetFoundPrivateKeyStateMapper().mapResultToState(state, result);
-      // Only refresh the current accountName and the privateKey, then fire auth.
-      _authenticationBloc.add(OnSwitchAccount(event.profile.account, state.authDataModel!));
+  Future<void> _findAccountsByKey(FindAccountsByKey event, Emitter<SwitchAccountState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final List<Keys> keys = settingsStorage.privateKeysList
+        .map((i) => Keys(publicKey: CheckPrivateKeyUseCase().isKeyValid(i), privateKey: i))
+        .toList();
+    final List<String?> publicKeys = keys.map((i) => i.publicKey).toList();
+    if (publicKeys.contains(null) || publicKeys.contains('')) {
+      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
+    } else {
+      final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
+      emit(FindAccountsResultStateMapper().mapResultsToState(state, results, keys));
     }
+  }
+
+  Future<void> _onAccountSelected(OnAccountSelected event, Emitter<SwitchAccountState> emit) async {
+    emit(state.copyWith(currentAcccout: event.profile));
+    final result = await GetPublicKeyFromAccountUseCase().run(event.profile.account);
+    emit(SetFoundPrivateKeyStateMapper().mapResultToState(state, result));
+    // Only refresh the current accountName and the privateKey, then fire auth.
+    _authenticationBloc.add(OnSwitchAccount(event.profile.account, state.authDataModel!));
   }
 }
 
