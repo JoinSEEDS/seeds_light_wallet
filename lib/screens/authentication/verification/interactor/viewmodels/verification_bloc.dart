@@ -69,6 +69,9 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           showInfoSnack: event.passcode == settingsStorage.passcode ? null : true,
         );
       }
+      if (state.isValidPasscode ?? false) {
+        add(const OnValidVerifyPasscode());
+      }
     }
     if (event is OnValidVerifyPasscode) {
       securityBloc?.add(const OnValidVerification());

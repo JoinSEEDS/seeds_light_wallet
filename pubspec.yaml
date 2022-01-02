@@ -29,7 +29,6 @@ dependencies:
   local_auth: ^1.1.8
   timeago: ^3.1.0
   cached_network_image: ^3.1.0+1
-  passcode_screen: ^2.0.0
   flutter_svg: ^0.23.0+1
   firebase_dynamic_links: ^3.0.1
   firebase_messaging: ^11.1.0
