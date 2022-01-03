@@ -24,7 +24,7 @@ class SendTransactionMapper extends StateMapper {
       if (settingsStorage.dateSinceRateAppPrompted != null && _shouldShowInAppReview) {
         final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
         final dateUntilAppRateCanAsk = settingsStorage.dateSinceRateAppPrompted! + millisecondsPerMoth;
-        _shouldShowInAppReview = currentDate < dateUntilAppRateCanAsk;
+        _shouldShowInAppReview = currentDate > dateUntilAppRateCanAsk;
       }
 
       final pageCommand = SendTransactionStateMapper.transactionResultPageCommand(
