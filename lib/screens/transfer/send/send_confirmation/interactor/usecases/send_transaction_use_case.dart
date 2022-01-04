@@ -33,6 +33,7 @@ class SendTransactionUseCase {
         return ValueResult(SendTransactionResponse(transactionModel: transactionModel, profiles: profiles));
       }
     }).catchError((error) {
+      print("error sending tx $error");
       return ErrorResult("Error Sending Transaction");
     });
   }

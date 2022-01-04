@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_state.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_type.dart';
+part of 'verification_bloc.dart';
 
-/// STATE
 class VerificationState extends Equatable {
   final PageState pageState;
   final String? errorMessage;

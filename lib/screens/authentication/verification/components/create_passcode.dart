@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
   const CreatePasscode({Key? key}) : super(key: key);

@@ -7,8 +7,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/verification/components/create_passcode.dart';
 import 'package:seeds/screens/authentication/verification/components/verify_passcode.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 class VerificationScreen extends StatelessWidget {
@@ -29,8 +27,6 @@ class VerificationScreen extends StatelessWidget {
             child: BlocBuilder<VerificationBloc, VerificationState>(
               builder: (context, state) {
                 switch (state.pageState) {
-                  case PageState.initial:
-                    return const SizedBox.shrink();
                   case PageState.loading:
                     return const FullPageLoadingIndicator();
                   case PageState.failure:

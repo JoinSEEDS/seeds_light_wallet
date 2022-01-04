@@ -1,6 +1,5 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:equatable/equatable.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
