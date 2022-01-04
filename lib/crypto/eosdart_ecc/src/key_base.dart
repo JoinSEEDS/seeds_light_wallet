@@ -9,6 +9,7 @@ import 'package:pointycastle/digests/ripemd160.dart';
 // ignore: directives_ordering
 import "package:pointycastle/ecc/curves/secp256k1.dart";
 import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
+import 'package:pointycastle/src/utils.dart';
 
 // ignore: always_use_package_imports
 import './exception.dart';

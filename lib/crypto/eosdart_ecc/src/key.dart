@@ -191,7 +191,6 @@ class EOSPrivateKey extends EOSKey {
     List<int> version = <int>[];
     version.add(EOSKey.VERSION);
     Uint8List keyWLeadingVersion = EOSKey.concat(Uint8List.fromList(version), this.d!);
-
     return EOSKey.encodeKey(keyWLeadingVersion, EOSKey.SHA256X2);
   }
 

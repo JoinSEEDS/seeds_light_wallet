@@ -1,4 +1,8 @@
+// ignore_for_file: directives_ordering
+
 import 'package:async/async.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
