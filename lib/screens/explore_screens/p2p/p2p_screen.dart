@@ -62,7 +62,7 @@ class _P2PScreenState extends State<P2PScreen> {
                     onProgress: (progress) => print('WebView is loading (progress : %$progress)'),
                     onPageFinished: (url) async {
                       BlocProvider.of<P2PBloc>(context).add(const OnPageLoaded());
-                      await _webViewController.runJavascript("setAccounNameFromLw('${settingsStorage.accountName}')");
+                      await _webViewController.runJavascript("setAccountNameFromLw('${settingsStorage.accountName}')");
                     },
                     onWebResourceError: (error) => print(error),
                     javascriptChannels: {

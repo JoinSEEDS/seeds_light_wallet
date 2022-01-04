@@ -20,12 +20,8 @@ const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 
 // DO NOT PUSH TO PROD WITH THIS SET TO TRUE. This is used for testing purposes only
-<<<<<<< HEAD
-const bool testnetMode = true;
-=======
 const bool testnetMode = false;
 const bool unitTestMode = false; // set testnetMode and unitTestMode to true for automated tests
->>>>>>> 904fa73119f1ecf9282f8100bf44b650fdb2b113
 
 // TESTNET CONFIG: Used for testing purposes.
 const String _testnetEosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
