@@ -1,13 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/utils/rate_states_extensions.dart';
+part of 'receive_enter_data_bloc.dart';
 
-/// --- STATE
 class ReceiveEnterDataState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
