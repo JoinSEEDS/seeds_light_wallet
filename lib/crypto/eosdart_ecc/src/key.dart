@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:pointycastle/src/utils.dart';
 import 'package:pointycastle/ecc/api.dart' show ECSignature, ECPoint;
+import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
 
 import './exception.dart';
 import './key_base.dart';
@@ -21,8 +21,7 @@ class EOSPublicKey extends EOSKey {
 
   /// Construct EOS public key from string
   factory EOSPublicKey.fromString(String keyStr) {
-    RegExp publicRegex = RegExp(r"^PUB_([A-Za-z0-9]+)_([A-Za-z0-9]+)",
-        caseSensitive: true, multiLine: false);
+    RegExp publicRegex = RegExp(r"^PUB_([A-Za-z0-9]+)_([A-Za-z0-9]+)", caseSensitive: true, multiLine: false);
     Iterable<Match> match = publicRegex.allMatches(keyStr);
 
     if (match.isEmpty) {
@@ -72,8 +71,7 @@ class EOSPrivateKey extends EOSKey {
   /// Construct the private key from string
   /// It can come from WIF format for PVT format
   EOSPrivateKey.fromString(String keyStr) {
-    RegExp privateRegex = RegExp(r"^PVT_([A-Za-z0-9]+)_([A-Za-z0-9]+)",
-        caseSensitive: true, multiLine: false);
+    RegExp privateRegex = RegExp(r"^PVT_([A-Za-z0-9]+)_([A-Za-z0-9]+)", caseSensitive: true, multiLine: false);
     Iterable<Match> match = privateRegex.allMatches(keyStr);
 
     if (match.isEmpty) {
@@ -181,8 +179,7 @@ class EOSPrivateKey extends EOSKey {
       int lenR = der.elementAt(3);
       int lenS = der.elementAt(5 + lenR);
       if (lenR == 32 && lenS == 32) {
-        int i = EOSSignature.calcPubKeyRecoveryParam(
-            decodeBigInt(sha256Data), sig, this.toEOSPublicKey());
+        int i = EOSSignature.calcPubKeyRecoveryParam(decodeBigInt(sha256Data), sig, this.toEOSPublicKey());
         i += 4; // compressed
         i += 27; // compact  //  24 or 27 :( forcing odd-y 2nd key candidate)
         return EOSSignature(i, sig.r, sig.s);
@@ -193,14 +190,11 @@ class EOSPrivateKey extends EOSKey {
   String toString() {
     List<int> version = <int>[];
     version.add(EOSKey.VERSION);
-    Uint8List keyWLeadingVersion =
-        EOSKey.concat(Uint8List.fromList(version), this.d!);
-
+    Uint8List keyWLeadingVersion = EOSKey.concat(Uint8List.fromList(version), this.d!);
     return EOSKey.encodeKey(keyWLeadingVersion, EOSKey.SHA256X2);
   }
 
-  BigInt _deterministicGenerateK(
-      Uint8List hash, Uint8List x, BigInt e, int nonce) {
+  BigInt _deterministicGenerateK(Uint8List hash, Uint8List x, BigInt e, int nonce) {
     List<int> newHash = hash;
     if (nonce > 0) {
       List<int> addition = Uint8List(nonce);
@@ -247,9 +241,7 @@ class EOSPrivateKey extends EOSKey {
 
     BigInt T = decodeBigInt(v);
     // Step H3, repeat until T is within the interval [1, n - 1]
-    while (T.sign <= 0 ||
-        T.compareTo(EOSKey.secp256k1.n) >= 0 ||
-        !_checkSig(e, newHash as Uint8List, T)) {
+    while (T.sign <= 0 || T.compareTo(EOSKey.secp256k1.n) >= 0 || !_checkSig(e, newHash as Uint8List, T)) {
       List<int> d3 = List.from(v)..add(0);
       k = hMacSha256.convert(d3).bytes as Uint8List;
       hMacSha256 = Hmac(sha256, k); // HMAC-SHA256

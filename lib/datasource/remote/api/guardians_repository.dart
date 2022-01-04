@@ -1,8 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';

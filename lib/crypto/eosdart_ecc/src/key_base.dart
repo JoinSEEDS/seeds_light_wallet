@@ -6,9 +6,8 @@ import 'dart:convert';
 import 'package:bs58check/bs58check.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pointycastle/digests/ripemd160.dart';
-import 'package:pointycastle/src/utils.dart';
-// ignore: directives_ordering
 import "package:pointycastle/ecc/curves/secp256k1.dart";
+import 'package:seeds/crypto/eosdart_ecc/src/big_int_encoder.dart';
 
 // ignore: always_use_package_imports
 import './exception.dart';
