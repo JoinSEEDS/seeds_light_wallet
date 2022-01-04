@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -8,8 +7,6 @@ import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_created_dialog.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
 
 class VerifyPasscode extends StatefulWidget {
   const VerifyPasscode({Key? key}) : super(key: key);
