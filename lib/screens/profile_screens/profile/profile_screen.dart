@@ -9,8 +9,8 @@ import 'package:seeds/screens/profile_screens/profile/components/profile_bottom.
 import 'package:seeds/screens/profile_screens/profile/components/profile_header.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_middle.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/switch_account_bottom_sheet.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

@@ -10,8 +10,8 @@ import 'package:seeds/screens/profile_screens/profile/components/citizenship_upg
 import 'package:seeds/screens/profile_screens/profile/components/logout_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/components/logout_recovery_phrase_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile_card.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {

@@ -1,12 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/score_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'profile_bloc.dart';
 
-enum CitizenshipUpgradeStatus { notReady, canResident, canCitizen }
-
-/// --- STATE
 class ProfileState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
@@ -87,3 +80,5 @@ class ProfileState extends Equatable {
     );
   }
 }
+
+enum CitizenshipUpgradeStatus { notReady, canResident, canCitizen }

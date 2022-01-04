@@ -20,7 +20,12 @@ const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 
 // DO NOT PUSH TO PROD WITH THIS SET TO TRUE. This is used for testing purposes only
+<<<<<<< HEAD
 const bool testnetMode = true;
+=======
+const bool testnetMode = false;
+const bool unitTestMode = false; // set testnetMode and unitTestMode to true for automated tests
+>>>>>>> 904fa73119f1ecf9282f8100bf44b650fdb2b113
 
 // TESTNET CONFIG: Used for testing purposes.
 const String _testnetEosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
@@ -28,6 +33,13 @@ const String _testnetHyphaEndPointUrl = 'https://test.hypha.earth';
 const String _testnetDefaultEndPointUrl = "https://test.hypha.earth";
 const String _testnetDefaultV2EndpointUrl = "https://api-test.telosfoundation.io";
 // END - TESTNET CONFIG
+
+// UNIT TEST CONFIG: Used for automated testing
+const String _unitTestEosEndpoints = '[ { "url": "https://node.hypha.earth", "isDefault": true } ]';
+const String _unitTestHyphaEndPointUrl = 'https://node.hypha.earth';
+const String _unitTestDefaultEndPointUrl = "https://node.hypha.earth";
+const String _unitTestDefaultV2EndpointUrl = "https://api.telosfoundation.io";
+// END - UNIT TEST CONFIG
 
 class _FirebaseRemoteConfigService {
   late RemoteConfig _remoteConfig;
@@ -80,17 +92,30 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagDelegateEnabled => _remoteConfig.getBool(_featureFlagDelegate);
   bool get featureFlagClaimUnplantedSeedsEnabled => _remoteConfig.getBool(_featureFlagClaimUnplantedSeeds);
 
-  String get hyphaEndPoint => testnetMode ? _testnetHyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointKey);
+  String get hyphaEndPoint => testnetMode
+      ? unitTestMode
+          ? _unitTestHyphaEndPointUrl
+          : _testnetHyphaEndPointUrl
+      : _remoteConfig.getString(_hyphaEndPointKey);
 
-  String get defaultEndPointUrl =>
-      testnetMode ? _testnetDefaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultEndPointUrl => testnetMode
+      ? unitTestMode
+          ? _unitTestDefaultEndPointUrl
+          : _testnetDefaultEndPointUrl
+      : _remoteConfig.getString(_defaultEndPointUrlKey);
 
-  String get defaultV2EndPointUrl =>
-      testnetMode ? _testnetDefaultV2EndpointUrl : _remoteConfig.getString(_defaultV2EndPointUrlKey);
+  String get defaultV2EndPointUrl => testnetMode
+      ? unitTestMode
+          ? _unitTestDefaultV2EndpointUrl
+          : _testnetDefaultV2EndpointUrl
+      : _remoteConfig.getString(_defaultV2EndPointUrlKey);
 
-  FirebaseEosServer get activeEOSServerUrl =>
-      parseEosServers(testnetMode ? _testnetEosEndpoints : _remoteConfig.getString(_activeEOSEndpointKey)).firstWhere(
-          (FirebaseEosServer element) => element.isDefault!,
+  FirebaseEosServer get activeEOSServerUrl => parseEosServers(testnetMode
+          ? unitTestMode
+              ? _unitTestEosEndpoints
+              : _testnetEosEndpoints
+          : _remoteConfig.getString(_activeEOSEndpointKey))
+      .firstWhere((FirebaseEosServer element) => element.isDefault!,
           orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
 }
 

@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';

@@ -1,8 +1,6 @@
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
@@ -51,8 +49,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
               final List<dynamic> allAccounts = body['permissions'].toList();
               final permissions = allAccounts.map((item) => Permission.fromJson(item)).toList();
               final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
-              final RequiredAuth activeAuth = activePermission.requiredAuth;
-              return activeAuth.keys.first.key;
+              final RequiredAuth? activeAuth = activePermission.requiredAuth;
+              return activeAuth?.keys?.first?.key;
             }))
         .catchError((error) => mapHttpError(error));
   }
