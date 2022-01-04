@@ -10,7 +10,7 @@ import 'package:seeds/screens/authentication/verification/interactor/usecases/bi
 import 'package:seeds/screens/authentication/verification/interactor/usecases/biometrics_availables_use_case.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 /// --- BLOC
 class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {

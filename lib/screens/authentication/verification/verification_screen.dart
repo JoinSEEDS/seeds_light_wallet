@@ -9,7 +9,7 @@ import 'package:seeds/screens/authentication/verification/components/verify_pass
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({Key? key}) : super(key: key);

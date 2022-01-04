@@ -1,11 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+part of 'security_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class SecurityEvent extends Equatable {
   const SecurityEvent();
+
   @override
   List<Object> get props => [];
 }
