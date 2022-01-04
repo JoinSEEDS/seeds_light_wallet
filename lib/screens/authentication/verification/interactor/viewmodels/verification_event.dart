@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'verification_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class VerificationEvent extends Equatable {
   const VerificationEvent();
+
   @override
   List<Object> get props => [];
 }
