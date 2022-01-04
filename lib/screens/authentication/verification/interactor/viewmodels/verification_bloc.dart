@@ -9,7 +9,7 @@ import 'package:seeds/screens/authentication/verification/interactor/model/auth_
 import 'package:seeds/screens/authentication/verification/interactor/model/auth_type.dart';
 import 'package:seeds/screens/authentication/verification/interactor/usecases/biometric_auth_use_case.dart';
 import 'package:seeds/screens/authentication/verification/interactor/usecases/biometrics_availables_use_case.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 part 'verification_event.dart';
 part 'verification_state.dart';
