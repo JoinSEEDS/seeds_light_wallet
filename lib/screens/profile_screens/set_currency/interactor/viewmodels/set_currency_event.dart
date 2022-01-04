@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'set_currency_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class SetCurrencyEvent extends Equatable {
   const SetCurrencyEvent();
+
   @override
   List<Object> get props => [];
 }

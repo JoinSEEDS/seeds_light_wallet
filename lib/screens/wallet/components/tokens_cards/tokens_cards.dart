@@ -9,10 +9,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_bloc.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_event.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_state.dart';
 
 class TokenCards extends StatefulWidget {
   const TokenCards({Key? key}) : super(key: key);
