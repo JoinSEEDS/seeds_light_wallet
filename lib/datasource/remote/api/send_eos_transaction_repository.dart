@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 
