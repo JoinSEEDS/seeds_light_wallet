@@ -5,8 +5,6 @@ import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/crypto/eosdart/eosdart.dart';
-import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
