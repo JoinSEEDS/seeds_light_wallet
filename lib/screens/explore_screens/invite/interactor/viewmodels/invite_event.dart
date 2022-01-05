@@ -4,7 +4,7 @@ abstract class InviteEvent extends Equatable {
   const InviteEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadUserBalance extends InviteEvent {

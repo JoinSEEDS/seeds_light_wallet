@@ -4,7 +4,7 @@ abstract class DeeplinkEvent extends Equatable {
   const DeeplinkEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class HandleIncomingFirebaseDeepLink extends DeeplinkEvent {

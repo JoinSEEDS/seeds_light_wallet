@@ -27,10 +27,10 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
       } else if (event is OnFiatCurrencyChangedEventBus) {
         add(const OnFiatCurrencyChanged());
       }
-      on<OnLoadTokenBalances>(_onLoadTokenBalances);
-      on<OnSelectedTokenChanged>(_onSelectedTokenChanged);
-      on<OnFiatCurrencyChanged>(_onFiatCurrencyChanged);
     });
+    on<OnLoadTokenBalances>(_onLoadTokenBalances);
+    on<OnSelectedTokenChanged>(_onSelectedTokenChanged);
+    on<OnFiatCurrencyChanged>(_onFiatCurrencyChanged);
   }
 
   @override

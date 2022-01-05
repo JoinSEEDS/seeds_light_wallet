@@ -4,7 +4,7 @@ abstract class UnplantSeedsEvent extends Equatable {
   const UnplantSeedsEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadUserPlantedBalance extends UnplantSeedsEvent {

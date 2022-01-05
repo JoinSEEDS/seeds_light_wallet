@@ -4,7 +4,7 @@ abstract class ContributionEvent extends Equatable {
   const ContributionEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SetScores extends ContributionEvent {
