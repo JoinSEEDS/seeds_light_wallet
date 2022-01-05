@@ -19,6 +19,9 @@ class UserAccountStateMapper extends StateMapper {
         // to avoid show shimmer again in the citizenship module
         settingsStorage.saveIsCitizen(true);
       }
+      if (profile != null && profile.status == ProfileStatus.visitor) {
+        settingsStorage.saveIsVisitor(true);
+      }
 
       return currentState.copyWith(pageState: PageState.success, profile: profile);
     }
