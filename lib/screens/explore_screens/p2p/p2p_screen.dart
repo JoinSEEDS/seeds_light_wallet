@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -41,11 +44,10 @@ class _P2PScreenState extends State<P2PScreen> {
             listener: (context, state) async {
               final pageCommand = state.pageCommand;
               if (pageCommand is NavigateToRouteWithArguments) {
-                final wasSuccess = await NavigationService.of(context)
+                final TransactionResult? result = await NavigationService.of(context)
                     .navigateTo(pageCommand.route, SendConfirmationArguments(transaction: pageCommand.arguments));
-                if (wasSuccess != null) {
-                  final msg = 'Success';
-                  await _webViewController.runJavascript("lightWalletResponseCallback('$msg')");
+                if (result != null) {
+                  await _webViewController.runJavascript("setResponseCallbackLW(${json.encode(result.toJson())})");
                 }
               }
             },

@@ -3,6 +3,7 @@ import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
@@ -18,13 +19,24 @@ class SendTransactionStateMapper extends StateMapper {
     bool shouldShowInAppReview,
   ) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: result.asError!.error.toString(),
+        transactionResult: TransactionResult(
+          status: TransactionResultStatus.failure,
+          message: result.asError!.error.toString(),
+        ),
+      );
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: transactionResultPageCommand(resultResponse, rateState, shouldShowInAppReview),
+        transactionResult: TransactionResult(
+          status: TransactionResultStatus.success,
+          message: resultResponse.transactionModel.transactionId!,
+        ),
       );
     }
   }
