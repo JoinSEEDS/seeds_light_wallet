@@ -5,6 +5,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
+import 'package:seeds/images/explore/exclamation_circle.dart';
 import 'package:seeds/images/explore/invite_person.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
 import 'package:seeds/images/explore/vote.dart';
@@ -67,8 +68,14 @@ class ExploreScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 20),
-                    const Expanded(
-                      child: SizedBox.shrink(),
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vouch));
+                        },
+                        title: 'Vouch'.i18n,
+                        icon: const CustomPaint(size: Size(31, 41), painter: Vouch()),
+                      ),
                     ),
                   ],
                 ),
@@ -78,10 +85,12 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vouch));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Coming up! ".i18n), duration: const Duration(seconds: 1)),
+                          );
                         },
-                        title: 'Vouch'.i18n,
-                        icon: const CustomPaint(size: Size(31, 41), painter: Vouch()),
+                        title: 'Flag'.i18n,
+                        icon: const CustomPaint(size: Size(40, 40), painter: ExclamationCircle()),
                       ),
                     ),
                     const SizedBox(width: 20),
