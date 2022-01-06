@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-//Copy this CustomPainter code to the Bottom of the File
+// Copy this CustomPainter code to the Bottom of the File
 class ExclamationCircle extends CustomPainter {
   const ExclamationCircle();
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path_0 = Path();
+    final Path path_0 = Path();
     path_0.moveTo(size.width * 0.5000000, size.height * 0.9375000);
     path_0.cubicTo(size.width * 0.3839682, size.height * 0.9375000, size.width * 0.2726886, size.height * 0.8914068,
         size.width * 0.1906407, size.height * 0.8093591);
@@ -44,11 +44,11 @@ class ExclamationCircle extends CustomPainter {
         size.width * 0.5000000, size.height);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
-    Path path_1 = Path();
+    final Path path_1 = Path();
     path_1.moveTo(size.width * 0.4376250, size.height * 0.6875000);
     path_1.cubicTo(size.width * 0.4376250, size.height * 0.6792909, size.width * 0.4392409, size.height * 0.6711636,
         size.width * 0.4423818, size.height * 0.6635818);
@@ -104,9 +104,9 @@ class ExclamationCircle extends CustomPainter {
     path_1.lineTo(size.width * 0.4437500, size.height * 0.3121864);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Colors.white.withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    final Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Colors.white.withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
   }
 
   @override
