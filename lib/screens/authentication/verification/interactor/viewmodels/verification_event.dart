@@ -33,10 +33,10 @@ class OnCreatePasscode extends VerificationEvent {
   String toString() => 'OnCreatePasscode';
 }
 
-class ResetShowSnack extends VerificationEvent {
-  const ResetShowSnack();
+class ClearVerificationPageCommand extends VerificationEvent {
+  const ClearVerificationPageCommand();
   @override
-  String toString() => 'ResetShowSnack';
+  String toString() => 'ClearVerificationPageCommand';
 }
 
 class TryAgainBiometric extends VerificationEvent {
