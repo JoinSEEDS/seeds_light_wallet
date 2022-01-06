@@ -11,7 +11,7 @@ class MemberState extends Equatable {
   const MemberState({required this.pageState, required this.currentAccount, this.member});
 
   @override
-  List<Object> get props => [pageState, currentAccount];
+  List<Object?> get props => [pageState, currentAccount];
 
   MemberState copyWith({PageState? pageState, String? currentAccount, MemberModel? member}) {
     return MemberState(

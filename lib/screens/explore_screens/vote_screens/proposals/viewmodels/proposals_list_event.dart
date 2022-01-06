@@ -3,7 +3,7 @@ part of '../viewmodels/proposals_list_bloc.dart';
 abstract class ProposalsListEvent extends Equatable {
   const ProposalsListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialLoadProposals extends ProposalsListEvent {

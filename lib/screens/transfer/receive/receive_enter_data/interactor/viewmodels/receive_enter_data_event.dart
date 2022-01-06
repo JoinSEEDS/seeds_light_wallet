@@ -1,23 +1,20 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'receive_enter_data_bloc.dart';
 
-/// --- EVENTS
-@immutable
-abstract class ReceiveEnterDataEvents extends Equatable {
-  const ReceiveEnterDataEvents();
+abstract class ReceiveEnterDataEvent extends Equatable {
+  const ReceiveEnterDataEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class LoadUserBalance extends ReceiveEnterDataEvents {
+class LoadUserBalance extends ReceiveEnterDataEvent {
   const LoadUserBalance();
 
   @override
   String toString() => 'LoadUserBalance';
 }
 
-class OnAmountChange extends ReceiveEnterDataEvents {
+class OnAmountChange extends ReceiveEnterDataEvent {
   final String amountChanged;
 
   const OnAmountChange({required this.amountChanged});
@@ -26,7 +23,7 @@ class OnAmountChange extends ReceiveEnterDataEvents {
   String toString() => 'OnAmountChange: { amountChange: $amountChanged }';
 }
 
-class OnDescriptionChange extends ReceiveEnterDataEvents {
+class OnDescriptionChange extends ReceiveEnterDataEvent {
   final String description;
 
   const OnDescriptionChange({required this.description});
@@ -35,14 +32,14 @@ class OnDescriptionChange extends ReceiveEnterDataEvents {
   String toString() => 'OnDescriptionChange: { description: $description }';
 }
 
-class OnNextButtonTapped extends ReceiveEnterDataEvents {
+class OnNextButtonTapped extends ReceiveEnterDataEvent {
   const OnNextButtonTapped();
 
   @override
   String toString() => 'OnNextButtonTapped';
 }
 
-class ClearReceiveEnterDataState extends ReceiveEnterDataEvents {
+class ClearReceiveEnterDataState extends ReceiveEnterDataEvent {
   const ClearReceiveEnterDataState();
 
   @override

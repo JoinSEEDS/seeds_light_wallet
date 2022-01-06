@@ -4,7 +4,7 @@ abstract class DelegatesEvent extends Equatable {
   const DelegatesEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadDelegatesData extends DelegatesEvent {

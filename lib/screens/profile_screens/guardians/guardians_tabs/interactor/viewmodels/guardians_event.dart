@@ -4,7 +4,7 @@ abstract class GuardiansEvent extends Equatable {
   const GuardiansEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitGuardians extends GuardiansEvent {

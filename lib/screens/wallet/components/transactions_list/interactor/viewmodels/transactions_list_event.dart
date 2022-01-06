@@ -4,7 +4,7 @@ abstract class TransactionsListEvent extends Equatable {
   const TransactionsListEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnLoadTransactionsList extends TransactionsListEvent {
@@ -14,7 +14,7 @@ class OnLoadTransactionsList extends TransactionsListEvent {
   String toString() => 'OnLoadTransactionsList';
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnTransactionDisplayTick extends TransactionsListEvent {
@@ -26,7 +26,7 @@ class OnTransactionDisplayTick extends TransactionsListEvent {
   String toString() => 'OnTick';
 
   @override
-  List<Object> get props => [count];
+  List<Object?> get props => [count];
 }
 
 class OnTransactionRowTapped extends TransactionsListEvent {
@@ -38,7 +38,7 @@ class OnTransactionRowTapped extends TransactionsListEvent {
   String toString() => 'OnTransactionRowTapped { transaction: $transaction }';
 
   @override
-  List<Object> get props => [transaction];
+  List<Object?> get props => [transaction];
 }
 
 class ClearTransactionListPageComand extends TransactionsListEvent {

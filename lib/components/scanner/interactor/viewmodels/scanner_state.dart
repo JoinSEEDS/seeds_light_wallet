@@ -6,7 +6,7 @@ class ScannerState extends Equatable {
   const ScannerState({required this.scanStatus});
 
   @override
-  List<Object> get props => [scanStatus];
+  List<Object?> get props => [scanStatus];
 
   bool get gotValidQR => scanStatus == ScanStatus.processing || scanStatus == ScanStatus.success;
 

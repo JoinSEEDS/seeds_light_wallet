@@ -4,7 +4,7 @@ abstract class SelectGuardiansEvent extends Equatable {
   const SelectGuardiansEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnUserSelected extends SelectGuardiansEvent {

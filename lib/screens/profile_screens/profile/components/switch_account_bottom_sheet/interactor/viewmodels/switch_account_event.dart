@@ -5,7 +5,7 @@ abstract class SwitchAccountEvent extends Equatable {
   const SwitchAccountEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FindAccountsByKey extends SwitchAccountEvent {
