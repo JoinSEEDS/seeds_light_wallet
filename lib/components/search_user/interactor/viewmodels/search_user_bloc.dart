@@ -15,24 +15,15 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
 
   SearchUserBloc(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus)
       : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus)) {
-    on<OnSearchChange>(_onSearchChange);
+    on<OnSearchChange>(_onSearchChange, transformer: _transformEvents);
     on<ClearIconTapped>(_clearIconTapped);
   }
 
-  @override
-  Stream<Transition<SearchUserEvent, SearchUserState>> transformEvents(
-    Stream<SearchUserEvent> events,
-    // ignore: deprecated_member_use
-    TransitionFunction<SearchUserEvent, SearchUserState> transitionFn,
-  ) {
-    final nonDebounceStream = events.where((event) => event is ClearIconTapped);
-
-    final debounceStream =
-        events.where((event) => event is OnSearchChange).debounceTime(const Duration(milliseconds: 300));
-
-    // Debounce to avoid making search network calls each time the user types
-    // switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
-    return MergeStream([nonDebounceStream, debounceStream]).switchMap(transitionFn);
+  /// Debounce to avoid making search network calls each time the user types
+  /// switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
+  Stream<OnSearchChange> _transformEvents(
+      Stream<OnSearchChange> events, Stream<OnSearchChange> Function(OnSearchChange) transitionFn) {
+    return events.debounceTime(const Duration(milliseconds: 300)).switchMap(transitionFn);
   }
 
   Future<void> _onSearchChange(OnSearchChange event, Emitter<SearchUserState> emit) async {

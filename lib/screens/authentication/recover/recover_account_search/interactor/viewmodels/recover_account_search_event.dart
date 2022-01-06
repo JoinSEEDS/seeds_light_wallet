@@ -4,7 +4,7 @@ abstract class RecoverAccountSearchEvent extends Equatable {
   const RecoverAccountSearchEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnUsernameChanged extends RecoverAccountSearchEvent {

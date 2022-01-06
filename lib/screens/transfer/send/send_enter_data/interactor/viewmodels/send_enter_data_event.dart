@@ -4,7 +4,7 @@ abstract class SendEnterDataEvent extends Equatable {
   const SendEnterDataEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitSendDataArguments extends SendEnterDataEvent {

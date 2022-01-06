@@ -4,7 +4,7 @@ abstract class CitizenshipEvent extends Equatable {
   const CitizenshipEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SetValues extends CitizenshipEvent {

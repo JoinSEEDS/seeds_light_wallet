@@ -4,7 +4,7 @@ abstract class VerificationEvent extends Equatable {
   const VerificationEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitVerification extends VerificationEvent {

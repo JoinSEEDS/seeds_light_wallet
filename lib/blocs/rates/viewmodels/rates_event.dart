@@ -4,7 +4,7 @@ abstract class RatesEvent extends Equatable {
   const RatesEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnFetchRates extends RatesEvent {

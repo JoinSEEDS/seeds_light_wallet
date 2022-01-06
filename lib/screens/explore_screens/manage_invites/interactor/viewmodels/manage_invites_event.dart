@@ -4,7 +4,7 @@ abstract class ManageInvitesEvent extends Equatable {
   const ManageInvitesEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnLoadInvites extends ManageInvitesEvent {

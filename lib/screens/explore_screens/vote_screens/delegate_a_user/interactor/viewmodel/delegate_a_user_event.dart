@@ -4,7 +4,7 @@ abstract class DelegateAUserEvent extends Equatable {
   const DelegateAUserEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnUserSelected extends DelegateAUserEvent {

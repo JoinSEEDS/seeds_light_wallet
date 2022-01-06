@@ -4,7 +4,7 @@ abstract class RecoverAccountFoundEvent extends Equatable {
   const RecoverAccountFoundEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FetchInitialData extends RecoverAccountFoundEvent {
@@ -62,7 +62,7 @@ class Tick extends RecoverAccountFoundEvent {
   const Tick(this.count);
 
   @override
-  List<Object> get props => [count];
+  List<Object?> get props => [count];
 
   @override
   String toString() => 'Tick { $count }';

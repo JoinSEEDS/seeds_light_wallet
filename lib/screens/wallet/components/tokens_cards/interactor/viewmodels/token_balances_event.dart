@@ -4,7 +4,7 @@ abstract class TokenBalancesEvent extends Equatable {
   const TokenBalancesEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnLoadTokenBalances extends TokenBalancesEvent {
@@ -27,7 +27,7 @@ class OnSelectedTokenChanged extends TokenBalancesEvent {
   const OnSelectedTokenChanged(this.index);
 
   @override
-  List<Object> get props => [index];
+  List<Object?> get props => [index];
 
   @override
   String toString() => 'OnSelectedTokenChanged $index';

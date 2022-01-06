@@ -4,7 +4,7 @@ abstract class SendScannerEvent extends Equatable {
   const SendScannerEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ExecuteScanResult extends SendScannerEvent {

@@ -4,7 +4,7 @@ abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadProfileValues extends ProfileEvent {
@@ -18,7 +18,7 @@ class OnUpdateProfileImage extends ProfileEvent {
   const OnUpdateProfileImage(this.file);
 
   @override
-  List<Object> get props => [file];
+  List<Object?> get props => [file];
 
   @override
   String toString() => 'OnUpdateProfileImage { file: $file }';
@@ -30,7 +30,7 @@ class OnNameChanged extends ProfileEvent {
   const OnNameChanged(this.name);
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
 
   @override
   String toString() => 'OnNameChanged { name: $name }';
