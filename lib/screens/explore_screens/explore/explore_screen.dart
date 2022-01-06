@@ -13,6 +13,7 @@ import 'package:seeds/images/explore/vouch.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_card.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_link_card.dart';
+import 'package:seeds/screens/explore_screens/explore/components/flag_user_info_dialog.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,8 +86,15 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Coming up! ".i18n), duration: const Duration(seconds: 1)),
+                          showDialog<void>(
+                            context: context,
+                            builder: (_) {
+                              return const FlagUserInfoDialog();
+                            },
+                          ).whenComplete(
+                            () => ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Coming up! ".i18n), duration: const Duration(seconds: 1)),
+                            ),
                           );
                         },
                         title: 'Flag'.i18n,
