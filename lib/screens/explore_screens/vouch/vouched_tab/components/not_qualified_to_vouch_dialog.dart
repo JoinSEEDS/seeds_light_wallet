@@ -10,9 +10,6 @@ class NotQualifiedToVouchDialog extends StatelessWidget {
     return CustomDialog(
       icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
       singleLargeButtonTitle: "Ok, Thank you!",
-      onSingleLargeButtonPressed: () {
-        Navigator.of(context).pop();
-      },
       children: [
         Text('Not qualified to Vouch!', style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 16.0),

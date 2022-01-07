@@ -36,9 +36,7 @@ class VouchedTab extends StatelessWidget {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) {
-                  return const NotQualifiedToVouchDialog();
-                },
+                builder: (_) => const NotQualifiedToVouchDialog(),
               );
             }
 
