@@ -4,7 +4,7 @@ abstract class ReceiveEnterDataEvent extends Equatable {
   const ReceiveEnterDataEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadUserBalance extends ReceiveEnterDataEvent {

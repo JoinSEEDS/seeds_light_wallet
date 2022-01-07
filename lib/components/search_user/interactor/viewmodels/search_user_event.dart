@@ -4,7 +4,7 @@ abstract class SearchUserEvent extends Equatable {
   const SearchUserEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnSearchChange extends SearchUserEvent {

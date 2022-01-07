@@ -4,7 +4,7 @@ abstract class AmountEntryEvent extends Equatable {
   const AmountEntryEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitSendDataArguments extends AmountEntryEvent {

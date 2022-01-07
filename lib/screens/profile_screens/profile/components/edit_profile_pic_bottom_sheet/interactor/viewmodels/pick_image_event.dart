@@ -4,7 +4,7 @@ abstract class PickImageEvent extends Equatable {
   const PickImageEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class GetImage extends PickImageEvent {
@@ -13,7 +13,7 @@ class GetImage extends PickImageEvent {
   const GetImage({required this.source});
 
   @override
-  List<Object> get props => [source];
+  List<Object?> get props => [source];
 
   @override
   String toString() => 'GetImage { source: $source }';
