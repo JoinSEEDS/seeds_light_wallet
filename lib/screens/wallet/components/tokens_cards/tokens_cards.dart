@@ -12,7 +12,6 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_event.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_state.dart';
 
 class TokenCards extends StatefulWidget {
   const TokenCards({Key? key}) : super(key: key);
