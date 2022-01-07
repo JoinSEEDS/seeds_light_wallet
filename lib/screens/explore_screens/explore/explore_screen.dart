@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
@@ -65,6 +66,10 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ExploreItem> items = _exploreItems;
+    if (!remoteConfigurations.featureFlagP2PEnabled) {
+      items = _exploreItems.where((i) => i.route != Routes.p2p).toList();
+    }
     return BlocProvider(
       create: (_) => ExploreBloc(),
       child: BlocConsumer<ExploreBloc, ExploreState>(
@@ -85,7 +90,7 @@ class ExploreScreen extends StatelessWidget {
               mainAxisSpacing: 18,
               crossAxisCount: 2,
               children: [
-                for (final i in _exploreItems)
+                for (final i in items)
                   ExploreCard(
                     title: i.title.i18n,
                     icon: i.icon,
@@ -95,7 +100,7 @@ class ExploreScreen extends StatelessWidget {
                     gradient: i.gradient,
                     onTap: () {
                       if (i.route.isNotEmpty) {
-                        BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.createInvite));
+                        BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(i.route));
                       } else {
                         launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
                       }
