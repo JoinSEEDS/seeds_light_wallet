@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:core';
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/screens/authentication/verification/components/circle.dart';
@@ -16,24 +14,17 @@ const _passwordDigits = 4;
 
 class PasscodeScreen extends StatefulWidget {
   final Widget title;
-  final ValueSetter<String> onPasswordCompleted;
-  final Stream<bool> shouldTriggerVerification;
+  final ValueSetter<String> onPasscodeCompleted;
   final Widget? bottomWidget;
 
-  const PasscodeScreen({
-    Key? key,
-    required this.title,
-    required this.onPasswordCompleted,
-    required this.shouldTriggerVerification, // To notify passcode screen if passcode correct or not
-    this.bottomWidget,
-  }) : super(key: key);
+  const PasscodeScreen({Key? key, required this.title, required this.onPasscodeCompleted, this.bottomWidget})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PasscodeScreenState();
 }
 
 class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProviderStateMixin {
-  late StreamSubscription<bool> streamSubscription;
   late AnimationController controller;
   late Animation<double> animation;
   String enteredPasscode = '';
@@ -41,8 +32,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    streamSubscription = widget.shouldTriggerVerification.listen((isValid) => _showValidation(isValid));
-    controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+    controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
     final Animation curve = CurvedAnimation(parent: controller, curve: _ShakeCurve());
     animation = Tween(begin: 0.0, end: 10.0).animate(curve as Animation<double>)
       ..addStatusListener((status) {
@@ -63,17 +53,15 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
   @override
   void didUpdateWidget(PasscodeScreen old) {
     super.didUpdateWidget(old);
-    // in case the stream instance changed, subscribe to the new one
-    if (widget.shouldTriggerVerification != old.shouldTriggerVerification) {
-      streamSubscription.cancel();
-      streamSubscription = widget.shouldTriggerVerification.listen((isValid) => _showValidation(isValid));
+    // clean dots on re-enter
+    if (widget.title != old.title) {
+      controller.forward();
     }
   }
 
   @override
   void dispose() {
     controller.dispose();
-    streamSubscription.cancel();
     super.dispose();
   }
 
@@ -83,14 +71,8 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
       // ignore: invariant_booleans
       if (enteredPasscode.length == _passwordDigits) {
         await Future.delayed(const Duration(milliseconds: 300));
-        widget.onPasswordCompleted(enteredPasscode);
+        widget.onPasscodeCompleted(enteredPasscode);
       }
-    }
-  }
-
-  void _showValidation(bool isValid) {
-    if (!isValid) {
-      controller.forward();
     }
   }
 

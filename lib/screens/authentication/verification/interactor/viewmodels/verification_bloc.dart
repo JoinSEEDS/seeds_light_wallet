@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/verification/interactor/mappers/auth_state_state_mapper.dart';
 import 'package:seeds/screens/authentication/verification/interactor/mappers/auth_types_state_mapper.dart';
@@ -9,6 +10,7 @@ import 'package:seeds/screens/authentication/verification/interactor/model/auth_
 import 'package:seeds/screens/authentication/verification/interactor/model/auth_type.dart';
 import 'package:seeds/screens/authentication/verification/interactor/usecases/biometric_auth_use_case.dart';
 import 'package:seeds/screens/authentication/verification/interactor/usecases/biometrics_availables_use_case.dart';
+import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 part 'verification_event.dart';
@@ -24,7 +26,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     on<OnVerifyPasscode>(_onVerifyPasscode);
     on<OnValidVerifyPasscode>(_onValidVerifyPasscode);
     on<OnCreatePasscode>(_onCreatePasscode);
-    on<ResetShowSnack>((_, emit) => emit(state.copyWith()));
+    on<ClearVerificationPageCommand>((_, emit) => emit(state.copyWith()));
     on<TryAgainBiometric>(_tryAgainBiometric);
   }
 
@@ -51,7 +53,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           if (authenticationBloc.state.isOnResumeAuth) {
             // App resume flow: disable flag and then fires navigator pop
             authenticationBloc.add(const SuccessOnResumeAuth());
-            emit(state.copyWith(popScreen: true));
+            emit(state.copyWith(pageCommand: PopVerificationScreen()));
           } else {
             // Onboarding flow: just unlock
             authenticationBloc.add(const UnlockWallet());
@@ -59,7 +61,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         } else {
           // Security flow: update screen and then fires navigator pop
           securityBloc?.add(const OnValidVerification());
-          emit(state.copyWith(popScreen: true));
+          emit(state.copyWith(pageCommand: PopVerificationScreen()));
         }
       }
     }
@@ -69,12 +71,12 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     if (state.isCreateMode!) {
       emit(state.copyWith(
         isValidPasscode: event.passcode == state.newPasscode,
-        showInfoSnack: event.passcode == state.newPasscode ? null : true,
+        pageCommand: event.passcode == state.newPasscode ? null : PasscodeNotMatch(),
       ));
     } else {
       emit(state.copyWith(
         isValidPasscode: event.passcode == settingsStorage.passcode,
-        showInfoSnack: event.passcode == settingsStorage.passcode ? null : true,
+        pageCommand: event.passcode == settingsStorage.passcode ? null : PasscodeNotMatch(),
       ));
     }
     if (state.isValidPasscode ?? false) {
@@ -86,7 +88,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     securityBloc?.add(const OnValidVerification());
     if (state.isCreateMode!) {
       authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
-      emit(state.copyWith(showSuccessDialog: true));
+      emit(state.copyWith(pageCommand: PasscodeCreatedFromSecurity()));
       if (securityBloc == null) {
         authenticationBloc.add(const UnlockWallet());
       }
@@ -95,11 +97,14 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (authenticationBloc.state.isOnResumeAuth) {
           // App resume flow: disable flag and then fires navigator pop
           authenticationBloc.add(const SuccessOnResumeAuth());
-          emit(state.copyWith(popScreen: true));
+          emit(state.copyWith(pageCommand: PopVerificationScreen()));
         } else {
           // Onboarding flow: just unlock
           authenticationBloc.add(const UnlockWallet());
         }
+      } else {
+        // pop from disable on security
+        emit(state.copyWith(pageCommand: PopVerificationScreen()));
       }
     }
   }
@@ -119,7 +124,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           if (authenticationBloc.state.isOnResumeAuth) {
             // App resume flow: disable flag and then fires navigator pop
             authenticationBloc.add(const SuccessOnResumeAuth());
-            emit(state.copyWith(popScreen: true));
+            emit(state.copyWith(pageCommand: PopVerificationScreen()));
           } else {
             // Onboarding flow: just unlock
             authenticationBloc.add(const UnlockWallet());
@@ -127,7 +132,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         } else {
           // Security flow: update screen and then fires navigator pop
           securityBloc?.add(const OnValidVerification());
-          emit(state.copyWith(popScreen: true));
+          emit(state.copyWith(pageCommand: PopVerificationScreen()));
         }
       }
     }
