@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -47,7 +46,8 @@ class _P2PScreenState extends State<P2PScreen> {
                 final TransactionResult? result = await NavigationService.of(context)
                     .navigateTo(pageCommand.route, SendConfirmationArguments(transaction: pageCommand.arguments));
                 if (result != null) {
-                  await _webViewController.runJavascript("setResponseCallbackLW(${json.encode(result.toJson())})");
+                  await _webViewController.runJavascript(
+                      "setResponseCallbackLW({status: '${result.status.name}', message:'${result.message}'})");
                 }
               }
             },
@@ -62,16 +62,20 @@ class _P2PScreenState extends State<P2PScreen> {
                     onWebViewCreated: (webViewController) => _webViewController = webViewController,
                     onPageStarted: (url) => print('Page started loading: $url'),
                     onProgress: (progress) => print('WebView is loading (progress : %$progress)'),
-                    onPageFinished: (url) async {
-                      BlocProvider.of<P2PBloc>(context).add(const OnPageLoaded());
-                      await _webViewController.runJavascript("setAccountNameFromLw('${settingsStorage.accountName}')");
-                    },
+                    onPageFinished: (_) => BlocProvider.of<P2PBloc>(context).add(const OnPageLoaded()),
                     onWebResourceError: (error) => print(error),
                     javascriptChannels: {
                       JavascriptChannel(
-                        name: 'lw',
+                        name: 'onSignTransactions',
                         onMessageReceived: (javascriptMessage) {
                           BlocProvider.of<P2PBloc>(context).add(OnMessageReceived(javascriptMessage));
+                        },
+                      ),
+                      JavascriptChannel(
+                        name: 'onLogin',
+                        onMessageReceived: (_) async {
+                          await _webViewController
+                              .runJavascript("setAccountNameFromLw('${settingsStorage.accountName}')");
                         },
                       )
                     },
