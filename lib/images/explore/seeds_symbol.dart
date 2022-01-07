@@ -1,4 +1,3 @@
-//Copy this CustomPainter code to the Bottom of the File
 import 'package:flutter/material.dart';
 
 class SeedsSymbol extends CustomPainter {
