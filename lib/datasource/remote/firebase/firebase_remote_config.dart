@@ -21,7 +21,7 @@ const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 
 // DO NOT PUSH TO PROD WITH THIS SET TO TRUE. This is used for testing purposes only
-const bool testnetMode = true;
+const bool testnetMode = false;
 const bool unitTestMode = false; // set testnetMode and unitTestMode to true for automated tests
 
 // TESTNET CONFIG: Used for testing purposes.
