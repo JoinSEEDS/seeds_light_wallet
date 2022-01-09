@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Copy this CustomPainter code to the Bottom of the File
 class ExclamationCircle extends CustomPainter {
   const ExclamationCircle();
 
@@ -110,7 +109,5 @@ class ExclamationCircle extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
