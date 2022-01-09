@@ -7,4 +7,3 @@ class NavigateToBuySeeds extends PageCommand {
 class ShowUserFlagInformation extends PageCommand {
   ShowUserFlagInformation();
 }
-
