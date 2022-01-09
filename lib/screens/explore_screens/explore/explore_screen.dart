@@ -15,38 +15,41 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_card.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_item.dart';
+import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
   final List<ExploreItem> _exploreItems = const [
     ExploreItem(
-      title: 'Invite a Friend',
-      icon:
-          Padding(padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
-      route: Routes.createInvite,
-    ),
-    ExploreItem(title: 'Vouch', icon: CustomPaint(size: Size(35, 41), painter: Vouch()), route: Routes.vouch),
+        title: 'Invite a Friend',
+        icon: Padding(
+            padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
+        onTapEvent: OnExploreCardTapped(Routes.createInvite)),
+    ExploreItem(
+        title: 'Vouch',
+        icon: CustomPaint(size: Size(35, 41), painter: Vouch()),
+        onTapEvent: OnExploreCardTapped(Routes.vouch)),
     ExploreItem(
       title: 'Vote',
       icon: Padding(padding: EdgeInsets.only(right: 6.0), child: CustomPaint(size: Size(40, 40), painter: Vote())),
-      route: Routes.vote,
+      onTapEvent: OnExploreCardTapped(Routes.vote),
     ),
     ExploreItem(
       title: 'Plant Seeds',
       icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      route: Routes.plantSeeds,
+      onTapEvent: OnExploreCardTapped(Routes.plantSeeds),
     ),
     ExploreItem(
       title: 'Unplant Seeds',
       icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      route: Routes.unPlantSeeds,
+      onTapEvent: OnExploreCardTapped(Routes.unPlantSeeds),
     ),
     ExploreItem(
       title: 'P2P app',
       icon: CustomPaint(size: Size(24, 24), painter: P2P()),
       iconUseCircleBackground: false,
-      route: '',
+      onTapEvent: OnBuySeedsCardTap(),
     ),
     ExploreItem(
       title: 'Get Seeds',
@@ -58,9 +61,10 @@ class ExploreScreen extends StatelessWidget {
         end: Alignment.bottomLeft,
       ),
       iconUseCircleBackground: false,
-      route: '',
+      onTapEvent: OnBuySeedsCardTap(),
     ),
   ];
+
   const ExploreScreen({Key? key}) : super(key: key);
 
   @override
@@ -74,6 +78,8 @@ class ExploreScreen extends StatelessWidget {
           BlocProvider.of<ExploreBloc>(context).add(const ClearExplorePageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
+          } else if (pageCommand is NavigateToBuySeeds) {
+            launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
           }
         },
         builder: (context, _) {
@@ -94,11 +100,7 @@ class ExploreScreen extends StatelessWidget {
                     backgroundImage: i.backgroundImage,
                     gradient: i.gradient,
                     onTap: () {
-                      if (i.route.isNotEmpty) {
-                        BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.createInvite));
-                      } else {
-                        launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
-                      }
+                      BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent);
                     },
                   )
               ],
@@ -108,4 +110,6 @@ class ExploreScreen extends StatelessWidget {
       ),
     );
   }
+
+  static function() {}
 }

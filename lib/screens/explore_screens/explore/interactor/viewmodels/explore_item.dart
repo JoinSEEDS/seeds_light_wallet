@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 
 class ExploreItem {
   final String title;
@@ -7,7 +8,7 @@ class ExploreItem {
   final Color? backgroundIconColor;
   final bool iconUseCircleBackground;
   final Gradient? gradient;
-  final Function onTapEvent;
+  final ExploreEvent onTapEvent;
 
   const ExploreItem({
     required this.title,
