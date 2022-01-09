@@ -7,7 +7,7 @@ class TransactionResult {
   /// or the error description (failure)
   final String message;
 
-  const TransactionResult({this.status = TransactionResultStatus.canceled, this.message = ''});
+  const TransactionResult({this.status = TransactionResultStatus.canceled, this.message = 'Canceled by the user.'});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
