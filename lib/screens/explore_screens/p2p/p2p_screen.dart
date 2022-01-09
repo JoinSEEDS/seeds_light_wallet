@@ -10,7 +10,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/p2p/viewmodels/p2p_bloc.dart';
+import 'package:seeds/screens/explore_screens/p2p/interactor/viewmodels/p2p_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

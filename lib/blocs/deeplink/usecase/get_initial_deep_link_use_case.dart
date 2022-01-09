@@ -1,9 +1,8 @@
 import 'package:async/async.dart';
-
 import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
-import 'package:seeds/blocs/deeplink/usecase/get_signing_request_use_case.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/local/util/seeds_esr.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_signing_request_use_case.dart';
 
 class GetInitialDeepLinkUseCase {
   GetSigningRequestUseCase getSigningRequestUseCase = GetSigningRequestUseCase();
