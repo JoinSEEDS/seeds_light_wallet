@@ -57,7 +57,6 @@ class _P2PScreenState extends State<P2PScreen> {
                   WebView(
                     initialUrl: p2pAppUrl,
                     backgroundColor: AppColors.primary,
-                    debuggingEnabled: true,
                     javascriptMode: JavascriptMode.unrestricted,
                     onWebViewCreated: (webViewController) => _webViewController = webViewController,
                     onPageStarted: (url) => print('Page started loading: $url'),
