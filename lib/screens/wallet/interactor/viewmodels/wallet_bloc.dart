@@ -16,7 +16,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> _onLoadWalletData(OnLoadWalletData event, Emitter<WalletState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final results = await GetUserAccountUseCase().run();
-    emit(UserAccountStateMapper().mapResultToState(state, results));
+    final result = await GetUserAccountUseCase().run();
+    emit(UserAccountStateMapper().mapResultToState(state, result));
   }
 }
