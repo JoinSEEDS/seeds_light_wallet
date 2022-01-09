@@ -23,6 +23,13 @@ class OnBuySeedsCardTap extends ExploreEvent {
   String toString() => 'OnBuySeedsCardTap';
 }
 
+class OnFlagUserTap extends ExploreEvent {
+  const OnFlagUserTap();
+
+  @override
+  String toString() => 'OnFlagUserTap';
+}
+
 class ClearExplorePageCommand extends ExploreEvent {
   const ClearExplorePageCommand();
 
