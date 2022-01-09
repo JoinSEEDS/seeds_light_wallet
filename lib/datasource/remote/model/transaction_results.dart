@@ -1,10 +1,14 @@
 enum TransactionResultStatus { success, canceled, failure }
 
+/// The payload that is sent to the P2P app
+/// as a result of a transaction operation.
 class TransactionResult {
   final TransactionResultStatus status;
 
-  /// message can have the transacction id (success)
-  /// or the error description (failure)
+  /// [message] can have:
+  /// -The transacction id (success)
+  /// -The error description (failure)
+  /// -The canceled text (canceled/default)
   final String message;
 
   const TransactionResult({this.status = TransactionResultStatus.canceled, this.message = 'Canceled by the user.'});
