@@ -19,9 +19,7 @@ class VerificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final SecurityBloc? _securityBloc = ModalRoute.of(context)!.settings.arguments as SecurityBloc?;
     return BlocProvider(
-      create: (context) => VerificationBloc(
-          authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
-        ..add(const InitBiometricAuth()),
+      create: (_) => VerificationBloc()..add(const InitBiometricAuth()),
       child: WillPopScope(
         // User can only pop without auth if it is on security screen
         onWillPop: () async => _securityBloc != null,
@@ -32,14 +30,7 @@ class VerificationScreen extends StatelessWidget {
               listener: (context, state) {
                 final pageCommand = state.pageCommand;
                 BlocProvider.of<VerificationBloc>(context).add(const ClearVerificationPageCommand());
-                if (pageCommand is PasscodeCreatedFromSecurity) {
-                  Navigator.of(context).pop();
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => const PasscodeCreatedDialog(),
-                  );
-                } else if (pageCommand is PasscodeNotMatch) {
+                if (pageCommand is PasscodeNotMatch) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: AppColors.canopy,
@@ -50,8 +41,52 @@ class VerificationScreen extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if (pageCommand is PopVerificationScreen) {
-                  Navigator.of(context).pop();
+                } else if (pageCommand is BiometricAuthorized) {
+                  final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+                  if (_securityBloc == null) {
+                    if (authenticationBloc.state.isOnResumeAuth) {
+                      // App resume flow: disable flag and then fires navigator pop
+                      authenticationBloc.add(const SuccessOnResumeAuth());
+                      Navigator.of(context).pop();
+                    } else {
+                      // Onboarding flow: just unlock
+                      authenticationBloc.add(const UnlockWallet());
+                    }
+                  } else {
+                    // Security flow: update screen and then fires navigator pop
+                    _securityBloc.add(const OnValidVerification());
+                    Navigator.of(context).pop();
+                  }
+                } else if (pageCommand is PasscodeValid) {
+                  final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+                  _securityBloc?.add(const OnValidVerification());
+                  if (state.isCreateMode) {
+                    // Enable and save new passcode
+                    authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
+                    Navigator.of(context).pop();
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => const PasscodeCreatedDialog(),
+                    );
+                    if (_securityBloc == null) {
+                      authenticationBloc.add(const UnlockWallet());
+                    }
+                  } else {
+                    if (_securityBloc == null) {
+                      if (authenticationBloc.state.isOnResumeAuth) {
+                        // App resume flow: disable flag and then fires navigator pop
+                        authenticationBloc.add(const SuccessOnResumeAuth());
+                        Navigator.of(context).pop();
+                      } else {
+                        // Onboarding flow: just unlock
+                        authenticationBloc.add(const UnlockWallet());
+                      }
+                    } else {
+                      // pop from disable on security
+                      Navigator.of(context).pop();
+                    }
+                  }
                 }
               },
               builder: (context, state) {
@@ -65,9 +100,9 @@ class VerificationScreen extends StatelessWidget {
                       title: Text(state.passcodeTitle.i18n, style: Theme.of(context).textTheme.subtitle2),
                       onPasscodeCompleted: (passcode) {
                         if (state.isCreateMode && state.newPasscode == null) {
-                          BlocProvider.of<VerificationBloc>(context).add(OnCreatePasscode(passcode: passcode));
+                          BlocProvider.of<VerificationBloc>(context).add(OnPasscodeCreated(passcode));
                         } else {
-                          BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode));
+                          BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode));
                         }
                       },
                       bottomWidget: state.showTryAgainBiometric

@@ -1,5 +1,6 @@
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 
 class VerificationStatusStateMapper extends StateMapper {
@@ -10,7 +11,12 @@ class VerificationStatusStateMapper extends StateMapper {
         authErrorCode: result.asError!.error.toString() == auth_error.notEnrolled,
       );
     } else {
-      return currentState.copyWith(biometricAuthStatus: result.asValue!.value);
+      final BiometricAuthStatus biometricAuthStatus = result.asValue!.value;
+      if (biometricAuthStatus == BiometricAuthStatus.authorized) {
+        return currentState.copyWith(pageCommand: BiometricAuthorized());
+      } else {
+        return currentState.copyWith(biometricAuthStatus: result.asValue!.value);
+      }
     }
   }
 }

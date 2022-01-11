@@ -15,26 +15,20 @@ class InitBiometricAuth extends VerificationEvent {
 
 class OnVerifyPasscode extends VerificationEvent {
   final String passcode;
-  const OnVerifyPasscode({required this.passcode});
+  const OnVerifyPasscode(this.passcode);
   @override
   String toString() => 'OnVerifyPasscode';
 }
 
-class OnCreatePasscode extends VerificationEvent {
+class OnPasscodeCreated extends VerificationEvent {
   final String passcode;
-  const OnCreatePasscode({required this.passcode});
+  const OnPasscodeCreated(this.passcode);
   @override
-  String toString() => 'OnCreatePasscode';
+  String toString() => 'OnPasscodeCreated';
 }
 
 class ClearVerificationPageCommand extends VerificationEvent {
   const ClearVerificationPageCommand();
   @override
   String toString() => 'ClearVerificationPageCommand';
-}
-
-class PasscodeAuthenticated extends VerificationEvent {
-  const PasscodeAuthenticated();
-  @override
-  String toString() => 'PasscodeAuthenticated';
 }
