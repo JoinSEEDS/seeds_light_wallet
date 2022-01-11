@@ -21,8 +21,8 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
   Future<void> _onUsernameChanged(OnUsernameChanged event, Emitter<RecoverAccountSearchState> emit) async {
     if (event.userName.length == 12) {
       emit(state.copyWith(pageState: PageState.loading));
-      final userInfo = await FetchAccountInfoUseCase().run(event.userName);
-      final result = await FetchAccountRecoveryUseCase().run(event.userName);
+      final userInfo = await FetchAccountInfoUseCase().run(event.userName.toLowerCase());
+      final result = await FetchAccountRecoveryUseCase().run(event.userName.toLowerCase());
       emit(FetchAccountGuardiansStateMapper().mapResultToState(state, result));
       emit(FetchAccountInfoStateMapper().mapResultToState(state, userInfo, event.userName));
     } else {

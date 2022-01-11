@@ -4,7 +4,7 @@ abstract class SignupEvent extends Equatable {
   const SignupEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnInviteCodeFromDeepLink extends SignupEvent {

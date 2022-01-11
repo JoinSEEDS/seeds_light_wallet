@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/blocs/deeplink/usecase/get_signing_request_use_case.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -20,7 +19,7 @@ class GetInitialDeepLinkUseCase {
 
       await request.resolve(account: settingsStorage.accountName);
       final action = request.actions.first;
-      final data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
+      final data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       deepLinkPlaceHolder = DeepLinkPlaceHolder.linkGuardians;
       return DeepLinkData(data, deepLinkPlaceHolder);

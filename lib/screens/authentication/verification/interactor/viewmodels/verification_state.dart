@@ -1,86 +1,82 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_state.dart';
-import 'package:seeds/screens/authentication/verification/interactor/model/auth_type.dart';
+part of 'verification_bloc.dart';
 
-/// STATE
 class VerificationState extends Equatable {
   final PageState pageState;
+  final PageCommand? pageCommand;
   final String? errorMessage;
   final bool? isCreateView;
   final bool? isCreateMode;
   final String? newPasscode;
   final bool? isValidPasscode;
-  final bool? showInfoSnack;
   final AuthState? authState;
   final List<AuthType>? authTypesAvailable;
   final AuthType? preferred;
-  final bool? authError;
-  final bool? popScreen;
-  final bool? showSuccessDialog;
+  final bool authError;
 
   const VerificationState({
     required this.pageState,
+    this.pageCommand,
     this.errorMessage,
     this.isCreateView,
     this.isCreateMode,
     this.newPasscode,
     this.isValidPasscode,
-    this.showInfoSnack,
     this.authState,
     this.authTypesAvailable,
     this.preferred,
-    this.authError,
-    this.popScreen,
-    this.showSuccessDialog,
+    required this.authError,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         errorMessage,
         isCreateView,
         isCreateMode,
         newPasscode,
         isValidPasscode,
-        showInfoSnack,
         authState,
         authTypesAvailable,
         preferred,
         authError,
-        popScreen,
-        showSuccessDialog,
       ];
+
+  String get passcodeTitle {
+    if (isCreateView!) {
+      return 'Create Pincode';
+    } else {
+      return (isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode';
+    }
+  }
+
+  bool get showTryAgainBiometric => !authError && settingsStorage.biometricActive!;
 
   VerificationState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     String? errorMessage,
     bool? isCreateView,
     bool? isCreateMode,
     String? newPasscode,
     bool? isValidPasscode,
-    bool? showInfoSnack,
     AuthState? authState,
     List<AuthType>? authTypesAvailable,
     AuthType? preferred,
     bool? authError,
-    bool? popScreen,
-    bool? showSuccessDialog,
   }) {
     return VerificationState(
       pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
       errorMessage: errorMessage,
       isCreateView: isCreateView ?? this.isCreateView,
       isCreateMode: isCreateMode ?? this.isCreateMode,
       newPasscode: newPasscode ?? this.newPasscode,
       isValidPasscode: isValidPasscode ?? this.isValidPasscode,
-      showInfoSnack: showInfoSnack,
       authState: authState ?? this.authState,
       authTypesAvailable: authTypesAvailable ?? this.authTypesAvailable,
       preferred: preferred ?? this.preferred,
       authError: authError ?? this.authError,
-      popScreen: popScreen ?? this.popScreen,
-      showSuccessDialog: showSuccessDialog ?? this.showSuccessDialog,
     );
   }
 

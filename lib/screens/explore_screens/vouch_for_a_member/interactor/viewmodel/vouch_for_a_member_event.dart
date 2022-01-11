@@ -4,7 +4,7 @@ abstract class VouchForAMemberEvent extends Equatable {
   const VouchForAMemberEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnUserSelected extends VouchForAMemberEvent {

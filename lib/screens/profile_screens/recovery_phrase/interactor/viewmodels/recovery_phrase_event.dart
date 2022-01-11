@@ -1,11 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'recovery_phrase_bloc.dart';
 
-/// --- EVENTS
-@immutable
-abstract class RecoveryPhraseEvent extends Equatable {
+class RecoveryPhraseEvent {
   const RecoveryPhraseEvent();
-
-  @override
-  List<Object> get props => [];
 }

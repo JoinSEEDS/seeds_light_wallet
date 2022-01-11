@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'verification_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class VerificationEvent extends Equatable {
   const VerificationEvent();
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitVerification extends VerificationEvent {
@@ -35,10 +33,10 @@ class OnCreatePasscode extends VerificationEvent {
   String toString() => 'OnCreatePasscode';
 }
 
-class ResetShowSnack extends VerificationEvent {
-  const ResetShowSnack();
+class ClearVerificationPageCommand extends VerificationEvent {
+  const ClearVerificationPageCommand();
   @override
-  String toString() => 'ResetShowSnack';
+  String toString() => 'ClearVerificationPageCommand';
 }
 
 class TryAgainBiometric extends VerificationEvent {

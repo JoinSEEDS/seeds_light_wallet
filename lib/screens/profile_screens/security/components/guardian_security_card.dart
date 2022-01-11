@@ -6,7 +6,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_state.dart';
+import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
   final GuardiansStatus? guardiansStatus;

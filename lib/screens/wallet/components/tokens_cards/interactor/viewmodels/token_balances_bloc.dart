@@ -1,19 +1,21 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/mappers/token_balances_state_mapper.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/usecases/load_token_balances_use_case.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_event.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
+import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
 
-/// --- BLOC
+part 'token_balances_event.dart';
+part 'token_balances_state.dart';
+
 class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   StreamSubscription? eventBusSubscription;
 
@@ -26,6 +28,9 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
         add(const OnFiatCurrencyChanged());
       }
     });
+    on<OnLoadTokenBalances>(_onLoadTokenBalances);
+    on<OnSelectedTokenChanged>(_onSelectedTokenChanged);
+    on<OnFiatCurrencyChanged>(_onFiatCurrencyChanged);
   }
 
   @override
@@ -34,23 +39,21 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     return super.close();
   }
 
-  @override
-  Stream<TokenBalancesState> mapEventToState(TokenBalancesEvent event) async* {
-    if (event is OnLoadTokenBalances) {
-      yield state.copyWith(pageState: PageState.loading);
+  Future<void> _onLoadTokenBalances(OnLoadTokenBalances event, Emitter<TokenBalancesState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final potentialTokens = TokenModel.allTokens;
+    final List<Result<BalanceModel>> result = await LoadTokenBalancesUseCase().run(potentialTokens);
+    emit(await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result));
+    settingsStorage.selectedToken = state.selectedToken.token;
+  }
 
-      final potentialTokens = TokenModel.allTokens;
+  void _onSelectedTokenChanged(OnSelectedTokenChanged event, Emitter<TokenBalancesState> emit) {
+    emit(state.copyWith(selectedIndex: event.index));
+    settingsStorage.selectedToken = state.availableTokens[event.index].token;
+  }
 
-      final List<Result<BalanceModel>> result = await LoadTokenBalancesUseCase().run(potentialTokens);
-
-      yield await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
-      settingsStorage.selectedToken = state.selectedToken.token;
-    } else if (event is OnSelectedTokenChanged) {
-      yield state.copyWith(selectedIndex: event.index);
-      settingsStorage.selectedToken = state.availableTokens[event.index].token;
-    } else if (event is OnFiatCurrencyChanged) {
-      yield state.copyWith(pageState: PageState.loading);
-      yield state.copyWith(pageState: PageState.success);
-    }
+  void _onFiatCurrencyChanged(OnFiatCurrencyChanged event, Emitter<TokenBalancesState> emit) {
+    emit(state.copyWith(pageState: PageState.loading));
+    emit(state.copyWith(pageState: PageState.success));
   }
 }
