@@ -21,7 +21,7 @@ class VerificationScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => VerificationBloc(
           authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
-        ..add(const InitVerification()),
+        ..add(const InitBiometricAuth()),
       child: WillPopScope(
         // User can only pop without auth if it is on security screen
         onWillPop: () async => _securityBloc != null,
@@ -60,11 +60,11 @@ class VerificationScreen extends StatelessWidget {
                     return const FullPageLoadingIndicator();
                   case PageState.failure:
                     return const FullPageErrorIndicator();
-                  case PageState.success:
+                  case PageState.initial:
                     return PasscodeScreen(
                       title: Text(state.passcodeTitle.i18n, style: Theme.of(context).textTheme.subtitle2),
                       onPasscodeCompleted: (passcode) {
-                        if (state.isCreateView!) {
+                        if (state.isCreateMode && state.newPasscode == null) {
                           BlocProvider.of<VerificationBloc>(context).add(OnCreatePasscode(passcode: passcode));
                         } else {
                           BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode));
@@ -74,7 +74,7 @@ class VerificationScreen extends StatelessWidget {
                           ? Padding(
                               padding: const EdgeInsets.only(top: 30),
                               child: InkWell(
-                                onTap: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric()),
+                                onTap: () => BlocProvider.of<VerificationBloc>(context).add(const InitBiometricAuth()),
                                 borderRadius: BorderRadius.circular(16.0),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

@@ -7,10 +7,10 @@ abstract class VerificationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitVerification extends VerificationEvent {
-  const InitVerification();
+class InitBiometricAuth extends VerificationEvent {
+  const InitBiometricAuth();
   @override
-  String toString() => 'InitVerification';
+  String toString() => 'InitBiometricAuth';
 }
 
 class OnVerifyPasscode extends VerificationEvent {
@@ -18,12 +18,6 @@ class OnVerifyPasscode extends VerificationEvent {
   const OnVerifyPasscode({required this.passcode});
   @override
   String toString() => 'OnVerifyPasscode';
-}
-
-class OnValidVerifyPasscode extends VerificationEvent {
-  const OnValidVerifyPasscode();
-  @override
-  String toString() => 'OnValidVerifyPasscode';
 }
 
 class OnCreatePasscode extends VerificationEvent {
@@ -37,12 +31,6 @@ class ClearVerificationPageCommand extends VerificationEvent {
   const ClearVerificationPageCommand();
   @override
   String toString() => 'ClearVerificationPageCommand';
-}
-
-class TryAgainBiometric extends VerificationEvent {
-  const TryAgainBiometric();
-  @override
-  String toString() => 'TryAgainBiometric';
 }
 
 class PasscodeAuthenticated extends VerificationEvent {
