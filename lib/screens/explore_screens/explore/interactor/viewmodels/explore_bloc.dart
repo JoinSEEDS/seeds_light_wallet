@@ -9,8 +9,8 @@ part 'explore_state.dart';
 class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   ExploreBloc() : super(ExploreState.initial()) {
     on<OnExploreCardTapped>((event, emit) => emit(state.copyWith(pageCommand: NavigateToRoute(event.route))));
-    on<OnBuySeedsCardTap>((event, emit) => emit(state.copyWith(pageCommand: NavigateToBuySeeds())));
-    on<OnFlagUserTap>((event, emit) => emit(state.copyWith(pageCommand: ShowUserFlagInformation())));
+    on<OnBuySeedsCardTap>((_, emit) => emit(state.copyWith(pageCommand: NavigateToBuySeeds())));
+    on<OnFlagUserTap>((_, emit) => emit(state.copyWith(pageCommand: ShowUserFlagInformation())));
     on<ClearExplorePageCommand>((_, emit) => emit(state.copyWith()));
   }
 }
