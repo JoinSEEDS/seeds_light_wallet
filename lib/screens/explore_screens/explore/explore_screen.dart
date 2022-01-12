@@ -78,7 +78,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<ExploreItem> items = _exploreItems;
     if (!remoteConfigurations.featureFlagP2PEnabled) {
-      items = _exploreItems.where((i) => i.route != Routes.p2p).toList();
+      items = _exploreItems.where((i) => i.title != 'P2P app').toList();
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
