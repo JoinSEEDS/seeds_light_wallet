@@ -61,6 +61,7 @@ class SendEnterDataScreen extends StatelessWidget {
           } else if (command is ShowTransferSuccess) {
             if (command.shouldShowInAppReview) {
               InAppReview.instance.requestReview();
+              settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
             }
 
             showDialog<void>(

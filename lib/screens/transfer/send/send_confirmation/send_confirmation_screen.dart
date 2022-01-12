@@ -8,6 +8,7 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
@@ -40,6 +41,7 @@ class SendConfirmationScreen extends StatelessWidget {
               if (pageCommand is ShowTransferSuccess) {
                 if (pageCommand.shouldShowInAppReview) {
                   InAppReview.instance.requestReview();
+                  settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
                 }
 
                 showDialog<void>(
