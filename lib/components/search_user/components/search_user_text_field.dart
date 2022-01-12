@@ -33,7 +33,7 @@ class _SearchUserTextFieldState extends State<SearchUserTextField> {
       autocorrect: false,
       controller: _controller,
       onChanged: (value) {
-        BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));
+        BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value.toLowerCase()));
       },
       decoration: InputDecoration(
         suffixIcon: BlocBuilder<SearchUserBloc, SearchUserState>(

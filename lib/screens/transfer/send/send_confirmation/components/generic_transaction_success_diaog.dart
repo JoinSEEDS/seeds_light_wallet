@@ -54,8 +54,9 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: transactionModel.transactionId ?? "No transaction ID")).then(
                       (_) {
-                        ScaffoldMessenger.maybeOf(context)!
-                            .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));
+                        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+                          SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)),
+                        );
                       },
                     );
                   },

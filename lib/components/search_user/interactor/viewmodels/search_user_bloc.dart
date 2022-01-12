@@ -29,7 +29,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   Future<void> _onSearchChange(OnSearchChange event, Emitter<SearchUserState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showClearIcon: event.searchQuery.isNotEmpty));
     if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
-      final results = await SearchForMemberUseCase().run(event.searchQuery);
+      final results = await SearchForMemberUseCase().run(event.searchQuery.toLowerCase());
       emit(SearchUserStateMapper().mapResultToState(
         currentState: state,
         seedsMembersResult: results[0],
