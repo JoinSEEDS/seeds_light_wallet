@@ -5,6 +5,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
+import 'package:seeds/images/explore/exclamation_circle.dart';
 import 'package:seeds/images/explore/invite_person.dart';
 import 'package:seeds/images/explore/p2p.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
@@ -13,40 +14,48 @@ import 'package:seeds/images/explore/vote.dart';
 import 'package:seeds/images/explore/vouch.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_card.dart';
+import 'package:seeds/screens/explore_screens/explore/components/flag_user_info_dialog.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_item.dart';
+import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
   final List<ExploreItem> _exploreItems = const [
     ExploreItem(
-      title: 'Invite a Friend',
-      icon:
-          Padding(padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
-      route: Routes.createInvite,
-    ),
-    ExploreItem(title: 'Vouch', icon: CustomPaint(size: Size(35, 41), painter: Vouch()), route: Routes.vouch),
+        title: 'Invite a Friend',
+        icon: Padding(
+            padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
+        onTapEvent: OnExploreCardTapped(Routes.createInvite)),
+    ExploreItem(
+        title: 'Vouch',
+        icon: CustomPaint(size: Size(35, 41), painter: Vouch()),
+        onTapEvent: OnExploreCardTapped(Routes.vouch)),
+    ExploreItem(
+        title: 'Flag',
+        icon: CustomPaint(size: Size(41, 41), painter: ExclamationCircle()),
+        onTapEvent: OnFlagUserTap()),
     ExploreItem(
       title: 'Vote',
       icon: Padding(padding: EdgeInsets.only(right: 6.0), child: CustomPaint(size: Size(40, 40), painter: Vote())),
-      route: Routes.vote,
+      onTapEvent: OnExploreCardTapped(Routes.vote),
     ),
     ExploreItem(
       title: 'Plant Seeds',
       icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      route: Routes.plantSeeds,
+      onTapEvent: OnExploreCardTapped(Routes.plantSeeds),
     ),
     ExploreItem(
       title: 'Unplant Seeds',
       icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      route: Routes.unPlantSeeds,
+      onTapEvent: OnExploreCardTapped(Routes.unPlantSeeds),
     ),
     ExploreItem(
       title: 'P2P app',
       icon: CustomPaint(size: Size(24, 24), painter: P2P()),
       iconUseCircleBackground: false,
-      route: '',
+      onTapEvent: OnBuySeedsCardTap(),
     ),
     ExploreItem(
       title: 'Get Seeds',
@@ -58,9 +67,10 @@ class ExploreScreen extends StatelessWidget {
         end: Alignment.bottomLeft,
       ),
       iconUseCircleBackground: false,
-      route: '',
+      onTapEvent: OnBuySeedsCardTap(),
     ),
   ];
+
   const ExploreScreen({Key? key}) : super(key: key);
 
   @override
@@ -74,6 +84,17 @@ class ExploreScreen extends StatelessWidget {
           BlocProvider.of<ExploreBloc>(context).add(const ClearExplorePageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
+          } else if (pageCommand is NavigateToBuySeeds) {
+            launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
+          } else if (pageCommand is ShowUserFlagInformation) {
+            showDialog<void>(
+              context: context,
+              builder: (_) {
+                return const FlagUserInfoDialog();
+              },
+            ).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Navigate to flag page".i18n), duration: const Duration(seconds: 1)),
+                ));
           }
         },
         builder: (context, _) {
@@ -94,11 +115,7 @@ class ExploreScreen extends StatelessWidget {
                     backgroundImage: i.backgroundImage,
                     gradient: i.gradient,
                     onTap: () {
-                      if (i.route.isNotEmpty) {
-                        BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.createInvite));
-                      } else {
-                        launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
-                      }
+                      BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent);
                     },
                   )
               ],
