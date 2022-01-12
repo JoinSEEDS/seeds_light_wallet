@@ -11,6 +11,7 @@ const String _featureFlagImportAccount = 'feature_flag_import_account';
 const String _featureFlagExportRecoveryPhrase = 'feature_flag_export_recovery_phrase';
 const String _featureFlagDelegate = 'feature_flag_delegate';
 const String _featureFlagClaimUnplantedSeeds = 'feature_flag_unplant_claim_seeds';
+const String _feauterFlagP2P = 'feature_flag_p2p';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -51,6 +52,7 @@ class _FirebaseRemoteConfigService {
     _featureFlagExportRecoveryPhrase: false,
     _featureFlagDelegate: false,
     _featureFlagClaimUnplantedSeeds: false,
+    _feauterFlagP2P: false,
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
@@ -87,6 +89,7 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagExportRecoveryPhraseEnabled => _remoteConfig.getBool(_featureFlagExportRecoveryPhrase);
   bool get featureFlagDelegateEnabled => _remoteConfig.getBool(_featureFlagDelegate);
   bool get featureFlagClaimUnplantedSeedsEnabled => _remoteConfig.getBool(_featureFlagClaimUnplantedSeeds);
+  bool get featureFlagP2PEnabled => _remoteConfig.getBool(_feauterFlagP2P);
 
   String get hyphaEndPoint => testnetMode
       ? unitTestMode

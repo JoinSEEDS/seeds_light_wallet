@@ -22,7 +22,6 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String? fromName;
   final String fromAccount;
   final String transactionID;
-  final VoidCallback onCloseButtonPressed;
 
   const SendTransactionSuccessDialog({
     Key? key,
@@ -36,13 +35,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     this.fromName,
     required this.fromAccount,
     required this.transactionID,
-    required this.onCloseButtonPressed,
   }) : super(key: key);
 
-  factory SendTransactionSuccessDialog.fromPageCommand(
-      {required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
+  factory SendTransactionSuccessDialog.fromPageCommand(ShowTransferSuccess pageCommand) {
     return SendTransactionSuccessDialog(
-      onCloseButtonPressed: onCloseButtonPressed,
       amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
       tokenSymbol: pageCommand.transactionModel.symbol,
       fiatAmount: pageCommand.fiatAmount,
@@ -62,7 +58,6 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          onSingleLargeButtonPressed: onCloseButtonPressed,
           singleLargeButtonTitle: 'Close'.i18n,
           children: [
             const SizedBox(height: 6),

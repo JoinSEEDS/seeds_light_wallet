@@ -11,10 +11,8 @@ import 'package:seeds/navigation/navigation_service.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {
   final GenericTransactionModel transactionModel;
-  final VoidCallback onCloseButtonPressed;
 
-  const GenericTransactionSuccessDialog({Key? key, required this.transactionModel, required this.onCloseButtonPressed})
-      : super(key: key);
+  const GenericTransactionSuccessDialog(this.transactionModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,6 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          onSingleLargeButtonPressed: onCloseButtonPressed,
           singleLargeButtonTitle: 'Close'.i18n,
           children: [
             Row(

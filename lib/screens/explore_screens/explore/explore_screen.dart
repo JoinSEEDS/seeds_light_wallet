@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
@@ -55,7 +56,7 @@ class ExploreScreen extends StatelessWidget {
       title: 'P2P app',
       icon: CustomPaint(size: Size(24, 24), painter: P2P()),
       iconUseCircleBackground: false,
-      onTapEvent: OnBuySeedsCardTap(),
+      onTapEvent: OnExploreCardTapped(Routes.p2p),
     ),
     ExploreItem(
       title: 'Get Seeds',
@@ -75,6 +76,10 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ExploreItem> items = _exploreItems;
+    if (!remoteConfigurations.featureFlagP2PEnabled) {
+      items = _exploreItems.where((i) => i.title != 'P2P app').toList();
+    }
     return BlocProvider(
       create: (_) => ExploreBloc(),
       child: BlocConsumer<ExploreBloc, ExploreState>(
@@ -89,9 +94,7 @@ class ExploreScreen extends StatelessWidget {
           } else if (pageCommand is ShowUserFlagInformation) {
             showDialog<void>(
               context: context,
-              builder: (_) {
-                return const FlagUserInfoDialog();
-              },
+              builder: (_) => const FlagUserInfoDialog(),
             ).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Navigate to flag page".i18n), duration: const Duration(seconds: 1)),
                 ));
@@ -106,7 +109,7 @@ class ExploreScreen extends StatelessWidget {
               mainAxisSpacing: 18,
               crossAxisCount: 2,
               children: [
-                for (final i in _exploreItems)
+                for (final i in items)
                   ExploreCard(
                     title: i.title.i18n,
                     icon: i.icon,
@@ -114,9 +117,7 @@ class ExploreScreen extends StatelessWidget {
                     iconUseCircleBackground: i.iconUseCircleBackground,
                     backgroundImage: i.backgroundImage,
                     gradient: i.gradient,
-                    onTap: () {
-                      BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent);
-                    },
+                    onTap: () => BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent),
                   )
               ],
             ),

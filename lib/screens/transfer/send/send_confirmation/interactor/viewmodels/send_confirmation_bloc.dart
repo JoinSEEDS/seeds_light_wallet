@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';

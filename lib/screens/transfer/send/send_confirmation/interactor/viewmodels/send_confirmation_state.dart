@@ -5,6 +5,7 @@ class SendConfirmationState extends Equatable {
   final TransactionPageCommand? pageCommand;
   final String? errorMessage;
   final EOSTransaction transaction;
+  final TransactionResult transactionResult;
 
   bool get isTransfer => transaction.isTransfer;
 
@@ -13,22 +14,31 @@ class SendConfirmationState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     required this.transaction,
+    required this.transactionResult,
   });
 
   @override
-  List<Object?> get props => [pageState, pageCommand, errorMessage, transaction];
+  List<Object?> get props => [
+        pageState,
+        pageCommand,
+        errorMessage,
+        transaction,
+        transactionResult,
+      ];
 
   SendConfirmationState copyWith({
     PageState? pageState,
     TransactionPageCommand? pageCommand,
     String? errorMessage,
     EOSTransaction? transaction,
+    TransactionResult? transactionResult,
   }) {
     return SendConfirmationState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       transaction: transaction ?? this.transaction,
+      transactionResult: transactionResult ?? this.transactionResult,
     );
   }
 
@@ -36,6 +46,7 @@ class SendConfirmationState extends Equatable {
     return SendConfirmationState(
       pageState: PageState.initial,
       transaction: arguments.transaction,
+      transactionResult: const TransactionResult(),
     );
   }
 }

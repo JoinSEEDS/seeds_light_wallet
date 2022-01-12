@@ -46,7 +46,7 @@ class SendEnterDataScreen extends StatelessWidget {
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendConfirmationDialog(
+              builder: (_) => SendConfirmationDialog(
                 onSendButtonPressed: () {
                   BlocProvider.of<SendEnterDataBloc>(context).add(const OnSendButtonTapped());
                 },
@@ -59,35 +59,24 @@ class SendEnterDataScreen extends StatelessWidget {
               ),
             );
           } else if (command is ShowTransferSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
               InAppReview.instance.requestReview();
               settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
             }
-
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
-                onCloseButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                pageCommand: command,
-              ),
+              builder: (_) => SendTransactionSuccessDialog.fromPageCommand(command),
             );
           } else if (command is ShowTransactionSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
-                transactionModel: command.transactionModel,
-                onCloseButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
+              builder: (_) => GenericTransactionSuccessDialog(command.transactionModel),
             );
           }
         },
