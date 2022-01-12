@@ -70,3 +70,35 @@ class BiometricsService {
     }
   }
 }
+
+enum BiometricAuthStatus {
+  initial,
+
+  /// Biomtric authenticacion was succesful
+  authorized,
+
+  /// Biomtric authenticacion was fail
+  unauthorized,
+
+  /// Indicates that the user has not yet configured a passcode (iOS) or
+  /// PIN/pattern/password (Android) on the device.
+  passcodeNotSet,
+
+  /// Indicates the user has not enrolled any fingerprints on the device.
+  notEnrolled,
+
+  /// Indicates the device does not have a Touch ID/fingerprint scanner.
+  notAvailable,
+
+  /// Indicates the device operating system is not iOS or Android.
+  otherOperatingSystem,
+
+  /// Indicates the API lock out due to too many attempts.
+  lockedOut,
+
+  /// Indicates the API being disabled due to too many lock outs.
+  /// Strong authentication like PIN/Pattern/Password is required to unlock.
+  permanentlyLockedOut,
+
+  unknown
+}

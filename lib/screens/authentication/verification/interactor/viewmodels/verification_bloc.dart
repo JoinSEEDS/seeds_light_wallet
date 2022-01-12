@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/local/biometrics_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -23,6 +24,8 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     if (settingsStorage.passcode != null && settingsStorage.biometricActive!) {
       final result = await InitializeBiometricAuthenticationUseCase().run();
       emit(VerificationStatusStateMapper().mapResultToState(state, result));
+    } else {
+      emit(state.copyWith(pageState: PageState.success));
     }
   }
 

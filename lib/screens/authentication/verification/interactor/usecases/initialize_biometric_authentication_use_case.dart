@@ -1,11 +1,14 @@
 import 'package:async/async.dart';
+import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:seeds/datasource/local/biometrics_service.dart';
-import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/utils/cap_utils.dart';
 
-class InitializeBiometricAuthenticationUseCase {
+class InitializeBiometricAuthenticationUseCase extends NoInputUseCase<BiometricAuthStatus> {
   final BiometricsService _biometricsService = BiometricsService(LocalAuthentication());
 
+  @override
   Future<Result<BiometricAuthStatus>> run() async {
     try {
       final isBiometricsAvailable = await _biometricsService.checkBiometrics();
@@ -19,13 +22,17 @@ class InitializeBiometricAuthenticationUseCase {
             return ValueResult(BiometricAuthStatus.unauthorized);
           }
         } else {
-          return ValueResult(BiometricAuthStatus.setupNeeded);
+          return ValueResult(BiometricAuthStatus.notAvailable);
         }
       } else {
-        return ValueResult(BiometricAuthStatus.setupNeeded);
+        return ValueResult(BiometricAuthStatus.notAvailable);
       }
-    } catch (error) {
-      return ErrorResult("Error checking biometrics: $error");
+    } on PlatformException catch (error) {
+      final errorStatus = BiometricAuthStatus.values
+          .singleWhere((i) => i.name.inCaps == error.code, orElse: () => BiometricAuthStatus.unknown);
+      return ErrorResult(errorStatus);
+    } catch (err) {
+      return ErrorResult(BiometricAuthStatus.unknown);
     }
   }
 }

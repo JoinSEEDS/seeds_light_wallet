@@ -7,7 +7,7 @@ class VerificationState extends Equatable {
   final bool isCreateMode;
   final String? newPasscode;
   final BiometricAuthStatus biometricAuthStatus;
-  final bool authErrorCode;
+  final bool biometricAuthError;
 
   const VerificationState({
     required this.pageState,
@@ -16,7 +16,7 @@ class VerificationState extends Equatable {
     required this.isCreateMode,
     this.newPasscode,
     required this.biometricAuthStatus,
-    required this.authErrorCode,
+    required this.biometricAuthError,
   });
 
   @override
@@ -27,7 +27,7 @@ class VerificationState extends Equatable {
         isCreateMode,
         newPasscode,
         biometricAuthStatus,
-        authErrorCode,
+        biometricAuthError,
       ];
 
   String get passcodeTitle {
@@ -38,7 +38,7 @@ class VerificationState extends Equatable {
     }
   }
 
-  bool get showTryAgainBiometric => !authErrorCode && settingsStorage.biometricActive!;
+  bool get showTryAgainBiometric => !biometricAuthError && settingsStorage.biometricActive!;
 
   VerificationState copyWith({
     PageState? pageState,
@@ -47,7 +47,7 @@ class VerificationState extends Equatable {
     bool? isCreateMode,
     String? newPasscode,
     BiometricAuthStatus? biometricAuthStatus,
-    bool? authErrorCode,
+    bool? biometricAuthError,
   }) {
     return VerificationState(
       pageState: pageState ?? this.pageState,
@@ -56,7 +56,7 @@ class VerificationState extends Equatable {
       isCreateMode: isCreateMode ?? this.isCreateMode,
       newPasscode: newPasscode ?? this.newPasscode,
       biometricAuthStatus: biometricAuthStatus ?? this.biometricAuthStatus,
-      authErrorCode: authErrorCode ?? this.authErrorCode,
+      biometricAuthError: biometricAuthError ?? this.biometricAuthError,
     );
   }
 
@@ -65,14 +65,7 @@ class VerificationState extends Equatable {
       pageState: PageState.initial,
       isCreateMode: settingsStorage.passcode == null,
       biometricAuthStatus: BiometricAuthStatus.initial,
-      authErrorCode: false,
+      biometricAuthError: false,
     );
   }
-}
-
-enum BiometricAuthStatus {
-  initial,
-  authorized,
-  unauthorized,
-  setupNeeded,
 }

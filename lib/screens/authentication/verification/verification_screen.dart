@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/components/full_page_error_indicator.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
@@ -91,11 +89,8 @@ class VerificationScreen extends StatelessWidget {
               },
               builder: (context, state) {
                 switch (state.pageState) {
-                  case PageState.loading:
-                    return const FullPageLoadingIndicator();
                   case PageState.failure:
-                    return const FullPageErrorIndicator();
-                  case PageState.initial:
+                  case PageState.success:
                     return PasscodeScreen(
                       title: Text(state.passcodeTitle.i18n, style: Theme.of(context).textTheme.subtitle2),
                       onPasscodeCompleted: (passcode) {
