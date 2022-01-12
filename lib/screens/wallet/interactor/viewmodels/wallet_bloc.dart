@@ -17,6 +17,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   Future<void> _onLoadWalletData(OnLoadWalletData event, Emitter<WalletState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final result = await GetUserAccountUseCase().run();
-    emit(UserAccountStateMapper().mapResultToState(state, result));
+    WalletState newState;
+    emit(newState = UserAccountStateMapper().mapResultToState(state, result));
+    if (newState.profile.status == ProfileStatus.citizen) {
+      // Here is the first time the get user profile is called in the app
+      // so we need save here the is citizen status in the settingsStorage
+      // to avoid show shimmer again in the citizenship module
+      settingsStorage.saveIsCitizen(true);
+    }
+    if (newState.profile.status == ProfileStatus.visitor) {
+      settingsStorage.saveIsVisitor(true);
+    }
   }
 }

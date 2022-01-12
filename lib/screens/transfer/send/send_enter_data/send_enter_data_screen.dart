@@ -63,6 +63,7 @@ class SendEnterDataScreen extends StatelessWidget {
             Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
               InAppReview.instance.requestReview();
+              settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
             }
             showDialog<void>(
               context: context,
