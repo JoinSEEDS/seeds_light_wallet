@@ -94,9 +94,7 @@ class ExploreScreen extends StatelessWidget {
           } else if (pageCommand is ShowUserFlagInformation) {
             showDialog<void>(
               context: context,
-              builder: (_) {
-                return const FlagUserInfoDialog();
-              },
+              builder: (_) => const FlagUserInfoDialog(),
             ).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Navigate to flag page".i18n), duration: const Duration(seconds: 1)),
                 ));
