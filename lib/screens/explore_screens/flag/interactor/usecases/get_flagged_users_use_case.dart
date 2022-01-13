@@ -25,7 +25,6 @@ class GetFlaggedUsersUseCase extends NoInputUseCase<List<ProfileModel>> {
 
       return Result.value(profiles);
     } else {
-      print("FLaggedUSers "+ "errororrrrr");
       return Result.error("Error fetching Flagged Users");
     }
   }
