@@ -90,7 +90,6 @@ class FlagRepository extends HttpRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
-              print("processing ${body}");
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => FlagModel.fromJson(item)).toList();
             }))
