@@ -1,21 +1,27 @@
 import 'package:equatable/equatable.dart';
 
 class FlagModel extends Equatable {
-  final String account;
+  final int id;
+  final String from;
+  final String to;
   final int flagPoints;
 
   const FlagModel({
-    required this.account,
+    required this.id,
+    required this.from,
+    required this.to,
     required this.flagPoints,
   });
 
   factory FlagModel.fromJson(Map<String, dynamic> json) {
     return FlagModel(
-      account: json['account'],
+      id: json['id'],
+      from: json['from'],
+      to: json['to'],
       flagPoints: json['flag_points'],
     );
   }
 
   @override
-  List<Object?> get props => [account, flagPoints];
+  List<Object?> get props => [id, from, to, flagPoints];
 }

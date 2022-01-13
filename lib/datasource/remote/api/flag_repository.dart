@@ -70,14 +70,45 @@ class FlagRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  /// flags for accountName
-  Future<Result<List<FlagModel>>> getFlags(String accountName) {
+  Future<Result<List<FlagModel>>> getFlagsFrom(String from) {
     final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
       code: SeedsCode.accountAccounts,
-      scope: accountName,
-      table: SeedsTable.tableFlagPoints,
+      scope: SeedsCode.accountAccounts.value,
+      table: SeedsTable.tableFlags,
+      // ignore: avoid_redundant_argument_values
+      keyType: "i64",
+      indexPosition: 2,
+      lowerBound: from,
+      upperBound: from,
+      limit: 200,
+    );
+
+    print("request $request");
+
+    return http
+        .post(url, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
+              print("processing ${body}");
+              final List<dynamic> items = body['rows'].toList();
+              return items.map((item) => FlagModel.fromJson(item)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<List<FlagModel>>> getFlagsTo(String to) {
+    final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: SeedsCode.accountAccounts,
+      scope: SeedsCode.accountAccounts.value,
+      table: SeedsTable.tableFlags,
+      // ignore: avoid_redundant_argument_values
+      keyType: "i64",
+      indexPosition: 3,
+      lowerBound: to,
+      upperBound: to,
       limit: 200,
     );
 
@@ -89,8 +120,4 @@ class FlagRepository extends HttpRepository with EosRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
-
-  /// flags by accountname - we will need to make a call to history for this
-  /// TBD
-
 }
