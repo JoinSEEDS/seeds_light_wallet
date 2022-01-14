@@ -24,6 +24,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart
 import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
+import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
@@ -86,6 +87,7 @@ class Routes {
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
   static const contribution = 'contribution';
+  static const contributionDetail = 'contributionDetail';
 }
 
 class NavigationService {
@@ -129,6 +131,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
+    Routes.contributionDetail: (_) => const ContributionDetailScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };

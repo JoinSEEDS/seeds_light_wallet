@@ -8,7 +8,9 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/contribution_bloc.dart';
+import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/page_commands.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 /// CONTRIBUTION SCREEN
@@ -52,8 +54,16 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
         appBar: AppBar(title: Text('Contribution Score'.i18n)),
         body: BlocConsumer<ContributionBloc, ContributionState>(
           listenWhen: (previous, current) =>
+              current.pageCommand != null ||
               previous.pageState != PageState.success && current.pageState == PageState.success,
           listener: (context, state) {
+            if (state.pageCommand != null) {
+              final pageCommand = state.pageCommand;
+              if (pageCommand is NavigateToScoreDetails) {
+                NavigationService.of(context).navigateTo(Routes.contributionDetail, pageCommand);
+              }
+            }
+
             _contributionAnimation =
                 Tween<double>(begin: 0, end: (state.score!.contributionScore?.value ?? 0).toDouble())
                     .animate(_controller)
@@ -99,28 +109,32 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularStepProgressIndicator(
-                            totalSteps: 99,
-                            currentStep: _contribution,
-                            stepSize: 2.5,
-                            selectedColor: AppColors.green1,
-                            unselectedColor: AppColors.darkGreen2,
-                            padding: 0,
-                            width: 195,
-                            height: 195,
-                            selectedStepSize: 2.5,
-                            roundedCap: (_, __) => true,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Contribution'.i18n,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      style: Theme.of(context).textTheme.headline7),
-                                  const SizedBox(height: 8.0),
-                                  Text('$_contribution/99', style: Theme.of(context).textTheme.headline3),
-                                ],
+                          GestureDetector(
+                            onTap: () => BlocProvider.of<ContributionBloc>(context)
+                                .add(const ShowScoreDetails(scoreType: ScoreType.contributionScore)),
+                            child: CircularStepProgressIndicator(
+                              totalSteps: 99,
+                              currentStep: _contribution,
+                              stepSize: 2.5,
+                              selectedColor: AppColors.green1,
+                              unselectedColor: AppColors.darkGreen2,
+                              padding: 0,
+                              width: 195,
+                              height: 195,
+                              selectedStepSize: 2.5,
+                              roundedCap: (_, __) => true,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Contribution'.i18n,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        style: Theme.of(context).textTheme.headline7),
+                                    const SizedBox(height: 8.0),
+                                    Text('$_contribution/99', style: Theme.of(context).textTheme.headline3),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -143,6 +157,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_community',
                             rateStyle: Theme.of(context).textTheme.headline4!,
+                            onPressed: () => BlocProvider.of<ContributionBloc>(context)
+                                .add(const ShowScoreDetails(scoreType: ScoreType.communityScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/reputation.svg'),
@@ -153,6 +169,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_reputation',
                             rateStyle: Theme.of(context).textTheme.headline4!,
+                            onPressed: () => BlocProvider.of<ContributionBloc>(context)
+                                .add(const ShowScoreDetails(scoreType: ScoreType.reputationScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
@@ -163,6 +181,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_seeds',
                             rateStyle: Theme.of(context).textTheme.headline4!,
+                            onPressed: () => BlocProvider.of<ContributionBloc>(context)
+                                .add(const ShowScoreDetails(scoreType: ScoreType.plantedScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/transaction.svg'),
@@ -173,6 +193,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_transactions',
                             rateStyle: Theme.of(context).textTheme.headline4!,
+                            onPressed: () => BlocProvider.of<ContributionBloc>(context)
+                                .add(const ShowScoreDetails(scoreType: ScoreType.transactionScore)),
                           ),
                         ],
                       ),
