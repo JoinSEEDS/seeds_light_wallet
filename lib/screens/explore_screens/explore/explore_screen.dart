@@ -67,7 +67,7 @@ class ExploreScreen extends StatelessWidget {
       gradient: LinearGradient(
         colors: [AppColors.green1, AppColors.green2],
         begin: Alignment.topRight,
-        end: Alignment.topLeft,
+        end: Alignment.bottomLeft,
       ),
       iconUseCircleBackground: false,
       onTapEvent: OnBuySeedsCardTap(),
