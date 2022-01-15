@@ -42,6 +42,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
     });
 
+    on<OnAppMounted>(_onAppMounted);
     on<ShouldShowNotificationBadge>(_shouldShowNotificationBadge);
     on<BottomBarTapped>(_bottomBarTapped);
     on<ShouldShowGuardianRecoveryAlert>(_shouldShowGuardianRecoveryAlert);
@@ -58,6 +59,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _hasGuardianNotificationPending.cancel();
     _shouldShowCancelGuardianAlertMessage.cancel();
     return super.close();
+  }
+
+  Future<void> _onAppMounted(OnAppMounted event, Emitter<AppState> emit) async {
+    // The first time app widged is mounted, check if there is a signing request waiting.
+    if (_deeplinkBloc.state.signingRequest != null) {
+      add(OnSigningRequest(_deeplinkBloc.state.signingRequest!));
+      // keep show loading during transition to confirm transaction
+      await Future.delayed(const Duration(seconds: 3));
+      emit(state.copyWith(pageState: PageState.initial));
+    } else {
+      emit(state.copyWith(pageState: PageState.initial));
+    }
   }
 
   void _shouldShowNotificationBadge(ShouldShowNotificationBadge event, Emitter<AppState> emit) {
@@ -113,9 +126,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
     final args = SendConfirmationArguments(transaction: event.esr.transaction);
-    emit(state.copyWith(
-      pageState: PageState.success,
-      pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
-    ));
+    emit(state.copyWith(pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args)));
   }
 }
