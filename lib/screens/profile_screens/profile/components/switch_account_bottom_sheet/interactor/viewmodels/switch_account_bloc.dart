@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -35,7 +34,7 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
     if (publicKeys.contains(null) || publicKeys.contains('')) {
       emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
     } else {
-      final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
+      final results = await ImportAccountsUseCase().run(List<String>.from(publicKeys));
       emit(FindAccountsResultStateMapper().mapResultsToState(state, results, keys));
     }
   }
