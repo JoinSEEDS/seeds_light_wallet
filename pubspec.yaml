@@ -127,7 +127,8 @@ flutter:
     - assets/images/explore/get_seeds_card.png
     - assets/images/explore/delegate.svg
     - assets/images/explore/introducing_delegate.png
-    - assets/images/explore/p2p_card.png
+    - assets/images/explore/swap_leaves_left.png
+    - assets/images/explore/swap_leaves_rigth.png
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/share_transaction_id.svg
     - assets/images/wallet/leaves_bttm_left.png

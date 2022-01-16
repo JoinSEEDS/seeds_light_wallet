@@ -55,7 +55,6 @@ class ExploreScreen extends StatelessWidget {
       title: 'P2P app',
       icon: CustomPaint(size: Size(24, 24), painter: P2P()),
       iconUseCircleBackground: false,
-      backgroundImage: 'assets/images/explore/p2p_card.png',
       onTapEvent: OnExploreCardTapped(Routes.p2p),
     ),
     ExploreItem(

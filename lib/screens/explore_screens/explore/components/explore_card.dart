@@ -38,6 +38,21 @@ class ExploreCard extends StatelessWidget {
           alignment: AlignmentDirectional.bottomStart,
           children: [
             if (backgroundImage != null) Image.asset(backgroundImage!),
+            if (title == 'P2P app')
+              LayoutBuilder(builder: (context, constrains) {
+                return ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(defaultCardBorderRadius),
+                      bottomLeft: Radius.circular(defaultCardBorderRadius)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset('assets/images/wallet/leaves_bttm_left.png', width: constrains.maxWidth * 0.5),
+                      Image.asset('assets/images/wallet/leaves_bttm_right.png', width: constrains.maxWidth * 0.5),
+                    ],
+                  ),
+                );
+              }),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
