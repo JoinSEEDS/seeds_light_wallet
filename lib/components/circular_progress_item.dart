@@ -11,6 +11,7 @@ class CircularProgressItem extends StatelessWidget {
   final TextStyle titleStyle;
   final String rate;
   final TextStyle rateStyle;
+  final VoidCallback? onPressed;
 
   const CircularProgressItem({
     Key? key,
@@ -22,24 +23,28 @@ class CircularProgressItem extends StatelessWidget {
     required this.titleStyle,
     required this.rate,
     required this.rateStyle,
+    this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircularStepProgressIndicator(
-          totalSteps: totalStep,
-          currentStep: currentStep,
-          stepSize: 2.5,
-          selectedColor: AppColors.green1,
-          unselectedColor: AppColors.darkGreen2,
-          padding: 0,
-          width: circleRadius * 2,
-          height: circleRadius * 2,
-          selectedStepSize: 2.5,
-          roundedCap: (_, __) => true,
-          child: Center(child: icon),
+        GestureDetector(
+          onTap: onPressed,
+          child: CircularStepProgressIndicator(
+            totalSteps: totalStep,
+            currentStep: currentStep,
+            stepSize: 2.5,
+            selectedColor: AppColors.green1,
+            unselectedColor: AppColors.darkGreen2,
+            padding: 0,
+            width: circleRadius * 2,
+            height: circleRadius * 2,
+            selectedStepSize: 2.5,
+            roundedCap: (_, __) => true,
+            child: Center(child: icon),
+          ),
         ),
         const SizedBox(height: 8.0),
         Text(

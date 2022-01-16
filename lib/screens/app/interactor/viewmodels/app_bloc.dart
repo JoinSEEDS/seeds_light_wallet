@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
@@ -24,8 +24,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   late StreamSubscription<bool> _hasGuardianNotificationPending;
   late StreamSubscription<bool> _shouldShowCancelGuardianAlertMessage;
   final DeeplinkBloc _deeplinkBloc;
+  final AuthenticationBloc _authenticationBloc;
 
-  AppBloc(this._deeplinkBloc) : super(AppState.initial(_deeplinkBloc.state.guardianRecoveryRequestData)) {
+  AppBloc(this._deeplinkBloc, this._authenticationBloc)
+      : super(AppState.initial(_deeplinkBloc.state.guardianRecoveryRequestData)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
@@ -34,14 +36,28 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         .shouldShowCancelGuardianAlertMessage
         .listen((value) => add(ShouldShowGuardianRecoveryAlert(showGuardianRecoveryAlert: value)));
 
-    _deeplinkBloc.stream.listen((DeeplinkState deepLinkState) {
+    _deeplinkBloc.stream.listen((deepLinkState) {
       if (deepLinkState.guardianRecoveryRequestData != null) {
         add(OnApproveGuardianRecoveryDeepLink(deepLinkState.guardianRecoveryRequestData!));
-      } else if (deepLinkState.signingRequest != null) {
+      } else if (deepLinkState.signingRequest != null && !_authenticationBloc.state.isOnResumeAuth) {
+        // When user clicks a signing deeplink
+        // iOS S.O. opens the same previous opened app instance
+        // so we need catch that the app is on resume auth to
+        // avoid an unwanted navigation over the passcode screen
         add(OnSigningRequest(deepLinkState.signingRequest!));
       }
     });
 
+    _authenticationBloc.stream.listen((authenticationState) {
+      if (!authenticationState.isOnResumeAuth && _deeplinkBloc.state.signingRequest != null) {
+        // When user clicks a signing deeplink (iOS O.S.)
+        // the second part once on resume auth completes
+        // launch any signing request deeplink
+        add(OnSigningRequest(_deeplinkBloc.state.signingRequest!));
+      }
+    });
+
+    on<OnAppMounted>(_onAppMounted);
     on<ShouldShowNotificationBadge>(_shouldShowNotificationBadge);
     on<BottomBarTapped>(_bottomBarTapped);
     on<ShouldShowGuardianRecoveryAlert>(_shouldShowGuardianRecoveryAlert);
@@ -58,6 +74,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _hasGuardianNotificationPending.cancel();
     _shouldShowCancelGuardianAlertMessage.cancel();
     return super.close();
+  }
+
+  Future<void> _onAppMounted(OnAppMounted event, Emitter<AppState> emit) async {
+    // The first time app widged is mounted, check if there is a signing request waiting.
+    if (_deeplinkBloc.state.signingRequest != null) {
+      // When user clicks a signing deeplink
+      // Android S.O. creates a new app instance and starts from launch
+      // even if there is already one open, so we need catch that link
+      // when app widget is mounted for first time.
+      add(OnSigningRequest(_deeplinkBloc.state.signingRequest!));
+      // keep show loading during transition to confirm transaction
+      await Future.delayed(const Duration(seconds: 3));
+      emit(state.copyWith(pageState: PageState.initial));
+    } else {
+      emit(state.copyWith(pageState: PageState.initial));
+    }
   }
 
   void _shouldShowNotificationBadge(ShouldShowNotificationBadge event, Emitter<AppState> emit) {
@@ -113,9 +145,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
     final args = SendConfirmationArguments(transaction: event.esr.transaction);
-    emit(state.copyWith(
-      pageState: PageState.success,
-      pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
-    ));
+    emit(state.copyWith(pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args)));
   }
 }

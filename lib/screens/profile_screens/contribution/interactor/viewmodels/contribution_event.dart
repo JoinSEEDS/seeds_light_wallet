@@ -22,3 +22,12 @@ class FetchScores extends ContributionEvent {
   @override
   String toString() => 'FetchScores';
 }
+
+class ShowScoreDetails extends ContributionEvent {
+  final ScoreType scoreType;
+
+  const ShowScoreDetails(this.scoreType);
+
+  @override
+  String toString() => 'ShowScoreDetails {scoreType: $scoreType}';
+}

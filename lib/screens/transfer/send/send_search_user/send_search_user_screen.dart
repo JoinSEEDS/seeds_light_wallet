@@ -5,7 +5,6 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
-/// SendSearchUserScreen SCREEN
 class SendSearchUserScreen extends StatelessWidget {
   const SendSearchUserScreen({Key? key}) : super(key: key);
 

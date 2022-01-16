@@ -48,7 +48,7 @@ class SearchUser extends StatelessWidget {
             ),
           const SizedBox(height: 16),
           BlocBuilder<SearchUserBloc, SearchUserState>(
-            builder: (context, state) {
+            builder: (_, state) {
               switch (state.pageState) {
                 case PageState.loading:
                 case PageState.failure:
@@ -62,7 +62,7 @@ class SearchUser extends StatelessWidget {
                     return Expanded(
                       child: ListView.builder(
                         itemCount: state.users.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (_, index) {
                           final MemberModel user = state.users[index];
                           return SearchResultRow(
                             key: Key(user.account),
