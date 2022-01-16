@@ -111,7 +111,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                         children: [
                           GestureDetector(
                             onTap: () => BlocProvider.of<ContributionBloc>(context)
-                                .add(const ShowScoreDetails(scoreType: ScoreType.contributionScore)),
+                                .add(const ShowScoreDetails(ScoreType.contributionScore)),
                             child: CircularStepProgressIndicator(
                               totalSteps: 99,
                               currentStep: _contribution,
@@ -158,7 +158,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             rate: '$_community',
                             rateStyle: Theme.of(context).textTheme.headline4!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
-                                .add(const ShowScoreDetails(scoreType: ScoreType.communityScore)),
+                                .add(const ShowScoreDetails(ScoreType.communityScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/reputation.svg'),
@@ -170,7 +170,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             rate: '$_reputation',
                             rateStyle: Theme.of(context).textTheme.headline4!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
-                                .add(const ShowScoreDetails(scoreType: ScoreType.reputationScore)),
+                                .add(const ShowScoreDetails(ScoreType.reputationScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
@@ -182,7 +182,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             rate: '$_seeds',
                             rateStyle: Theme.of(context).textTheme.headline4!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
-                                .add(const ShowScoreDetails(scoreType: ScoreType.plantedScore)),
+                                .add(const ShowScoreDetails(ScoreType.plantedScore)),
                           ),
                           CircularProgressItem(
                             icon: SvgPicture.asset('assets/images/contribution/transaction.svg'),
@@ -194,7 +194,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             rate: '$_transactions',
                             rateStyle: Theme.of(context).textTheme.headline4!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
-                                .add(const ShowScoreDetails(scoreType: ScoreType.transactionScore)),
+                                .add(const ShowScoreDetails(ScoreType.transactionScore)),
                           ),
                         ],
                       ),

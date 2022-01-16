@@ -26,8 +26,8 @@ class FetchScores extends ContributionEvent {
 class ShowScoreDetails extends ContributionEvent {
   final ScoreType scoreType;
 
-  const ShowScoreDetails({required this.scoreType});
+  const ShowScoreDetails(this.scoreType);
 
   @override
-  String toString() => 'ShowScoreDetails';
+  String toString() => 'ShowScoreDetails {scoreType: $scoreType}';
 }
