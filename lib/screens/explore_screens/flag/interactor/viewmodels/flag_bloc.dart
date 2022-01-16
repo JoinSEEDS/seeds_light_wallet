@@ -15,10 +15,10 @@ part 'flag_state.dart';
 
 class FlagBloc extends Bloc<FlagEvent, FlagState> {
   FlagBloc() : super(FlagState.initial()) {
-    on<LoadUsersFlags>(_loadUserBalance);
+    on<LoadUsersFlags>(_loadUsersFlags);
   }
 
-  Future<FutureOr<void>> _loadUserBalance(event, Emitter<FlagState> emit) async {
+  Future<FutureOr<void>> _loadUsersFlags(event, Emitter<FlagState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final Result<List<ProfileModel>> result = await GetFlaggedUsersUseCase().run();
     emit(FlaggedUsersStateMapper().mapResultToState(state, result));
