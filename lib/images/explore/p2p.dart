@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class P2P extends CustomPainter {
   const P2P();
@@ -46,7 +47,7 @@ class P2P extends CustomPainter {
 
     final Paint paint0 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path0, paint0);
 
@@ -134,7 +135,7 @@ class P2P extends CustomPainter {
 
     final Paint paint1 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path1, paint1);
 
@@ -160,7 +161,7 @@ class P2P extends CustomPainter {
 
     final Paint paint2 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path2, paint2);
 
@@ -196,7 +197,7 @@ class P2P extends CustomPainter {
 
     final Paint paint3 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path3, paint3);
 
@@ -232,7 +233,7 @@ class P2P extends CustomPainter {
 
     final Paint paint4 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path4, paint4);
   }

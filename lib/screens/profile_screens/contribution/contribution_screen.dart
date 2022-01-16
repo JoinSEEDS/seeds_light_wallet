@@ -13,7 +13,6 @@ import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/page_commands.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-/// CONTRIBUTION SCREEN
 class ContributionScreen extends StatefulWidget {
   const ContributionScreen({Key? key}) : super(key: key);
 

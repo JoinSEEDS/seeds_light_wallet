@@ -64,8 +64,6 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
           },
           builder: (context, state) {
             switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.failure:

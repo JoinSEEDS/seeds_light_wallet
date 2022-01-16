@@ -16,7 +16,6 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 
-/// INVITE SCREEN
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
 
