@@ -1,13 +1,13 @@
-part of 'p2p_bloc.dart';
+part of 'swap_seeds_bloc.dart';
 
-abstract class P2PEvent extends Equatable {
-  const P2PEvent();
+abstract class SwapSeedsEvent extends Equatable {
+  const SwapSeedsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class OnMessageReceived extends P2PEvent {
+class OnMessageReceived extends SwapSeedsEvent {
   final JavascriptMessage javascriptMessage;
 
   const OnMessageReceived(this.javascriptMessage);
@@ -16,7 +16,7 @@ class OnMessageReceived extends P2PEvent {
   String toString() => 'OnMessageReceived';
 }
 
-class OnPageLoaded extends P2PEvent {
+class OnPageLoaded extends SwapSeedsEvent {
   const OnPageLoaded();
 
   @override

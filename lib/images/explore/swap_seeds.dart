@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 
-class P2P extends CustomPainter {
-  const P2P();
+class SwapSeeds extends CustomPainter {
+  const SwapSeeds();
 
   @override
   void paint(Canvas canvas, Size size) {
