@@ -95,9 +95,9 @@ class ExploreScreen extends StatelessWidget {
             showDialog<void>(
               context: context,
               builder: (_) => const FlagUserInfoDialog(),
-            ).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Navigate to flag page".i18n), duration: const Duration(seconds: 1)),
-                ));
+            ).whenComplete(
+              () => BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.flag)),
+            );
           }
         },
         builder: (context, _) {
