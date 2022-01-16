@@ -7,6 +7,13 @@ abstract class AppEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnAppMounted extends AppEvent {
+  const OnAppMounted();
+
+  @override
+  String toString() => 'OnAppMounted';
+}
+
 class ShouldShowNotificationBadge extends AppEvent {
   final bool value;
 
