@@ -43,5 +43,7 @@
   "loginImportAccountButtonTitle": "Importar conta",
   "loginRecoverAccountActionSegment1": "Perdeu sua chave?",
   "loginRecoverAccountActionLink": " Recuperar ",
-  "loginRecoverAccountActionSegment2": "sua conta aqui"
+  "loginRecoverAccountActionSegment2": "sua conta aqui",
+  "searchUserNoUserFound": "Nenhum usuário encontrado.",
+  "searchUserHintText": "Buscar..."
 }
