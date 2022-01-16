@@ -17,5 +17,12 @@
     "importKeyNoPublicKeyFoundError": "No public key found",
     "importKeyImportUsingRecoveryPhraseTitle": "Enter your 12-Word Recovery Phrase to recover your account.",
     "importKeyImportUsingPrivateKeyActionLink": "Tap here",
-    "importKeyImportUsingPrivateKeyDescription": "if you want to import using your Private Key."
+    "importKeyImportUsingPrivateKeyDescription": "if you want to import using your Private Key.",
+    "loginFirstTimeHere": "First time here?",
+    "loginClaimInviteCodeButtonTitle": "Claim invite code",
+    "loginAlreadyHaveAnAccount": "Already have a Seeds Account?",
+    "loginImportAccountButtonTitle": "Import Account",
+    "loginRecoverAccountActionSegment1": "Lost your key?",
+    "loginRecoverAccountActionLink": " Recover ",
+    "loginRecoverAccountActionSegment2": "your account here"
 }

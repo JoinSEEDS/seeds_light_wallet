@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class SeedsSymbol extends CustomPainter {
   const SeedsSymbol();
@@ -60,7 +61,7 @@ class SeedsSymbol extends CustomPainter {
     final Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
-      ..color = Colors.white
+      ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
@@ -68,7 +69,7 @@ class SeedsSymbol extends CustomPainter {
 
     final Paint paint0 = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = AppColors.white;
 
     canvas.drawPath(path0, paint0);
   }

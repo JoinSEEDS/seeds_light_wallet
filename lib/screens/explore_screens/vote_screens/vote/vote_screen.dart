@@ -10,7 +10,6 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_l
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
-/// VOTE SCREEN
 class VoteScreen extends StatelessWidget {
   const VoteScreen({Key? key}) : super(key: key);
 

@@ -45,7 +45,7 @@ class ExclamationCircle extends CustomPainter {
     path_0.close();
 
     final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = AppColors.white.withOpacity(1.0);
+    paint0Fill.color = AppColors.white;
     canvas.drawPath(path_0, paint0Fill);
 
     final Path path_1 = Path();
@@ -105,7 +105,7 @@ class ExclamationCircle extends CustomPainter {
     path_1.close();
 
     final Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = AppColors.white.withOpacity(1.0);
+    paint1Fill.color = AppColors.white;
     canvas.drawPath(path_1, paint1Fill);
   }
 

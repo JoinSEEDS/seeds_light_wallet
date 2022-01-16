@@ -6,7 +6,6 @@ import 'package:seeds/screens/wallet/components/transactions_list/transactions_l
 import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
-/// Wallet SCREEN
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
 

@@ -5,7 +5,6 @@ import 'package:seeds/components/scanner/components/qr_code_view.dart';
 import 'package:seeds/components/scanner/interactor/viewmodels/scanner_bloc.dart';
 import 'package:seeds/utils/string_extension.dart';
 
-/// Scanner SCREEN
 class ScannerView extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> onCodeScanned;

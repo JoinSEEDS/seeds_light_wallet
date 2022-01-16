@@ -4,7 +4,6 @@ import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/components/receive_selection_card.dart';
 
-/// Receive selection screen
 class ReceiveScreen extends StatelessWidget {
   const ReceiveScreen({Key? key}) : super(key: key);
 

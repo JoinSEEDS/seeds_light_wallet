@@ -18,7 +18,6 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 
-/// SendConfirmation SCREEN
 class SendConfirmationScreen extends StatelessWidget {
   const SendConfirmationScreen({Key? key}) : super(key: key);
 
