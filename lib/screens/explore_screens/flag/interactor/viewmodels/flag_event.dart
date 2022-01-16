@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'flag_bloc.dart';
 
 abstract class FlagEvent extends Equatable {
   const FlagEvent();

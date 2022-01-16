@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'flag_bloc.dart';
 
 class FlagState extends Equatable {
   final PageCommand? pageCommand;
