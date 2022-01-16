@@ -21,7 +21,6 @@ import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/expl
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
   final List<ExploreItem> _exploreItems = const [
     ExploreItem(

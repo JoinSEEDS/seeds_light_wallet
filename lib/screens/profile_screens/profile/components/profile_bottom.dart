@@ -13,7 +13,6 @@ import 'package:seeds/screens/profile_screens/profile/components/profile_list_ti
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
-/// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
   const ProfileBottom({Key? key}) : super(key: key);
 

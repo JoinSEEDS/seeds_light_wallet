@@ -25,7 +25,6 @@ import 'package:seeds/screens/transfer/send/send_enter_data/components/send_conf
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
-/// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
   const SendEnterDataScreen({Key? key}) : super(key: key);
 
