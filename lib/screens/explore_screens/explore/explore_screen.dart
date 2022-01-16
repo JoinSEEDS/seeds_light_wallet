@@ -61,8 +61,9 @@ class ExploreScreen extends StatelessWidget {
       title: 'Get Seeds',
       icon: CustomPaint(size: Size(9, 22), painter: SeedsSymbol()),
       backgroundIconColor: AppColors.white,
+      backgroundImage: 'assets/images/explore/get_seeds_card.png',
       gradient: LinearGradient(
-        colors: [AppColors.green1, AppColors.darkGreen2],
+        colors: [AppColors.green1, AppColors.green2],
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
       ),
