@@ -39,50 +39,56 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
         emit(state.copyWith(
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
-              score: 0,
-              scoreType: 'Todo1',
-              title: 'Todo2',
-              subtitle: 'Todo3',
-            )));
+                score: state.score?.contributionScore?.value ?? 0,
+                scoreType: 'Contribution',
+                title: ' Your total contribution is measured by combining your other scores. ',
+                subtitle:
+                    ' It determines how much Trust points you earn for making governance decisions, and also increases how many Seeds you earn from the Harvest by measuring your participation. ')));
         break;
       case ScoreType.transactionScore:
         emit(state.copyWith(
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
-              score: 0,
-              scoreType: 'Todo1',
-              title: 'Todo2',
-              subtitle: 'Todo3',
+              score: state.score?.transactionScore?.value ?? 0,
+              scoreType: 'Transaction',
+              title:
+                  ' The more transactions you have, the higher your transaction contribution will be and the more rewards you earn. ',
+              subtitle:
+                  ' The higher the reputation of the organization you’re buying from, the more points you earn. You only earn points when buying from regenerative organizations, Residents and Citizens. ',
             )));
         break;
       case ScoreType.plantedScore:
         emit(state.copyWith(
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
-              score: 0,
-              scoreType: 'Todo1',
-              title: 'Todo2',
-              subtitle: 'Todo3',
+              score: state.score?.plantedScore?.value ?? 0,
+              scoreType: 'Planted Seeds',
+              title:
+                  ' Planted Seeds are similar to a savings account. They are locked up until you unplant them but increase your transaction capacity. ',
+              subtitle:
+                  ' It determines how much Trust credits you earn for making governance decisions, and also increases how many Seeds you earn from the Harvest by measuring your participation. ',
             )));
         break;
       case ScoreType.reputationScore:
         emit(state.copyWith(
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
-              score: 0,
-              scoreType: 'Todo1',
-              title: 'Todo2',
-              subtitle: 'Todo3',
+              score: state.score?.reputationScore?.value ?? 0,
+              scoreType: 'Reputation',
+              title: ' Your reputation is a multiplier gained by participating in the community. ',
+              subtitle:
+                  ' Earn reputation by participating in the forum, getting vouched for, inviting new Residents or Citizens, and more. If your reputation is 0, your total contribution is 0 as well.',
             )));
         break;
       case ScoreType.communityScore:
         emit(state.copyWith(
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
-              score: 0,
-              scoreType: 'Todo1',
-              title: 'Todo2',
-              subtitle: 'Todo3',
+              score: state.score?.communityScore?.value ?? 0,
+              scoreType: 'Community',
+              title: ' Your Community score increases as the members you invite become Residents and Citizens. ',
+              subtitle:
+                  ' You earn more points for your more recent efforts; additional Community points are given based on how many total points you’ve earned and how many of them were earned in the last 3 moons. ',
             )));
     }
   }

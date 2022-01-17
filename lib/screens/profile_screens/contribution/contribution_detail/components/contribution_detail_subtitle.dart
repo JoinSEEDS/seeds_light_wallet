@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 
 class ContributionDetailSubtitle extends StatelessWidget {
   final String title;
@@ -12,9 +13,10 @@ class ContributionDetailSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+      padding: const EdgeInsets.all(horizontalEdgePadding),
       decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(8.0)),
-      child: Center(child: Text(title)),
+      child: Text(title, textAlign: TextAlign.center, style: Theme.of(context).textTheme.button),
     );
   }
 }

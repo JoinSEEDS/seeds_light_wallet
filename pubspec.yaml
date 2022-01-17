@@ -166,6 +166,8 @@ flutter:
     - assets/images/contribution/community.svg
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
+    - assets/images/contribution/contribution_detail/petals_left.png
+    - assets/images/contribution/contribution_detail/petals_right.png
     - assets/images/seeds_logo.svg
     - assets/images/login/background.png
     - assets/images/login/seeds_light_wallet_logo.svg
