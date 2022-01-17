@@ -38,7 +38,7 @@ class ExploreCard extends StatelessWidget {
           alignment: AlignmentDirectional.bottomStart,
           children: [
             if (backgroundImage != null) Image.asset(backgroundImage!),
-            if (title == 'P2P app')
+            if (title == 'Swap Seeds')
               LayoutBuilder(builder: (context, constrains) {
                 return ClipRRect(
                   borderRadius: const BorderRadius.only(
