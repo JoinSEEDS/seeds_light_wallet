@@ -19,7 +19,7 @@ class OnboardingState extends State<OnboardingScreen> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
 
-  void onPageChangeForward() {
+  void _onPageChangeForward() {
     if (_selectedIndex < 2) {
       setState(() {
         _selectedIndex = _selectedIndex + 1;
@@ -28,7 +28,7 @@ class OnboardingState extends State<OnboardingScreen> {
     }
   }
 
-  void onPageChangeBackward() {
+  void _onPageChangeBackward() {
     if (_selectedIndex != 0) {
       setState(() {
         _selectedIndex = _selectedIndex - 1;
@@ -59,18 +59,14 @@ class OnboardingState extends State<OnboardingScreen> {
             Expanded(
               child: Row(
                 children: [
-                  const SizedBox(width: 20),
-                  if (_selectedIndex != 0)
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: 100,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () => onPageChangeBackward(),
-                      ),
-                    )
-                  else
-                    const SizedBox(width: 100),
+                  Expanded(
+                    child: _selectedIndex != 0
+                        ? IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () => _onPageChangeBackward(),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                   Expanded(
                     child: DotsIndicator(
                       dotsCount: 3,
@@ -87,24 +83,30 @@ class OnboardingState extends State<OnboardingScreen> {
                     ),
                   ),
                   if (_selectedIndex == 2)
-                    Container(
-                      width: 100,
-                      child: TextButton(
-                        onPressed: () => NavigationService.of(context).navigateTo(Routes.login, null, true),
-                        child:
-                            Text(localization.onboardingJoinButtonTitle, style: Theme.of(context).textTheme.subtitle1),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: InkWell(
+                              onTap: () => NavigationService.of(context).navigateTo(Routes.login, null, true),
+                              child: Text(
+                                localization.onboardingJoinButtonTitle,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   else
-                    Container(
-                      alignment: Alignment.centerRight,
-                      width: 100,
+                    Expanded(
                       child: IconButton(
                         icon: const Icon(Icons.arrow_forward),
-                        onPressed: () => onPageChangeForward(),
+                        onPressed: () => _onPageChangeForward(),
                       ),
                     ),
-                  const SizedBox(width: 20)
                 ],
               ),
             )
