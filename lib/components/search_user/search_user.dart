@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/search_user/components/search_user_text_field.dart';
-import 'package:seeds/components/search_user/interactor/search_user_bloc.dart';
-import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
+import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -50,7 +48,7 @@ class SearchUser extends StatelessWidget {
             ),
           const SizedBox(height: 16),
           BlocBuilder<SearchUserBloc, SearchUserState>(
-            builder: (context, state) {
+            builder: (_, state) {
               switch (state.pageState) {
                 case PageState.loading:
                 case PageState.failure:
@@ -64,7 +62,7 @@ class SearchUser extends StatelessWidget {
                     return Expanded(
                       child: ListView.builder(
                         itemCount: state.users.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (_, index) {
                           final MemberModel user = state.users[index];
                           return SearchResultRow(
                             key: Key(user.account),

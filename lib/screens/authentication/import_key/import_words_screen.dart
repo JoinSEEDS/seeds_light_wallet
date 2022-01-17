@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
@@ -19,15 +18,16 @@ class ImportWordsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
-      create: (context) => ImportKeyBloc(),
+      create: (_) => ImportKeyBloc(),
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
               child: FlatButtonLong(
-                title: 'Search'.i18n,
+                title: localization.importKeySearchButtonTitle,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
@@ -44,7 +44,7 @@ class ImportWordsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "Enter your 12-Word Recovery Phrase to recover your account.",
+                        localization.importKeyImportUsingRecoveryPhraseTitle,
                         style: Theme.of(context).textTheme.subtitle3,
                         textAlign: TextAlign.left,
                       ),
@@ -107,7 +107,7 @@ class ImportWordsScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.subtitle2,
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Tap here ',
+                                text: localization.importKeyImportUsingPrivateKeyActionLink,
                                 style: Theme.of(context).textTheme.subtitle2Green2,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -115,7 +115,8 @@ class ImportWordsScreen extends StatelessWidget {
                                     NavigationService.of(context).navigateTo(Routes.importKey);
                                   },
                               ),
-                              const TextSpan(text: ' if you want to import using your Private Key. '),
+                              const TextSpan(text: " "),
+                              TextSpan(text: localization.importKeyImportUsingPrivateKeyDescription),
                             ],
                           ),
                         ),

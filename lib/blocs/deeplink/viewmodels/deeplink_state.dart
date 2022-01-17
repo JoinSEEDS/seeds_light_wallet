@@ -12,7 +12,11 @@ class DeeplinkState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [guardianRecoveryRequestData, inviteLinkData, signingRequest];
+  List<Object?> get props => [
+        guardianRecoveryRequestData,
+        inviteLinkData,
+        signingRequest,
+      ];
 
   DeeplinkState copyWith({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
@@ -20,9 +24,10 @@ class DeeplinkState extends Equatable {
     ScanQrCodeResultData? signingRequest,
   }) {
     return DeeplinkState(
-        guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
-        inviteLinkData: inviteLinkData,
-        signingRequest: signingRequest);
+      guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
+      inviteLinkData: inviteLinkData,
+      signingRequest: signingRequest,
+    );
   }
 
   factory DeeplinkState.initial() {

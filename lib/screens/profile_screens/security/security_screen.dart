@@ -9,11 +9,10 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/security/components/biometric_enabled_dialog.dart';
+import 'package:seeds/screens/profile_screens/security/components/guardian_security_card.dart';
 import 'package:seeds/screens/profile_screens/security/components/security_card.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 import 'package:share/share.dart';
-
-import 'components/guardian_security_card.dart';
 
 class SecurityScreen extends StatelessWidget {
   const SecurityScreen({Key? key}) : super(key: key);

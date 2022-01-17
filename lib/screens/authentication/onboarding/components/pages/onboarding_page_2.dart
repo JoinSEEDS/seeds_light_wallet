@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
-
-import '../onboarding_pages.dart';
+import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class SecondPage extends StatelessWidget {
   const SecondPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding1.png",
       topPadding: 50,
-      title: "Citizen\nCampaigns".i18n,
-      subTitle: "Participate and vote directly on social and\nenvironmental impact projects you care\nabout.".i18n,
+      title: localization.onboardingCampaignsTitle,
+      subTitle: localization.onboardingCampaignsSubtitle,
       topLeaf1: Positioned(
         left: 40,
         top: 40,

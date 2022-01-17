@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:dart_esr/dart_esr.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';

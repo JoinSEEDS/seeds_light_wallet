@@ -1,12 +1,11 @@
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/organization_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
@@ -15,7 +14,7 @@ import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class ProfileRepository extends NetworkRepository with EosRepository {
+class ProfileRepository extends HttpRepository with EosRepository {
   Future<Result<ProfileModel>> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
@@ -50,8 +49,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
               final List<dynamic> allAccounts = body['permissions'].toList();
               final permissions = allAccounts.map((item) => Permission.fromJson(item)).toList();
               final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
-              final RequiredAuth activeAuth = activePermission.requiredAuth;
-              return activeAuth.keys.first.key;
+              final RequiredAuth? activeAuth = activePermission.requiredAuth;
+              return activeAuth?.keys?.first?.key;
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -70,7 +69,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountAccounts.value
-        ..name = actionNameUpdate
+        ..name = SeedsEosAction.actionNameUpdate.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -151,7 +150,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountToken.value
-        ..name = actionNameTransfer
+        ..name = SeedsEosAction.actionNameTransfer.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -179,7 +178,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountHarvest.value
-        ..name = actionNameUnplant
+        ..name = SeedsEosAction.actionNameUnplant.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -210,7 +209,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         List.from(requestIds.map(
           (id) => Action()
             ..account = SeedsCode.accountHarvest.value
-            ..name = actionNameClaimRefund
+            ..name = SeedsEosAction.actionNameClaimRefund.value
             ..authorization = [
               Authorization()
                 ..actor = accountName
@@ -256,11 +255,11 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final actionName = isMake
         ? isCitizen
-            ? actionNameMakecitizen
-            : actionNameMakeresident
+            ? SeedsEosAction.actionNameMakecitizen.value
+            : SeedsEosAction.actionNameMakeresident.value
         : isCitizen
-            ? actionNameCakecitizen
-            : actionNameCanresident;
+            ? SeedsEosAction.actionNameCakecitizen.value
+            : SeedsEosAction.actionNameCanresident.value;
 
     final transaction = buildFreeTransaction([
       Action()

@@ -1,21 +1,23 @@
+// ignore_for_file: directives_ordering
+
 import 'dart:async';
 
 import 'package:async/async.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class InviteRepository extends NetworkRepository with EosRepository {
+class InviteRepository extends HttpRepository with EosRepository {
   Future<Result<TransactionResponse>> createInvite({
     required double quantity,
     required String inviteHash,
@@ -29,7 +31,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountToken.value
-        ..name = actionNameTransfer
+        ..name = SeedsEosAction.actionNameTransfer.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -43,7 +45,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         },
       Action()
         ..account = SeedsCode.accountJoin.value
-        ..name = actionNameInvite
+        ..name = SeedsEosAction.actionNameInvite.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -139,7 +141,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountJoin.value
-        ..name = actionNameCancelInvite
+        ..name = SeedsEosAction.actionNameCancelInvite.value
         ..authorization = [
           Authorization()
             ..actor = accountName

@@ -47,7 +47,7 @@ class AppState extends Equatable {
 
   factory AppState.initial(GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen) {
     return AppState(
-      pageState: PageState.initial,
+      pageState: PageState.loading,
       index: 0,
       hasNotification: false,
       showGuardianRecoveryAlert: false,

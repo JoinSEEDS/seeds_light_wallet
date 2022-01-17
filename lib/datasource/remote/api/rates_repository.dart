@@ -1,12 +1,12 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
 import 'package:seeds/datasource/remote/model/rate_model.dart';
 
-class RatesRepository extends NetworkRepository {
+class RatesRepository extends HttpRepository {
   Future<Result<FiatRateModel>> getFiatRates() {
     print("[http] get fiat rates");
 

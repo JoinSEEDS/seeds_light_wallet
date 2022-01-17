@@ -79,8 +79,6 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
         },
         builder: (context, state) {
           switch (state.pageState) {
-            case PageState.initial:
-              return const SizedBox.shrink();
             case PageState.loading:
               return const FullPageLoadingIndicator();
             case PageState.failure:

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String onboardingImage;
@@ -62,9 +61,9 @@ class OnboardingPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title.i18n, style: Theme.of(context).textTheme.headline3),
+                        Text(title, style: Theme.of(context).textTheme.headline3),
                         const SizedBox(height: 30),
-                        Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
+                        Text(subTitle, style: Theme.of(context).textTheme.button),
                       ],
                     ),
                   ],

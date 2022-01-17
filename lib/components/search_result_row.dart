@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
@@ -34,13 +33,16 @@ class SearchResultRow extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          member.nickname.isNotEmpty ? member.nickname : member.account,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.button,
+                        Flexible(
+                          child: Text(
+                            member.nickname.isNotEmpty ? member.nickname : member.account,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.button,
+                          ),
                         ),
+                        const SizedBox(width: 10),
                         Text(
-                          describeEnum(member.userCitizenshipStatus).inCaps,
+                          member.userCitizenshipStatus.name.inCaps,
                           style: Theme.of(context).textTheme.button,
                         ),
                       ],

@@ -11,14 +11,12 @@ import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_double_action.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/onboarding_dialog_single_action.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/remove_guardian_confirmation_dialog.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
-import 'components/onboarding_dialog_double_action.dart';
-import 'components/onboarding_dialog_single_action.dart';
-import 'components/remove_guardian_confirmation_dialog.dart';
-
-/// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
   const GuardiansScreen({Key? key}) : super(key: key);
 

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/profile_avatar.dart';
@@ -9,9 +8,8 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/edit_profile_pic_bottom_sheet/edit_profile_pic_bottom_sheet.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
-/// PROFILE HEADER
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({Key? key}) : super(key: key);
 

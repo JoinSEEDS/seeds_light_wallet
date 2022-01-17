@@ -7,9 +7,8 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
-/// PROFILE MIDDLE
 class ProfileMiddle extends StatelessWidget {
   const ProfileMiddle({Key? key}) : super(key: key);
 

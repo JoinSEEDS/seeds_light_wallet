@@ -1,11 +1,10 @@
 part of 'signup_bloc.dart';
 
-@immutable
 abstract class SignupEvent extends Equatable {
   const SignupEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnInviteCodeFromDeepLink extends SignupEvent {
@@ -26,9 +25,11 @@ class OnQRScanned extends SignupEvent {
   String toString() => 'OnQRScanned { scannedLink: $scannedLink }';
 }
 
-class ClearClaimInvitePageCommand extends SignupEvent {
+class ClearSignupPageCommand extends SignupEvent {
+  const ClearSignupPageCommand();
+
   @override
-  String toString() => 'ClearClaimInvitePageCommand';
+  String toString() => 'ClearSignupPageCommand';
 }
 
 class OnInvalidInviteDialogClosed extends SignupEvent {
@@ -36,7 +37,6 @@ class OnInvalidInviteDialogClosed extends SignupEvent {
   String toString() => 'OnInvalidInviteDialogClosed';
 }
 
-/// Display Name Events
 class DisplayNameOnNextTapped extends SignupEvent {
   final String displayName;
 
@@ -46,26 +46,24 @@ class DisplayNameOnNextTapped extends SignupEvent {
   String toString() => 'DisplayNameOnNextTapped { displayName: $displayName }';
 }
 
-/// Create Username Events
 class OnGenerateNewUsername extends SignupEvent {
   final String fullname;
 
-  const OnGenerateNewUsername({required this.fullname});
+  const OnGenerateNewUsername(this.fullname);
 
   @override
   String toString() => 'GenerateNewUsername { fullname: $fullname }';
 }
 
-class OnUsernameChanged extends SignupEvent {
-  final String username;
+class OnAccountNameChanged extends SignupEvent {
+  final String accountName;
 
-  const OnUsernameChanged({required this.username});
+  const OnAccountNameChanged(this.accountName);
 
   @override
-  String toString() => 'OnUsernameChanged { userName: $username }';
+  String toString() => 'OnAccountNameChanged { accountName: $accountName }';
 }
 
-/// Add Phone Number Events
 class OnCreateAccountTapped extends SignupEvent {
   const OnCreateAccountTapped(this.phoneNumber);
 
@@ -75,8 +73,9 @@ class OnCreateAccountTapped extends SignupEvent {
   String toString() => 'OnCreateAccountTapped { phoneNumber: $phoneNumber }';
 }
 
-/// Common Events
 class OnBackPressed extends SignupEvent {
+  const OnBackPressed();
+
   @override
-  String toString() => 'NavigateBack';
+  String toString() => 'OnBackPressed';
 }

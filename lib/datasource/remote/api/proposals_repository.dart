@@ -1,12 +1,11 @@
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/datasource/remote/model/delegator_model.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
@@ -18,7 +17,7 @@ import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
-class ProposalsRepository extends NetworkRepository with EosRepository {
+class ProposalsRepository extends HttpRepository with EosRepository {
   Future<Result<List<MoonPhaseModel>>> getMoonPhases() {
     print('[http] get moon phases');
 
@@ -183,7 +182,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
+        ..name = amount.isNegative ? SeedsEosAction.actionNameAgainst.value : SeedsEosAction.actionNameFavour.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -207,7 +206,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountRules.value
-        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
+        ..name = amount.isNegative ? SeedsEosAction.actionNameAgainst.value : SeedsEosAction.actionNameFavour.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -241,12 +240,12 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   }
 
   // return DelegateModel
-  Future<Result<DelegateModel>> getDelegate(String account, String voiceScope) {
+  Future<Result<DelegateModel>> getDelegate(String account, SeedsCode seedsCode) {
     print('[http] get delegate for $account');
 
     final request = createRequest(
       code: SeedsCode.accountFunds,
-      scope: voiceScope,
+      scope: seedsCode.value,
       table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
@@ -262,13 +261,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result<List<DelegatorModel>>> getDelegators(String account, String voiceScope) {
+  Future<Result<List<DelegatorModel>>> getDelegators(String account, SeedsCode seedsCode) {
     print('[http] get delegators for $account');
 
     final request = createRequest(
       code: SeedsCode.accountFunds,
       indexPosition: 2,
-      scope: voiceScope,
+      scope: seedsCode.value,
       table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
@@ -309,7 +308,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   }) =>
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = proposalActionNameDelegate
+        ..name = SeedsEosAction.proposalActionNameDelegate.value
         ..authorization = [
           Authorization()
             ..actor = delegator
@@ -327,7 +326,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   }) =>
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = proposalActionNameUndelegate
+        ..name = SeedsEosAction.proposalActionNameUndelegate.value
         ..authorization = [
           Authorization()
             ..actor = delegator

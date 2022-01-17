@@ -2,12 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
@@ -46,6 +46,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => _importKeyBloc,
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
@@ -53,7 +54,10 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted(), enabled: state.enableButton),
+              child: FlatButtonLong(
+                  title: localization.importKeySearchButtonTitle,
+                  onPressed: () => _onSubmitted(),
+                  enabled: state.enableButton),
             ),
             appBar: AppBar(),
             body: Column(
@@ -68,7 +72,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                       children: [
                         TextFormFieldCustom(
                           autofocus: true,
-                          labelText: 'Private Key'.i18n,
+                          labelText: localization.importKeyPrivateKeyFieldPlaceholder,
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.paste, color: AppColors.white),
                             onPressed: () async {
@@ -101,14 +105,15 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                         style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Tap here ',
+                              text: localization.importKeyImportUsingRecoveryPhraseActionLink,
                               style: Theme.of(context).textTheme.subtitle2Green2,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.of(context).pop();
                                   NavigationService.of(context).navigateTo(Routes.importWords);
                                 }),
-                          const TextSpan(text: ' if you want to import using your Recovery Phrase. '),
+                          const TextSpan(text: " "),
+                          TextSpan(text: localization.importKeyImportUsingRecoveryPhraseDescription),
                         ],
                       ),
                     ),

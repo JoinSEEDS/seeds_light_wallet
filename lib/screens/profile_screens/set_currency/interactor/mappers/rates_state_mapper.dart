@@ -1,7 +1,7 @@
 import 'package:seeds/datasource/local/models/currency.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_state.dart';
+import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_bloc.dart';
 
 class RateStateMapper extends StateMapper {
   SetCurrencyState mapResultToState(SetCurrencyState currentState, Map<String?, num> rates) {

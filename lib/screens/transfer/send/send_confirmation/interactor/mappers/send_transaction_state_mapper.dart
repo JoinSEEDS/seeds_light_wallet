@@ -3,6 +3,7 @@ import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
@@ -11,15 +12,40 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendTransactionStateMapper extends StateMapper {
-  SendConfirmationState mapResultToState(SendConfirmationState currentState, Result result, RatesState rateState) {
+  SendConfirmationState mapResultToState(
+    SendConfirmationState currentState,
+    Result result,
+    RatesState rateState,
+    bool shouldShowInAppReview,
+  ) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: result.asError!.error.toString(),
+        transactionResult: TransactionResult(
+          status: TransactionResultStatus.failure,
+          message: result.asError!.error.toString(),
+        ),
+      );
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
+      final int currentDate = DateTime.now().millisecondsSinceEpoch;
+      bool _shouldShowInAppReview = shouldShowInAppReview;
+
+      if (settingsStorage.dateSinceRateAppPrompted != null && shouldShowInAppReview) {
+        final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
+        final dateUntilAppRateCanAsk = settingsStorage.dateSinceRateAppPrompted! + millisecondsPerMoth;
+        _shouldShowInAppReview = currentDate > dateUntilAppRateCanAsk;
+      }
+
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: transactionResultPageCommand(resultResponse, rateState),
+        pageCommand: transactionResultPageCommand(resultResponse, rateState, _shouldShowInAppReview),
+        transactionResult: TransactionResult(
+          status: TransactionResultStatus.success,
+          message: resultResponse.transactionModel.transactionId!,
+        ),
       );
     }
   }
@@ -28,7 +54,10 @@ class SendTransactionStateMapper extends StateMapper {
   // known and generic (unknown) types of transactions results. Now we have generic and transfer, could
   // add invite, guardians, etc - all transactions we know about.
   static TransactionPageCommand transactionResultPageCommand(
-      SendTransactionResponse resultResponse, RatesState rateState) {
+    SendTransactionResponse resultResponse,
+    RatesState rateState,
+    bool shouldShowInAppReview,
+  ) {
     if (resultResponse.isTransfer) {
       final transfer = resultResponse.transferTransactionModel!;
 
@@ -43,11 +72,11 @@ class SendTransactionStateMapper extends StateMapper {
       }
 
       return ShowTransferSuccess(
-        transactionModel: transfer,
-        from: resultResponse.parseFromUser,
-        to: resultResponse.parseToUser,
-        fiatAmount: fiatAmount,
-      );
+          transactionModel: transfer,
+          from: resultResponse.parseFromUser,
+          to: resultResponse.parseToUser,
+          fiatAmount: fiatAmount,
+          shouldShowInAppReview: shouldShowInAppReview);
     } else {
       return ShowTransactionSuccess(resultResponse.transactionModel);
     }

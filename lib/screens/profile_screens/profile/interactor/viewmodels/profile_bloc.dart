@@ -1,11 +1,15 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/model/score_model.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_words_from_private_key_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
@@ -17,12 +21,12 @@ import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_c
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_resident_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/save_image_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/update_profile_image_use_case.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 import 'package:share/share.dart';
 
-/// --- BLOC
+part 'profile_event.dart';
+part 'profile_state.dart';
+
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   late StreamSubscription<bool> _hasGuardianNotificationPending;
 
@@ -30,76 +34,79 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value)));
-  }
-
-  @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is LoadProfileValues) {
-      yield state.copyWith(pageState: PageState.loading);
-      final Result<GetProfileValuesResponse> result = await GetProfileValuesUseCase().run();
-      yield ProfileValuesStateMapper().mapResultToState(state, result);
-    }
-    if (event is OnUpdateProfileImage) {
-      yield state.copyWith(pageState: PageState.loading);
-      final urlResult = await SaveImageUseCase().run(file: event.file);
-      final result = await UpdateProfileImageUseCase()
-          .run(UpdateProfileImageUseCase.input(imageUrl: urlResult.asValue!.value, profile: state.profile!));
-      yield UpdateProfileImageStateMapper().mapResultToState(state, result);
-    }
-    if (event is OnNameChanged) {
-      yield state.copyWith(profile: state.profile!.copyWith(nickname: event.name));
-    }
-    if (event is OnCurrencyChanged) {
-      // Change the state to trigger repaint
-      yield state.copyWith(pageState: PageState.loading);
-      yield state.copyWith(pageState: PageState.success);
-      eventBus.fire(const OnFiatCurrencyChangedEventBus());
-    }
-    if (event is OnProfileLogoutButtonPressed) {
-      if (ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase()) {
-        yield state.copyWith(pageCommand: ShowLogoutRecoveryPhraseDialog());
-      } else {
-        yield state.copyWith(pageCommand: ShowLogoutDialog());
-      }
-    }
-    if (event is OnSavePrivateKeyButtonPressed) {
-      yield state.copyWith(showLogoutButton: true);
-      await Share.share(settingsStorage.privateKey!);
-      settingsStorage.savePrivateKeyBackedUp(true);
-    }
-    if (event is OnSaveRecoveryPhraseButtonPressed) {
-      yield state.copyWith(showLogoutButton: true);
-      final String words = GetWordsFromPrivateKey().run().join(' ');
-      await Share.share(words);
-      settingsStorage.savePrivateKeyBackedUp(true);
-    }
-    if (event is ClearProfilePageCommand) {
-      yield state.copyWith();
-    }
-    if (event is ResetShowLogoutButton) {
-      yield state.copyWith(showLogoutButton: false);
-    }
-    if (event is ShouldShowNotificationBadge) {
-      yield state.copyWith(hasSecurityNotification: event.value);
-    }
-    if (event is OnActivateResidentButtonTapped) {
-      yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
-      final Result result = await MakeResidentUseCase().run();
-      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, false);
-    }
-    if (event is OnActivateCitizenButtonTapped) {
-      yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
-      final Result result = await MakeCitizenUseCase().run();
-      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, true);
-    }
-    if (event is OnSwitchAccountButtonTapped) {
-      yield state.copyWith(pageCommand: ShowSwitchAccount());
-    }
+    on<LoadProfileValues>(_loadProfileValues);
+    on<OnUpdateProfileImage>(_onUpdateProfileImage);
+    on<OnNameChanged>((event, emit) => emit(state.copyWith(profile: state.profile!.copyWith(nickname: event.name))));
+    on<OnCurrencyChanged>(_onCurrencyChanged);
+    on<OnProfileLogoutButtonPressed>(_onProfileLogoutButtonPressed);
+    on<OnSavePrivateKeyButtonPressed>(_onSavePrivateKeyButtonPressed);
+    on<OnSaveRecoveryPhraseButtonPressed>(_onSaveRecoveryPhraseButtonPressed);
+    on<OnActivateResidentButtonTapped>(_onActivateResidentButtonTapped);
+    on<OnActivateCitizenButtonTapped>(_onActivateCitizenButtonTapped);
+    on<ResetShowLogoutButton>((_, emit) => emit(state.copyWith(showLogoutButton: false)));
+    on<OnSwitchAccountButtonTapped>((_, emit) => emit(state.copyWith(pageCommand: ShowSwitchAccount())));
+    on<ShouldShowNotificationBadge>((event, emit) => emit(state.copyWith(hasSecurityNotification: event.value)));
+    on<ClearProfilePageCommand>((_, emit) => emit(state.copyWith()));
   }
 
   @override
   Future<void> close() {
     _hasGuardianNotificationPending.cancel();
     return super.close();
+  }
+
+  Future<void> _loadProfileValues(LoadProfileValues event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final Result<GetProfileValuesResponse> result = await GetProfileValuesUseCase().run();
+    emit(ProfileValuesStateMapper().mapResultToState(state, result));
+  }
+
+  Future<void> _onUpdateProfileImage(OnUpdateProfileImage event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final urlResult = await SaveImageUseCase().run(file: event.file);
+    final result = await UpdateProfileImageUseCase()
+        .run(UpdateProfileImageUseCase.input(imageUrl: urlResult.asValue!.value, profile: state.profile!));
+    emit(UpdateProfileImageStateMapper().mapResultToState(state, result));
+  }
+
+  void _onCurrencyChanged(OnCurrencyChanged event, Emitter<ProfileState> emit) {
+    // Change the state to trigger repaint
+    emit(state.copyWith(pageState: PageState.loading));
+    emit(state.copyWith(pageState: PageState.success));
+    eventBus.fire(const OnFiatCurrencyChangedEventBus());
+  }
+
+  void _onProfileLogoutButtonPressed(OnProfileLogoutButtonPressed event, Emitter<ProfileState> emit) {
+    if (ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase()) {
+      emit(state.copyWith(pageCommand: ShowLogoutRecoveryPhraseDialog()));
+    } else {
+      emit(state.copyWith(pageCommand: ShowLogoutDialog()));
+    }
+  }
+
+  Future<void> _onSavePrivateKeyButtonPressed(OnSavePrivateKeyButtonPressed event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(showLogoutButton: true));
+    await Share.share(settingsStorage.privateKey!);
+    settingsStorage.savePrivateKeyBackedUp(true);
+  }
+
+  Future<void> _onSaveRecoveryPhraseButtonPressed(
+      OnSaveRecoveryPhraseButtonPressed event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(showLogoutButton: true));
+    final String words = GetWordsFromPrivateKey().run().join(' ');
+    await Share.share(words);
+    settingsStorage.savePrivateKeyBackedUp(true);
+  }
+
+  Future<void> _onActivateResidentButtonTapped(OnActivateResidentButtonTapped event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade()));
+    final Result result = await MakeResidentUseCase().run();
+    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, false));
+  }
+
+  Future<void> _onActivateCitizenButtonTapped(OnActivateCitizenButtonTapped event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade()));
+    final Result result = await MakeCitizenUseCase().run();
+    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, true));
   }
 }

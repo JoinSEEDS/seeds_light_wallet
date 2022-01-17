@@ -5,7 +5,6 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
-/// SendSearchUserScreen SCREEN
 class SendSearchUserScreen extends StatelessWidget {
   const SendSearchUserScreen({Key? key}) : super(key: key);
 
@@ -25,7 +24,7 @@ class SendSearchUserScreen extends StatelessWidget {
       body: SearchUser(
         noShowUsers: [settingsStorage.accountName],
         onUserSelected: (selectedUser) {
-          print('onResult: ${selectedUser.account}');
+          print('SendSearchUserScreen - onUserSelected: ${selectedUser.account}');
           NavigationService.of(context).navigateTo(Routes.sendEnterData, selectedUser);
         },
       ),

@@ -4,9 +4,8 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/viewmodels/vote_amount_label_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
-
-import 'interactor/viewmodels/bloc.dart';
 
 class VoteAmountLabel extends StatelessWidget {
   final ProposalViewModel proposal;

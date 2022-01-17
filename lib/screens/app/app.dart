@@ -63,7 +63,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context));
+    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context), BlocProvider.of<AuthenticationBloc>(context))
+      ..add(const OnAppMounted());
     _connectionNotifier = ConnectionNotifier()..discoverEndpoints();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);

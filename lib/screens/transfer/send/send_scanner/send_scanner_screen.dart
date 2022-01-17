@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/scanner/scanner_widget.dart';
+import 'package:seeds/components/scanner/scanner_view.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -8,7 +8,6 @@ import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
 
-/// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
   const SendScannerScreen({Key? key}) : super(key: key);
 
@@ -17,14 +16,14 @@ class SendScannerScreen extends StatefulWidget {
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
-  late ScannerWidget _scannerWidget;
+  late ScannerView _scannerWidget;
   late SendScannerBloc _sendScannerBloc;
 
   @override
   void initState() {
     super.initState();
     _sendScannerBloc = SendScannerBloc();
-    _scannerWidget = ScannerWidget(resultCallBack: (scanResult) async {
+    _scannerWidget = ScannerView(onCodeScanned: (scanResult) async {
       _sendScannerBloc.add(ExecuteScanResult(scanResult));
     });
   }
@@ -38,11 +37,10 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         child: BlocListener<SendScannerBloc, SendScannerState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            _scannerWidget.stop();
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments, true);
             }
           },
           child: Column(
@@ -58,7 +56,6 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                       _scannerWidget.scan();
                       return const SizedBox.shrink();
                     case PageState.loading:
-                      _scannerWidget.showLoading();
                       return const SizedBox.shrink();
                     case PageState.failure:
                       return Padding(
