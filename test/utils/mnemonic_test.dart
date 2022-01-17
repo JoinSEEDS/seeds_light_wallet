@@ -27,11 +27,10 @@ void main() {
 
       final authService = AuthService();
 
-      final priv = authService.createPrivateKeyFrom12WordsBip39(mnemonic.split(' '));
+      final eosKey = authService.createPrivateKeyFrom12WordsBip39(mnemonic.split(' '));
 
-      print("Prive: ${priv.toString()}");
-
-      expect(priv.toString(), expectedPrivateKey);
+      expect(eosKey.toString(), expectedPrivateKey);
+      expect(eosKey.toEOSPublicKey().toString(), expectedPublicKey);
     });
   });
 }
