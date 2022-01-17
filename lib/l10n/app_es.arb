@@ -45,5 +45,8 @@
   "loginRecoverAccountActionLink": " Recuperar ",
   "loginRecoverAccountActionSegment2": "tu cuenta aqui",
   "searchUserNoUserFound": "No se encontraron usuarios.",
-  "searchUserHintText": "Búsqueda..."
+  "searchUserHintText": "Búsqueda...",
+  "constantOnboardingContract": "Contrato De Incorporación",
+  "constantExchangeContract": "Contrato De Intercambio",
+  "constantHarvestContract": "Contrato De Cosecha"
 }
