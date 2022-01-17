@@ -7,6 +7,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/contribution_bloc.dart';
@@ -108,7 +109,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
+                          InkWell(
+                           borderRadius: BorderRadius.circular(100),
                             onTap: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.contributionScore)),
                             child: CircularStepProgressIndicator(
