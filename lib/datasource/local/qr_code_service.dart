@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/datasource/local/util/seeds_esr.dart';
 
 class QrCodeService {

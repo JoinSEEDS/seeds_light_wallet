@@ -1,11 +1,7 @@
 import 'package:async/async.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:dart_esr/dart_esr.dart' as esr;
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -39,15 +35,15 @@ class GuardiansRepository extends EosRepository with HttpRepository {
 
     // Check if permissions are already set?
     // ignore: unnecessary_cast
-    for (final Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
-      if (acct['permission']['actor'] == SeedsCode.accountGuards.value) {
+    for (final Map<String, dynamic>? acct in (ownerPermission.requiredAuth?.accounts ?? []) as List<dynamic>) {
+      if (acct?['permission']['actor'] == SeedsCode.accountGuards.value) {
         print('permission already set, doing nothing');
         return currentPermissions;
       }
     }
 
-    ownerPermission.requiredAuth.accounts.add({
-      'weight': ownerPermission.requiredAuth.threshold,
+    ownerPermission.requiredAuth?.accounts?.add({
+      'weight': ownerPermission.requiredAuth!.threshold,
       'permission': {'actor': SeedsCode.accountGuards.value, 'permission': 'eosio.code'}
     });
 
@@ -329,7 +325,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
 // method to properly convert RequiredAuth to JSON - the library doesn't work
 Map<String, dynamic> _requiredAuthToJson(RequiredAuth instance) => <String, dynamic>{
       'threshold': instance.threshold,
-      'keys': List<dynamic>.from(instance.keys!.map((e) => e.toJson())),
+      'keys': List<dynamic>.from(instance.keys!.map((e) => e?.toJson())),
       'accounts': instance.accounts,
       'waits': instance.waits
     };

@@ -17,7 +17,6 @@ import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/component
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
-/// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
   const GuardiansScreen({Key? key}) : super(key: key);
 

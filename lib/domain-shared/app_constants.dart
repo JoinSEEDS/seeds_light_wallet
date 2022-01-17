@@ -1,4 +1,5 @@
 /// Some URLs
+const String p2pAppUrl = 'https://ptm.hypha.earth/';
 const String urlBuySeeds = 'https://www.joinseeds.earth/buy-seeds?acc=';
 
 /// Firebase Dynamic Link Parameters

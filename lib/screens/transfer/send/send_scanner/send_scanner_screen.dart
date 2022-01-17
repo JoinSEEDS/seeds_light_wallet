@@ -8,7 +8,6 @@ import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
 
-/// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
   const SendScannerScreen({Key? key}) : super(key: key);
 
@@ -41,7 +40,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments, true);
             }
           },
           child: Column(

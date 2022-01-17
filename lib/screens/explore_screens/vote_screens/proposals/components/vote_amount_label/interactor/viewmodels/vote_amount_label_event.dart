@@ -4,7 +4,7 @@ abstract class VoteAmountLabelEvent extends Equatable {
   const VoteAmountLabelEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadVoteAmount extends VoteAmountLabelEvent {

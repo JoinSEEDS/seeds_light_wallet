@@ -19,6 +19,8 @@ const String _actionNameClaimRefund = 'claimrefund';
 const String _proposalActionNameDelegate = 'delegate';
 const String _proposalActionNameUndelegate = 'undelegate';
 const String _actionNameVouch = 'vouch';
+const String _actionNameFlag = 'flag';
+const String _actionNameRemoveFlag = 'removeflag';
 
 enum SeedsEosAction {
   actionNameAgainst,
@@ -42,6 +44,8 @@ enum SeedsEosAction {
   proposalActionNameDelegate,
   proposalActionNameUndelegate,
   actionNameVouch,
+  actionNameFlag,
+  actionNameRemoveFlag,
 }
 
 extension SeedsEosActionExtension on SeedsEosAction {
@@ -89,6 +93,10 @@ extension SeedsEosActionExtension on SeedsEosAction {
         return _proposalActionNameUndelegate;
       case SeedsEosAction.actionNameVouch:
         return _actionNameVouch;
+      case SeedsEosAction.actionNameFlag:
+        return _actionNameFlag;
+      case SeedsEosAction.actionNameRemoveFlag:
+        return _actionNameRemoveFlag;
     }
   }
 }

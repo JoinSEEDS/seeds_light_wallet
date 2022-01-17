@@ -10,7 +10,6 @@ import 'package:seeds/screens/profile_screens/guardians/select_guardian/componen
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
 
-/// SelectGuardiansScreen SCREEN
 class SelectGuardiansScreen extends StatelessWidget {
   const SelectGuardiansScreen({Key? key}) : super(key: key);
 

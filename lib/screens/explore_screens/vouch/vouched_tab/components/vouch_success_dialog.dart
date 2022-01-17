@@ -10,9 +10,6 @@ class VouchSuccessDialog extends StatelessWidget {
     return CustomDialog(
       icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
       singleLargeButtonTitle: "Close",
-      onSingleLargeButtonPressed: () {
-        Navigator.of(context).pop();
-      },
       children: [
         const SizedBox(height: 10.0),
         Text('Successfully Vouched!', style: Theme.of(context).textTheme.headline6),

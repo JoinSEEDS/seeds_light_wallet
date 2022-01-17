@@ -19,7 +19,6 @@ import 'package:seeds/screens/explore_screens/unplant_seeds/components/unplant_s
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_bloc.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_page_commands.dart';
 
-/// UNPLANT SEEDS SCREEN
 class UnplantSeedsScreen extends StatefulWidget {
   const UnplantSeedsScreen({Key? key}) : super(key: key);
 

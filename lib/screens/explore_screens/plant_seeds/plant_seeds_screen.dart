@@ -17,7 +17,6 @@ import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
 
-/// PLANT SEEDS SCREEN
 class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({Key? key}) : super(key: key);
   @override

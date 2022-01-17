@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.5.0+64
+version: 2.6.0+65
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -14,7 +14,7 @@ publish_to: none
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.2.0
+  flutter_bloc: ^8.0.1
   equatable: ^2.0.3
   url_launcher: ^6.0.15
   step_progress_indicator: ^1.0.1
@@ -29,7 +29,6 @@ dependencies:
   local_auth: ^1.1.8
   timeago: ^3.1.0
   cached_network_image: ^3.1.0+1
-  passcode_screen: ^2.0.0
   flutter_svg: ^0.23.0+1
   firebase_dynamic_links: ^3.0.1
   firebase_messaging: ^11.1.0
@@ -44,15 +43,6 @@ dependencies:
   dots_indicator: ^2.0.0
   qr_flutter: ^4.0.0
   image_picker: ^0.8.4+4
-  eosdart:
-    git: 
-      url: https://github.com/JoinSEEDS/eosdart.git
-      ref: flutter_2_nns
-  dart_esr:
-    git:
-      url: https://github.com/JoinSEEDS/dart-esr.git
-      ref: flutter_2_nns
-
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
@@ -60,7 +50,11 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   palette_generator: ^0.3.2
+  webview_flutter: ^3.0.0
   in_app_review: ^2.0.3
+  json_annotation: ^4.4.0
+  bs58check: ^1.0.2
+  pointycastle: ^3.4.0
 
 dev_dependencies:
   flutter_test:
@@ -130,9 +124,11 @@ flutter:
     - assets/images/navigation_bar/wallet_selected.svg
     - assets/images/navigation_bar/user_profile_selected.svg
     - assets/images/explore/hypha_dho_card.jpg
+    - assets/images/explore/get_seeds_card.png
     - assets/images/explore/delegate.svg
-    - assets/images/explore/get_seeds_card.jpg
     - assets/images/explore/introducing_delegate.png
+    - assets/images/explore/swap_leaves_left.png
+    - assets/images/explore/swap_leaves_rigth.png
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/share_transaction_id.svg
     - assets/images/wallet/leaves_bttm_left.png

@@ -7,7 +7,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({Key? key}) : super(key: key);

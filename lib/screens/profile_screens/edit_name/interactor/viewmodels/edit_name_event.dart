@@ -13,7 +13,7 @@ class OnNameChanged extends EditNameEvent {
   const OnNameChanged({required this.name});
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
 
   @override
   String toString() => 'OnNameChanged { name: $name }';

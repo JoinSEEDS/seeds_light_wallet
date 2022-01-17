@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/currency.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'set_currency_bloc.dart';
 
-/// --- STATES
 class SetCurrencyState extends Equatable {
   final PageState pageState;
   final String? errorMessage;

@@ -22,12 +22,9 @@ import 'package:seeds/screens/transfer/send/send_confirmation/components/generic
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/send_enter_data_bloc.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
-/// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
   const SendEnterDataScreen({Key? key}) : super(key: key);
 
@@ -36,21 +33,21 @@ class SendEnterDataScreen extends StatelessWidget {
     final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
-      child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
+      create: (_) => SendEnterDataBloc(memberModel, rates)..add(InitSendDataArguments()),
+      child: BlocListener<SendEnterDataBloc, SendEnterDataState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final PageCommand? command = state.pageCommand;
 
-          BlocProvider.of<SendEnterDataPageBloc>(context).add(ClearPageCommand());
+          BlocProvider.of<SendEnterDataBloc>(context).add(const ClearSendEnterDataPageCommand());
 
           if (command is ShowSendConfirmDialog) {
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendConfirmationDialog(
+              builder: (_) => SendConfirmationDialog(
                 onSendButtonPressed: () {
-                  BlocProvider.of<SendEnterDataPageBloc>(context).add(OnSendButtonTapped());
+                  BlocProvider.of<SendEnterDataBloc>(context).add(const OnSendButtonTapped());
                 },
                 tokenAmount: command.tokenAmount,
                 fiatAmount: command.fiatAmount,
@@ -61,41 +58,31 @@ class SendEnterDataScreen extends StatelessWidget {
               ),
             );
           } else if (command is ShowTransferSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
               InAppReview.instance.requestReview();
+              settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
             }
-
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
-                onCloseButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                pageCommand: command,
-              ),
+              builder: (_) => SendTransactionSuccessDialog.fromPageCommand(command),
             );
           } else if (command is ShowTransactionSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
-                transactionModel: command.transactionModel,
-                onCloseButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
+              builder: (_) => GenericTransactionSuccessDialog(command.transactionModel),
             );
           }
         },
         child: Scaffold(
           appBar: AppBar(title: Text("Send".i18n), backgroundColor: Colors.transparent),
           extendBodyBehindAppBar: true,
-          body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
+          body: BlocBuilder<SendEnterDataBloc, SendEnterDataState>(
             buildWhen: (_, current) => current.pageCommand == null,
             builder: (context, state) {
               switch (state.pageState) {
@@ -130,8 +117,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
                                 onValueChange: (value) {
-                                  BlocProvider.of<SendEnterDataPageBloc>(context)
-                                      .add(OnAmountChange(amountChanged: value));
+                                  BlocProvider.of<SendEnterDataBloc>(context).add(OnAmountChange(amountChanged: value));
                                 },
                                 autoFocus: state.pageState == PageState.initial,
                               ),
@@ -147,7 +133,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                       hintText: "Add a note".i18n,
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
-                                        BlocProvider.of<SendEnterDataPageBloc>(context)
+                                        BlocProvider.of<SendEnterDataBloc>(context)
                                             .add(OnMemoChange(memoChanged: value));
                                       },
                                     ),
@@ -172,7 +158,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               title: 'Next'.i18n,
                               enabled: state.isNextButtonEnabled,
                               onPressed: () {
-                                BlocProvider.of<SendEnterDataPageBloc>(context).add(OnNextButtonTapped());
+                                BlocProvider.of<SendEnterDataBloc>(context).add(const OnNextButtonTapped());
                               },
                             ),
                           ),

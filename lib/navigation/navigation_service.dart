@@ -13,9 +13,11 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
@@ -24,6 +26,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart
 import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
+import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
@@ -62,6 +65,7 @@ class Routes {
   static const delegate = 'delegate';
   static const delegateAUser = 'delegateAUser';
   static const createInvite = 'createInvite';
+  static const flag = 'flag';
   static const vote = 'vote';
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
@@ -71,6 +75,7 @@ class Routes {
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
+  static const swapSeeds = 'swapSeeds';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -86,6 +91,7 @@ class Routes {
   static const setCurrency = 'setCurrency';
   static const citizenship = 'citizenship';
   static const contribution = 'contribution';
+  static const contributionDetail = 'contributionDetail';
 }
 
 class NavigationService {
@@ -104,6 +110,7 @@ class NavigationService {
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
+    Routes.flag: (_) => const FlagScreen(),
     Routes.delegate: (_) => const DelegateScreen(),
     Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
@@ -114,6 +121,7 @@ class NavigationService {
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
+    Routes.swapSeeds: (_) => const SwapSeedsScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
@@ -129,6 +137,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
+    Routes.contributionDetail: (_) => const ContributionDetailScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };

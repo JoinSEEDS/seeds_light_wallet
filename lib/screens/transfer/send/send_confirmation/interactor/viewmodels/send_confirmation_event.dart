@@ -4,7 +4,7 @@ abstract class SendConfirmationEvent extends Equatable {
   const SendConfirmationEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnSendTransactionButtonPressed extends SendConfirmationEvent {

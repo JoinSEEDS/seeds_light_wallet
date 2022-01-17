@@ -7,6 +7,7 @@ import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/not_qualified_to_vouch_dialog.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/vouch_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/interactor/viewmodels/vouched_bloc.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/interactor/viewmodels/vouched_page_commands.dart';
@@ -31,7 +32,14 @@ class VouchedTab extends StatelessWidget {
                   return const VouchSuccessDialog();
                 },
               );
+            } else if (pageCommand is ShowNotQualifiedToVouch) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const NotQualifiedToVouchDialog(),
+              );
             }
+
             BlocProvider.of<VouchedBloc>(context).add(const ClearPageCommand());
           },
           builder: (context, VouchedState state) {
@@ -46,6 +54,7 @@ class VouchedTab extends StatelessWidget {
                     bottomSheet: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: FlatButtonLong(
+                        enabled: state.canVouch,
                         title: 'Vouch for a member',
                         onPressed: () async {
                           final shouldScreenReload =
@@ -67,7 +76,7 @@ class VouchedTab extends StatelessWidget {
                               ),
                             )
                           : ListView(
-                              padding: const EdgeInsets.only(top: 10,bottom: 80),
+                              padding: const EdgeInsets.only(top: 10, bottom: 80),
                               children: [for (final i in state.vouched) MemberInfoRow(i)],
                             ),
                     ),

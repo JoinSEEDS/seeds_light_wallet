@@ -36,5 +36,14 @@
   "importKeyImportUsingPrivateKeyActionLink": "Toque aqui",
   "@importKeyImportUsingPrivateKeyActionLink": {},
   "importKeyImportUsingPrivateKeyDescription": "se você deseja importar usando sua chave privada.",
-  "@importKeyImportUsingPrivateKeyDescription": {}
+  "@importKeyImportUsingPrivateKeyDescription": {},
+  "loginFirstTimeHere": "Primeira vez aqui?",
+  "loginClaimInviteCodeButtonTitle": "Utilizar um codigo de convite",
+  "loginAlreadyHaveAnAccount": "Já tem uma conta Seeds?",
+  "loginImportAccountButtonTitle": "Importar conta",
+  "loginRecoverAccountActionSegment1": "Perdeu sua chave?",
+  "loginRecoverAccountActionLink": " Recuperar ",
+  "loginRecoverAccountActionSegment2": "sua conta aqui",
+  "searchUserNoUserFound": "Nenhum usuário encontrado.",
+  "searchUserHintText": "Buscar..."
 }
