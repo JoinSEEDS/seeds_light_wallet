@@ -17,6 +17,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
     on<SetScores>(_setScores);
     on<FetchScores>(_fetchScores);
     on<ShowScoreDetails>(_showScoreDetails);
+    on<ClearContributionPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
   void _setScores(SetScores event, Emitter<ContributionState> emit) {

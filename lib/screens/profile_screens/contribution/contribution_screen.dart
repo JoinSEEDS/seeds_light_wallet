@@ -7,7 +7,6 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/contribution_bloc.dart';
@@ -59,11 +58,11 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
           listener: (context, state) {
             if (state.pageCommand != null) {
               final pageCommand = state.pageCommand;
+              BlocProvider.of<ContributionBloc>(context).add(const ClearContributionPageCommand());
               if (pageCommand is NavigateToScoreDetails) {
                 NavigationService.of(context).navigateTo(Routes.contributionDetail, pageCommand);
               }
             }
-
             _contributionAnimation =
                 Tween<double>(begin: 0, end: (state.score!.contributionScore?.value ?? 0).toDouble())
                     .animate(_controller)
@@ -110,7 +109,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                           borderRadius: BorderRadius.circular(100),
+                            borderRadius: BorderRadius.circular(100),
                             onTap: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.contributionScore)),
                             child: CircularStepProgressIndicator(

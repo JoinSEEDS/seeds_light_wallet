@@ -31,3 +31,10 @@ class ShowScoreDetails extends ContributionEvent {
   @override
   String toString() => 'ShowScoreDetails {scoreType: $scoreType}';
 }
+
+class ClearContributionPageCommand extends ContributionEvent {
+  const ClearContributionPageCommand();
+
+  @override
+  String toString() => 'ClearContributionPageCommand';
+}
