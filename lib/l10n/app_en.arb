@@ -24,5 +24,7 @@
     "loginImportAccountButtonTitle": "Import Account",
     "loginRecoverAccountActionSegment1": "Lost your key?",
     "loginRecoverAccountActionLink": " Recover ",
-    "loginRecoverAccountActionSegment2": "your account here"
+    "loginRecoverAccountActionSegment2": "your account here",
+    "searchUserNoUserFound": "No users found.",
+    "searchUserHintText": "Search..."
 }
