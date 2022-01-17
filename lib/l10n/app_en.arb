@@ -26,5 +26,8 @@
     "loginRecoverAccountActionLink": " Recover ",
     "loginRecoverAccountActionSegment2": "your account here",
     "searchUserNoUserFound": "No users found.",
-    "searchUserHintText": "Search..."
+    "searchUserHintText": "Search...",
+    "constantOnboardingContract": "Onboarding Contract",
+    "constantExchangeContract": "Exchange Contract",
+    "constantHarvestContract": "Harvest Contract"
 }

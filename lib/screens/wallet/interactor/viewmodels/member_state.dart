@@ -5,7 +5,6 @@ class MemberState extends Equatable {
   final String currentAccount;
   final MemberModel? member;
 
-  String get displayName => (member != null && member!.nickname.isNotEmpty) ? member!.nickname : currentAccount;
   String get profileImageURL => member?.image ?? "";
 
   const MemberState({required this.pageState, required this.currentAccount, this.member});
@@ -23,5 +22,13 @@ class MemberState extends Equatable {
 
   factory MemberState.initial(String currentAccount) {
     return MemberState(pageState: PageState.initial, currentAccount: currentAccount);
+  }
+
+  String localizedDisplayName(BuildContext context) {
+    if (member != null && member!.account.isNotEmpty && SystemAccounts.isSystemAccount(member!.account)) {
+      return SystemAccounts.getLocalizedDisplayNameForSystemAccount(member!.account, context)!;
+    } else {
+      return (member != null && member!.nickname.isNotEmpty) ? member!.nickname : currentAccount;
+    }
   }
 }
