@@ -9,19 +9,19 @@ import 'package:seeds/domain-shared/user_citizenship_status.dart';
 class SystemAccounts {
   static final onboardingContract = MemberModel(
     account: 'join.seeds',
-    nickname: '',
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/community.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
   static final exchangeContract = MemberModel(
     account: 'tlosto.seeds',
-    nickname: '',
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/exchange.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
   static final harvestContract = MemberModel(
     account: 'harvst.seeds',
-    nickname: '',
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/harvest.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
@@ -46,6 +46,7 @@ class SystemAccounts {
     }
   }
 
+  // Used to provide a localized display name for system accounts instead of using MemberModel.nickname
   static String? getLocalizedDisplayNameForSystemAccount(String accountName, BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     if (accountName == 'join.seeds') {
