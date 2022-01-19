@@ -8,9 +8,9 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/images/explore/exclamation_circle.dart';
 import 'package:seeds/images/explore/invite_person.dart';
-import 'package:seeds/images/explore/p2p.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
 import 'package:seeds/images/explore/seeds_symbol.dart';
+import 'package:seeds/images/explore/swap_seeds.dart';
 import 'package:seeds/images/explore/vote.dart';
 import 'package:seeds/images/explore/vouch.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -21,7 +21,6 @@ import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/expl
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
   final List<ExploreItem> _exploreItems = const [
     ExploreItem(
@@ -53,17 +52,18 @@ class ExploreScreen extends StatelessWidget {
       onTapEvent: OnExploreCardTapped(Routes.unPlantSeeds),
     ),
     ExploreItem(
-      title: 'P2P app',
-      icon: CustomPaint(size: Size(24, 24), painter: P2P()),
+      title: 'Swap Seeds',
+      icon: CustomPaint(size: Size(24, 24), painter: SwapSeeds()),
       iconUseCircleBackground: false,
-      onTapEvent: OnExploreCardTapped(Routes.p2p),
+      onTapEvent: OnExploreCardTapped(Routes.swapSeeds),
     ),
     ExploreItem(
       title: 'Get Seeds',
       icon: CustomPaint(size: Size(9, 22), painter: SeedsSymbol()),
       backgroundIconColor: AppColors.white,
+      backgroundImage: 'assets/images/explore/get_seeds_card.png',
       gradient: LinearGradient(
-        colors: [AppColors.green1, AppColors.darkGreen2],
+        colors: [AppColors.green1, AppColors.green2],
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
       ),
@@ -78,7 +78,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<ExploreItem> items = _exploreItems;
     if (!remoteConfigurations.featureFlagP2PEnabled) {
-      items = _exploreItems.where((i) => i.title != 'P2P app').toList();
+      items = _exploreItems.where((i) => i.title != 'Swap Seeds').toList();
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
@@ -95,9 +95,9 @@ class ExploreScreen extends StatelessWidget {
             showDialog<void>(
               context: context,
               builder: (_) => const FlagUserInfoDialog(),
-            ).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Navigate to flag page".i18n), duration: const Duration(seconds: 1)),
-                ));
+            ).whenComplete(
+              () => BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.flag)),
+            );
           }
         },
         builder: (context, _) {

@@ -6,7 +6,6 @@ import 'package:seeds/screens/profile_screens/citizenship/components/visitor_vie
 import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profileValuesArguments.dart';
 
-/// CITIZENSHIP SCREEN
 class CitizenshipScreen extends StatelessWidget {
   const CitizenshipScreen({Key? key}) : super(key: key);
 

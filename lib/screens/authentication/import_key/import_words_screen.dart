@@ -20,7 +20,7 @@ class ImportWordsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     return BlocProvider(
-      create: (context) => ImportKeyBloc(),
+      create: (_) => ImportKeyBloc(),
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -19,7 +18,7 @@ class ExploreCard extends StatelessWidget {
     required this.icon,
     this.iconUseCircleBackground = true,
     this.backgroundIconColor,
-    required this.backgroundImage,
+    this.backgroundImage,
     this.gradient,
     required this.onTap,
   }) : super(key: key);
@@ -36,8 +35,24 @@ class ExploreCard extends StatelessWidget {
           gradient: gradient,
         ),
         child: Stack(
+          alignment: AlignmentDirectional.bottomStart,
           children: [
-            if (backgroundImage != null) SvgPicture.asset(backgroundImage!, fit: BoxFit.fitHeight),
+            if (backgroundImage != null) Image.asset(backgroundImage!),
+            if (title == 'Swap Seeds')
+              LayoutBuilder(builder: (context, constrains) {
+                return ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(defaultCardBorderRadius),
+                      bottomLeft: Radius.circular(defaultCardBorderRadius)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset('assets/images/wallet/leaves_bttm_left.png', width: constrains.maxWidth * 0.5),
+                      Image.asset('assets/images/wallet/leaves_bttm_right.png', width: constrains.maxWidth * 0.5),
+                    ],
+                  ),
+                );
+              }),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -56,7 +71,7 @@ class ExploreCard extends StatelessWidget {
                     ),
                   if (icon != null && !iconUseCircleBackground)
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       child: Container(
                         height: 35,
                         width: 35,
