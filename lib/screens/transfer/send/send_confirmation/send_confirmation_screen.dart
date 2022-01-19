@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
@@ -30,6 +31,7 @@ class SendConfirmationScreen extends StatelessWidget {
         builder: (context, state) {
           return WillPopScope(
             onWillPop: () async {
+              BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
               Navigator.of(context).pop(state.transactionResult);
               return true;
             },
