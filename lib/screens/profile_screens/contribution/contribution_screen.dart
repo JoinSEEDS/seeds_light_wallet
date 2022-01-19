@@ -11,6 +11,7 @@ import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/contribution_bloc.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ContributionScreen extends StatefulWidget {

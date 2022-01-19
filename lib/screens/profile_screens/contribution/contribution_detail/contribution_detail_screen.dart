@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -11,16 +12,17 @@ class ContributionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scoreDetails = ModalRoute.of(context)?.settings.arguments as NavigateToScoreDetails?;
+    if (ModalRoute.of(context)?.settings.arguments == null) {
+      return Scaffold(appBar: AppBar(), body: const FullPageErrorIndicator());
+    }
+
+    final scoreDetails = ModalRoute.of(context)!.settings.arguments! as NavigateToScoreDetails;
     final double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-          title: Row(
-        children: [
-          Text(scoreDetails?.scoreType ?? ""),
-          const Text(' Score'),
-        ],
-      )),
+        title: Text("${scoreDetails.scoreType} Score"),
+      ),
       bottomSheet: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -40,7 +42,7 @@ class ContributionDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
             CircularStepProgressIndicator(
               totalSteps: 99,
-              currentStep: scoreDetails?.score ?? 0,
+              currentStep: scoreDetails.score,
               stepSize: 2.5,
               selectedColor: AppColors.green1,
               unselectedColor: AppColors.darkGreen2,
@@ -53,10 +55,10 @@ class ContributionDetailScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(scoreDetails?.scoreType ?? '',
+                    Text(scoreDetails.scoreType,
                         textAlign: TextAlign.center, maxLines: 2, style: Theme.of(context).textTheme.headline7),
                     const SizedBox(height: 8.0),
-                    Text(scoreDetails?.score.toString() ?? '0', style: Theme.of(context).textTheme.headline3),
+                    Text(scoreDetails.score.toString(), style: Theme.of(context).textTheme.headline3),
                   ],
                 ),
               ),
@@ -65,13 +67,13 @@ class ContributionDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
               child: Text(
-                scoreDetails?.title ?? '',
+                scoreDetails.title,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline7,
               ),
             ),
             const SizedBox(height: 40),
-            ContributionDetailSubtitle(scoreDetails?.subtitle ?? ''),
+            ContributionDetailSubtitle(scoreDetails.subtitle),
             SizedBox(height: width * 0.6),
           ],
         ),

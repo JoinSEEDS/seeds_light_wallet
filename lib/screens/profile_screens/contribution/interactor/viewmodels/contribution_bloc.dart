@@ -41,7 +41,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
                 score: state.score?.contributionScore?.value ?? 0,
-                scoreType: 'Contribution',
+                scoreType: event.scoreType.value,
                 title: ' Your total contribution is measured by combining your other scores. ',
                 subtitle:
                     ' It determines how much Trust points you earn for making governance decisions, and also increases how many Seeds you earn from the Harvest by measuring your participation. ')));
@@ -51,7 +51,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
               score: state.score?.transactionScore?.value ?? 0,
-              scoreType: 'Transaction',
+              scoreType: event.scoreType.value,
               title:
                   ' The more transactions you have, the higher your transaction contribution will be and the more rewards you earn. ',
               subtitle:
@@ -63,7 +63,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
               score: state.score?.plantedScore?.value ?? 0,
-              scoreType: 'Planted Seeds',
+              scoreType: event.scoreType.value,
               title:
                   ' Planted Seeds are similar to a savings account. They are locked up until you unplant them but increase your transaction capacity. ',
               subtitle:
@@ -75,7 +75,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
               score: state.score?.reputationScore?.value ?? 0,
-              scoreType: 'Reputation',
+              scoreType: event.scoreType.value,
               title: ' Your reputation is a multiplier gained by participating in the community. ',
               subtitle:
                   ' Earn reputation by participating in the forum, getting vouched for, inviting new Residents or Citizens, and more. If your reputation is 0, your total contribution is 0 as well.',
@@ -86,7 +86,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
             pageState: PageState.success,
             pageCommand: NavigateToScoreDetails(
               score: state.score?.communityScore?.value ?? 0,
-              scoreType: 'Community',
+              scoreType: event.scoreType.value,
               title: ' Your Community score increases as the members you invite become Residents and Citizens. ',
               subtitle:
                   ' You earn more points for your more recent efforts; additional Community points are given based on how many total points you’ve earned and how many of them were earned in the last 3 moons. ',
