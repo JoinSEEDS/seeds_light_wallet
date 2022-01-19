@@ -23,9 +23,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     ..totalResources = json['total_resources'] == null
         ? null
         : TotalResources.fromJson(json['total_resources'] as Map<String, dynamic>)
-    ..permissions = (json['permissions'] as List?)
-        ?.map((e) => e == null ? null : Permission.fromJson(e as Map<String, dynamic>))
-        .toList()
+    ..permissions = (json['permissions'] as List).map((e) => Permission.fromJson(e as Map<String, dynamic>)).toList()
     ..selfDelegatedBandwidth = json['self_delegated_bandwidth'] == null
         ? null
         : SelfDelegatedBandwidth.fromJson(json['self_delegated_bandwidth'] as Map<String, dynamic>)
@@ -82,8 +80,7 @@ Map<String, dynamic> _$PermissionToJson(Permission instance) => <String, dynamic
 RequiredAuth _$RequiredAuthFromJson(Map<String, dynamic> json) {
   return RequiredAuth()
     ..threshold = json['threshold'] as int?
-    ..keys =
-        (json['keys'] as List?)?.map((e) => e == null ? null : AuthKey.fromJson(e as Map<String, dynamic>)).toList()
+    ..keys = (json['keys'] as List).map((e) => AuthKey.fromJson(e as Map<String, dynamic>)).toList()
     ..accounts = List<Object?>.from(json['accounts'])
     ..waits = List<Object?>.from(json['waits']);
 }
