@@ -17,8 +17,8 @@ import 'package:seeds/screens/explore_screens/flag/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
-import 'package:seeds/screens/explore_screens/p2p/p2p_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
@@ -77,7 +77,7 @@ class Routes {
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
-  static const p2p = 'p2p';
+  static const swapSeeds = 'swapSeeds';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -124,7 +124,7 @@ class NavigationService {
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
-    Routes.p2p: (_) => const P2PScreen(),
+    Routes.swapSeeds: (_) => const SwapSeedsScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),

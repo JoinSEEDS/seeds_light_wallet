@@ -3,10 +3,10 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/p2p/interactor/viewmodels/p2p_bloc.dart';
+import 'package:seeds/screens/explore_screens/swap_seeds/interactor/viewmodels/swap_seeds_bloc.dart';
 
 class SigningResultStateMapper extends StateMapper {
-  P2PState mapResultToState(P2PState currentState, Result result) {
+  SwapSeedsState mapResultToState(SwapSeedsState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure);
     } else {

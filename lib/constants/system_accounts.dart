@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/user_citizenship_status.dart';
-import 'package:seeds/i18n/constans/constans.i18n.dart';
 
 // Seeds system accounts with special icons. Harvest account, onboarding account, etc.
 
@@ -8,19 +9,19 @@ import 'package:seeds/i18n/constans/constans.i18n.dart';
 class SystemAccounts {
   static final onboardingContract = MemberModel(
     account: 'join.seeds',
-    nickname: 'Onboarding Contract'.i18n,
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/community.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
   static final exchangeContract = MemberModel(
     account: 'tlosto.seeds',
-    nickname: 'Exchange Contract'.i18n,
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/exchange.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
   static final harvestContract = MemberModel(
     account: 'harvst.seeds',
-    nickname: 'Harvest Contract'.i18n,
+    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/harvest.svg',
     status: UserCitizenshipStatus.unknown.name,
   );
@@ -42,6 +43,20 @@ class SystemAccounts {
       return true;
     } else {
       return false;
+    }
+  }
+
+  // Used to provide a localized display name for system accounts instead of using MemberModel.nickname
+  static String? getLocalizedDisplayNameForSystemAccount(String accountName, BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    if (accountName == 'join.seeds') {
+      return localization.constantOnboardingContract;
+    } else if (accountName == 'tlosto.seeds') {
+      return localization.constantExchangeContract;
+    } else if (accountName == 'harvst.seeds') {
+      return localization.constantHarvestContract;
+    } else {
+      return null;
     }
   }
 }

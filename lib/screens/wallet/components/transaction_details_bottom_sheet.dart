@@ -57,13 +57,13 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                       ProfileAvatar(
                         size: 60,
                         account: state.currentAccount,
-                        nickname: state.displayName,
+                        nickname: state.localizedDisplayName(context),
                         image: state.profileImageURL,
                         decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
                       ),
                       const SizedBox(height: 20.0),
                       Text(
-                        state.displayName,
+                        state.localizedDisplayName(context),
                         maxLines: 1,
                         style: Theme.of(context).textTheme.headline7,
                       ),

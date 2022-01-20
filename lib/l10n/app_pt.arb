@@ -43,5 +43,10 @@
   "loginImportAccountButtonTitle": "Importar conta",
   "loginRecoverAccountActionSegment1": "Perdeu sua chave?",
   "loginRecoverAccountActionLink": " Recuperar ",
-  "loginRecoverAccountActionSegment2": "sua conta aqui"
+  "loginRecoverAccountActionSegment2": "sua conta aqui",
+  "searchUserNoUserFound": "Nenhum usuário encontrado.",
+  "searchUserHintText": "Buscar...",
+  "constantOnboardingContract": "Contrato De Integração",
+  "constantExchangeContract": "Contrato De Liquidação",
+  "constantHarvestContract": "Contrato De Colheita"
 }

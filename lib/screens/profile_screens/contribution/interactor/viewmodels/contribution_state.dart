@@ -1,7 +1,5 @@
 part of 'contribution_bloc.dart';
 
-enum ScoreType { contributionScore, communityScore, reputationScore, plantedScore, transactionScore }
-
 class ContributionState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
