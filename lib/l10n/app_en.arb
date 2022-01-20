@@ -29,5 +29,22 @@
     "searchUserHintText": "Search...",
     "constantOnboardingContract": "Onboarding Contract",
     "constantExchangeContract": "Exchange Contract",
-    "constantHarvestContract": "Harvest Contract"
+    "constantHarvestContract": "Harvest Contract",
+    "securityGuardiansStatusActive": "Active",
+    "securityGuardiansStatusInactive": "Inactive",
+    "securityGuardiansStatusReadyToActivate": "Ready To Activate",
+    "securityGuardiansHeader": "Key Guardians",
+    "securityGuardiansDescription": "Choose 3 - 5 friends and/or family members to help you recover your account in case.",
+    "securityTitle": "Security",
+    "securityExportPrivateKeyTitle": "Export Private Key",
+    "securityExportPrivateKeyDescription": "Export your private key so you can easily recover and access your account.",
+    "security12WordRecoveryPhraseTitle": "12-word Recovery Phrase",
+    "security12WordRecoveryPhraseDescription": "Write down in a secret place your 12-word phrase so you can easily recover and access your account.",
+    "securitySecureWithPinTitle": "Secure with Pin",
+    "securitySecureWithPinDescription": "Secure your account with a 4-digit pincode",
+    "securitySecureWithTouchFaceIDTitle": "Secure with Touch/Face ID",
+    "securitySecureWithTouchFaceIDDescription": "Secure your account with your fingerprint. This will be used to sign-in and open your wallet.",
+    "securityBiometricEnabledConfirmationButtonTitle": "Got it, thanks!",
+    "securityBiometricEnabledTitle": "Touch ID/Face ID",
+    "securityBiometricEnabledDescription": "When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions."
 }

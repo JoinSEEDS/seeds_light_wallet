@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/security/components/biometric_enabled_dialog.dart';
 import 'package:seeds/screens/profile_screens/security/components/guardian_security_card.dart';
@@ -19,8 +19,9 @@ class SecurityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text('Security'.i18n)),
+      appBar: AppBar(title: Text(localization.securityTitle)),
       body: BlocProvider(
         create: (context) =>
             SecurityBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
@@ -66,9 +67,8 @@ class SecurityScreen extends StatelessWidget {
                       children: [
                         SecurityCard(
                           icon: const Icon(Icons.update),
-                          title: 'Export Private Key'.i18n,
-                          description:
-                              'Export your private key so you can easily recover and access your account.'.i18n,
+                          title: localization.securityExportPrivateKeyTitle,
+                          description: localization.securityExportPrivateKeyDescription,
                           onTap: () => Share.share(settingsStorage.privateKey!),
                         ),
                         BlocBuilder<SecurityBloc, SecurityState>(
@@ -86,9 +86,8 @@ class SecurityScreen extends StatelessWidget {
                         if (state.shouldShowExportRecoveryPhrase)
                           SecurityCard(
                             icon: const Icon(Icons.insert_drive_file),
-                            title: '12-word Recovery Phrase',
-                            description:
-                                'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
+                            title: localization.security12WordRecoveryPhraseTitle,
+                            description: localization.security12WordRecoveryPhraseDescription,
                             onTap: () {
                               NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
                             },
@@ -97,7 +96,7 @@ class SecurityScreen extends StatelessWidget {
                           const SizedBox.shrink(),
                         SecurityCard(
                           icon: const Icon(Icons.lock_outline),
-                          title: 'Secure with Pin'.i18n,
+                          title: localization.securitySecureWithPinTitle,
                           titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
                             buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
                             builder: (context, state) {
@@ -110,11 +109,11 @@ class SecurityScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          description: 'Secure your account with a 4-digit pincode'.i18n,
+                          description: localization.securitySecureWithPinDescription,
                         ),
                         SecurityCard(
                           icon: const Icon(Icons.fingerprint),
-                          title: 'Secure with Touch/Face ID'.i18n,
+                          title: localization.securitySecureWithTouchFaceIDTitle,
                           titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
                             builder: (context, state) {
                               return Switch(
@@ -129,9 +128,7 @@ class SecurityScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          description:
-                              'Secure your account with your fingerprint. This will be used to sign-in and open your wallet.'
-                                  .i18n,
+                          description: localization.securitySecureWithTouchFaceIDDescription,
                         ),
                       ],
                     ),
