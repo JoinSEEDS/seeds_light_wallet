@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/screens/explore_screens/flag/interactor/viewmodels/flag_bloc.dart';
 
 class RemoveFlagInfoDialog extends StatelessWidget {
   final String userAccount;
+
   const RemoveFlagInfoDialog({required this.userAccount, Key? key}) : super(key: key);
 
   @override
@@ -31,7 +31,8 @@ class RemoveFlagInfoDialog extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              Text('Removing the Flag means you believe the member is now acting in good faith. Penalties will be removed from the member. ',
+              Text(
+                'Removing the Flag means you believe the member is now acting in good faith. Penalties will be removed from the member. ',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
