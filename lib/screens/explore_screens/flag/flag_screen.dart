@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/account_action_row.dart';
+import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
+import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/flag/components/remove_flag_info_dialog.dart';
 import 'package:seeds/screens/explore_screens/flag/interactor/viewmodels/flag_bloc.dart';
 
@@ -12,37 +16,78 @@ class FlagScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget body(FlagState state) {
+      switch (state.pageState) {
+        case PageState.initial:
+          return Container();
+        case PageState.loading:
+          return const FullPageLoadingIndicator();
+        case PageState.failure:
+          return const FullPageErrorIndicator();
+        case PageState.success:
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: state.usersIHaveFlagged.isEmpty
+                ? Center(
+                    child: Text(
+                      'You have not flagged any users',
+                      style: Theme.of(context).textTheme.buttonLowEmphasis,
+                    ),
+                  )
+                : ListView(
+                    padding: const EdgeInsets.only(top: 10, bottom: 80),
+                    children: [
+                      for (final member in state.usersIHaveFlagged)
+                        AccountActionRow(
+                          image: member.image,
+                          account: member.account,
+                          nickname: member.nickname,
+                          action: TextButton(
+                            onPressed: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (_) => RemoveFlagInfoDialog(member.account),
+                              );
+                            },
+                            child: const Text(
+                              "Remove Flag",
+                              style: TextStyle(color: AppColors.red, fontSize: 12),
+                            ),
+                          ),
+                          onTileTap: () {
+                            // No - Op for now.
+                          },
+                        )
+                    ],
+                  ),
+          );
+      }
+    }
+
     return BlocProvider(
       create: (_) => FlagBloc()..add(const LoadUsersFlags()),
       child: BlocConsumer<FlagBloc, FlagState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(title: Text('Flag'.i18n)),
-            body: ListView(
-              children: state.usersIHaveFlagged
-                  .map((ProfileModel member) => AccountActionRow(
-                        image: member.image,
-                        account: member.account,
-                        nickname: member.nickname,
-                        action: TextButton(
-                          onPressed: () {
-                            showDialog<void>(
-                              context: context,
-                              builder: (_) => RemoveFlagInfoDialog(member.account),
-                            );
-                          },
-                          child: const Text(
-                            "Remove Flag",
-                            style: TextStyle(color: AppColors.red, fontSize: 12),
-                          ),
-                        ),
-                        onTileTap: () {
-                          // No - Op for now.
-                        },
-                      ))
-                  .toList(),
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(title: const Text('Flag')),
+              bottomSheet: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FlatButtonLong(
+                  title: 'Flag a User',
+                  onPressed: () async {
+                    final shouldScreenReload =
+                    await NavigationService.of(context).navigateTo(Routes.flagUser, state.usersIHaveFlagged);
+                    // if (shouldScreenReload != null) {
+                    //   // ignore: use_build_context_synchronously
+                    //   BlocProvider.of<VouchedBloc>(context).add(LoadUserVouchedList(shouldScreenReload));
+                    // }
+                  },
+                ),
+              ),
+              body: body(state),
             ),
           );
         },

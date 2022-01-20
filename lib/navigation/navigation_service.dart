@@ -14,6 +14,7 @@ import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_screen.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/p2p/p2p_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const delegateAUser = 'delegateAUser';
   static const createInvite = 'createInvite';
   static const flag = 'flag';
+  static const flagUser = 'flagUser';
   static const vote = 'vote';
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.flag: (_) => const FlagScreen(),
+    Routes.flagUser: (_) => const FlagUserScreen(),
     Routes.delegate: (_) => const DelegateScreen(),
     Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
