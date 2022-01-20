@@ -9,7 +9,7 @@ import 'package:seeds/screens/explore_screens/flag/interactor/viewmodels/flag_bl
 class RemoveFlagInfoDialog extends StatelessWidget {
   final String userAccount;
 
-  const RemoveFlagInfoDialog({required this.userAccount, Key? key}) : super(key: key);
+  const RemoveFlagInfoDialog(this.userAccount, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

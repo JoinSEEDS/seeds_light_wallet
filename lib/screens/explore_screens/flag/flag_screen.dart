@@ -42,7 +42,6 @@ class FlagScreen extends StatelessWidget {
                           // No - Op for now.
                         },
                       ))
-                  .toList()
                   .toList(),
             ),
           );
