@@ -8,8 +8,8 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/flag/components/remove_flag_info_dialog.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/viewmodels/flag_bloc.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/components/remove_flag_info_dialog.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/flag_bloc.dart';
 
 class FlagScreen extends StatelessWidget {
   const FlagScreen({Key? key}) : super(key: key);

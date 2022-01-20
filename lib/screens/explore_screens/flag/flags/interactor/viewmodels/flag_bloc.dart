@@ -7,10 +7,10 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/mappers/flagged_users_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/mappers/remove_flag_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/usecases/get_flagged_users_use_case.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/usecases/remove_user_flag_use_case.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/mappers/flagged_users_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/mappers/remove_flag_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/usecases/get_flagged_users_use_case.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/usecases/remove_user_flag_use_case.dart';
 
 part 'flag_event.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
-import 'package:seeds/screens/explore_screens/flag/interactor/viewmodels/flag_bloc.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/flag_bloc.dart';
 
 class RemoveFlagInfoDialog extends StatelessWidget {
   final String userAccount;
