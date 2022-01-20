@@ -30,7 +30,7 @@ class FlagScreen extends StatelessWidget {
                           onPressed: () {
                             showDialog<void>(
                               context: context,
-                              builder: (_) => RemoveFlagInfoDialog(userAccount: member.account),
+                              builder: (_) => RemoveFlagInfoDialog(member.account),
                             );
                           },
                           child: const Text(
