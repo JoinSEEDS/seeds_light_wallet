@@ -12,7 +12,7 @@ class GetFlaggedUsersUseCase extends NoInputUseCase<List<ProfileModel>> {
   @override
   Future<Result<List<ProfileModel>>> run() async {
     final account = settingsStorage.accountName;
-    final Result<List<FlagModel>> flaggedUsersResult = await _flagRepository.getFlagsFrom(account);
+    final Result<List<FlagModel>> flaggedUsersResult = await _flagRepository.getFlagsFrom("illumination");
     if (flaggedUsersResult.isValue) {
       final List<FlagModel> flaggedUsers = flaggedUsersResult.asValue!.value;
 

@@ -13,3 +13,12 @@ class LoadUsersFlags extends FlagEvent {
   @override
   String toString() => 'LoadUsersFlags';
 }
+
+class OnRemoveUserFlagTapped extends FlagEvent {
+  final String userAccount;
+
+  const OnRemoveUserFlagTapped(this.userAccount);
+
+  @override
+  String toString() => 'OnRemoveUserFlagTapped  $userAccount';
+}
