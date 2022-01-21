@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
@@ -18,17 +18,20 @@ class GuardianSecurityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     Widget guardianStatus;
-
     switch (guardiansStatus) {
       case GuardiansStatus.active:
-        guardianStatus = Text("Active".i18n, style: const TextStyle(color: AppColors.green1));
+        guardianStatus =
+            Text(localization.securityGuardiansStatusActive, style: const TextStyle(color: AppColors.green1));
         break;
       case GuardiansStatus.inactive:
-        guardianStatus = Text('Inactive'.i18n, style: const TextStyle(color: AppColors.red));
+        guardianStatus =
+            Text(localization.securityGuardiansStatusInactive, style: const TextStyle(color: AppColors.red));
         break;
       case GuardiansStatus.readyToActivate:
-        guardianStatus = Text('Ready To Activate'.i18n, style: const TextStyle(color: AppColors.orange));
+        guardianStatus =
+            Text(localization.securityGuardiansStatusReadyToActivate, style: const TextStyle(color: AppColors.orange));
         break;
       default:
         guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
@@ -71,7 +74,7 @@ class GuardianSecurityCard extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      'Key Guardians'.i18n,
+                                      localization.securityGuardiansHeader,
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
@@ -91,8 +94,7 @@ class GuardianSecurityCard extends StatelessWidget {
                           children: [
                             Flexible(
                               child: Text(
-                                'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
-                                    .i18n,
+                                localization.securityGuardiansDescription,
                                 style: Theme.of(context).textTheme.subtitle3,
                               ),
                             )

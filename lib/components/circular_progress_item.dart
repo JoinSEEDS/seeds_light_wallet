@@ -30,7 +30,8 @@ class CircularProgressItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
+          borderRadius: BorderRadius.circular(100),
           onTap: onPressed,
           child: CircularStepProgressIndicator(
             totalSteps: totalStep,

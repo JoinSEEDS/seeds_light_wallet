@@ -11,6 +11,7 @@ import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/contribution_bloc.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ContributionScreen extends StatefulWidget {
@@ -58,11 +59,11 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
           listener: (context, state) {
             if (state.pageCommand != null) {
               final pageCommand = state.pageCommand;
+              BlocProvider.of<ContributionBloc>(context).add(const ClearContributionPageCommand());
               if (pageCommand is NavigateToScoreDetails) {
                 NavigationService.of(context).navigateTo(Routes.contributionDetail, pageCommand);
               }
             }
-
             _contributionAnimation =
                 Tween<double>(begin: 0, end: (state.score!.contributionScore?.value ?? 0).toDouble())
                     .animate(_controller)
@@ -108,7 +109,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
+                          InkWell(
+                            borderRadius: BorderRadius.circular(100),
                             onTap: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.contributionScore)),
                             child: CircularStepProgressIndicator(
