@@ -63,5 +63,14 @@
   "securitySecureWithTouchFaceIDDescription": "Asegure su cuenta con su huella digital. Esto se utilizará para iniciar sesión y abrir su billetera.",
   "securityBiometricEnabledConfirmationButtonTitle": "Entendido, gracias!",
   "securityBiometricEnabledTitle": "Touch ID/Face ID",
-  "securityBiometricEnabledDescription": "Cuando se haya configurado Touch ID/Face ID, cualquier biométrico guardado en su dispositivo podrá iniciar sesión en Seeds Light Wallet. No podrá utilizar esta función para transacciones."
+  "securityBiometricEnabledDescription": "Cuando se haya configurado Touch ID/Face ID, cualquier biométrico guardado en su dispositivo podrá iniciar sesión en Seeds Light Wallet. No podrá utilizar esta función para transacciones.",
+  "@recoverAccountFoundShowLinkCopied": {},
+  "@recoverAccountFoundAppBarTitle": {},
+  "@recoverAccountFoundFullPageErrorIndicatorTitle":{},
+  "@recoverAccountFoundLinkTitle": {},
+  "@recoverAccountFoundGuardiansAcceptedTitle": {},
+  "@recoverAccountFoundClaimButtonTitle": {},
+  "@recoverAccountFoundAllGuardiansAcceptedTitle": {},
+  "@recoverAccountFoundHoursLeft": {},
+  "@recoverAccountFoundRecoveredTitle": {}
 }
