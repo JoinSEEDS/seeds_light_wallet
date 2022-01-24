@@ -7,7 +7,9 @@ import 'package:seeds/screens/authentication/import_key/import_key_errors.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/mappers/import_key_state_mapper.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/check_private_key_use_case.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_recovery_words_use_case.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_seeds_passport_words_use_case.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/import_key_use_case.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 part 'import_key_event.dart';
 part 'import_key_state.dart';
@@ -32,8 +34,20 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
     } else {
       final results = await ImportKeyUseCase().run(publicKey);
-      emit(ImportKeyStateMapper()
-          .mapResultsToState(state, results, AuthDataModel.fromKeyAndWords(event.privateKey, event.words)));
+      final List<Result> alternateResults = event.alternatePrivateKey != null
+          ? await ImportKeyUseCase().run(CheckPrivateKeyUseCase().isKeyValid(event.alternatePrivateKey!)!)
+          : [];
+      emit(
+        ImportKeyStateMapper().mapResultsToState(
+          currentState: state,
+          authData: AuthDataModel.fromKeyAndWords(event.privateKey, event.words),
+          results: results,
+          alternateAuthData: event.alternatePrivateKey != null
+              ? AuthDataModel.fromKeyAndWords(event.alternatePrivateKey!, event.words)
+              : null,
+          alternateResults: alternateResults,
+        ),
+      );
     }
   }
 
@@ -45,6 +59,12 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
 
   void _findAccountFromWords(FindAccountFromWords event, Emitter<ImportKeyState> emit) {
     final authData = GenerateKeyFromRecoveryWordsUseCase().run(state.userEnteredWords.values.toList());
-    add(FindAccountByKey(privateKey: authData.eOSPrivateKey.toString(), words: authData.words));
+    final authDataCompatibility =
+        GenerateKeyFromSeedsPassportWordsUseCase().run(state.userEnteredWords.values.toList());
+    add(FindAccountByKey(
+      privateKey: authData.eOSPrivateKey.toString(),
+      alternatePrivateKey: authDataCompatibility.eOSPrivateKey.toString(),
+      words: authData.words,
+    ));
   }
 }
