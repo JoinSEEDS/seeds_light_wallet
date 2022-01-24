@@ -30,10 +30,12 @@ class MemberInfoRow extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        member.nickname.isNotEmpty ? member.nickname : member.account,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.button,
+                      Flexible(
+                        child: Text(
+                          member.nickname.isNotEmpty ? member.nickname : member.account,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.button,
+                        ),
                       ),
                       Text(
                         member.userCitizenshipStatus.name.inCaps,
