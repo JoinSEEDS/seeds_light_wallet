@@ -50,17 +50,11 @@ class VouchForAMemberScreen extends StatelessWidget {
                 return const FullPageLoadingIndicator();
               case PageState.failure:
               case PageState.success:
-                return Column(
-                  children: [
-                    Expanded(
-                      child: SearchUser(
-                        noShowUsers: state.noShowUsers.toList(),
-                        onUserSelected: (selectedUser) {
-                          BlocProvider.of<VouchForAMemberBloc>(context).add(OnUserSelected(selectedUser));
-                        },
-                      ),
-                    ),
-                  ],
+                return SearchUser(
+                  noShowUsers: state.noShowUsers.toList(),
+                  onUserSelected: (selectedUser) {
+                    BlocProvider.of<VouchForAMemberBloc>(context).add(OnUserSelected(selectedUser));
+                  },
                 );
 
               default:
