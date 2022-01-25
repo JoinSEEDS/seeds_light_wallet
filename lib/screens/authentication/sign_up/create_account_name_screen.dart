@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
@@ -7,8 +8,9 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
+import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/debouncer.dart';
@@ -39,6 +41,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return WillPopScope(
       onWillPop: _navigateBack,
       child: BlocConsumer<SignupBloc, SignupState>(
@@ -49,8 +52,8 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
           }
 
           if (state.pageState == PageState.failure) {
-            eventBus
-                .fire(ShowSnackBar(state.errorMessage ?? 'Oops, something went wrong. Please try again later.'.i18n));
+            eventBus.fire(ShowSnackBar(
+                state.error?.localizedDescription(context) ?? GlobalError.Unknown.localizedDescription(context)));
           }
         },
         builder: (context, state) {
@@ -69,9 +72,9 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                           key: _usernameFormKey,
                           child: TextFormFieldCustom(
                             maxLength: 12,
-                            labelText: "Username".i18n,
+                            labelText: localization.signUpUsernameTitle,
                             controller: _keyController,
-                            errorText: state.errorMessage,
+                            errorText: state.error?.localizedDescription(context),
                             suffixIcon: QuadStateClipboardIconButton(
                               isChecked: state.isUsernameValid,
                               onClear: () => _keyController.clear(),
@@ -86,13 +89,12 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                         const SizedBox(height: 10),
                         Expanded(
                           child: Text(
-                            "Note: Usernames must be 12 characters long.\n\n Usernames can only contain characters a-z (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. \n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**"
-                                .i18n,
+                            localization.signUpUsernameDescription,
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                           ),
                         ),
                         FlatButtonLong(
-                          title: 'Create account'.i18n,
+                          title: localization.signUpCreateAccountButtonTitle,
                           onPressed: state.isNextButtonActive
                               ? () {
                                   FocusScope.of(context).unfocus();
