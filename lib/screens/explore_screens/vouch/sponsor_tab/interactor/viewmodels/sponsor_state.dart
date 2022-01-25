@@ -4,7 +4,7 @@ class SponsorState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
-  final List<MemberModel> sponsors;
+  final List<ProfileModel> sponsors;
 
   const SponsorState({
     required this.pageState,
@@ -25,7 +25,7 @@ class SponsorState extends Equatable {
     PageState? pageState,
     PageCommand? pageCommand,
     String? errorMessage,
-    List<MemberModel>? sponsors,
+    List<ProfileModel>? sponsors,
   }) {
     return SponsorState(
       pageState: pageState ?? this.pageState,

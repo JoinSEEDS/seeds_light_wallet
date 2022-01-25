@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class SearchResultRow extends StatelessWidget {
-  final MemberModel member;
+  final ProfileModel member;
   final GestureTapCallback? onTap;
 
   const SearchResultRow({Key? key, required this.member, this.onTap}) : super(key: key);
@@ -42,7 +42,7 @@ class SearchResultRow extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          member.userCitizenshipStatus.name.inCaps,
+                          member.statusString,
                           style: Theme.of(context).textTheme.button,
                         ),
                       ],

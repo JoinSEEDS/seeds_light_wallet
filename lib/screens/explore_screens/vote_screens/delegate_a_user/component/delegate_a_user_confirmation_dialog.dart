@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_bloc.dart';
 
 class DelegateAUserConfirmationDialog extends StatelessWidget {
-  final MemberModel selectedDelegate;
+  final ProfileModel selectedDelegate;
 
   const DelegateAUserConfirmationDialog(this.selectedDelegate, {Key? key}) : super(key: key);
 

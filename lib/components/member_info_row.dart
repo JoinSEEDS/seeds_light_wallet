@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class MemberInfoRow extends StatelessWidget {
-  final MemberModel member;
+  final ProfileModel member;
 
   const MemberInfoRow(this.member, {Key? key}) : super(key: key);
 
@@ -36,7 +36,7 @@ class MemberInfoRow extends StatelessWidget {
                         style: Theme.of(context).textTheme.button,
                       ),
                       Text(
-                        member.userCitizenshipStatus.name.inCaps,
+                        member.statusString,
                         style: Theme.of(context).textTheme.button,
                       ),
                     ],

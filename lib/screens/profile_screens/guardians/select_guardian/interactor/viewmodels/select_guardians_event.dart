@@ -8,7 +8,7 @@ abstract class SelectGuardiansEvent extends Equatable {
 }
 
 class OnUserSelected extends SelectGuardiansEvent {
-  final MemberModel user;
+  final ProfileModel user;
 
   const OnUserSelected(this.user);
 
@@ -17,7 +17,7 @@ class OnUserSelected extends SelectGuardiansEvent {
 }
 
 class OnUserRemoved extends SelectGuardiansEvent {
-  final MemberModel user;
+  final ProfileModel user;
 
   const OnUserRemoved(this.user);
 

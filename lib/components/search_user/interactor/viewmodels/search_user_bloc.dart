@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/search_user/interactor/mappers/search_user_state_mapper.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/user_citizenship_status.dart';
+
 
 part 'search_user_event.dart';
 part 'search_user_state.dart';
@@ -13,7 +13,7 @@ part 'search_user_state.dart';
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final int _minTextLengthBeforeValidSearch = 2;
 
-  SearchUserBloc(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus)
+  SearchUserBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus)
       : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus)) {
     on<OnSearchChange>(_onSearchChange, transformer: _transformEvents);
     on<ClearIconTapped>(_clearIconTapped);

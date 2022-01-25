@@ -3,10 +3,10 @@ part of 'search_user_bloc.dart';
 class SearchUserState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final List<MemberModel> users;
+  final List<ProfileModel> users;
   final bool showClearIcon;
   final List<String>? noShowUsers;
-  final UserCitizenshipStatus? showOnlyCitizenshipStatus;
+  final ProfileStatus? showOnlyCitizenshipStatus;
 
   const SearchUserState({
     required this.pageState,
@@ -30,10 +30,10 @@ class SearchUserState extends Equatable {
   SearchUserState copyWith({
     PageState? pageState,
     String? errorMessage,
-    List<MemberModel>? users,
+    List<ProfileModel>? users,
     bool? showClearIcon,
     List<String>? noShowUsers,
-    UserCitizenshipStatus? showOnlyCitizenshipStatus,
+    ProfileStatus? showOnlyCitizenshipStatus,
   }) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
@@ -45,7 +45,7 @@ class SearchUserState extends Equatable {
     );
   }
 
-  factory SearchUserState.initial(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus) {
+  factory SearchUserState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus) {
     return SearchUserState(
       pageState: PageState.initial,
       users: [],

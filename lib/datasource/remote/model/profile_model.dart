@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
 
@@ -98,6 +99,34 @@ class ProfileModel extends Equatable {
       interests: json['interests'],
       reputation: json['reputation'],
       timestamp: json['timestamp'],
+    );
+  }
+
+  factory ProfileModel.usingDefaultValues({
+    required String account,
+    String nickName = '',
+    String image = '',
+    ProfileStatus status = ProfileStatus.visitor,
+    String interests = '',
+    int reputation = 0,
+    String roles = '',
+    String skills = '',
+    String story = '',
+    int timestamp = 0,
+    String type = '',
+  }) {
+    return ProfileModel(
+      account: account,
+      nickname: nickName,
+      image: image,
+      status: status,
+      interests: interests,
+      reputation: reputation,
+      roles: roles,
+      skills: skills,
+      story: story,
+      timestamp: timestamp == 0 ? Timestamp.now().microsecondsSinceEpoch : timestamp,
+      type: type,
     );
   }
 }

@@ -3,7 +3,7 @@ part of 'member_bloc.dart';
 class MemberState extends Equatable {
   final PageState pageState;
   final String currentAccount;
-  final MemberModel? member;
+  final ProfileModel? member;
 
   String get profileImageURL => member?.image ?? "";
 
@@ -12,7 +12,7 @@ class MemberState extends Equatable {
   @override
   List<Object?> get props => [pageState, currentAccount];
 
-  MemberState copyWith({PageState? pageState, String? currentAccount, MemberModel? member}) {
+  MemberState copyWith({PageState? pageState, String? currentAccount, ProfileModel? member}) {
     return MemberState(
       pageState: pageState ?? this.pageState,
       currentAccount: currentAccount ?? this.currentAccount,

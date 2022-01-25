@@ -4,9 +4,10 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_user/search_user.dart';
 import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/user_citizenship_status.dart';
+
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_confirmation_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_bloc.dart';
@@ -64,7 +65,7 @@ class DelegateAUserScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SearchUser(
-                        filterByCitizenshipStatus: UserCitizenshipStatus.citizen,
+                        filterByCitizenshipStatus: ProfileStatus.citizen,
                         noShowUsers: state.noShowUsers,
                         title: "Citizens",
                         onUserSelected: (selectedUser) {

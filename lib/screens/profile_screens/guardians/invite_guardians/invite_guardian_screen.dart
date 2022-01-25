@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/snack_bar_info.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
@@ -15,7 +15,7 @@ class InviteGuardians extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myGuardians = ModalRoute.of(context)?.settings.arguments as Set<MemberModel>?;
+    final myGuardians = ModalRoute.of(context)?.settings.arguments as Set<ProfileModel>?;
 
     return BlocProvider(
       create: (_) => InviteGuardiansBloc(myGuardians ?? {}),

@@ -2,7 +2,7 @@ part of 'vouch_for_a_member_bloc.dart';
 
 class VouchForAMemberState extends Equatable {
   final PageState pageState;
-  final MemberModel? selectedMember;
+  final ProfileModel? selectedMember;
   final List<String> noShowUsers;
   final PageCommand? pageCommand;
 
@@ -23,7 +23,7 @@ class VouchForAMemberState extends Equatable {
 
   VouchForAMemberState copyWith({
     PageState? pageState,
-    MemberModel? selectedMember,
+    ProfileModel? selectedMember,
     List<String>? noShowUsers,
     PageCommand? pageCommand,
   }) {
@@ -35,7 +35,7 @@ class VouchForAMemberState extends Equatable {
     );
   }
 
-  factory VouchForAMemberState.initial(List<MemberModel> alreadyVouched) {
+  factory VouchForAMemberState.initial(List<ProfileModel> alreadyVouched) {
     final List<String> noShowUsers = [settingsStorage.accountName];
 
     noShowUsers.addAll(alreadyVouched.map((e) => e.account));
