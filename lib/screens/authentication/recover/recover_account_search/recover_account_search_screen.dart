@@ -7,11 +7,13 @@ import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class RecoverAccountSearchScreen extends StatefulWidget {
@@ -39,7 +41,6 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => RecoverAccountSearchBloc(),
       child: BlocConsumer<RecoverAccountSearchBloc, RecoverAccountSearchState>(
@@ -51,6 +52,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
           }
         },
         builder: (context, state) {
+          final localization = AppLocalizations.of(context)!;
           return Scaffold(
             appBar: AppBar(),
             bottomSheet: Padding(
@@ -99,7 +101,8 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                     if (state.errorMessage != null)
                       Center(
                         child: Text(
-                          state.errorMessage!,
+                          state.errorMessage?.localizedDescription(context) ??
+                              GlobalError.Unknown.localizedDescription(context),
                           style: Theme.of(context).textTheme.subtitle3Red,
                           textAlign: TextAlign.center,
                         ),

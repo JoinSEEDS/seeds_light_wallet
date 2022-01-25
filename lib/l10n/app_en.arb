@@ -59,5 +59,9 @@
   "recoverAccountFoundMapperNoGuardiansError": "There are no guardians for this account.",
   "recoverAccountFoundMapperUnknownError": "Oops! Something went wrong, try again later.",
   "recoverAccountSearchButtonTitle": "Next",
-  "recoverAccountSearchTextFormTitle": "Username"
+  "recoverAccountSearchTextFormTitle": "Username",
+  "recoverAccountSearchErrorLoadingGuardians": "Error Loading Guardians",
+  "recoverAccountSearchErrorNoActiveGuardians": "Only accounts protected by guardians are accessible for recovery",
+  "recoverAccountSearchErrorLoadingAccount": "Error Loading Account",
+  "recoverAccountSearchErrorNoValidAccount": "Account is not valid"
 }
