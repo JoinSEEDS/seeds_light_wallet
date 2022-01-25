@@ -6,6 +6,8 @@ import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
@@ -52,13 +54,8 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transactionModel.transactionId ?? "No transaction ID")).then(
-                      (_) {
-                        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                          SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)),
-                        );
-                      },
-                    );
+                    Clipboard.setData(ClipboardData(text: transactionModel.transactionId ?? "No transaction ID"))
+                        .then((_) => eventBus.fire(ShowSnackBar('Copied'.i18n)));
                   },
                 )
               ],

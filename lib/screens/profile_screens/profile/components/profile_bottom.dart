@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -68,7 +69,7 @@ class ProfileBottom extends StatelessWidget {
           );
         } else if (pageCommand is ShowErrorMessage) {
           Navigator.pop(context, CitizenshipUpgradeInProgressDialog);
-          SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+          eventBus.fire(ShowSnackBar(pageCommand.message));
         }
       },
       child: Padding(

@@ -6,10 +6,11 @@ import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -37,9 +38,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
           BlocProvider.of<RecoverAccountFoundBloc>(context).add(const ClearRecoverPageCommand());
 
           if (pageCommand is ShowLinkCopied) {
-            SnackBarInfo(localization.recoverAccountFoundShowLinkCopied, ScaffoldMessenger.of(context)).show();
+            eventBus.fire(ShowSnackBar.success(localization.recoverAccountFoundShowLinkCopied));
           } else if (pageCommand is ShowErrorMessage) {
-            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is CancelRecoveryProcess) {
             Navigator.of(context).pop();
           } else if (pageCommand is OnRecoverAccountSuccess) {

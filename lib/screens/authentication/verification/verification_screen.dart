@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_created_dialog.dart';
@@ -29,16 +31,7 @@ class VerificationScreen extends StatelessWidget {
                 final pageCommand = state.pageCommand;
                 BlocProvider.of<VerificationBloc>(context).add(const ClearVerificationPageCommand());
                 if (pageCommand is PasscodeNotMatch) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: AppColors.canopy,
-                      content: Text(
-                        'Pincode does not match'.i18n,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ),
-                  );
+                  eventBus.fire(ShowSnackBar.success('Pincode does not match'.i18n));
                 } else if (pageCommand is BiometricAuthorized) {
                   final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
                   if (_securityBloc == null) {

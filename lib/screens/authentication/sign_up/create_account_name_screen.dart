@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
@@ -48,9 +49,8 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
           }
 
           if (state.pageState == PageState.failure) {
-            SnackBarInfo(state.errorMessage ?? 'Oops, something went wrong. Please try again later.'.i18n,
-                    ScaffoldMessenger.of(context))
-                .show();
+            eventBus
+                .fire(ShowSnackBar(state.errorMessage ?? 'Oops, something went wrong. Please try again later.'.i18n));
           }
         },
         builder: (context, state) {
