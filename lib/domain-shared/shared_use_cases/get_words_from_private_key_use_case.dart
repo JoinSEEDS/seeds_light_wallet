@@ -5,6 +5,7 @@ import 'package:seeds/screens/authentication/import_key/interactor/usecases/gene
 class GetWordsFromPrivateKey {
   /// If the private key has words, it returns the list of words
   /// otherwise an empty list.
+  /// Handles both passport and seeds light wallet style 12 words keys
   List<String> run() {
     final String privateKey = settingsStorage.privateKey!;
 
