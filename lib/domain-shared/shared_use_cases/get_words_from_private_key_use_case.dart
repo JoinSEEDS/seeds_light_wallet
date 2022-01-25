@@ -13,7 +13,7 @@ class GetWordsFromPrivateKey {
       final words = item.toList();
       return GenerateKeyFromRecoveryWordsUseCase().run(words).eOSPrivateKey.toString() == privateKey ||
           GenerateKeyFromSeedsPassportWordsUseCase().run(words).eOSPrivateKey.toString() == privateKey;
-    });
+    }, orElse: () => "");
 
     if (wordsString.isNotEmpty) {
       return wordsString.toList();
