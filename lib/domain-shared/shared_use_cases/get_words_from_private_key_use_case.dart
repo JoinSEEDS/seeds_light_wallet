@@ -10,17 +10,17 @@ class GetWordsFromPrivateKey {
     final String privateKey = settingsStorage.privateKey!;
 
     final wordsString = settingsStorage.recoveryWords.firstWhere((item) {
-      final words = item.toList();
+      final words = item.toWordList();
       return GenerateKeyFromRecoveryWordsUseCase().run(words).eOSPrivateKey.toString() == privateKey ||
           GenerateKeyFromSeedsPassportWordsUseCase().run(words).eOSPrivateKey.toString() == privateKey;
     }, orElse: () => "");
 
-    return wordsString.isNotEmpty ? wordsString.toList() : [];
+    return wordsString.isNotEmpty ? wordsString.toWordList() : [];
   }
 }
 
 extension WordListString on String {
-  List<String> toList() {
+  List<String> toWordList() {
     return split("-");
   }
 }
