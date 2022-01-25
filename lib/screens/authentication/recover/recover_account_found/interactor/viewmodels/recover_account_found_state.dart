@@ -2,7 +2,7 @@ part of 'recover_account_found_bloc.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
-  final String? errorMessage;
+  final RecoverAccountFoundError? errorMessage;
   final String userAccount;
   final Uri? linkToActivateGuardians;
   final List<String> alreadySignedGuardians;
@@ -49,7 +49,7 @@ class RecoverAccountFoundState extends Equatable {
     Uri? linkToActivateGuardians,
     List<String>? userGuardians,
     List<MemberModel>? userGuardiansData,
-    String? errorMessage,
+    RecoverAccountFoundError? errorMessage,
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
     RecoveryStatus? recoveryStatus,

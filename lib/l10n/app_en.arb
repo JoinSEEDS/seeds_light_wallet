@@ -55,5 +55,7 @@
   "recoverAccountFoundClaimButtonTitle": "Claim account",
   "recoverAccountFoundAllGuardiansAcceptedTitle": "All three of your Key Guardians have accepted your request to recover your account.\nYou account will be unlocked in 24hrs.",
   "recoverAccountFoundHoursLeft": "Hours Left",
-  "recoverAccountFoundRecoveredTitle": "Account recovered "
+  "recoverAccountFoundRecoveredTitle": "Account recovered ",
+  "recoverAccountFoundMapperNoGuardiansError": "There are no guardians for this account.",
+  "recoverAccountFoundMapperUnknownError": "Oops! Something went wrong, try again later."
 }

@@ -10,12 +10,14 @@ import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/components/guardian_row_widget.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
 import 'package:share/share.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
@@ -81,7 +83,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
         return const FullPageLoadingIndicator();
       case PageState.failure:
         return FullPageErrorIndicator(
-          errorMessage: state.errorMessage,
+          errorMessage:
+              state.errorMessage?.localizedDescription(context) ?? GlobalError.Unknown.localizedDescription(context),
           buttonTitle: localization.recoverAccountFoundFullPageErrorIndicatorTitle,
           buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
         );
