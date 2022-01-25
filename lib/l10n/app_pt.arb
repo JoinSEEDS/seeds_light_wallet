@@ -94,5 +94,22 @@
   "security12WordRecoveryPhraseTitle": "Frase de recuperação de 12 palavras",
   "@security12WordRecoveryPhraseTitle": {},
   "security12WordRecoveryPhraseDescription": "Anote em um lugar secreto sua frase de 12 palavras para que você possa facilmente recuperar e acessar sua conta.",
-  "@security12WordRecoveryPhraseDescription": {}
+  "securityBiometricEnabledDescription": "Quando a identificação por Face / Impressão Digital for ativada, qualquer registro biométrico desse tipo pode ser usado para destravar sua Seeds Light Wallet. Não poderá usar esse recurso para transações.",
+    "signUpScanQRCode": "Escanear código QR",
+    "signUpProcessingYourInvitation": "Processando seu convite...",
+    "signUpSuccess": "Sucesso!",
+    "signUpFullNameTitle": "Nome completo",
+    "signUpNameCannotBeEmpty": "O nome não pode estar vazio",
+    "signUpFullNameDescription": "Digite seu nome completo. Pode alterá-lo mais tarde na configuração de seu perfil.",
+    "signUpNextButtonTitle": "Próximo",
+    "signUpUsernameTitle": "Nome De Usuário",
+    "signUpUsernameDescription": "Nota: Os nomes de usuário precisam ter 12 caracteres.\n\n Os nomes de usuário só podem conter caracteres de a-z (todos em minúsculas), 1-5 (sem 0’s), e sem caracteres especiais nem pontos. \n\n **Lembre-se! O nome de sua conta não pode ser alterado ou excluído e será público para outros usuários verem.**",
+    "signUpCreateAccountButtonTitle": "Criar conta",
+    "signUpCloseButtonTitle": "Fechar",
+    "signUpInviteCodeErrorTitle": "Erro de código de convite",
+    "signUpInviteCodeErrorDescription": "Este código de convite já foi utilizado! Consulte a pessoa que lhe convidou.",
+    "signUpErrorFailedToCreateAccount": "Falha ao criar a conta. Por favor, tente novamente.",
+    "signUpErrorUsernameAlreadyTaken": "Este nome de usuário já está em uso.",
+    "signUpErrorNoInvitesFound": "Convite não encontrado, tente outro código",
+    "signUpErrorInviteAlreadyClaimed": "O convite já foi usado"
 }
