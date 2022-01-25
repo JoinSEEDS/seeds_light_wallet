@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/components/search_result_row.dart';
@@ -8,7 +9,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
@@ -39,6 +39,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => RecoverAccountSearchBloc(),
       child: BlocConsumer<RecoverAccountSearchBloc, RecoverAccountSearchState>(
@@ -55,7 +56,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
             bottomSheet: Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
               child: FlatButtonLong(
-                title: 'Next'.i18n,
+                title: localization.recoverAccountSearchButtonTitle,
                 enabled: state.isGuardianActive,
                 onPressed: () => BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnNextButtonTapped()),
               ),
@@ -69,7 +70,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                     TextFormFieldCustom(
                       maxLength: 12,
                       counterText: null,
-                      labelText: "Username".i18n,
+                      labelText: localization.recoverAccountSearchTextFormTitle,
                       controller: _keyController,
                       suffixIcon: QuadStateClipboardIconButton(
                         isChecked: state.isGuardianActive,

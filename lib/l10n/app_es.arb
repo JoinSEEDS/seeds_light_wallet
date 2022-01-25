@@ -72,5 +72,9 @@
   "@recoverAccountFoundClaimButtonTitle": {},
   "@recoverAccountFoundAllGuardiansAcceptedTitle": {},
   "@recoverAccountFoundHoursLeft": {},
-  "@recoverAccountFoundRecoveredTitle": {}
+  "@recoverAccountFoundRecoveredTitle": {},
+  "@recoverAccountFoundMapperNoGuardiansError": {},
+  "@recoverAccountFoundMapperUnknownError": {},
+  "@recoverAccountSearchButtonTitle": {},
+  "@recoverAccountSearchTextFormTitle": {}
 }

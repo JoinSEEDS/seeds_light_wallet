@@ -57,5 +57,7 @@
   "recoverAccountFoundHoursLeft": "Hours Left",
   "recoverAccountFoundRecoveredTitle": "Account recovered ",
   "recoverAccountFoundMapperNoGuardiansError": "There are no guardians for this account.",
-  "recoverAccountFoundMapperUnknownError": "Oops! Something went wrong, try again later."
+  "recoverAccountFoundMapperUnknownError": "Oops! Something went wrong, try again later.",
+  "recoverAccountSearchButtonTitle": "Next",
+  "recoverAccountSearchTextFormTitle": "Username"
 }
