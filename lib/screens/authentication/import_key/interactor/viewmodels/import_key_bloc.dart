@@ -59,11 +59,10 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
 
   void _findAccountFromWords(FindAccountFromWords event, Emitter<ImportKeyState> emit) {
     final authData = GenerateKeyFromRecoveryWordsUseCase().run(state.userEnteredWords.values.toList());
-    final authDataCompatibility =
-        GenerateKeyFromSeedsPassportWordsUseCase().run(state.userEnteredWords.values.toList());
+    final alternateAuthData = GenerateKeyFromSeedsPassportWordsUseCase().run(state.userEnteredWords.values.toList());
     add(FindAccountByKey(
       privateKey: authData.eOSPrivateKey.toString(),
-      alternatePrivateKey: authDataCompatibility.eOSPrivateKey.toString(),
+      alternatePrivateKey: alternateAuthData.eOSPrivateKey.toString(),
       words: authData.words,
     ));
   }
