@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -43,7 +44,7 @@ class DelegatesTab extends StatelessWidget {
               builder: (_) => const IntroducingDelegatesDialog(),
             );
           } else if (pageCommand is ShowErrorMessage) {
-            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           }
         },
         builder: (context, state) {
