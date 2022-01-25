@@ -76,7 +76,7 @@
   "recoverAccountFoundMapperNoGuardiansError": "No hay guardianes para esta cuenta.",
   "recoverAccountFoundMapperUnknownError": "Ups! Algo salió mal, por favor trate mas tarde.",
   "recoverAccountSearchButtonTitle": "Próximo",
-  "recoverAccountSearchTextFormTitle": "Nombre de usuario,",
+  "recoverAccountSearchTextFormTitle": "Nombre de usuario",
   "recoverAccountSearchErrorLoadingGuardians": "Error al cargar guardianes",
   "recoverAccountSearchErrorNoActiveGuardians": "Solo se puede acceder a las cuentas protegidas por guardiane para su recuperación",
   "recoverAccountSearchErrorLoadingAccount": "Error al cargar la cuenta",

@@ -63,5 +63,22 @@
   "securitySecureWithTouchFaceIDDescription": "Aumente a segurança de sua conta com biometria. Esse formato será usado para destravar sua carteira.",
   "securityBiometricEnabledConfirmationButtonTitle": "Entendido, obrigado!",
   "securityBiometricEnabledTitle": "Touch ID/Face ID",
-  "securityBiometricEnabledDescription": "Quando a identificação por Face / Impressão Digital for ativada, qualquer registro biométrico desse tipo pode ser usado para destravar sua Seeds Light Wallet. Não poderá usar esse recurso para transações."
+  "securityBiometricEnabledDescription": "Quando a identificação por Face / Impressão Digital for ativada, qualquer registro biométrico desse tipo pode ser usado para destravar sua Seeds Light Wallet. Não poderá usar esse recurso para transações.",
+  "recoverAccountFoundShowLinkCopied": "Copiado",
+  "recoverAccountFoundAppBarTitle": " Recuperar conta",
+  "recoverAccountFoundFullPageErrorIndicatorTitle": "Cancelar processo",
+  "recoverAccountFoundLinkTitle": "Link para para ativar guardiões",
+  "recoverAccountFoundGuardiansAcceptedTitle": "Os guardiões aceitaram sua solicitação de repuerar sua conta.",
+  "recoverAccountFoundClaimButtonTitle": "Recuperar conta",
+  "recoverAccountFoundAllGuardiansAcceptedTitle": "Todos os três guardiões aceitaram seu pedido de recuperação. \\n Sua conta será desbloqueada em 24 horas.",
+  "recoverAccountFoundHoursLeft": "Horas restantes",
+  "recoverAccountFoundRecoveredTitle": "Conta recuperada",
+  "recoverAccountFoundMapperNoGuardiansError": "Não há guardiões para essa conta.",
+  "recoverAccountFoundMapperUnknownError": "Ops! Algo deu errado, por favor tente mais tarde.",
+  "recoverAccountSearchButtonTitle": "Próximo",
+  "recoverAccountSearchTextFormTitle": "Nome de usuario",
+  "recoverAccountSearchErrorLoadingGuardians": "Erro ao carrregar guardiões",
+  "recoverAccountSearchErrorNoActiveGuardians": "Somente contas protegidas por guardiões são acessíveis para recuperação",
+  "recoverAccountSearchErrorLoadingAccount": "Erro ao carregar a conta",
+  "recoverAccountSearchErrorNoValidAccount": "A conta não é válida"
 }
