@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
@@ -37,9 +38,9 @@ class GuardiansScreen extends StatelessWidget {
           } else if (pageCommand is ShowRemoveGuardianView) {
             _showRemoveGuardianDialog(context, pageCommand.guardian);
           } else if (pageCommand is ShowErrorMessage) {
-            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is ShowMessage) {
-            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
             _showOnboardingGuardianDialogSingleAction(pageCommand, context);
           } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {

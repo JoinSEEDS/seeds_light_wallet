@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_bloc.dart';
 
@@ -42,7 +44,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Clipboard.setData(ClipboardData(text: state.printableWords));
-                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Copied')));
+                                    eventBus.fire(const ShowSnackBar.success('Copied'));
                                   }),
                             const TextSpan(text: ' these words in the right order and save them somewhere safe. '),
                           ],

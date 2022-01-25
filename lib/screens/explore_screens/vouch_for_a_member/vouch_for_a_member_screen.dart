@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_user/search_user.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/components/vouch_for_member_confirmation_dialog.dart';
@@ -40,7 +41,7 @@ class VouchForAMemberScreen extends StatelessWidget {
             } else if (pageCommand is ShowVouchForMemberSuccess) {
               Navigator.of(context).pop(true);
             } else if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
             }
             BlocProvider.of<VouchForAMemberBloc>(context).add(const ClearPageCommand());
           },
