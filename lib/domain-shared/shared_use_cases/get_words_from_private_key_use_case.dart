@@ -15,11 +15,7 @@ class GetWordsFromPrivateKey {
           GenerateKeyFromSeedsPassportWordsUseCase().run(words).eOSPrivateKey.toString() == privateKey;
     }, orElse: () => "");
 
-    if (wordsString.isNotEmpty) {
-      return wordsString.toList();
-    } else {
-      return [];
-    }
+    return wordsString.isNotEmpty ? wordsString.toList() : [];
   }
 }
 
