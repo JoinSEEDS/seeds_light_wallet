@@ -7,6 +7,8 @@ import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/utils/double_extension.dart';
@@ -102,12 +104,8 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transactionID)).then(
-                      (_) {
-                        ScaffoldMessenger.maybeOf(context)!
-                            .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));
-                      },
-                    );
+                    Clipboard.setData(ClipboardData(text: transactionID))
+                        .then((_) => eventBus.fire(ShowSnackBar('Copied'.i18n)));
                   },
                 )
               ],
