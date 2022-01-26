@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_user/search_user.dart';
-import 'package:seeds/components/snack_bar_info.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/components/flag_user_confirmation_dialog.dart';
@@ -15,7 +16,7 @@ class FlagUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alreadyVouched = ModalRoute.of(context)?.settings.arguments as List<MemberModel>?;
+    final alreadyVouched = ModalRoute.of(context)?.settings.arguments as List<ProfileModel>?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Flag")),
@@ -40,7 +41,7 @@ class FlagUserScreen extends StatelessWidget {
             } else if (pageCommand is ShowFlagUserSuccess) {
               Navigator.of(context).pop(true);
             } else if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
             }
             BlocProvider.of<FlagUserBloc>(context).add(const ClearPageCommand());
           },

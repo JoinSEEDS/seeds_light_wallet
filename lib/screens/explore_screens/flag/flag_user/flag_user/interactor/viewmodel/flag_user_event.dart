@@ -8,12 +8,12 @@ abstract class FlagUserEvent extends Equatable {
 }
 
 class OnUserSelected extends FlagUserEvent {
-  final MemberModel user;
+  final ProfileModel profile;
 
-  const OnUserSelected(this.user);
+  const OnUserSelected(this.profile);
 
   @override
-  String toString() => 'OnUserSelected: { User: $user }';
+  String toString() => 'OnUserSelected: { User: $profile }';
 }
 
 class OnConfirmFlagUserTap extends FlagUserEvent {

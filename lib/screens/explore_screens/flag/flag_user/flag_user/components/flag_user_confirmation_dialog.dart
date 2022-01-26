@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/images/explore/vouch_white_background.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/interactor/viewmodel/flag_user_bloc.dart';
 
 class FlagUserConfirmationDialog extends StatelessWidget {
   const FlagUserConfirmationDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VouchForAMemberBloc, VouchForAMemberState>(
+    return BlocBuilder<FlagUserBloc, FlagUserState>(
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
@@ -26,7 +26,7 @@ class FlagUserConfirmationDialog extends StatelessWidget {
               Navigator.of(context).pop();
             },
             onRightButtonPressed: () {
-              BlocProvider.of<VouchForAMemberBloc>(context).add(OnConfirmVouchForMemberTap());
+              BlocProvider.of<FlagUserBloc>(context).add(OnConfirmFlagUserTap());
               Navigator.of(context).pop();
             },
             children: [
@@ -45,7 +45,7 @@ class FlagUserConfirmationDialog extends StatelessWidget {
                     style: Theme.of(context).textTheme.subtitle2,
                     children: <TextSpan>[
                       TextSpan(
-                          text: '${state.selectedMember?.nickname} (${state.selectedMember?.account})',
+                          text: '${state.selectedProfile?.nickname} (${state.selectedProfile?.account})',
                           style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
                       TextSpan(text: '?', style: Theme.of(context).textTheme.subtitle2),
                     ]),
