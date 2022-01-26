@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/system_accounts.dart';
 import 'package:seeds/datasource/local/cache_repository.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/interactor/mappers/member_state_mapper.dart';
 import 'package:seeds/screens/wallet/interactor/usecases/load_member_data_usecase.dart';
@@ -39,8 +39,8 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
     }
     final result = await LoadMemberDataUseCase().run(account);
     // store result in cache
-    if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
-      final MemberModel member = result.asValue!.value;
+    if (!result.isError && result.asValue != null && result.asValue!.value is ProfileModel) {
+      final ProfileModel member = result.asValue!.value;
       await cacheRepository.saveMemberCacheItem(
           account,
           MemberModelCacheItem(

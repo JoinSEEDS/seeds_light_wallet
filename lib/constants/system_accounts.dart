@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/user_citizenship_status.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
+
 
 // Seeds system accounts with special icons. Harvest account, onboarding account, etc.
 
 // TODO(n13): get correct icons from figma
 class SystemAccounts {
-  static final onboardingContract = MemberModel(
+  static final onboardingContract = ProfileModel.usingDefaultValues(
     account: 'join.seeds',
-    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/community.svg',
-    status: UserCitizenshipStatus.unknown.name,
   );
-  static final exchangeContract = MemberModel(
+  static final exchangeContract = ProfileModel.usingDefaultValues(
     account: 'tlosto.seeds',
-    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/exchange.svg',
-    status: UserCitizenshipStatus.unknown.name,
   );
-  static final harvestContract = MemberModel(
+  static final harvestContract = ProfileModel.usingDefaultValues(
     account: 'harvst.seeds',
-    nickname: '', // see comment for getLocalizedDisplayNameForSystemAccount(..)
     image: 'assets/images/harvest.svg',
-    status: UserCitizenshipStatus.unknown.name,
   );
 
-  static MemberModel? getSystemAccount(String accountName) {
+  static ProfileModel? getSystemAccount(String accountName) {
     if (accountName == 'join.seeds') {
       return SystemAccounts.onboardingContract;
     } else if (accountName == 'tlosto.seeds') {
@@ -46,7 +40,7 @@ class SystemAccounts {
     }
   }
 
-  // Used to provide a localized display name for system accounts instead of using MemberModel.nickname
+  // Used to provide a localized display name for system accounts instead of using ProfileModel.nickname
   static String? getLocalizedDisplayNameForSystemAccount(String accountName, BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     if (accountName == 'join.seeds') {

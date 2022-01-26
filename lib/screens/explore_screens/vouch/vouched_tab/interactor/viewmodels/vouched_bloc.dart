@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -27,7 +27,7 @@ class VouchedBloc extends Bloc<VouchedEvent, VouchedState> {
           ? emit(state.copyWith(pageState: PageState.loading, pageCommand: ShowVouchForMemberSuccess()))
           : emit(state.copyWith(pageState: PageState.loading));
 
-      final Result<List<MemberModel>> results = await LoadVouchedListUseCase().run();
+      final Result<List<ProfileModel>> results = await LoadVouchedListUseCase().run();
       emit(LoadVouchedListStateMapper().mapResultToState(state, results));
     }
   }

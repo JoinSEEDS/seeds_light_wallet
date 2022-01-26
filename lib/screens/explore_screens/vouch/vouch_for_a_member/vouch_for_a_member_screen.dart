@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_user/search_user.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -16,7 +16,7 @@ class VouchForAMemberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alreadyVouched = ModalRoute.of(context)?.settings.arguments as List<MemberModel>?;
+    final alreadyVouched = ModalRoute.of(context)?.settings.arguments as List<ProfileModel>?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Vouch")),
