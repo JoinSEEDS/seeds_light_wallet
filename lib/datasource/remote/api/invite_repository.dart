@@ -13,7 +13,7 @@ import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
@@ -67,7 +67,7 @@ class InviteRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result<MemberModel>> getMembers() {
+  Future<Result<ProfileModel>> getMembers() {
     print('[http] get members');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -80,9 +80,9 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<MemberModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
               final List<dynamic> allAccounts = body['rows'].toList();
-              return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+              return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

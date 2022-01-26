@@ -6,7 +6,7 @@ class RecoverAccountSearchState extends Equatable {
   final String? errorMessage;
   final bool isGuardianActive;
   final List<String> userGuardians;
-  final MemberModel? accountInfo;
+  final ProfileModel? accountInfo;
 
   const RecoverAccountSearchState({
     this.pageCommand,
@@ -35,7 +35,7 @@ class RecoverAccountSearchState extends Equatable {
     String? errorMessage,
     bool? isGuardianActive,
     List<String>? userGuardians,
-    MemberModel? accountInfo,
+    ProfileModel? accountInfo,
   }) {
     return RecoverAccountSearchState(
       pageCommand: pageCommand,

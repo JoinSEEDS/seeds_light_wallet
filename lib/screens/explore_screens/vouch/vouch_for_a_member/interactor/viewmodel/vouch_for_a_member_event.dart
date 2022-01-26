@@ -8,7 +8,7 @@ abstract class VouchForAMemberEvent extends Equatable {
 }
 
 class OnUserSelected extends VouchForAMemberEvent {
-  final MemberModel user;
+  final ProfileModel user;
 
   const OnUserSelected(this.user);
 

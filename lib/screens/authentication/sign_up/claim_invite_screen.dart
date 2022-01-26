@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/components/scanner/scanner_view.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/images/signup/claim_invite/invite_link_success.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/sign_up/components/invite_link_fail_dialog.dart';
@@ -32,6 +32,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return BlocListener<SignupBloc, SignupState>(
       listenWhen: (_, current) => current.pageCommand != null,
       listener: (context, state) async {
@@ -58,7 +59,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
           final view = state.claimInviteView;
           switch (view) {
             case ClaimInviteView.scanner:
-              return Scaffold(appBar: AppBar(title: Text('Scan QR Code'.i18n)), body: _scannerWidget);
+              return Scaffold(appBar: AppBar(title: Text(localization.signUpScanQRCode)), body: _scannerWidget);
             case ClaimInviteView.processing:
             case ClaimInviteView.success:
             case ClaimInviteView.fail:
@@ -79,7 +80,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                                 ),
                                 const SizedBox(height: 30),
                                 Text(
-                                  'Processing your invitation...'.i18n,
+                                  localization.signUpProcessingYourInvitation,
                                   style: Theme.of(context).textTheme.headline7,
                                 )
                               ],
@@ -89,7 +90,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                               children: [
                                 const CustomPaint(size: Size(70, 70), painter: InviteLinkSuccess()),
                                 const SizedBox(height: 30),
-                                Text('Success!'.i18n, style: Theme.of(context).textTheme.headline7),
+                                Text(localization.signUpSuccess, style: Theme.of(context).textTheme.headline7),
                               ],
                             ),
                         ],

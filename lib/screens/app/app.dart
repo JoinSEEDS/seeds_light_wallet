@@ -6,10 +6,11 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/app/app.i18.dart';
@@ -113,9 +114,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);
             } else if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is ShowMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is NavigateToRouteWithArguments) {
               NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             }

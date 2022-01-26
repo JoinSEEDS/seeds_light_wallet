@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/search_user/search_user.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -23,10 +25,7 @@ class SelectGuardiansScreen extends StatelessWidget {
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           if (state.pageCommand is ShowMaxUserCountSelected) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                duration: const Duration(seconds: 1),
-                // ignore: cast_nullable_to_non_nullable
-                content: Text((state.pageCommand as ShowMaxUserCountSelected).message)));
+            eventBus.fire(ShowSnackBar((state.pageCommand! as ShowMaxUserCountSelected).message));
           }
 
           BlocProvider.of<SelectGuardiansBloc>(context).add(const ClearPageCommand());

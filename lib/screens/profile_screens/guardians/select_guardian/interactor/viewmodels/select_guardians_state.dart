@@ -4,7 +4,7 @@ const MAX_GUARDIANS_ALLOWED = 5;
 
 class SelectGuardiansState extends Equatable {
   final PageState pageState;
-  final Set<MemberModel> selectedGuardians;
+  final Set<ProfileModel> selectedGuardians;
   final String pageTitle;
   final List<GuardianModel> myGuardians;
   final PageCommand? pageCommand;
@@ -31,7 +31,7 @@ class SelectGuardiansState extends Equatable {
 
   SelectGuardiansState copyWith({
     PageState? pageState,
-    Set<MemberModel>? selectedGuardians,
+    Set<ProfileModel>? selectedGuardians,
     String? pageTitle,
     PageCommand? pageCommand,
     List<String>? noShowGuardians,

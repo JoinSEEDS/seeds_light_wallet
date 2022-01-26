@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -31,7 +31,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         link != null &&
         userRecoversModelData != null &&
         userGuardiansModel != null) {
-      final List<MemberModel> guardians = members.map((e) => e.asValue!.value as MemberModel).toList();
+      final List<ProfileModel> guardians = members.map((e) => e.asValue!.value as ProfileModel).toList();
       final confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
 
       // check how long we have to wait before we can claim (24h delay is standard)

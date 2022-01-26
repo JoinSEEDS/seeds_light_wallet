@@ -24,8 +24,8 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_scr
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
