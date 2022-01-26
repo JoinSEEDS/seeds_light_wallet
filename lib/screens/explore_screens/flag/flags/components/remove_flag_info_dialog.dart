@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/flag_bloc.dart';
 
 class RemoveFlagInfoDialog extends StatelessWidget {
@@ -14,8 +13,8 @@ class RemoveFlagInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      leftButtonTitle: 'Cancel'.i18n,
-      rightButtonTitle: 'Yes, Remove'.i18n,
+      leftButtonTitle: 'Back',
+      rightButtonTitle: "Yes I'm sure",
       onLeftButtonPressed: () {
         Navigator.of(context).pop();
       },

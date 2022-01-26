@@ -14,7 +14,7 @@ import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
-import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/flag_user_screen.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';

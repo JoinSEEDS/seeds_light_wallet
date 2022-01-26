@@ -7,9 +7,9 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/components/flag_user_confirmation_dialog.dart';
-import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/interactor/viewmodel/flag_user_bloc.dart';
-import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user/interactor/viewmodel/flag_user_page_commands.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/components/flag_user_confirmation_dialog.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_bloc.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_page_commands.dart';
 
 class FlagUserScreen extends StatelessWidget {
   const FlagUserScreen({Key? key}) : super(key: key);
@@ -28,6 +28,7 @@ class FlagUserScreen extends StatelessWidget {
             final pageCommand = state.pageCommand;
 
             if (pageCommand is ShowFlagUserConfirmation) {
+              FocusScope.of(context).unfocus();
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
