@@ -1,4 +1,3 @@
-
 import 'package:hdkey/hdkey.dart';
 import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
@@ -18,6 +17,10 @@ class AuthService {
   /// Creates a private key/12 words pair. From words
   AuthDataModel createPrivateKeyFromWords(List<String> words) {
     return AuthDataModel(_createPrivateKeyFrom12Words(words), words);
+  }
+
+  AuthDataModel privateKeyFromSeedsGlobalPassportWords(List<String> words) {
+    return AuthDataModel(createPrivateKeyFrom12WordsBip39(words), words);
   }
 
   /// Creates a private key from 12 words list

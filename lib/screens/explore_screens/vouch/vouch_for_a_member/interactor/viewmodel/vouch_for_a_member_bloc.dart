@@ -6,9 +6,9 @@ import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/mappers/vouch_for_a_member_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/usecases/vouch_for_a_member_usecase.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/mappers/vouch_for_a_member_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/usecases/vouch_for_a_member_usecase.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
 
 part 'vouch_for_a_member_event.dart';
 

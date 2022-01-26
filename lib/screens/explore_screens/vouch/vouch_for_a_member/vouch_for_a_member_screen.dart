@@ -7,9 +7,9 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/components/vouch_for_member_confirmation_dialog.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/components/vouch_for_member_confirmation_dialog.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
 
 class VouchForAMemberScreen extends StatelessWidget {
   const VouchForAMemberScreen({Key? key}) : super(key: key);
@@ -51,17 +51,11 @@ class VouchForAMemberScreen extends StatelessWidget {
                 return const FullPageLoadingIndicator();
               case PageState.failure:
               case PageState.success:
-                return Column(
-                  children: [
-                    Expanded(
-                      child: SearchUser(
-                        noShowUsers: state.noShowUsers.toList(),
-                        onUserSelected: (selectedUser) {
-                          BlocProvider.of<VouchForAMemberBloc>(context).add(OnUserSelected(selectedUser));
-                        },
-                      ),
-                    ),
-                  ],
+                return SearchUser(
+                  noShowUsers: state.noShowUsers.toList(),
+                  onUserSelected: (selectedUser) {
+                    BlocProvider.of<VouchForAMemberBloc>(context).add(OnUserSelected(selectedUser));
+                  },
                 );
 
               default:
