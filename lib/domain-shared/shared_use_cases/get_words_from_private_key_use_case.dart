@@ -21,6 +21,6 @@ class GetWordsFromPrivateKey {
 
 extension WordListString on String {
   List<String> toWordList() {
-    return split("-");
+    return split('-');
   }
 }
