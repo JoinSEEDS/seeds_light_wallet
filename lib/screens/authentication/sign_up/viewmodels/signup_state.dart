@@ -7,7 +7,7 @@ enum ClaimInviteView { initial, scanner, processing, success, fail }
 class SignupState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
-  final String? errorMessage;
+  final SignUpError? error;
   final SignupScreens signupScreens;
   final ClaimInviteView claimInviteView;
   final InviteModel? inviteModel;
@@ -19,7 +19,7 @@ class SignupState extends Equatable {
   const SignupState({
     required this.pageState,
     this.pageCommand,
-    this.errorMessage,
+    this.error,
     required this.signupScreens,
     required this.claimInviteView,
     this.inviteModel,
@@ -33,7 +33,7 @@ class SignupState extends Equatable {
   List<Object?> get props => [
         pageState,
         pageCommand,
-        errorMessage,
+        error,
         signupScreens,
         claimInviteView,
         inviteModel,
@@ -50,7 +50,7 @@ class SignupState extends Equatable {
   SignupState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
-    String? errorMessage,
+    SignUpError? error,
     SignupScreens? signupScreens,
     ClaimInviteView? claimInviteView,
     InviteModel? inviteModel,
@@ -62,7 +62,7 @@ class SignupState extends Equatable {
       SignupState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
-        errorMessage: errorMessage,
+        error: error,
         signupScreens: signupScreens ?? this.signupScreens,
         claimInviteView: claimInviteView ?? this.claimInviteView,
         inviteModel: inviteModel ?? this.inviteModel,

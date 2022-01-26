@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/string_extension.dart';
 
@@ -36,6 +36,7 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return WillPopScope(
       onWillPop: _navigateBack,
       child: BlocBuilder<SignupBloc, SignupState>(
@@ -50,23 +51,23 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     TextFormFieldCustom(
-                      labelText: 'Full Name'.i18n,
+                      labelText: localization.signUpFullNameTitle,
                       onFieldSubmitted: (_) => _onNextPressed(),
                       maxLength: 36,
                       controller: _keyController,
                       validator: (value) {
                         if (value.isNullOrEmpty) {
-                          return 'Name cannot be empty'.i18n;
+                          return localization.signUpNameCannotBeEmpty;
                         }
                         return null;
                       },
                     ),
                     Expanded(
                         child: Text(
-                      "Enter your full name. You will be able to change this later in your profile settings.".i18n,
+                      localization.signUpFullNameDescription,
                       style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                     )),
-                    FlatButtonLong(onPressed: _onNextPressed(), title: 'Next'.i18n),
+                    FlatButtonLong(onPressed: _onNextPressed(), title: localization.signUpNextButtonTitle),
                   ],
                 ),
               ),
