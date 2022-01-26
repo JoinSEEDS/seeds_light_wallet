@@ -30,13 +30,16 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
   Future<void> _findAccountByKey(FindAccountByKey event, Emitter<ImportKeyState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     final publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
+    final alternatePublicKey =
+        event.alternatePrivateKey != null ? CheckPrivateKeyUseCase().isKeyValid(event.alternatePrivateKey!) : null;
+
     if (publicKey == null || publicKey.isEmpty) {
       emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
     } else {
       final results = await ImportKeyUseCase().run(publicKey);
-      final List<Result> alternateResults = event.alternatePrivateKey != null
-          ? await ImportKeyUseCase().run(CheckPrivateKeyUseCase().isKeyValid(event.alternatePrivateKey!)!)
-          : [];
+      final List<Result> alternateResults =
+          alternatePublicKey != null ? await ImportKeyUseCase().run(alternatePublicKey) : [];
+
       emit(
         ImportKeyStateMapper().mapResultsToState(
           currentState: state,
