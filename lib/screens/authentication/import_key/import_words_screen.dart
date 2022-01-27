@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
@@ -13,8 +14,21 @@ import 'package:seeds/utils/mnemonic_code/words_list.dart';
 const NUMBER_OF_WORDS = 12;
 const NUMBER_OF_COLUMNS = 3;
 
-class ImportWordsScreen extends StatelessWidget {
+class ImportWordsScreen extends StatefulWidget {
   const ImportWordsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ImportWordsScreen> createState() => _ImportWordsScreenState();
+}
+
+class _ImportWordsScreenState extends State<ImportWordsScreen> {
+  final _controllers = List.generate(NUMBER_OF_WORDS, (index) => TextEditingController());
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controllers.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +38,17 @@ class ImportWordsScreen extends StatelessWidget {
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(
-                title: localization.importKeySearchButtonTitle,
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
-                },
-                enabled: state.enableButton,
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16),
+                child: FlatButtonLong(
+                  title: localization.importKeySearchButtonTitle,
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
+                  },
+                  enabled: state.enableButton,
+                ),
               ),
             ),
             appBar: AppBar(),
@@ -64,6 +80,7 @@ class ImportWordsScreen extends StatelessWidget {
                             child: Autocomplete<String>(
                               fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
                                   FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                _controllers[index] = textEditingController;
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,
@@ -99,6 +116,33 @@ class ImportWordsScreen extends StatelessWidget {
                             ),
                           );
                         }),
+                      ),
+                      const SizedBox(height: 24),
+                      RichText(
+                        text: TextSpan(
+                          text: "Paste Recovery Words",
+                          style: Theme.of(context).textTheme.subtitle2Green2,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              final cdata = await Clipboard.getData(Clipboard.kTextPlain);
+                              if (!mounted) {
+                                return;
+                              }
+                              final words = (cdata?.text?.split(" ")) ?? [];
+                              if (words.length == NUMBER_OF_WORDS) {
+                                final FocusScopeNode currentFocus = FocusScope.of(context);
+
+                                if (!currentFocus.hasPrimaryFocus) {
+                                  currentFocus.unfocus();
+                                }
+
+                                for (var index = 0; index < words.length; index++) {
+                                  _controllers[index].text = words[index];
+                                }
+                                BlocProvider.of<ImportKeyBloc>(context).add(OnWordsPasted(words));
+                              }
+                            },
+                        ),
                       ),
                       const SizedBox(height: 24),
                       if (state.userEnteredWords.isEmpty)

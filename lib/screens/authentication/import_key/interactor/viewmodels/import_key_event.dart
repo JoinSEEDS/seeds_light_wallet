@@ -46,6 +46,15 @@ class OnWordChange extends ImportKeyEvent {
   String toString() => 'OnWordChange: { word: $word index: $wordIndex}';
 }
 
+class OnWordsPasted extends ImportKeyEvent {
+  final List<String> words;
+
+  const OnWordsPasted(this.words);
+
+  @override
+  String toString() => 'OnWordsPasted: { words: $words }';
+}
+
 class FindAccountFromWords extends ImportKeyEvent {
   const FindAccountFromWords();
 

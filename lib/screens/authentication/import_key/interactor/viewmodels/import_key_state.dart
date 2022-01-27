@@ -19,10 +19,6 @@ class ImportKeyState extends Equatable {
     this.accountSelected,
   });
 
-  bool get areAllWordsEntered {
-    return userEnteredWords.length == 12 && !userEnteredWords.containsValue('');
-  }
-
   @override
   List<Object?> get props => [
         pageState,

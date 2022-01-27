@@ -19,6 +19,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     on<OnPrivateKeyChange>(_onPrivateKeyChange);
     on<FindAccountByKey>(_findAccountByKey);
     on<OnWordChange>(_onWordChange);
+    on<OnWordsPasted>(_onWordsPasted);
     on<FindAccountFromWords>(_findAccountFromWords);
     on<AccountSelected>((event, emit) => emit(state.copyWith(accountSelected: event.account)));
   }
@@ -54,10 +55,20 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     }
   }
 
+  bool _areAllWordsEntered(final Map<int, String> words) {
+    return words.length == 12 && !words.containsValue('');
+  }
+
   void _onWordChange(OnWordChange event, Emitter<ImportKeyState> emit) {
     final Map<int, String> enteredWords = Map.from(state.userEnteredWords);
     enteredWords[event.wordIndex] = event.word;
-    emit(state.copyWith(userEnteredWords: enteredWords, enableButton: state.areAllWordsEntered));
+    emit(state.copyWith(userEnteredWords: enteredWords, enableButton: _areAllWordsEntered(enteredWords)));
+  }
+
+  void _onWordsPasted(OnWordsPasted event, Emitter<ImportKeyState> emit) {
+    final words = event.words.asMap();
+    print("enable button ${_areAllWordsEntered(words)}");
+    emit(state.copyWith(userEnteredWords: words, enableButton: _areAllWordsEntered(words)));
   }
 
   void _findAccountFromWords(FindAccountFromWords event, Emitter<ImportKeyState> emit) {
