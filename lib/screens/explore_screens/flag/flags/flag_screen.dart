@@ -18,9 +18,7 @@ class FlagScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => FlagBloc()..add(const LoadUsersFlags()),
-      child: BlocConsumer<FlagBloc, FlagState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (_, state) {},
+      child: BlocBuilder<FlagBloc, FlagState>(
         builder: (context, FlagState state) {
           return SafeArea(
             child: Scaffold(
@@ -43,7 +41,7 @@ class FlagScreen extends StatelessWidget {
                 builder: (context, state) {
                   switch (state.pageState) {
                     case PageState.initial:
-                      return Container();
+                      return const SizedBox.shrink();
                     case PageState.loading:
                       return const FullPageLoadingIndicator();
                     case PageState.failure:

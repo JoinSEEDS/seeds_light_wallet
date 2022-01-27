@@ -35,10 +35,10 @@ class FlagUserState extends Equatable {
     );
   }
 
-  factory FlagUserState.initial(List<ProfileModel> alreadyVouched) {
+  factory FlagUserState.initial(List<ProfileModel> alreadyFlagged) {
     final List<String> noShowUsers = [settingsStorage.accountName];
 
-    noShowUsers.addAll(alreadyVouched.map((e) => e.account));
+    noShowUsers.addAll(alreadyFlagged.map((e) => e.account));
 
     return FlagUserState(
       pageState: PageState.success,
