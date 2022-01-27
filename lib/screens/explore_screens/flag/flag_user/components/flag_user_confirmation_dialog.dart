@@ -22,9 +22,6 @@ class FlagUserConfirmationDialog extends StatelessWidget {
             icon: const CustomPaint(size: Size(60, 60), painter: FlagWhiteBackground()),
             leftButtonTitle: 'Back',
             rightButtonTitle: "Yes I'm sure",
-            onLeftButtonPressed: () {
-              Navigator.of(context).pop();
-            },
             onRightButtonPressed: () {
               BlocProvider.of<FlagUserBloc>(context).add(OnConfirmFlagUserTap());
               Navigator.of(context).pop();
