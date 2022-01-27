@@ -31,6 +31,8 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
   }
 
   void _onNextButtonTapped(OnNextButtonTapped event, Emitter<RecoverAccountSearchState> emit) {
+    if(state.isGuardianActive){
     emit(state.copyWith(pageCommand: NavigateToRecoverAccountFound(state.accountInfo!.account)));
+    }
   }
 }
