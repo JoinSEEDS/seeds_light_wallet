@@ -110,7 +110,7 @@
   "signUpErrorFailedToCreateAccount": "No se pudo crear la cuenta. Por favor, inténtelo de nuevo más tarde.",
   "signUpErrorUsernameAlreadyTaken": "El nombre de usuario ya está en uso.",
   "signUpErrorNoInvitesFound": "No se encontró la invitación, intenta otro código",
-  "signUpErrorInviteAlreadyClaimed": "La invitación ya se reclamó"
+  "signUpErrorInviteAlreadyClaimed": "La invitación ya se reclamó",
   "recoverAccountFoundShowLinkCopied": "Copiado",
   "@recoverAccountFoundShowLinkCopied": {},
   "recoverAccountFoundAppBarTitle": " Recuperar cuenta",
