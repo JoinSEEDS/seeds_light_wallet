@@ -85,7 +85,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
       case PageState.failure:
         return FullPageErrorIndicator(
           errorMessage:
-              state.errorMessage?.localizedDescription(context) ?? GlobalError.Unknown.localizedDescription(context),
+              state.error?.localizedDescription(context) ?? GlobalError.Unknown.localizedDescription(context),
           buttonTitle: localization.recoverAccountFoundFullPageErrorIndicatorTitle,
           buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
         );

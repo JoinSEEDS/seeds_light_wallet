@@ -72,12 +72,12 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     } else if (hasFetchedGuardians && !hasGuardians) {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: RecoverAccountFoundError.NoGuardians,
+        error: RecoverAccountFoundError.NoGuardians,
       );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: RecoverAccountFoundError.Unknown,
+        error: RecoverAccountFoundError.Unknown,
       );
     }
   }
