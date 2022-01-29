@@ -79,12 +79,16 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'See Transaction Actions (%s)'.i18n.fill([transactionModel.transaction.actions.length]),
-                  style: Theme.of(context).textTheme.buttonGreen1,
+                Flexible(
+                  child: Text(
+                    'See Transaction Actions (%s)'.i18n.fill([transactionModel.transaction.actions.length]),
+                    style: Theme.of(context).textTheme.buttonGreen1,
+                    maxLines: 2,
+                  ),
                 ),
-                const SizedBox(width: 16),
+                //const SizedBox(width: 16),
                 IconButton(
                   onPressed: () {
                     NavigationService.of(context)
