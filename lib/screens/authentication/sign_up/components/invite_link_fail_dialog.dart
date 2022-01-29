@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
   const InviteLinkFailDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return CustomDialog(
       icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
-      singleLargeButtonTitle: 'Close'.i18n,
+      singleLargeButtonTitle: localization.signUpCloseButtonTitle,
       children: [
-        Text('Invite Code Error'.i18n, style: Theme.of(context).textTheme.headline6),
+        Text(localization.signUpInviteCodeErrorTitle, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 24.0),
         Text(
-          'This invite code has already been claimed! Please check with the person who invited you.'.i18n,
+          localization.signUpInviteCodeErrorDescription,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle2,
         ),

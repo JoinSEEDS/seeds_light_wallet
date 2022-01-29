@@ -2,7 +2,7 @@ part of 'invite_guardians_bloc.dart';
 
 class InviteGuardiansState extends Equatable {
   final PageState pageState;
-  final Set<MemberModel> selectedGuardians;
+  final Set<ProfileModel> selectedGuardians;
   final PageCommand? pageCommand;
 
   const InviteGuardiansState({required this.pageState, required this.selectedGuardians, this.pageCommand});
@@ -12,7 +12,7 @@ class InviteGuardiansState extends Equatable {
 
   InviteGuardiansState copyWith({
     PageState? pageState,
-    Set<MemberModel>? selectedGuardians,
+    Set<ProfileModel>? selectedGuardians,
     PageCommand? pageCommand,
   }) {
     return InviteGuardiansState(
@@ -21,7 +21,7 @@ class InviteGuardiansState extends Equatable {
         pageCommand: pageCommand);
   }
 
-  factory InviteGuardiansState.initial(Set<MemberModel> selectedGuardians) {
+  factory InviteGuardiansState.initial(Set<ProfileModel> selectedGuardians) {
     return InviteGuardiansState(pageState: PageState.initial, selectedGuardians: selectedGuardians);
   }
 }

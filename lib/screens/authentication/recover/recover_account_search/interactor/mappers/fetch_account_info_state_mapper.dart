@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
@@ -10,7 +10,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
       return currentState.copyWith(
           pageState: PageState.failure, errorMessage: RecoverAccountSearchError.UnableToLoadAccount);
     } else {
-      final accountInfo = userInfo.asValue?.value as MemberModel?;
+      final accountInfo = userInfo.asValue?.value as ProfileModel?;
 
       if (accountInfo != null) {
         return currentState.copyWith(

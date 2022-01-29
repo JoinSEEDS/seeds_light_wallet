@@ -7,7 +7,7 @@ import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -23,7 +23,7 @@ part 'send_enter_data_event.dart';
 part 'send_enter_data_state.dart';
 
 class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
-  SendEnterDataBloc(MemberModel memberModel, RatesState rates) : super(SendEnterDataState.initial(memberModel, rates)) {
+  SendEnterDataBloc(ProfileModel memberModel, RatesState rates) : super(SendEnterDataState.initial(memberModel, rates)) {
     on<InitSendDataArguments>(_initSendDataArguments);
     on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
     on<OnAmountChange>(_onAmountChange);

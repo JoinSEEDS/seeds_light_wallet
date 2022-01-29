@@ -13,7 +13,8 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/screens/explore_screens/flag/flag_screen.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
+import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -23,8 +24,8 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_scr
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/vouch_for_a_member_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_detail/contribution_detail_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const delegateAUser = 'delegateAUser';
   static const createInvite = 'createInvite';
   static const flag = 'flag';
+  static const flagUser = 'flagUser';
   static const vote = 'vote';
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.flag: (_) => const FlagScreen(),
+    Routes.flagUser: (_) => const FlagUserScreen(),
     Routes.delegate: (_) => const DelegateScreen(),
     Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),

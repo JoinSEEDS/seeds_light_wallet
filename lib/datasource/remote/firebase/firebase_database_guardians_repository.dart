@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_repository.da
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<bool> hasGuardianNotificationPending(String userAccount) {
@@ -61,7 +61,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     });
   }
 
-  Future<Result<dynamic>> inviteGuardians(Set<MemberModel> usersToInvite) {
+  Future<Result<dynamic>> inviteGuardians(Set<ProfileModel> usersToInvite) {
     final currentUserId = settingsStorage.accountName;
 
     final batch = FirebaseFirestore.instance.batch();

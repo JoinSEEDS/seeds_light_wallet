@@ -13,7 +13,7 @@ import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -30,7 +30,7 @@ class SendEnterDataScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
+    final ProfileModel memberModel = ModalRoute.of(context)!.settings.arguments! as ProfileModel;
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
       create: (_) => SendEnterDataBloc(memberModel, rates)..add(InitSendDataArguments()),

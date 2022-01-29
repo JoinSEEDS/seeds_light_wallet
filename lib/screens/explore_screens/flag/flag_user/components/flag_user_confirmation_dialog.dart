@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/images/explore/vouch_white_background.dart';
-import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
+import 'package:seeds/images/explore/flag_white_background.dart';
+import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_bloc.dart';
 
-class VouchForMemberConfirmationDialog extends StatelessWidget {
-  const VouchForMemberConfirmationDialog({Key? key}) : super(key: key);
+class FlagUserConfirmationDialog extends StatelessWidget {
+  const FlagUserConfirmationDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VouchForAMemberBloc, VouchForAMemberState>(
+    return BlocBuilder<FlagUserBloc, FlagUserState>(
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
@@ -19,21 +19,18 @@ class VouchForMemberConfirmationDialog extends StatelessWidget {
             return true;
           },
           child: CustomDialog(
-            icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
-            leftButtonTitle: "Cancel",
+            icon: const CustomPaint(size: Size(60, 60), painter: FlagWhiteBackground()),
+            leftButtonTitle: 'Back',
             rightButtonTitle: "Yes I'm sure",
-            onLeftButtonPressed: () {
-              Navigator.of(context).pop();
-            },
             onRightButtonPressed: () {
-              BlocProvider.of<VouchForAMemberBloc>(context).add(OnConfirmVouchForMemberTap());
+              BlocProvider.of<FlagUserBloc>(context).add(OnConfirmFlagUserTap());
               Navigator.of(context).pop();
             },
             children: [
-              Text('Please read carefully', style: Theme.of(context).textTheme.headline6),
+              Text('Are you sure?', style: Theme.of(context).textTheme.headline6),
               const SizedBox(height: 10.0),
               Text(
-                'Vouching for someone means you are taking responsibility for their actions. If they are flagged, you will also lose reputation points. On the other hand, if they continue progressing to become citizens, you will gain reputation points! Choose carefully!',
+                'Flagging has strong negative consequences so please make sure you are flagging the right person!',
                 style: Theme.of(context).textTheme.subtitle2,
                 textAlign: TextAlign.center,
               ),
@@ -41,11 +38,11 @@ class VouchForMemberConfirmationDialog extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: 'Are you sure you would like to vouch for ',
+                    text: 'Are you sure you would like to flag ',
                     style: Theme.of(context).textTheme.subtitle2,
                     children: <TextSpan>[
                       TextSpan(
-                          text: '${state.selectedMember?.nickname} (${state.selectedMember?.account})',
+                          text: '${state.selectedProfile?.nickname} (${state.selectedProfile?.account})',
                           style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
                       TextSpan(text: '?', style: Theme.of(context).textTheme.subtitle2),
                     ]),

@@ -8,7 +8,7 @@ abstract class DelegateAUserEvent extends Equatable {
 }
 
 class OnUserSelected extends DelegateAUserEvent {
-  final MemberModel user;
+  final ProfileModel user;
 
   const OnUserSelected(this.user);
 
@@ -17,7 +17,7 @@ class OnUserSelected extends DelegateAUserEvent {
 }
 
 class OnConfirmDelegateTab extends DelegateAUserEvent {
-  final MemberModel user;
+  final ProfileModel user;
 
   const OnConfirmDelegateTab(this.user);
 

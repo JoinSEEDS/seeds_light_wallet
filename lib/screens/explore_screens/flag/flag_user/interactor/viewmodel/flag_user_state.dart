@@ -1,14 +1,14 @@
-part of 'vouch_for_a_member_bloc.dart';
+part of 'flag_user_bloc.dart';
 
-class VouchForAMemberState extends Equatable {
+class FlagUserState extends Equatable {
   final PageState pageState;
-  final MemberModel? selectedMember;
+  final ProfileModel? selectedProfile;
   final List<String> noShowUsers;
   final PageCommand? pageCommand;
 
-  const VouchForAMemberState({
+  const FlagUserState({
     required this.pageState,
-    this.selectedMember,
+    this.selectedProfile,
     required this.noShowUsers,
     this.pageCommand,
   });
@@ -16,31 +16,31 @@ class VouchForAMemberState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
-        selectedMember,
+        selectedProfile,
         noShowUsers,
         pageCommand,
       ];
 
-  VouchForAMemberState copyWith({
+  FlagUserState copyWith({
     PageState? pageState,
-    MemberModel? selectedMember,
+    ProfileModel? selectedProfile,
     List<String>? noShowUsers,
     PageCommand? pageCommand,
   }) {
-    return VouchForAMemberState(
+    return FlagUserState(
       pageState: pageState ?? this.pageState,
-      selectedMember: selectedMember ?? this.selectedMember,
+      selectedProfile: selectedProfile ?? this.selectedProfile,
       noShowUsers: noShowUsers ?? this.noShowUsers,
       pageCommand: pageCommand,
     );
   }
 
-  factory VouchForAMemberState.initial(List<MemberModel> alreadyVouched) {
+  factory FlagUserState.initial(List<ProfileModel> alreadyFlagged) {
     final List<String> noShowUsers = [settingsStorage.accountName];
 
-    noShowUsers.addAll(alreadyVouched.map((e) => e.account));
+    noShowUsers.addAll(alreadyFlagged.map((e) => e.account));
 
-    return VouchForAMemberState(
+    return FlagUserState(
       pageState: PageState.success,
       noShowUsers: noShowUsers,
     );

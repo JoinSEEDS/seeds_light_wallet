@@ -7,6 +7,7 @@ import 'package:seeds/screens/wallet/interactor/mappers/user_account_state_mappe
 import 'package:seeds/screens/wallet/interactor/usecases/get_user_account.dart';
 
 part 'wallet_event.dart';
+
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
@@ -24,9 +25,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       // so we need save here the is citizen status in the settingsStorage
       // to avoid show shimmer again in the citizenship module
       settingsStorage.saveIsCitizen(true);
-    }
-    if (newState.profile.status == ProfileStatus.visitor) {
+      settingsStorage.saveIsVisitor(false);
+    } else if (newState.profile.status == ProfileStatus.visitor) {
       settingsStorage.saveIsVisitor(true);
+    } else if (newState.profile.status == ProfileStatus.resident) {
+      settingsStorage.saveIsVisitor(false);
     }
   }
 }

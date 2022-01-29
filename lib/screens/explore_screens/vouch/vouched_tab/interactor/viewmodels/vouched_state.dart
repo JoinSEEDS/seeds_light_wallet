@@ -4,7 +4,7 @@ class VouchedState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
-  final List<MemberModel> vouched;
+  final List<ProfileModel> vouched;
   final bool canVouch;
 
   const VouchedState({
@@ -28,7 +28,7 @@ class VouchedState extends Equatable {
     PageState? pageState,
     PageCommand? pageCommand,
     String? errorMessage,
-    List<MemberModel>? vouched,
+    List<ProfileModel>? vouched,
     bool? canVouch,
   }) {
     return VouchedState(

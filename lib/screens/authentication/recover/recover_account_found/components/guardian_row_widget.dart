@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/string_extension.dart';
 
 class GuardianRowWidget extends StatelessWidget {
-  final MemberModel guardianModel;
+  final ProfileModel guardianModel;
   final bool showGuardianSigned;
 
   const GuardianRowWidget({

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/mappers/fetch_account_guardians_state_mapper.dart';
@@ -32,6 +32,8 @@ class RecoverAccountSearchBloc extends Bloc<RecoverAccountSearchEvent, RecoverAc
   }
 
   void _onNextButtonTapped(OnNextButtonTapped event, Emitter<RecoverAccountSearchState> emit) {
+    if(state.isGuardianActive){
     emit(state.copyWith(pageCommand: NavigateToRecoverAccountFound(state.accountInfo!.account)));
+    }
   }
 }
