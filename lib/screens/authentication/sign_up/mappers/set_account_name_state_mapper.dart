@@ -10,6 +10,6 @@ class SetAccountNameStateMapper extends StateMapper {
       return currentState.copyWith(accountName: accountName, pageState: PageState.success);
     }
     // We got a success response which means username is taken, so we should ask user to pick another accountName
-    return currentState.copyWith(pageState: PageState.failure, error: SignUpError.UsernameAlreadyTaken);
+    return currentState.copyWith(pageState: PageState.failure, error: SignUpError.usernameAlreadyTaken);
   }
 }

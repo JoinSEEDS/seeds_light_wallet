@@ -34,7 +34,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
         event.alternatePrivateKey != null ? CheckPrivateKeyUseCase().isKeyValid(event.alternatePrivateKey!) : null;
 
     if (publicKey == null || publicKey.isEmpty) {
-      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
+      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.invalidPrivateKey));
     } else {
       final results = await ImportKeyUseCase().run(publicKey);
       final List<Result> alternateResults =

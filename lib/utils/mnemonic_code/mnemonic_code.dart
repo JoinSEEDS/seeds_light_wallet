@@ -42,11 +42,11 @@ Uint8List randomBytes(int size) {
 String generateMnemonic({int strength = 48, RandomBytes randomBytes = randomBytes}) {
   assert(strength % 16 == 0);
   final Uint8List entropy = randomBytes(strength ~/ 8);
-  return entropyToMnemonic(HEX.encode(entropy));
+  return entropyToMnemonic(hex.encode(entropy));
 }
 
 String entropyToMnemonic(String entropyString) {
-  final entropy = Uint8List.fromList(HEX.decode(entropyString));
+  final entropy = Uint8List.fromList(hexCodec.decode(entropyString));
   if (entropy.length < 2) {
     throw ArgumentError("$_invalidEntropy length is ${entropy.length}");
   }

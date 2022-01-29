@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports
+// ignore_for_file: always_use_package_imports, constant_identifier_names
 
 import './util/adler32.dart';
 import './util/byte_order.dart';

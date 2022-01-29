@@ -37,22 +37,22 @@ class SetValuesStateMapper extends StateMapper {
       // Define timeline
       if (profile.status == ProfileStatus.visitor) {
         // Timeline to resident
-        timeline = ((min(reputation, resident_required_reputation) / resident_required_reputation) +
-                (min(profiles.length, resident_required_visitors_invited) / resident_required_visitors_invited) +
-                (min(planted, resident_required_planted_seeds) / resident_required_planted_seeds) +
-                (min(transactions, resident_required_seeds_transactions) / resident_required_seeds_transactions)) /
+        timeline = ((min(reputation, residentRequiredReputation) / residentRequiredReputation) +
+                (min(profiles.length, residentRequiredVisitorsInvited) / residentRequiredVisitorsInvited) +
+                (min(planted, residentRequiredPlantedSeeds) / residentRequiredPlantedSeeds) +
+                (min(transactions, residentRequiredSeedsTransactions) / residentRequiredSeedsTransactions)) /
             4 *
             100;
       } else {
         // Timeline to citizen
         final int residentsInvited =
             profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
-        timeline = ((min(reputation, citizen_required_reputation) / citizen_required_reputation) +
-                (min(planted, citizen_required_planted_seeds) / citizen_required_planted_seeds) +
-                (min(transactions, citizen_required_seeds_transactions) / citizen_required_seeds_transactions) +
-                (min(residentsInvited, citizen_required_residents_invited) / citizen_required_residents_invited) +
-                (min(profile.accountAge, citizen_required_account_age) / citizen_required_account_age) +
-                (min(profiles.length, citizen_required_visitors_invited) / citizen_required_visitors_invited)) /
+        timeline = ((min(reputation, citizenRequiredReputation) / citizenRequiredReputation) +
+                (min(planted, citizenRequiredPlantedSeeds) / citizenRequiredPlantedSeeds) +
+                (min(transactions, citizenRequiredSeedsTransactions) / citizenRequiredSeedsTransactions) +
+                (min(residentsInvited, citizenRequiredResidentsInvited) / citizenRequiredResidentsInvited) +
+                (min(profile.accountAge, citizenRequiredAccountAge) / citizenRequiredAccountAge) +
+                (min(profiles.length, citizenRequiredVisitorsInvited) / citizenRequiredVisitorsInvited)) /
             6 *
             100;
       }

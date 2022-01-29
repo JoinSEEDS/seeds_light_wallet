@@ -10,8 +10,8 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_bloc.dart';
 
 const String _alliance = 'alliance';
-const String _cmp_funding = 'cmp.funding';
-const String _cmp_invite = 'cmp.invite';
+const String _cmpFunding = 'cmp.funding';
+const String _cmpInvite = 'cmp.invite';
 const String _milestone = 'milestone';
 const String _referendum = 'referendum';
 const int oneReferendumList = 1;
@@ -57,7 +57,7 @@ class ProposalsStateMapper extends StateMapper {
       final updatedProposals = newProposals.map((i) {
         if (i.campaignType == _alliance) {
           i = i.copyWith(allianceLevel.voiceNeeded);
-        } else if (i.campaignType == _cmp_funding || i.campaignType == _cmp_invite) {
+        } else if (i.campaignType == _cmpFunding || i.campaignType == _cmpInvite) {
           i = i.copyWith(campaingLevel.voiceNeeded);
         } else if (i.campaignType == _milestone) {
           i = i.copyWith(milestoneLevel.voiceNeeded);

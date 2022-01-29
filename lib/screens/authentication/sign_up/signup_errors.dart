@@ -2,44 +2,44 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum SignUpError {
-  FailedToCreateAccount,
-  UsernameAlreadyTaken,
-  NoInvitesFound,
-  InviteAlreadyClaimed,
-  InviteHashNotFound,
-  QRCodeScanFailed,
-  ValidationFailedSelectUsername,
-  ValidationFailedOnlyNumbers15,
-  ValidationFailedNameLowercaseOnly,
-  ValidationFailedNoSpecialCharactersOrSpaces,
-  ValidationFailedUsernameMustBe12Characters
+  failedToCreateAccount,
+  usernameAlreadyTaken,
+  noInvitesFound,
+  inviteAlreadyClaimed,
+  inviteHashNotFound,
+  qRCodeScanFailed,
+  validationFailedSelectUsername,
+  validationFailedOnlyNumbers15,
+  validationFailedNameLowercaseOnly,
+  validationFailedNoSpecialCharactersOrSpaces,
+  validationFailedUsernameMustBe12Characters
 }
 
 extension LocalizedSignUpError on SignUpError {
   String localizedDescription(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     switch (this) {
-      case SignUpError.FailedToCreateAccount:
+      case SignUpError.failedToCreateAccount:
         return localization.signUpErrorFailedToCreateAccount;
-      case SignUpError.UsernameAlreadyTaken:
+      case SignUpError.usernameAlreadyTaken:
         return localization.signUpErrorUsernameAlreadyTaken;
-      case SignUpError.NoInvitesFound:
+      case SignUpError.noInvitesFound:
         return localization.signUpErrorNoInvitesFound;
-      case SignUpError.InviteAlreadyClaimed:
+      case SignUpError.inviteAlreadyClaimed:
         return localization.signUpErrorInviteAlreadyClaimed;
-      case SignUpError.InviteHashNotFound:
+      case SignUpError.inviteHashNotFound:
         return localization.signUpErrorInviteHashNotFound;
-      case SignUpError.QRCodeScanFailed:
+      case SignUpError.qRCodeScanFailed:
         return localization.signUpErrorQRCodeScanFailed;
-      case SignUpError.ValidationFailedSelectUsername:
+      case SignUpError.validationFailedSelectUsername:
         return localization.signUpErrorValidationFailedSelectUsername;
-      case SignUpError.ValidationFailedOnlyNumbers15:
+      case SignUpError.validationFailedOnlyNumbers15:
         return localization.signUpErrorValidationFailedOnlyNumbers15;
-      case SignUpError.ValidationFailedNameLowercaseOnly:
+      case SignUpError.validationFailedNameLowercaseOnly:
         return localization.signUpErrorValidationFailedNameLowercaseOnly;
-      case SignUpError.ValidationFailedNoSpecialCharactersOrSpaces:
+      case SignUpError.validationFailedNoSpecialCharactersOrSpaces:
         return localization.signUpErrorValidationFailedNoSpecialCharactersOrSpaces;
-      case SignUpError.ValidationFailedUsernameMustBe12Characters:
+      case SignUpError.validationFailedUsernameMustBe12Characters:
         return localization.signUpErrorValidationFailedUsernameMustBe12Characters;
     }
   }

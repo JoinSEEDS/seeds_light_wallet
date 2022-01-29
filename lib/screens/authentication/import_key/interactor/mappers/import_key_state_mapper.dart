@@ -17,12 +17,12 @@ class ImportKeyStateMapper extends StateMapper {
     final AuthDataModel? goodAuthData = results.isNotEmpty ? authData : alternateAuthData;
     // No account found. Show error
     if (goodResults.isEmpty) {
-      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.NoAccountsFound);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noAccountsFound);
     }
 
     // Accounts found, but errors fetching data happened.
     if (areAllResultsError(goodResults)) {
-      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.UnableToLoadAccount);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.unableToLoadAccount);
     } else {
       final List<ProfileModel> profiles = goodResults
           .where((Result result) => result.isValue)

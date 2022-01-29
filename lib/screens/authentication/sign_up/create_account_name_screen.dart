@@ -53,7 +53,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
 
           if (state.pageState == PageState.failure) {
             eventBus.fire(ShowSnackBar(
-                state.error?.localizedDescription(context) ?? GlobalError.Unknown.localizedDescription(context)));
+                state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context)));
           }
         },
         builder: (context, state) {

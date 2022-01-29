@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports, non_constant_identifier_names, prefer_final_locals, unnecessary_parenthesis, cast_nullable_to_non_nullable, avoid_redundant_argument_values, invariant_booleans
+// ignore_for_file: always_use_package_imports, non_constant_identifier_names, prefer_final_locals, unnecessary_parenthesis, cast_nullable_to_non_nullable, avoid_redundant_argument_values, invariant_booleans, constant_identifier_names
 
 import 'dart:typed_data';
 import '../util/archive_exception.dart';

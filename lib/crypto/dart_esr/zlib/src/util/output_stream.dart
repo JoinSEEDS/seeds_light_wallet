@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports, avoid_renaming_method_parameters, prefer_final_locals, parameter_assignments
+// ignore_for_file: always_use_package_imports, avoid_renaming_method_parameters, prefer_final_locals, parameter_assignments, constant_identifier_names
 
 import 'dart:typed_data';
 import 'byte_order.dart';

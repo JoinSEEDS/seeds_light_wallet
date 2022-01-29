@@ -10,8 +10,8 @@ import 'package:seeds/screens/authentication/import_key/components/import_key_ac
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
 
-const NUMBER_OF_WORDS = 12;
-const NUMBER_OF_COLUMNS = 3;
+const _numberOfWords = 12;
+const _numberOfColumns = 3;
 
 class ImportWordsScreen extends StatelessWidget {
   const ImportWordsScreen({Key? key}) : super(key: key);
@@ -54,13 +54,13 @@ class ImportWordsScreen extends StatelessWidget {
                         // to disable GridView's scrolling
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        crossAxisCount: NUMBER_OF_COLUMNS,
-                        childAspectRatio: NUMBER_OF_COLUMNS / 2,
-                        children: List.generate(NUMBER_OF_WORDS, (index) {
+                        crossAxisCount: _numberOfColumns,
+                        childAspectRatio: _numberOfColumns / 2,
+                        children: List.generate(_numberOfWords, (index) {
                           return Padding(
                             padding: EdgeInsets.only(
-                                left: (index % NUMBER_OF_COLUMNS == 0) ? 0 : 8,
-                                right: ((index + 1) % NUMBER_OF_COLUMNS == 0) ? 0 : 8),
+                                left: (index % _numberOfColumns == 0) ? 0 : 8,
+                                right: ((index + 1) % _numberOfColumns == 0) ? 0 : 8),
                             child: Autocomplete<String>(
                               fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
                                   FocusNode focusNode, VoidCallback onFieldSubmitted) {
