@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/images/explore/flag_white_background.dart';
+import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_bloc.dart';
 
 class FlagUserConfirmationDialog extends StatelessWidget {
@@ -19,7 +19,7 @@ class FlagUserConfirmationDialog extends StatelessWidget {
             return true;
           },
           child: CustomDialog(
-            icon: const CustomPaint(size: Size(60, 60), painter: FlagWhiteBackground()),
+            icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
             leftButtonTitle: 'Back',
             rightButtonTitle: "Yes I'm sure",
             onRightButtonPressed: () {
