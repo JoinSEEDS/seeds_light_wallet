@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/components/dots_indicator.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
@@ -62,19 +62,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                   ),
                 ),
                 const SizedBox(height: 10),
-                DotsIndicator(
-                  dotsCount: state.availableTokens.length,
-                  position: state.selectedIndex.toDouble(),
-                  decorator: const DotsDecorator(
-                    spacing: EdgeInsets.all(2.0),
-                    size: Size(10.0, 2.0),
-                    shape: Border(),
-                    color: AppColors.darkGreen2,
-                    activeColor: AppColors.green1,
-                    activeSize: Size(18.0, 2.0),
-                    activeShape: Border(),
-                  ),
-                ),
+                DotsIndicator(dotsCount: state.availableTokens.length, position: state.selectedIndex.toDouble()),
                 const SizedBox(height: 20),
                 const ReceiveSendButtons(),
               ],

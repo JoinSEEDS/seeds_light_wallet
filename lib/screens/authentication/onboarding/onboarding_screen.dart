@@ -1,8 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/components/dots_indicator.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_1.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_2.dart';
@@ -67,21 +66,7 @@ class OnboardingState extends State<OnboardingScreen> {
                           )
                         : const SizedBox.shrink(),
                   ),
-                  Expanded(
-                    child: DotsIndicator(
-                      dotsCount: 3,
-                      position: _selectedIndex.toDouble(),
-                      decorator: const DotsDecorator(
-                        spacing: EdgeInsets.all(2.0),
-                        size: Size(10.0, 2.0),
-                        shape: Border(),
-                        color: AppColors.darkGreen2,
-                        activeColor: AppColors.green1,
-                        activeSize: Size(18.0, 2.0),
-                        activeShape: Border(),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: DotsIndicator(dotsCount: 3, position: _selectedIndex.toDouble())),
                   if (_selectedIndex == 2)
                     Expanded(
                       child: Row(
