@@ -1,6 +1,6 @@
 part of 'select_guardians_bloc.dart';
 
-const MAX_GUARDIANS_ALLOWED = 5;
+const maxGuardiansAllowed = 5;
 
 class SelectGuardiansState extends Equatable {
   final PageState pageState;
@@ -48,7 +48,7 @@ class SelectGuardiansState extends Equatable {
 
   factory SelectGuardiansState.initial(List<GuardianModel> myGuardians) {
     var guardian = '';
-    if (MAX_GUARDIANS_ALLOWED - myGuardians.length == 1) {
+    if (maxGuardiansAllowed - myGuardians.length == 1) {
       guardian = 'Guardian';
     } else {
       guardian = 'Guardians';
@@ -60,7 +60,7 @@ class SelectGuardiansState extends Equatable {
     return SelectGuardiansState(
       pageState: PageState.initial,
       selectedGuardians: {},
-      pageTitle: "Select up to ${MAX_GUARDIANS_ALLOWED - myGuardians.length} $guardian to invite",
+      pageTitle: "Select up to ${maxGuardiansAllowed - myGuardians.length} $guardian to invite",
       myGuardians: myGuardians,
       noShowGuardians: noShowGuardians,
     );

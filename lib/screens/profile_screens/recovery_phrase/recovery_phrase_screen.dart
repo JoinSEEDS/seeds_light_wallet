@@ -9,8 +9,8 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_bloc.dart';
 
-const NUMBER_OF_WORDS = 12;
-const NUMBER_OF_COLUMNS = 3;
+const _numberOfWords = 12;
+const _numberOfColumns = 3;
 
 class RecoveryPhraseScreen extends StatelessWidget {
   const RecoveryPhraseScreen({Key? key}) : super(key: key);
@@ -56,13 +56,13 @@ class RecoveryPhraseScreen extends StatelessWidget {
                         // to disable GridView's scrolling
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        crossAxisCount: NUMBER_OF_COLUMNS,
-                        childAspectRatio: NUMBER_OF_COLUMNS / 2,
-                        children: List.generate(NUMBER_OF_WORDS, (index) {
+                        crossAxisCount: _numberOfColumns,
+                        childAspectRatio: _numberOfColumns / 2,
+                        children: List.generate(_numberOfWords, (index) {
                           return Padding(
                             padding: EdgeInsets.only(
-                                left: (index % NUMBER_OF_COLUMNS == 0) ? 0 : 8,
-                                right: ((index + 1) % NUMBER_OF_COLUMNS == 0) ? 0 : 8),
+                                left: (index % _numberOfColumns == 0) ? 0 : 8,
+                                right: ((index + 1) % _numberOfColumns == 0) ? 0 : 8),
                             child: TextField(
                               autocorrect: false,
                               enabled: false,

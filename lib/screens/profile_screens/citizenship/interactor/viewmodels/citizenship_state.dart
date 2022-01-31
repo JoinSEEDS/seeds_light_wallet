@@ -1,18 +1,18 @@
 part of 'citizenship_bloc.dart';
 
 /// Resident requirements
-const int resident_required_reputation = 50;
-const int resident_required_visitors_invited = 1;
-const int resident_required_planted_seeds = 50;
-const int resident_required_seeds_transactions = 1;
+const int residentRequiredReputation = 50;
+const int residentRequiredVisitorsInvited = 1;
+const int residentRequiredPlantedSeeds = 50;
+const int residentRequiredSeedsTransactions = 1;
 
 /// Citizen requirements
-const int citizen_required_reputation = 50;
-const int citizen_required_visitors_invited = 3;
-const int citizen_required_account_age = 60;
-const int citizen_required_planted_seeds = 200;
-const int citizen_required_seeds_transactions = 5;
-const int citizen_required_residents_invited = 1;
+const int citizenRequiredReputation = 50;
+const int citizenRequiredVisitorsInvited = 3;
+const int citizenRequiredAccountAge = 60;
+const int citizenRequiredPlantedSeeds = 200;
+const int citizenRequiredSeedsTransactions = 5;
+const int citizenRequiredResidentsInvited = 1;
 
 class CitizenshipState extends Equatable {
   final PageState pageState;

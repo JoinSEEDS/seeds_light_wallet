@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports, parameter_assignments, prefer_final_locals, non_constant_identifier_names, invariant_booleans, use_late_for_private_fields_and_variables, avoid_multiple_declarations_per_line
+// ignore_for_file: always_use_package_imports, parameter_assignments, prefer_final_locals, non_constant_identifier_names, invariant_booleans, use_late_for_private_fields_and_variables, avoid_multiple_declarations_per_line, constant_identifier_names
 
 import 'dart:typed_data';
 import '../util/archive_exception.dart';
@@ -450,7 +450,7 @@ class Deflate {
     if (len == 0) {
       return;
     }
-    _pendingBuffer.setRange(_pending, _pending+ len, p!, start!);
+    _pendingBuffer.setRange(_pending, _pending + len, p!, start!);
     _pending += len;
   }
 
@@ -469,7 +469,7 @@ class Deflate {
 
   void _sendBits(int value_Renamed, int length) {
     var len = length;
-    if (_numValidBits> BUF_SIZE - len) {
+    if (_numValidBits > BUF_SIZE - len) {
       var val = value_Renamed;
       _bitBuffer = _bitBuffer | (val << _numValidBits) & 0xffff;
       _putShort(_bitBuffer);
@@ -500,7 +500,7 @@ class Deflate {
     // (10 - bi_valid) bits. The lookahead for the last real code (before
     // the EOB of the previous block) was thus at least one plus the length
     // of the EOB plus what we have just sent of the empty static block.
-    if (1 + _lastEOBLen + 10 - _numValidBits< 9) {
+    if (1 + _lastEOBLen + 10 - _numValidBits < 9) {
       _sendBits(STATIC_TREES << 1, 3);
       _sendCode(END_BLOCK, _StaticTree.STATIC_LTREE);
       biFlush();
@@ -512,8 +512,8 @@ class Deflate {
   /// Save the match info and tally the frequency counts. Return true if
   /// the current block must be flushed.
   bool _trTally(int dist, int lc) {
-    _pendingBuffer[_dbuf! + _lastLit* 2] = _rshift(dist, 8);
-    _pendingBuffer[_dbuf! + _lastLit* 2 + 1] = dist;
+    _pendingBuffer[_dbuf! + _lastLit * 2] = _rshift(dist, 8);
+    _pendingBuffer[_dbuf! + _lastLit * 2 + 1] = dist;
 
     _pendingBuffer[_lbuf + _lastLit] = lc;
     _lastLit++;
@@ -529,10 +529,10 @@ class Deflate {
       _dynamicDistTree![_HuffmanTree._dCode(dist) * 2]++;
     }
 
-    if ((_lastLit& 0x1fff) == 0 && _level! > 2) {
+    if ((_lastLit & 0x1fff) == 0 && _level! > 2) {
       // Compute an upper bound for the compressed length
-      var out_length = _lastLit* 8;
-      var in_length = _strStart- _blockStart;
+      var out_length = _lastLit * 8;
+      var in_length = _strStart - _blockStart;
       int dcode;
       for (dcode = 0; dcode < D_CODES; dcode++) {
         out_length = out_length + _dynamicDistTree![dcode * 2] * (5 + _HuffmanTree.EXTRA_D_BITS[dcode]);
@@ -623,7 +623,7 @@ class Deflate {
       _putShort(_bitBuffer);
       _bitBuffer = 0;
       _numValidBits = 0;
-    } else if (_numValidBits>= 8) {
+    } else if (_numValidBits >= 8) {
       _putByte(_bitBuffer);
       _bitBuffer = _rshift(_bitBuffer, 8);
       _numValidBits -= 8;
@@ -632,9 +632,9 @@ class Deflate {
 
   /// Flush the bit buffer and align the output on a byte boundary
   void _biWindup() {
-    if (_numValidBits> 8) {
+    if (_numValidBits > 8) {
       _putShort(_bitBuffer);
-    } else if (_numValidBits> 0) {
+    } else if (_numValidBits > 0) {
       _putByte(_bitBuffer);
     }
     _bitBuffer = 0;
@@ -656,7 +656,7 @@ class Deflate {
   }
 
   void _flushBlockOnly(bool eof) {
-    _trFlushBlock(_blockStart>= 0 ? _blockStart : -1, _strStart- _blockStart, eof);
+    _trFlushBlock(_blockStart >= 0 ? _blockStart : -1, _strStart - _blockStart, eof);
     _blockStart = _strStart;
     _flushPending();
   }
@@ -680,7 +680,7 @@ class Deflate {
     // Copy as much as possible from input to output:
     while (true) {
       // Fill the window as much as possible:
-      if (_lookAhead<= 1) {
+      if (_lookAhead <= 1) {
         _fillWindow();
 
         if (_lookAhead == 0 && flush == NO_FLUSH) {
@@ -696,17 +696,17 @@ class Deflate {
       _lookAhead = 0;
 
       // Emit a stored block if pendingBuffer will be full:
-      var maxStart = _blockStart+ maxBlockSize;
+      var maxStart = _blockStart + maxBlockSize;
 
-      if (_strStart>= maxStart) {
-        _lookAhead = _strStart- maxStart;
+      if (_strStart >= maxStart) {
+        _lookAhead = _strStart - maxStart;
         _strStart = maxStart;
         _flushBlockOnly(false);
       }
 
       // Flush if we may have to slide, otherwise block_start may become
       // negative and the data will be gone:
-      if (_strStart- _blockStart>= _windowSize! - MIN_LOOKAHEAD) {
+      if (_strStart - _blockStart >= _windowSize! - MIN_LOOKAHEAD) {
         _flushBlockOnly(false);
       }
     }
@@ -749,7 +749,7 @@ class Deflate {
       max_blindex = _buildBitLengthTree();
 
       // Determine the best encoding. Compute first the block length in bytes
-      optLenb = _rshift(_optimalLen+ 3 + 7, 3);
+      optLenb = _rshift(_optimalLen + 3 + 7, 3);
       staticLenb = _rshift(_staticLen + 3 + 7, 3);
 
       if (staticLenb <= optLenb) {
@@ -796,12 +796,12 @@ class Deflate {
   void _fillWindow() {
     do {
       // Amount of free space at the end of the window.
-      int? more = _actualWindowSize - _lookAhead- _strStart;
+      int? more = _actualWindowSize - _lookAhead - _strStart;
 
       // Deal with 64K limit:
       if (more == 0 && _strStart == 0 && _lookAhead == 0) {
         more = _windowSize;
-      } else if (_strStart>= _windowSize! + _windowSize! - MIN_LOOKAHEAD) {
+      } else if (_strStart >= _windowSize! + _windowSize! - MIN_LOOKAHEAD) {
         // If the window is almost full and there is insufficient lookahead,
         // move the upper half to the lower one to make room in the upper half.
 
@@ -851,18 +851,18 @@ class Deflate {
       // Otherwise, window_size == 2*WSIZE so more >= 2.
       // If there was sliding, more >= WSIZE. So in all cases, more >= 2.
 
-      var n = _readBuf(_window, _strStart+ _lookAhead, more);
+      var n = _readBuf(_window, _strStart + _lookAhead, more);
       _lookAhead += n;
 
       // Initialize the hash value now that we have some input:
-      if (_lookAhead>= MIN_MATCH) {
+      if (_lookAhead >= MIN_MATCH) {
         _insertHash = _window![_strStart] & 0xff;
-        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ 1] & 0xff)) & _hashMask;
+        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + 1] & 0xff)) & _hashMask;
       }
 
       // If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
       // but this is not important since only literal bytes will be emitted.
-    } while (_lookAhead< MIN_LOOKAHEAD && !_input.isEOS);
+    } while (_lookAhead < MIN_LOOKAHEAD && !_input.isEOS);
   }
 
   /// Compress as much as possible from the input stream, return the current
@@ -879,9 +879,9 @@ class Deflate {
       // at the end of the input file. We need MAX_MATCH bytes
       // for the next match, plus MIN_MATCH bytes to insert the
       // string following the next match.
-      if (_lookAhead< MIN_LOOKAHEAD) {
+      if (_lookAhead < MIN_LOOKAHEAD) {
         _fillWindow();
-        if (_lookAhead< MIN_LOOKAHEAD && flush == NO_FLUSH) {
+        if (_lookAhead < MIN_LOOKAHEAD && flush == NO_FLUSH) {
           return NEED_MORE;
         }
         if (_lookAhead == 0) {
@@ -891,18 +891,18 @@ class Deflate {
 
       // Insert the string window[strstart .. strstart+2] in the
       // dictionary, and set hash_head to the head of the hash chain:
-      if (_lookAhead>= MIN_MATCH) {
-        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ (MIN_MATCH - 1)] & 0xff)) & _hashMask;
+      if (_lookAhead >= MIN_MATCH) {
+        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + (MIN_MATCH - 1)] & 0xff)) & _hashMask;
 
         hash_head = _head[_insertHash] & 0xffff;
-        _prev[_strStart& _windowMask!] = _head[_insertHash];
+        _prev[_strStart & _windowMask!] = _head[_insertHash];
         _head[_insertHash] = _strStart;
       }
 
       // Find the longest match, discarding those <= prev_length.
       // At this point we have always match_length < MIN_MATCH
 
-      if (hash_head != 0 && ((_strStart- hash_head) & 0xffff) <= _windowSize! - MIN_LOOKAHEAD) {
+      if (hash_head != 0 && ((_strStart - hash_head) & 0xffff) <= _windowSize! - MIN_LOOKAHEAD) {
         // To simplify the code, we prevent matches with the string
         // of window index 0 (in particular we have to avoid a match
         // of the string with itself at the start of the input file).
@@ -913,22 +913,22 @@ class Deflate {
         // longest_match() sets match_start
       }
 
-      if (_matchLength>= MIN_MATCH) {
-        bflush = _trTally(_strStart- _matchStart, _matchLength- MIN_MATCH);
+      if (_matchLength >= MIN_MATCH) {
+        bflush = _trTally(_strStart - _matchStart, _matchLength - MIN_MATCH);
 
         _lookAhead -= _matchLength;
 
         // Insert strings in the hash table only if the match length
         // is not too large. This saves time but degrades compression.
-        if (_matchLength<= _config!.maxLazy && _lookAhead>= MIN_MATCH) {
+        if (_matchLength <= _config!.maxLazy && _lookAhead >= MIN_MATCH) {
           _matchLength--; // string at strstart already in hash table
           do {
             _strStart++;
 
-            _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ (MIN_MATCH - 1)] & 0xff)) & _hashMask;
+            _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + (MIN_MATCH - 1)] & 0xff)) & _hashMask;
 
             hash_head = _head[_insertHash] & 0xffff;
-            _prev[_strStart& _windowMask!] = _head[_insertHash];
+            _prev[_strStart & _windowMask!] = _head[_insertHash];
             _head[_insertHash] = _strStart;
 
             // strstart never exceeds WSIZE-MAX_MATCH, so there are
@@ -940,7 +940,7 @@ class Deflate {
           _matchLength = 0;
           _insertHash = _window![_strStart] & 0xff;
 
-          _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ 1] & 0xff)) & _hashMask;
+          _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + 1] & 0xff)) & _hashMask;
           // If lookahead < MIN_MATCH, ins_h is garbage, but it does not
           // matter since it will be recomputed at next deflate call.
         }
@@ -975,10 +975,10 @@ class Deflate {
       // at the end of the input file. We need MAX_MATCH bytes
       // for the next match, plus MIN_MATCH bytes to insert the
       // string following the next match.
-      if (_lookAhead< MIN_LOOKAHEAD) {
+      if (_lookAhead < MIN_LOOKAHEAD) {
         _fillWindow();
 
-        if (_lookAhead< MIN_LOOKAHEAD && flush == NO_FLUSH) {
+        if (_lookAhead < MIN_LOOKAHEAD && flush == NO_FLUSH) {
           return NEED_MORE;
         }
 
@@ -990,10 +990,10 @@ class Deflate {
       // Insert the string window[strstart .. strstart+2] in the
       // dictionary, and set hash_head to the head of the hash chain:
 
-      if (_lookAhead>= MIN_MATCH) {
-        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ (MIN_MATCH - 1)] & 0xff)) & _hashMask;
+      if (_lookAhead >= MIN_MATCH) {
+        _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + (MIN_MATCH - 1)] & 0xff)) & _hashMask;
         hash_head = _head[_insertHash] & 0xffff;
-        _prev[_strStart& _windowMask!] = _head[_insertHash];
+        _prev[_strStart & _windowMask!] = _head[_insertHash];
         _head[_insertHash] = _strStart;
       }
 
@@ -1003,8 +1003,8 @@ class Deflate {
       _matchLength = MIN_MATCH - 1;
 
       if (hash_head != 0 &&
-          _prevLength< _config!.maxLazy &&
-          ((_strStart- hash_head) & 0xffff) <= _windowSize! - MIN_LOOKAHEAD) {
+          _prevLength < _config!.maxLazy &&
+          ((_strStart - hash_head) & 0xffff) <= _windowSize! - MIN_LOOKAHEAD) {
         // To simplify the code, we prevent matches with the string
         // of window index 0 (in particular we have to avoid a match
         // of the string with itself at the start of the input file).
@@ -1014,8 +1014,8 @@ class Deflate {
         }
         // longest_match() sets match_start
 
-        if (_matchLength<= 5 &&
-            (_strategy == Z_FILTERED || (_matchLength == MIN_MATCH && _strStart- _matchStart > 4096))) {
+        if (_matchLength <= 5 &&
+            (_strategy == Z_FILTERED || (_matchLength == MIN_MATCH && _strStart - _matchStart > 4096))) {
           // If prev_match is also MIN_MATCH, match_start is garbage
           // but we will ignore the current match anyway.
           _matchLength = MIN_MATCH - 1;
@@ -1024,24 +1024,24 @@ class Deflate {
 
       // If there was a match at the previous step and the current
       // match is not better, output the previous match:
-      if (_prevLength>= MIN_MATCH && _matchLength<= _prevLength) {
-        var max_insert = _strStart+ _lookAhead- MIN_MATCH;
+      if (_prevLength >= MIN_MATCH && _matchLength <= _prevLength) {
+        var max_insert = _strStart + _lookAhead - MIN_MATCH;
         // Do not insert strings in hash table beyond this.
 
-        bflush = _trTally(_strStart- 1 - _prevMatch, _prevLength- MIN_MATCH);
+        bflush = _trTally(_strStart - 1 - _prevMatch, _prevLength - MIN_MATCH);
 
         // Insert in hash table all strings up to the end of the match.
         // strstart-1 and strstart are already inserted. If there is not
         // enough lookahead, the last two strings are not inserted in
         // the hash table.
-        _lookAhead -= _prevLength- 1;
+        _lookAhead -= _prevLength - 1;
         _prevLength -= 2;
 
         do {
           if (++_strStart <= max_insert) {
-            _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart+ (MIN_MATCH - 1)] & 0xff)) & _hashMask;
+            _insertHash = ((_insertHash << _hashShift) ^ (_window![_strStart + (MIN_MATCH - 1)] & 0xff)) & _hashMask;
             hash_head = _head[_insertHash] & 0xffff;
-            _prev[_strStart& _windowMask!] = _head[_insertHash];
+            _prev[_strStart & _windowMask!] = _head[_insertHash];
             _head[_insertHash] = _strStart;
           }
         } while (--_prevLength != 0);
@@ -1058,7 +1058,7 @@ class Deflate {
         // single literal. If there was a match but the current match
         // is longer, truncate the previous match to a single literal.
 
-        bflush = _trTally(0, _window![_strStart- 1] & 0xff);
+        bflush = _trTally(0, _window![_strStart - 1] & 0xff);
 
         if (bflush) {
           _flushBlockOnly(false);
@@ -1075,7 +1075,7 @@ class Deflate {
     }
 
     if (_matchAvailable != 0) {
-      bflush = _trTally(0, _window![_strStart- 1] & 0xff);
+      bflush = _trTally(0, _window![_strStart - 1] & 0xff);
       _matchAvailable = 0;
     }
     _flushBlockOnly(flush == FINISH);
@@ -1089,7 +1089,7 @@ class Deflate {
     int match; // matched string
     int len; // length of current match
     var best_len = _prevLength; // best match length so far
-    var limit = _strStart> (_windowSize! - MIN_LOOKAHEAD) ? _strStart- (_windowSize! - MIN_LOOKAHEAD) : 0;
+    var limit = _strStart > (_windowSize! - MIN_LOOKAHEAD) ? _strStart - (_windowSize! - MIN_LOOKAHEAD) : 0;
     var nice_match = _config!.niceLength;
 
     // Stop when cur_match becomes <= limit. To simplify the code,
@@ -1097,7 +1097,7 @@ class Deflate {
 
     var wmask = _windowMask;
 
-    var strend = _strStart+ MAX_MATCH;
+    var strend = _strStart + MAX_MATCH;
     var scan_end1 = _window![scan + best_len - 1];
     var scan_end = _window![scan + best_len];
 
@@ -1105,7 +1105,7 @@ class Deflate {
     // It is easy to get rid of this optimization if necessary.
 
     // Do not waste too much time if we already have a good match:
-    if (_prevLength>= _config!.goodLength) {
+    if (_prevLength >= _config!.goodLength) {
       chain_length >>= 2;
     }
 
@@ -2570,7 +2570,7 @@ class _HuffmanTree {
           continue;
         }
         if (tree[m * 2 + 1] != bits) {
-          s._optimalLen = s._optimalLen+ (bits - tree[m * 2 + 1]) * tree[m * 2];
+          s._optimalLen = s._optimalLen + (bits - tree[m * 2 + 1]) * tree[m * 2];
           tree[m * 2 + 1] = bits;
         }
         n--;

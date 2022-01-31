@@ -7,7 +7,7 @@ import 'package:seeds/screens/profile_screens/profile/components/switch_account_
 class SetFoundPrivateKeyStateMapper extends StateMapper {
   SwitchAccountState mapResultToState(SwitchAccountState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.NoPublicKeyFound);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noPublicKeyFound);
     } else {
       ///-------GET PRIVATE KEY
       final String publicKey = result.asValue!.value;

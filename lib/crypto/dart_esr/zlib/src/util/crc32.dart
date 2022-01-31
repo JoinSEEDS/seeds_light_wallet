@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, parameter_assignments, always_put_control_body_on_new_line
+// ignore_for_file: non_constant_identifier_names, parameter_assignments, always_put_control_body_on_new_line, constant_identifier_names
 
 import 'dart:convert';
 import 'package:crypto/crypto.dart' as crypto;
@@ -46,20 +46,14 @@ class Crc32 extends crypto.Hash {
   Crc32 newInstance() => Crc32();
 
   @override
-  ByteConversionSink startChunkedConversion(Sink<crypto.Digest> sink) =>
-      _Crc32Sink(sink);
+  ByteConversionSink startChunkedConversion(Sink<crypto.Digest> sink) => _Crc32Sink(sink);
 
   void add(List<int> data) {
     _hash = getCrc32(data, _hash);
   }
 
   List<int> close() {
-    return [
-      ((_hash >> 24) & 0xFF),
-      ((_hash >> 16) & 0xFF),
-      ((_hash >> 8) & 0xFF),
-      (_hash & 0xFF)
-    ];
+    return [((_hash >> 24) & 0xFF), ((_hash >> 16) & 0xFF), ((_hash >> 8) & 0xFF), (_hash & 0xFF)];
   }
 }
 
@@ -85,12 +79,7 @@ class _Crc32Sink extends ByteConversionSinkBase {
     if (_isClosed) return;
     _isClosed = true;
 
-    _inner.add(crypto.Digest([
-      ((_hash >> 24) & 0xFF),
-      ((_hash >> 16) & 0xFF),
-      ((_hash >> 8) & 0xFF),
-      (_hash & 0xFF)
-    ]));
+    _inner.add(crypto.Digest([((_hash >> 24) & 0xFF), ((_hash >> 16) & 0xFF), ((_hash >> 8) & 0xFF), (_hash & 0xFF)]));
   }
 }
 

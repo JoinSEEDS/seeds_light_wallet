@@ -10,7 +10,7 @@ class ClaimInviteMapper extends StateMapper {
       return currentState.copyWith(
         claimInviteView: ClaimInviteView.fail, // No screen UI for error
         pageCommand: ShowErrorMessage(''), // Error dialog
-        error: SignUpError.QRCodeScanFailed,
+        error: SignUpError.qRCodeScanFailed,
       );
     } else {
       final String inviteMnemonic = result.asValue!.value;
@@ -27,7 +27,7 @@ class ClaimInviteMapper extends StateMapper {
       return currentState.copyWith(
         claimInviteView: ClaimInviteView.fail, // No screen UI for error
         pageCommand: ShowErrorMessage(''), // Error dialog
-        error: SignUpError.NoInvitesFound,
+        error: SignUpError.noInvitesFound,
       );
     } else {
       final List<InviteModel> inviteModels = result.asValue!.value;
@@ -41,14 +41,14 @@ class ClaimInviteMapper extends StateMapper {
           return currentState.copyWith(
             claimInviteView: ClaimInviteView.fail, // No screen UI for error
             pageCommand: ShowErrorMessage(''), // Error dialog
-            error: SignUpError.InviteAlreadyClaimed,
+            error: SignUpError.inviteAlreadyClaimed,
           );
         }
       } else {
         return currentState.copyWith(
           claimInviteView: ClaimInviteView.fail, // No screen UI for error
           pageCommand: ShowErrorMessage(''), // Error dialog
-          error: SignUpError.InviteHashNotFound,
+          error: SignUpError.inviteHashNotFound,
         );
       }
     }

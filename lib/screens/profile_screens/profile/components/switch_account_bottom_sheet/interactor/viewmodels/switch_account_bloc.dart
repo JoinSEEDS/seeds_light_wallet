@@ -32,7 +32,7 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
         .toList();
     final List<String?> publicKeys = keys.map((i) => i.publicKey).toList();
     if (publicKeys.contains(null) || publicKeys.contains('')) {
-      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.InvalidPrivateKey));
+      emit(state.copyWith(pageState: PageState.failure, error: ImportKeyError.invalidPrivateKey));
     } else {
       final results = await ImportAccountsUseCase().run(List<String>.from(publicKeys));
       emit(FindAccountsResultStateMapper().mapResultsToState(state, results, keys));

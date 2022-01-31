@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:hdkey/hdkey.dart';
 import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
@@ -32,7 +34,7 @@ class AuthService {
   /// Creates 12 random words Mnemonic.
   List<String> _createRandom12Words() {
     final bytes = randomBytes(STRENGTH_FOR_TWELVE_WORDS);
-    return entropyToMnemonic(HEX.encode(bytes)).split('-');
+    return entropyToMnemonic(hexCodec.encode(bytes)).split('-');
   }
 
   /// Seeds Global Passport compatibility method - creates an EOS key the same

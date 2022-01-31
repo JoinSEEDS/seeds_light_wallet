@@ -16,7 +16,7 @@ class FullPageErrorIndicator extends StatelessWidget {
       Expanded(
         child: Center(
           child: Text(
-            errorMessage ?? GlobalError.Unknown.localizedDescription(context),
+            errorMessage ?? GlobalError.unknown.localizedDescription(context),
             style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
           ),
         ),

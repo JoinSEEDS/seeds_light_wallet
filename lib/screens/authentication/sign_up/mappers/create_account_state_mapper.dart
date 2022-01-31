@@ -8,10 +8,7 @@ import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart
 class CreateAccountStateMapper extends StateMapper {
   SignupState mapResultToState(SignupState currentState, Result result, AuthDataModel authData) {
     if (result.isError) {
-      return currentState.copyWith(
-        pageState: PageState.failure,
-        error: SignUpError.FailedToCreateAccount,
-      );
+      return currentState.copyWith(pageState: PageState.failure, error: SignUpError.failedToCreateAccount);
     } else {
       return currentState.copyWith(pageCommand: OnAccountCreated(authData));
     }
