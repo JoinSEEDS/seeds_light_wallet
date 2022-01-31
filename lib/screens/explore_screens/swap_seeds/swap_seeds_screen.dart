@@ -78,6 +78,7 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
                       )
                     },
                   ),
+                  const Align(alignment: Alignment.topLeft, child: BackButton()),
                   if (state.pageState == PageState.loading) const FullPageLoadingIndicator()
                 ],
               );
