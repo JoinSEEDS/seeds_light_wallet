@@ -2,7 +2,7 @@ part of 'recover_account_found_bloc.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
-  final String? errorMessage;
+  final RecoverAccountFoundError? error;
   final String userAccount;
   final Uri? linkToActivateGuardians;
   final List<String> alreadySignedGuardians;
@@ -19,7 +19,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.pageState,
     required this.linkToActivateGuardians,
     required this.userGuardiansData,
-    this.errorMessage,
+    this.error,
     required this.confirmedGuardianSignatures,
     required this.recoveryStatus,
     required this.alreadySignedGuardians,
@@ -34,7 +34,7 @@ class RecoverAccountFoundState extends Equatable {
         pageState,
         linkToActivateGuardians,
         userGuardiansData,
-        errorMessage,
+        error,
         confirmedGuardianSignatures,
         recoveryStatus,
         alreadySignedGuardians,
@@ -49,7 +49,7 @@ class RecoverAccountFoundState extends Equatable {
     Uri? linkToActivateGuardians,
     List<String>? userGuardians,
     List<ProfileModel>? userGuardiansData,
-    String? errorMessage,
+    RecoverAccountFoundError? error,
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
     RecoveryStatus? recoveryStatus,
@@ -61,7 +61,7 @@ class RecoverAccountFoundState extends Equatable {
       pageState: pageState ?? this.pageState,
       linkToActivateGuardians: linkToActivateGuardians ?? this.linkToActivateGuardians,
       userGuardiansData: userGuardiansData ?? this.userGuardiansData,
-      errorMessage: errorMessage,
+      error: error,
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,

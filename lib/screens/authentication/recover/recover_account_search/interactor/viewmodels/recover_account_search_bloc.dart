@@ -8,6 +8,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/inte
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_guardians_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_info_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
 
 part 'recover_account_search_event.dart';
 part 'recover_account_search_state.dart';
