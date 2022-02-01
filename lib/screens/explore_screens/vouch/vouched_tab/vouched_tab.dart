@@ -76,7 +76,7 @@ class VouchedTab extends StatelessWidget {
                               ),
                             )
                           : ListView(
-                              padding: const EdgeInsets.only(top: 10, bottom: 80),
+                              padding: const EdgeInsets.only(bottom: 80),
                               children: [for (final i in state.vouched) MemberInfoRow(i)],
                             ),
                     ),
