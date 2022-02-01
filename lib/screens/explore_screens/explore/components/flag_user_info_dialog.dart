@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
+import 'package:seeds/images/explore/red_exclamation_circle.dart';
 
 class FlagUserInfoDialog extends StatelessWidget {
   const FlagUserInfoDialog({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class FlagUserInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
+      icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
       children: [
         Text('Flagging a Member'.i18n, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),

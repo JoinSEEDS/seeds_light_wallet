@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/flag_bloc.dart';
 
 class RemoveFlagInfoDialog extends StatelessWidget {
@@ -22,7 +22,7 @@ class RemoveFlagInfoDialog extends StatelessWidget {
         BlocProvider.of<FlagBloc>(context).add(OnRemoveUserFlagTapped(userAccount));
         Navigator.of(context).pop();
       },
-      icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
+      icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
       children: [
         Text('Are you sure?', style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),
@@ -35,7 +35,7 @@ class RemoveFlagInfoDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
-              const SizedBox(height: 36.0),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
