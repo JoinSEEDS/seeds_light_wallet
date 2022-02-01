@@ -152,5 +152,14 @@
   "recoverAccountSearchErrorLoadingAccount": "Error Loading Account",
   "@recoverAccountSearchErrorLoadingAccount": {},
   "recoverAccountSearchErrorNoValidAccount": "Account is not valid",
-  "@recoverAccountSearchErrorNoValidAccount": {}
+  "@recoverAccountSearchErrorNoValidAccount": {},
+  "verificationPasscodeDialogButtonTitle": "Close",
+  "verificationPasscodeDialogTitle": "Successful",
+  "verificationPasscodeDialogSubTitle": "Pincode created successfully.",
+  "verificationPasscodeScreenButtonTitle": "Delete",
+  "verificationScreenSnackBarError": "Pincode does not match",
+  "verificationScreenButtonTitle": "Use biometric to unlock",
+  "verificationScreenEnterCode": "Enter Pincode",
+  "verificationScreenReEnterCode": "Re-enter Pincode",
+  "verificationScreenCreateCode": "Create Pincode"
 }
