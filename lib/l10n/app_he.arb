@@ -94,5 +94,14 @@
   "security12WordRecoveryPhraseDescription": "כתב/י את 12 המילים הסודיות שלך במקום בטוח כדי שתוכל/י לשחזר את חשבונך בקלות.",
   "@security12WordRecoveryPhraseDescription": {},
   "securityBiometricEnabledDescription": "כשזיהוי פנים/מגע הוגדרו, כל אימות ביומטרי השמור במכשירך יוכל להכנס לתוך ארנק הסידס הקל שלך. לא תוכל להשתמש ביישום זה על מנת לבצע פעולות.",
-  "@securityBiometricEnabledDescription": {}
+  "@securityBiometricEnabledDescription": {},
+  "@verificationPasscodeDialogButtonTitle": {},
+  "@verificationPasscodeDialogTitle": {},
+  "@verificationPasscodeDialogSubTitle": {},
+  "@verificationPasscodeScreenButtonTitle": {},
+  "@verificationScreenSnackBarError": {},
+  "@verificationScreenButtonTitle": {},
+  "@verificationScreenEnterCode": {},
+  "@verificationScreenReEnterCode": {},
+  "@verificationScreenCreateCode": {}
 }
