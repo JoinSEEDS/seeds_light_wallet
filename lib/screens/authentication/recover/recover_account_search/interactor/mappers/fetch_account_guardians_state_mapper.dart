@@ -8,14 +8,14 @@ class FetchAccountGuardiansStateMapper extends StateMapper {
   RecoverAccountSearchState mapResultToState(RecoverAccountSearchState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(
-          pageState: PageState.failure, errorMessage: RecoverAccountSearchError.UnableToLoadGuardians);
+          pageState: PageState.failure, errorMessage: RecoverAccountSearchError.unableToLoadGuardians);
     } else {
       final accountGuardiansModel = result.asValue!.value as UserGuardiansModel;
       if (accountGuardiansModel.guardians.isEmpty) {
         return currentState.copyWith(
           pageState: PageState.success,
           isGuardianActive: false,
-          errorMessage: RecoverAccountSearchError.NoActiveGuardians,
+          errorMessage: RecoverAccountSearchError.noActiveGuardians,
         );
       } else {
         return currentState.copyWith(

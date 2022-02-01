@@ -8,7 +8,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
   RecoverAccountSearchState mapResultToState(RecoverAccountSearchState currentState, Result userInfo, String userName) {
     if (userInfo.isError) {
       return currentState.copyWith(
-          pageState: PageState.failure, errorMessage: RecoverAccountSearchError.UnableToLoadAccount);
+          pageState: PageState.failure, errorMessage: RecoverAccountSearchError.unableToLoadAccount);
     } else {
       final accountInfo = userInfo.asValue?.value as ProfileModel?;
 
@@ -20,7 +20,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
         );
       } else {
         return currentState.copyWith(
-            pageState: PageState.success, errorMessage: RecoverAccountSearchError.InvalidAccount);
+            pageState: PageState.success, errorMessage: RecoverAccountSearchError.invalidAccount);
       }
     }
   }
