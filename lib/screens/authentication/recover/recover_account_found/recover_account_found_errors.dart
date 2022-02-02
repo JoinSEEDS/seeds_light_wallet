@@ -1,15 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum RecoverAccountFoundError{ NoGuardians, Unknown}
+enum RecoverAccountFoundError{ noGuardians, unknown}
 
 extension LocalizedRecoverAccountErrors on RecoverAccountFoundError {
   String localizedDescription(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     switch (this) {
-      case RecoverAccountFoundError.NoGuardians:
+      case RecoverAccountFoundError.noGuardians:
         return localization.recoverAccountFoundMapperNoGuardiansError;
-      case RecoverAccountFoundError.Unknown:
+      case RecoverAccountFoundError.unknown:
         return localization.recoverAccountFoundMapperUnknownError;
     }
   }

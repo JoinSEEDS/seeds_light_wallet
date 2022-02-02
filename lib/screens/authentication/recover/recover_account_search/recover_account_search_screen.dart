@@ -102,7 +102,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                       Center(
                         child: Text(
                           state.errorMessage?.localizedDescription(context) ??
-                              GlobalError.Unknown.localizedDescription(context),
+                              GlobalError.unknown.localizedDescription(context),
                           style: Theme.of(context).textTheme.subtitle3Red,
                           textAlign: TextAlign.center,
                         ),
