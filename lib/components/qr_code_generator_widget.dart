@@ -17,7 +17,7 @@ class QrCodeGeneratorWidget extends StatelessWidget {
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.black,
       errorStateBuilder: (_, err) {
-        return Center(child: Text(GlobalError.Unknown.localizedDescription(context), textAlign: TextAlign.center));
+        return Center(child: Text(GlobalError.unknown.localizedDescription(context), textAlign: TextAlign.center));
       },
     );
   }

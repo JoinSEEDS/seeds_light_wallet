@@ -3,10 +3,10 @@ part of 'recover_account_search_bloc.dart';
 class RecoverAccountSearchState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
-  final String? errorMessage;
+  final RecoverAccountSearchError? errorMessage;
   final bool isGuardianActive;
   final List<String> userGuardians;
-  final MemberModel? accountInfo;
+  final ProfileModel? accountInfo;
 
   const RecoverAccountSearchState({
     this.pageCommand,
@@ -32,10 +32,10 @@ class RecoverAccountSearchState extends Equatable {
   RecoverAccountSearchState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
-    String? errorMessage,
+    RecoverAccountSearchError? errorMessage,
     bool? isGuardianActive,
     List<String>? userGuardians,
-    MemberModel? accountInfo,
+    ProfileModel? accountInfo,
   }) {
     return RecoverAccountSearchState(
       pageCommand: pageCommand,

@@ -1,13 +1,13 @@
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
@@ -31,7 +31,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         link != null &&
         userRecoversModelData != null &&
         userGuardiansModel != null) {
-      final List<MemberModel> guardians = members.map((e) => e.asValue!.value as MemberModel).toList();
+      final List<ProfileModel> guardians = members.map((e) => e.asValue!.value as ProfileModel).toList();
       final confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
 
       // check how long we have to wait before we can claim (24h delay is standard)
@@ -72,12 +72,12 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     } else if (hasFetchedGuardians && !hasGuardians) {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "There are no guardians for this account.".i18n,
+        error: RecoverAccountFoundError.noGuardians,
       );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "Oops! Something went wrong, try again later.".i18n,
+        error: RecoverAccountFoundError.unknown,
       );
     }
   }

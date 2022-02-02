@@ -11,6 +11,7 @@ import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_wor
 import 'package:seeds/screens/authentication/sign_up/mappers/claim_invite_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/mappers/create_account_state_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/mappers/set_account_name_state_mapper.dart';
+import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/usecases/check_account_name_availability_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/usecases/claim_invite_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/usecases/create_account_usecase.dart';
@@ -101,7 +102,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       final Result result = await CheckAccountNameAvailabilityUseCase().run(event.accountName);
       emit(SetAccountNameStateMapper().mapResultToState(state, event.accountName, result));
     } else {
-      emit(state.copyWith(pageState: PageState.failure, errorMessage: validationError));
+      emit(state.copyWith(pageState: PageState.failure, error: validationError));
     }
   }
 
@@ -139,20 +140,20 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 }
 
-String? _validateUsername(String? username) {
+SignUpError? _validateUsername(String? username) {
   final validCharacters = RegExp(r'^[a-z1-5]+$');
 
   if (username.isNullOrEmpty) {
-    return 'Please select a username';
+    return SignUpError.validationFailedSelectUsername;
     // ignore: unnecessary_raw_strings
   } else if (RegExp(r'0|6|7|8|9').allMatches(username!).isNotEmpty) {
-    return 'Only numbers 1-5 can be used.';
+    return SignUpError.validationFailedOnlyNumbers15;
   } else if (username.toLowerCase() != username) {
-    return "Name can be lowercase only";
+    return SignUpError.validationFailedNameLowercaseOnly;
   } else if (!validCharacters.hasMatch(username) || username.contains(' ')) {
-    return "No special characters or spaces can be used";
+    return SignUpError.validationFailedNoSpecialCharactersOrSpaces;
   } else if (username.length != 12) {
-    return 'Username must be 12 characters long';
+    return SignUpError.validationFailedUsernameMustBe12Characters;
   }
 
   return null;

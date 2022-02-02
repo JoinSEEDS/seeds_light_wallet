@@ -9,12 +9,12 @@ class FindAccountsResultStateMapper extends StateMapper {
   SwitchAccountState mapResultsToState(SwitchAccountState currentState, List<Result> results, List<Keys> keys) {
     // No account found. Show error
     if (results.isEmpty) {
-      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.NoAccountsFound);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noAccountsFound);
     }
 
     // Accounts found, but errors fetching data happened.
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.UnableToLoadAccount);
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.unableToLoadAccount);
     } else {
       final List<ProfileModel> profiles = results
           .where((Result result) => result.isValue)

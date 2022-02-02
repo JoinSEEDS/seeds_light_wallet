@@ -1,4 +1,4 @@
-// ignore_for_file: library_prefixes, non_constant_identifier_names, always_declare_return_types
+// ignore_for_file: library_prefixes, non_constant_identifier_names, always_declare_return_types, constant_identifier_names
 
 import 'dart:convert';
 

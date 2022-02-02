@@ -40,7 +40,6 @@ dependencies:
   share: ^2.0.4
   image_cropper: ^1.4.1
   carousel_slider: ^4.0.0
-  dots_indicator: ^2.0.0
   qr_flutter: ^4.0.0
   image_picker: ^0.8.4+4
   qr_code_scanner: ^0.4.0
@@ -56,6 +55,7 @@ dependencies:
   bs58check: ^1.0.2
   pointycastle: ^3.4.0
   hdkey: ^0.0.1
+  connectivity_plus: ^2.2.0
 
 dev_dependencies:
   flutter_test:

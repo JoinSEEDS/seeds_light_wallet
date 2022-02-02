@@ -4,16 +4,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/search_user/components/search_user_text_field.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/domain-shared/user_citizenship_status.dart';
+
 
 class SearchUser extends StatelessWidget {
   final String? title;
   final List<String>? noShowUsers;
-  final UserCitizenshipStatus? filterByCitizenshipStatus;
-  final ValueSetter<MemberModel> onUserSelected;
+  final ProfileStatus? filterByCitizenshipStatus;
+  final ValueSetter<ProfileModel> onUserSelected;
 
   const SearchUser({
     Key? key,
@@ -64,7 +64,7 @@ class SearchUser extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: state.users.length,
                         itemBuilder: (_, index) {
-                          final MemberModel user = state.users[index];
+                          final ProfileModel user = state.users[index];
                           return SearchResultRow(
                             key: Key(user.account),
                             member: user,

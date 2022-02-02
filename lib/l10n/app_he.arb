@@ -9,7 +9,7 @@
   "@onboardingEconomyTitle": {},
   "onboardingJoinButtonTitle": "הצטרפו עכשיו",
   "@onboardingJoinButtonTitle": {},
-  "onboardingTransactionsSubtitle": "בצוע עסקאות ברחבי העולם ללא כל עלות.\nקבלו תגמול עבור תמיכתכם\nבעשייה חיובית של ארגונים ואנשים.",
+  "onboardingTransactionsSubtitle": "בצgu עסקאות ברחבי העולם ללא כל עלות.\nקבלו תגמול עבור תמיכתכם \nבעשייה חיובית של ארגונים ואנשים.",
   "@onboardingTransactionsSubtitle": {},
   "onboardingCampaignsSubtitle": "השתתפו והצביעו בפרוייקטים משפיעים\nבנושאים חברתיים וסביבתיים שאכפת\nלכם מהם.",
   "@onboardingCampaignsSubtitle": {},
@@ -94,5 +94,18 @@
   "security12WordRecoveryPhraseDescription": "כתב/י את 12 המילים הסודיות שלך במקום בטוח כדי שתוכל/י לשחזר את חשבונך בקלות.",
   "@security12WordRecoveryPhraseDescription": {},
   "securityBiometricEnabledDescription": "כשזיהוי פנים/מגע הוגדרו, כל אימות ביומטרי השמור במכשירך יוכל להכנס לתוך ארנק הסידס הקל שלך. לא תוכל להשתמש ביישום זה על מנת לבצע פעולות.",
-  "@securityBiometricEnabledDescription": {}
+  "@securityBiometricEnabledDescription": {},
+  "@explorerInviteItemTitle": {},
+  "@explorerVouchItemTitle": {},
+  "@explorerFlagItemTitle": {},
+  "@explorerVoteItemTitle": {},
+  "@explorerPlantItemTitle": {},
+  "@explorerUnplantItemTitle": {},
+  "@explorerSwapItemTitle": {},
+  "@explorerGetSeedsItemTitle": {},
+  "@explorerAppBarTitle": {},
+  "@explorerFlagInfoDialogTitle":  {},
+  "@explorerFlagInfoDialogSubTitle": {},
+  "@explorerFlagInfoDialogSubTitlePartTwo": {},
+  "@explorerFlagInfoDialogButtonTitle": {}
 }

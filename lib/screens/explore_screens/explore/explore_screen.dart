@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/images/explore/exclamation_circle.dart';
 import 'package:seeds/images/explore/invite_person.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
@@ -22,63 +22,64 @@ import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/expl
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreScreen extends StatelessWidget {
-  final List<ExploreItem> _exploreItems = const [
-    ExploreItem(
-        title: 'Invite a Friend',
-        icon: Padding(
-            padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
-        onTapEvent: OnExploreCardTapped(Routes.createInvite)),
-    ExploreItem(
-        title: 'Vouch',
-        icon: CustomPaint(size: Size(35, 41), painter: Vouch()),
-        onTapEvent: OnExploreCardTapped(Routes.vouch)),
-    ExploreItem(
-        title: 'Flag',
-        icon: CustomPaint(size: Size(41, 41), painter: ExclamationCircle()),
-        onTapEvent: OnFlagUserTap()),
-    ExploreItem(
-      title: 'Vote',
-      icon: Padding(padding: EdgeInsets.only(right: 6.0), child: CustomPaint(size: Size(40, 40), painter: Vote())),
-      onTapEvent: OnExploreCardTapped(Routes.vote),
-    ),
-    ExploreItem(
-      title: 'Plant Seeds',
-      icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      onTapEvent: OnExploreCardTapped(Routes.plantSeeds),
-    ),
-    ExploreItem(
-      title: 'Unplant Seeds',
-      icon: CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-      onTapEvent: OnExploreCardTapped(Routes.unPlantSeeds),
-    ),
-    ExploreItem(
-      title: 'Swap Seeds',
-      icon: CustomPaint(size: Size(24, 24), painter: SwapSeeds()),
-      iconUseCircleBackground: false,
-      onTapEvent: OnExploreCardTapped(Routes.swapSeeds),
-    ),
-    ExploreItem(
-      title: 'Get Seeds',
-      icon: CustomPaint(size: Size(9, 22), painter: SeedsSymbol()),
-      backgroundIconColor: AppColors.white,
-      backgroundImage: 'assets/images/explore/get_seeds_card.png',
-      gradient: LinearGradient(
-        colors: [AppColors.green1, AppColors.green2],
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-      ),
-      iconUseCircleBackground: false,
-      onTapEvent: OnBuySeedsCardTap(),
-    ),
-  ];
-
   const ExploreScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final List<ExploreItem> _exploreItems = [
+      ExploreItem(
+          title: localization.explorerInviteItemTitle,
+          icon: const Padding(
+              padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
+          onTapEvent: const OnExploreCardTapped(Routes.createInvite)),
+      ExploreItem(
+          title: localization.explorerVouchItemTitle,
+          icon: const CustomPaint(size: Size(35, 41), painter: Vouch()),
+          onTapEvent: const OnExploreCardTapped(Routes.vouch)),
+      ExploreItem(
+          title: localization.explorerFlagItemTitle,
+          icon: const CustomPaint(size: Size(41, 41), painter: ExclamationCircle()),
+          onTapEvent: const OnFlagUserTap()),
+      ExploreItem(
+        title: localization.explorerVoteItemTitle,
+        icon: const Padding(
+            padding: EdgeInsets.only(right: 6.0), child: CustomPaint(size: Size(40, 40), painter: Vote())),
+        onTapEvent: const OnExploreCardTapped(Routes.vote),
+      ),
+      ExploreItem(
+        title: localization.explorerPlantItemTitle,
+        icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
+        onTapEvent: const OnExploreCardTapped(Routes.plantSeeds),
+      ),
+      ExploreItem(
+        title: localization.explorerUnplantItemTitle,
+        icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
+        onTapEvent: const OnExploreCardTapped(Routes.unPlantSeeds),
+      ),
+      ExploreItem(
+        title: localization.explorerSwapItemTitle,
+        icon: const CustomPaint(size: Size(24, 24), painter: SwapSeeds()),
+        iconUseCircleBackground: false,
+        onTapEvent: const OnExploreCardTapped(Routes.swapSeeds),
+      ),
+      ExploreItem(
+        title: localization.explorerGetSeedsItemTitle,
+        icon: const CustomPaint(size: Size(9, 22), painter: SeedsSymbol()),
+        backgroundIconColor: AppColors.white,
+        backgroundImage: 'assets/images/explore/get_seeds_card.png',
+        gradient: const LinearGradient(
+          colors: [AppColors.green1, AppColors.green2],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        iconUseCircleBackground: false,
+        onTapEvent: const OnBuySeedsCardTap(),
+      ),
+    ];
     List<ExploreItem> items = _exploreItems;
     if (!remoteConfigurations.featureFlagP2PEnabled) {
-      items = _exploreItems.where((i) => i.title != 'Swap Seeds').toList();
+      items = _exploreItems.where((i) => i.title != localization.explorerSwapItemTitle).toList();
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
@@ -102,7 +103,7 @@ class ExploreScreen extends StatelessWidget {
         },
         builder: (context, _) {
           return Scaffold(
-            appBar: AppBar(title: Text('Explore'.i18n)),
+            appBar: AppBar(title: Text(localization.explorerAppBarTitle)),
             body: GridView.count(
               padding: const EdgeInsets.all(18),
               crossAxisSpacing: 18,
@@ -111,7 +112,7 @@ class ExploreScreen extends StatelessWidget {
               children: [
                 for (final i in items)
                   ExploreCard(
-                    title: i.title.i18n,
+                    title: i.title,
                     icon: i.icon,
                     backgroundIconColor: i.backgroundIconColor,
                     iconUseCircleBackground: i.iconUseCircleBackground,

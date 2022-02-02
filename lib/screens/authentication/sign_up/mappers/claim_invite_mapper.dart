@@ -1,7 +1,7 @@
 import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
+import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
 class ClaimInviteMapper extends StateMapper {
@@ -10,7 +10,7 @@ class ClaimInviteMapper extends StateMapper {
       return currentState.copyWith(
         claimInviteView: ClaimInviteView.fail, // No screen UI for error
         pageCommand: ShowErrorMessage(''), // Error dialog
-        errorMessage: result.asError!.error.toString(),
+        error: SignUpError.qRCodeScanFailed,
       );
     } else {
       final String inviteMnemonic = result.asValue!.value;
@@ -27,7 +27,7 @@ class ClaimInviteMapper extends StateMapper {
       return currentState.copyWith(
         claimInviteView: ClaimInviteView.fail, // No screen UI for error
         pageCommand: ShowErrorMessage(''), // Error dialog
-        errorMessage: 'No invites found, try another code'.i18n,
+        error: SignUpError.noInvitesFound,
       );
     } else {
       final List<InviteModel> inviteModels = result.asValue!.value;
@@ -41,16 +41,14 @@ class ClaimInviteMapper extends StateMapper {
           return currentState.copyWith(
             claimInviteView: ClaimInviteView.fail, // No screen UI for error
             pageCommand: ShowErrorMessage(''), // Error dialog
-            errorMessage: 'Invite was already claimed'.i18n.fill(
-              [inviteModel.sponsor, inviteModel.account ?? ''],
-            ),
+            error: SignUpError.inviteAlreadyClaimed,
           );
         }
       } else {
         return currentState.copyWith(
           claimInviteView: ClaimInviteView.fail, // No screen UI for error
           pageCommand: ShowErrorMessage(''), // Error dialog
-          errorMessage: 'Invite hash not found, try another code'.i18n,
+          error: SignUpError.inviteHashNotFound,
         );
       }
     }
