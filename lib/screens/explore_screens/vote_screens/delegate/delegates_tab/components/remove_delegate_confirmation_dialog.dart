@@ -19,7 +19,6 @@ class RemoveDelegateConfirmationDialog extends StatelessWidget {
         icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
         leftButtonTitle: "Cancel",
         rightButtonTitle: "Yes, I'm sure",
-        onLeftButtonPressed: () => Navigator.of(context).pop(),
         onRightButtonPressed: () {
           BlocProvider.of<DelegatesBloc>(context).add(const RemoveDelegate());
           Navigator.of(context).pop();

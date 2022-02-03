@@ -15,9 +15,6 @@ class RemoveFlagInfoDialog extends StatelessWidget {
     return CustomDialog(
       leftButtonTitle: 'Back',
       rightButtonTitle: "Yes I'm sure",
-      onLeftButtonPressed: () {
-        Navigator.of(context).pop();
-      },
       onRightButtonPressed: () {
         BlocProvider.of<FlagBloc>(context).add(OnRemoveUserFlagTapped(userAccount));
         Navigator.of(context).pop();
