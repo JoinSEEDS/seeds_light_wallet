@@ -88,7 +88,7 @@ class CustomDialog extends StatelessWidget {
                                 Expanded(
                                   child: FlatButtonLongOutlined(
                                     title: leftButtonTitle,
-                                    onPressed: onLeftButtonPressed,
+                                    onPressed: onLeftButtonPressed ?? () => Navigator.pop(context),
                                   ),
                                 ),
                               if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),

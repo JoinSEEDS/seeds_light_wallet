@@ -22,9 +22,6 @@ class VouchForMemberConfirmationDialog extends StatelessWidget {
             icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
             leftButtonTitle: "Cancel",
             rightButtonTitle: "Yes I'm sure",
-            onLeftButtonPressed: () {
-              Navigator.of(context).pop();
-            },
             onRightButtonPressed: () {
               BlocProvider.of<VouchForAMemberBloc>(context).add(OnConfirmVouchForMemberTap());
               Navigator.of(context).pop();

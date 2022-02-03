@@ -12,7 +12,6 @@ class ConfirmVoteDialog extends StatelessWidget {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       leftButtonTitle: 'Cancel'.i18n,
-      onLeftButtonPressed: () => Navigator.of(context).pop(),
       rightButtonTitle: 'Confirm'.i18n,
       onRightButtonPressed: () => Navigator.of(context).pop(true),
       children: [
