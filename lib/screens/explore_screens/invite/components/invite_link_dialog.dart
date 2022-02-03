@@ -35,7 +35,6 @@ class _InviteLinkDialogState extends State<InviteLinkDialog> {
                 icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
                 rightButtonTitle: 'Share'.i18n,
                 leftButtonTitle: _showCloseDialogButton ? 'Close'.i18n : '',
-                onLeftButtonPressed: () => Navigator.of(context).pop(),
                 onRightButtonPressed: () async {
                   setState(() => _showCloseDialogButton = true);
                   await Share.share(state.dynamicSecretLink!);

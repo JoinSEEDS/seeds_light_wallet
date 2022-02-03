@@ -20,10 +20,11 @@ class FlagScreen extends StatelessWidget {
       create: (_) => FlagBloc()..add(const LoadUsersFlags()),
       child: BlocBuilder<FlagBloc, FlagState>(
         builder: (context, FlagState state) {
-          return SafeArea(
-            child: Scaffold(
-              appBar: AppBar(title: const Text('Flag')),
-              bottomSheet: Padding(
+          return Scaffold(
+            appBar: AppBar(title: const Text('Flag')),
+            bottomSheet: SafeArea(
+              minimum: const EdgeInsets.only(bottom: 16),
+              child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: FlatButtonLong(
                   title: 'Flag a User',
@@ -37,7 +38,9 @@ class FlagScreen extends StatelessWidget {
                   },
                 ),
               ),
-              body: BlocBuilder<FlagBloc, FlagState>(
+            ),
+            body: SafeArea(
+              child: BlocBuilder<FlagBloc, FlagState>(
                 builder: (context, state) {
                   switch (state.pageState) {
                     case PageState.initial:

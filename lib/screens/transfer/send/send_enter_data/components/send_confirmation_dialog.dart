@@ -42,7 +42,6 @@ class SendConfirmationDialog extends StatelessWidget {
           Positioned(left: 12, bottom: -6, child: SvgPicture.asset("assets/images/transfer/arrow_up.svg")),
         ],
       ),
-      onLeftButtonPressed: () => Navigator.of(context).pop(),
       onRightButtonPressed: () {
         onSendButtonPressed.call();
         Navigator.of(context).pop();

@@ -25,9 +25,6 @@ class DelegateAUserConfirmationDialog extends StatelessWidget {
             icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
             leftButtonTitle: "Cancel",
             rightButtonTitle: "Yes I'm sure",
-            onLeftButtonPressed: () {
-              Navigator.of(context).pop();
-            },
             onRightButtonPressed: () {
               BlocProvider.of<DelegateAUserBloc>(context).add(OnConfirmDelegateTab(selectedDelegate));
               Navigator.of(context).pop();
