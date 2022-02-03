@@ -34,23 +34,21 @@ class ImportKeyAccountsWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1Red2,
             ));
           case PageState.success:
-            return ListView(
-              shrinkWrap: true,
-              children: state.accounts
-                  .map((ProfileModel? profile) => InkWell(
-                        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                        onTap: () {
-                          context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              color: AppColors.lightGreen2,
-                              borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                            ),
+            return Flexible(
+              child: ListView(
+                shrinkWrap: true,
+                children: state.accounts
+                    .map((ProfileModel? profile) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: horizontalEdgePadding),
+                          child: MaterialButton(
+                            padding: EdgeInsets.zero,
+                            color: AppColors.darkGreen2,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultCardBorderRadius)),
+                            onPressed: () {
+                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
+                            },
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 8, bottom: 8),
+                              padding: const EdgeInsets.only(top: 6, bottom: 6),
                               child: ListTile(
                                 leading: ProfileAvatar(
                                   size: 60,
@@ -59,7 +57,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                   nickname: profile.nickname,
                                 ),
                                 title: Text(
-                                  profile.nickname,
+                                  profile.nickname.isNotEmpty ? profile.nickname : profile.account,
                                   style: Theme.of(context).textTheme.button,
                                 ),
                                 subtitle: Text(
@@ -70,9 +68,9 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                      ))
-                  .toList(),
+                        ))
+                    .toList(),
+              ),
             );
           default:
             return const SizedBox.shrink();
