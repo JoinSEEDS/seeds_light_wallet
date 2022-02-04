@@ -17,6 +17,7 @@ import 'package:seeds/screens/authentication/offline_screen.dart';
 import 'package:seeds/seeds_app.dart';
 
 Future<void> main() async {
+
   // Zone to handle asynchronous errors (Dart).
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
