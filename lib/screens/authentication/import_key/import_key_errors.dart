@@ -1,20 +1,19 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 enum ImportKeyError { invalidPrivateKey, noAccountsFound, unableToLoadAccount, noPublicKeyFound }
 
 extension LocalizedImportKeyError on ImportKeyError {
   String localizedDescription(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     switch (this) {
       case ImportKeyError.invalidPrivateKey:
-        return localization.importKeyInvalidPrivateKeyError;
+        return context.loc.importKeyInvalidPrivateKeyError;
       case ImportKeyError.noAccountsFound:
-        return localization.importKeyNoAccountsFoundError;
+        return context.loc.importKeyNoAccountsFoundError;
       case ImportKeyError.unableToLoadAccount:
-        return localization.importKeyUnableToLoadAccountError;
+        return context.loc.importKeyUnableToLoadAccountError;
       case ImportKeyError.noPublicKeyFound:
-        return localization.importKeyNoPublicKeyFoundError;
+        return context.loc.importKeyNoPublicKeyFoundError;
     }
   }
 }

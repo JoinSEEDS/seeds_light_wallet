@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
@@ -13,6 +12,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class CreateAccountNameScreen extends StatefulWidget {
@@ -41,7 +41,6 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return WillPopScope(
       onWillPop: _navigateBack,
       child: BlocConsumer<SignupBloc, SignupState>(
@@ -72,7 +71,7 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                           key: _usernameFormKey,
                           child: TextFormFieldCustom(
                             maxLength: 12,
-                            labelText: localization.signUpUsernameTitle,
+                            labelText: context.loc.signUpUsernameTitle,
                             controller: _keyController,
                             errorText: state.error?.localizedDescription(context),
                             suffixIcon: QuadStateClipboardIconButton(
@@ -89,12 +88,12 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                         const SizedBox(height: 10),
                         Expanded(
                           child: Text(
-                            localization.signUpUsernameDescription,
+                            context.loc.signUpUsernameDescription,
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                           ),
                         ),
                         FlatButtonLong(
-                          title: localization.signUpCreateAccountButtonTitle,
+                          title: context.loc.signUpCreateAccountButtonTitle,
                           onPressed: state.isNextButtonActive
                               ? () {
                                   FocusScope.of(context).unfocus();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/components/search_result_row.dart';
@@ -14,6 +13,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class RecoverAccountSearchScreen extends StatefulWidget {
@@ -52,13 +52,12 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
           }
         },
         builder: (context, state) {
-          final localization = AppLocalizations.of(context)!;
           return Scaffold(
             appBar: AppBar(),
             bottomSheet: Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
               child: FlatButtonLong(
-                title: localization.recoverAccountSearchButtonTitle,
+                title: context.loc.recoverAccountSearchButtonTitle,
                 enabled: state.isGuardianActive,
                 onPressed: () => BlocProvider.of<RecoverAccountSearchBloc>(context).add(const OnNextButtonTapped()),
               ),
@@ -72,7 +71,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                     TextFormFieldCustom(
                       maxLength: 12,
                       counterText: null,
-                      labelText: localization.recoverAccountSearchTextFormTitle,
+                      labelText: context.loc.recoverAccountSearchTextFormTitle,
                       controller: _keyController,
                       suffixIcon: QuadStateClipboardIconButton(
                         isChecked: state.isGuardianActive,
