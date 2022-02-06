@@ -1,3 +1,10 @@
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
+
+# Because the underlying Localizations widget is created as part of MaterialApp, 
+# and depending on what context we use, calling AppLocalizations.of(context)!
+# may or may not give us an object.
+# But in practice, all our widgets will be descendants of MaterialApp, so 
+# we shouldn't need to use the ! operator everywhere!
+nullable-getter: false

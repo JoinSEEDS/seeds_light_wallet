@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 enum SignUpError {
   failedToCreateAccount,
@@ -17,30 +17,29 @@ enum SignUpError {
 
 extension LocalizedSignUpError on SignUpError {
   String localizedDescription(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     switch (this) {
       case SignUpError.failedToCreateAccount:
-        return localization.signUpErrorFailedToCreateAccount;
+        return context.loc.signUpErrorFailedToCreateAccount;
       case SignUpError.usernameAlreadyTaken:
-        return localization.signUpErrorUsernameAlreadyTaken;
+        return context.loc.signUpErrorUsernameAlreadyTaken;
       case SignUpError.noInvitesFound:
-        return localization.signUpErrorNoInvitesFound;
+        return context.loc.signUpErrorNoInvitesFound;
       case SignUpError.inviteAlreadyClaimed:
-        return localization.signUpErrorInviteAlreadyClaimed;
+        return context.loc.signUpErrorInviteAlreadyClaimed;
       case SignUpError.inviteHashNotFound:
-        return localization.signUpErrorInviteHashNotFound;
+        return context.loc.signUpErrorInviteHashNotFound;
       case SignUpError.qRCodeScanFailed:
-        return localization.signUpErrorQRCodeScanFailed;
+        return context.loc.signUpErrorQRCodeScanFailed;
       case SignUpError.validationFailedSelectUsername:
-        return localization.signUpErrorValidationFailedSelectUsername;
+        return context.loc.signUpErrorValidationFailedSelectUsername;
       case SignUpError.validationFailedOnlyNumbers15:
-        return localization.signUpErrorValidationFailedOnlyNumbers15;
+        return context.loc.signUpErrorValidationFailedOnlyNumbers15;
       case SignUpError.validationFailedNameLowercaseOnly:
-        return localization.signUpErrorValidationFailedNameLowercaseOnly;
+        return context.loc.signUpErrorValidationFailedNameLowercaseOnly;
       case SignUpError.validationFailedNoSpecialCharactersOrSpaces:
-        return localization.signUpErrorValidationFailedNoSpecialCharactersOrSpaces;
+        return context.loc.signUpErrorValidationFailedNoSpecialCharactersOrSpaces;
       case SignUpError.validationFailedUsernameMustBe12Characters:
-        return localization.signUpErrorValidationFailedUsernameMustBe12Characters;
+        return context.loc.signUpErrorValidationFailedUsernameMustBe12Characters;
     }
   }
 }

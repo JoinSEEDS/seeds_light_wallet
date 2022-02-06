@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-
+import 'package:seeds/utils/build_context_extension.dart';
 
 // Seeds system accounts with special icons. Harvest account, onboarding account, etc.
 
@@ -42,13 +41,12 @@ class SystemAccounts {
 
   // Used to provide a localized display name for system accounts instead of using ProfileModel.nickname
   static String? getLocalizedDisplayNameForSystemAccount(String accountName, BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     if (accountName == 'join.seeds') {
-      return localization.constantOnboardingContract;
+      return context.loc.constantOnboardingContract;
     } else if (accountName == 'tlosto.seeds') {
-      return localization.constantExchangeContract;
+      return context.loc.constantExchangeContract;
     } else if (accountName == 'harvst.seeds') {
-      return localization.constantHarvestContract;
+      return context.loc.constantHarvestContract;
     } else {
       return null;
     }
