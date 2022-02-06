@@ -49,7 +49,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
 
     if (settingsStorage.passcode == null && settingsStorage.passcodeActive == false) {
-      // New account && passcode disabled--> toogle auth status to rebuild app
+      // New account && passcode disabled --> toogle auth status to rebuild app
       emit(state.copyWith(authStatus: AuthStatus.initial));
       emit(state.copyWith(authStatus: AuthStatus.unlocked));
     } else {
