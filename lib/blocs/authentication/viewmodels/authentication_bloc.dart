@@ -47,8 +47,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       await StopRecoveryUseCase().run();
     }
     await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
-    // New account --> re-start auth status
-    add(const InitAuthStatus());
+
+    if (settingsStorage.passcode == null && settingsStorage.passcodeActive == false) {
+      // New account && passcode disabled--> toogle auth status to rebuild app
+      emit(state.copyWith(authStatus: AuthStatus.initial));
+      emit(state.copyWith(authStatus: AuthStatus.unlocked));
+    } else {
+      // New account --> re-start auth status
+      add(const InitAuthStatus());
+    }
   }
 
   void _onRecoverAccount(OnRecoverAccount event, Emitter<AuthenticationState> emit) {
@@ -61,7 +68,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     SwitchAccountUseCase().run(event.account, event.authData);
 
     if (settingsStorage.passcode == null && settingsStorage.passcodeActive == false) {
-      // New account && NO passcode --> toogle auth status to rebuild app
+      // New account && passcode disabled --> toogle auth status to rebuild app
       emit(state.copyWith(authStatus: AuthStatus.initial));
       emit(state.copyWith(authStatus: AuthStatus.unlocked));
     } else {
