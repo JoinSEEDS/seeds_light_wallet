@@ -5,12 +5,14 @@ class GuardiansState extends Equatable {
   final String? errorMessage;
   final PageCommand? pageCommand;
   final int indexDialog;
+  final bool isAddGuardianButtonLoading;
 
   const GuardiansState({
     required this.pageState,
     this.errorMessage,
     this.pageCommand,
     required this.indexDialog,
+    required this.isAddGuardianButtonLoading,
   });
 
   @override
@@ -19,6 +21,7 @@ class GuardiansState extends Equatable {
         pageCommand,
         indexDialog,
         errorMessage,
+        isAddGuardianButtonLoading,
       ];
 
   GuardiansState copyWith({
@@ -26,15 +29,18 @@ class GuardiansState extends Equatable {
     String? errorMessage,
     PageCommand? pageCommand,
     int? indexDialog,
+    bool? isAddGuardianButtonLoading,
   }) {
     return GuardiansState(
-        pageState: pageState ?? this.pageState,
-        errorMessage: errorMessage,
-        pageCommand: pageCommand,
-        indexDialog: indexDialog ?? this.indexDialog);
+      pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
+      pageCommand: pageCommand,
+      indexDialog: indexDialog ?? this.indexDialog,
+      isAddGuardianButtonLoading: isAddGuardianButtonLoading ?? this.isAddGuardianButtonLoading,
+    );
   }
 
   factory GuardiansState.initial() {
-    return const GuardiansState(pageState: PageState.initial, indexDialog: 1);
+    return const GuardiansState(pageState: PageState.initial, indexDialog: 1, isAddGuardianButtonLoading: false);
   }
 }

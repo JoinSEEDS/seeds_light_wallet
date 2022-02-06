@@ -60,6 +60,8 @@ class GuardiansScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 32),
                         child: FlatButtonLong(
                           title: "+ Add Guardians".i18n,
+                          isLoading: state.isAddGuardianButtonLoading,
+                          enabled: !state.isAddGuardianButtonLoading,
                           onPressed: () {
                             BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                           },
