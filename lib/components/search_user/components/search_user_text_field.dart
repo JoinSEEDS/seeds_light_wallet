@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class SearchUserTextField extends StatefulWidget {
   const SearchUserTextField({Key? key}) : super(key: key);
@@ -27,7 +27,6 @@ class _SearchUserTextFieldState extends State<SearchUserTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return TextField(
       autofocus: true,
       autocorrect: false,
@@ -57,7 +56,7 @@ class _SearchUserTextFieldState extends State<SearchUserTextField> {
         enabledBorder: _searchBorder,
         focusedBorder: _searchBorder,
         border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        hintText: localization.searchUserHintText,
+        hintText: context.loc.searchUserHintText,
       ),
     );
   }

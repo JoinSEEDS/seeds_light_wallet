@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -10,6 +9,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class ImportKeyScreen extends StatefulWidget {
   const ImportKeyScreen({Key? key}) : super(key: key);
@@ -45,7 +45,6 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => _importKeyBloc,
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
@@ -54,7 +53,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
               child: FlatButtonLong(
-                  title: localization.importKeySearchButtonTitle,
+                  title: context.loc.importKeySearchButtonTitle,
                   onPressed: () => _onSubmitted(),
                   enabled: state.enableButton),
             ),
@@ -71,7 +70,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                       children: [
                         TextFormFieldCustom(
                           autofocus: true,
-                          labelText: localization.importKeyPrivateKeyFieldPlaceholder,
+                          labelText: context.loc.importKeyPrivateKeyFieldPlaceholder,
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.paste, color: AppColors.white),
                             onPressed: () async {
@@ -104,7 +103,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                         style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
-                              text: localization.importKeyImportUsingRecoveryPhraseActionLink,
+                              text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
                               style: Theme.of(context).textTheme.subtitle2Green2,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
@@ -112,7 +111,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                                   NavigationService.of(context).navigateTo(Routes.importWords);
                                 }),
                           const TextSpan(text: " "),
-                          TextSpan(text: localization.importKeyImportUsingRecoveryPhraseDescription),
+                          TextSpan(text: context.loc.importKeyImportUsingRecoveryPhraseDescription),
                         ],
                       ),
                     ),

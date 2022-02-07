@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class ThirdPage extends StatelessWidget {
   const ThirdPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding3.png",
       topPadding: 50,
-      title: localization.onboardingEconomyTitle,
-      subTitle: localization.onboardingEconomySubtitle,
+      title: context.loc.onboardingEconomyTitle,
+      subTitle: context.loc.onboardingEconomySubtitle,
       topLeaf1: Positioned(
         right: -20,
         top: -90,
