@@ -7,13 +7,11 @@ class FlatButtonLong extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
   final bool enabled;
+  final bool isLoading;
 
-  const FlatButtonLong({
-    Key? key,
-    required this.title,
-    required this.onPressed,
-    this.enabled = true,
-  }) : super(key: key);
+  const FlatButtonLong(
+      {Key? key, required this.title, required this.onPressed, this.enabled = true, this.isLoading = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,15 @@ class FlatButtonLong extends StatelessWidget {
         disabledColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         onPressed: enabled ? onPressed : null,
-        child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
+        child: isLoading
+            ? Container(
+                width: 17,
+                height: 17,
+                child: const CircularProgressIndicator(
+                  color: AppColors.white,
+                  strokeWidth: 3,
+                ))
+            : Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
       ),
     );
   }
