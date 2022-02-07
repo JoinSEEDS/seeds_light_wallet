@@ -74,14 +74,13 @@ class VerificationState extends Equatable {
 
 extension LocalizedPasscodeTitle on PasscodeTitle {
   String localizedDescription(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     switch (this) {
       case PasscodeTitle.createPinCode:
-        return localization.verificationScreenCreateCode;
+        return context.loc.verificationScreenCreateCode;
       case PasscodeTitle.reEnterPinCode:
-        return localization.verificationScreenReEnterCode;
+        return context.loc.verificationScreenReEnterCode;
       case PasscodeTitle.enterPinCode:
-        return localization.verificationScreenEnterCode;
+        return context.loc.verificationScreenEnterCode;
     }
   }
 }

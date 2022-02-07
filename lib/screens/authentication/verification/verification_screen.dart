@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
@@ -11,6 +10,7 @@ import 'package:seeds/screens/authentication/verification/components/passcode_sc
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({Key? key}) : super(key: key);
@@ -18,7 +18,6 @@ class VerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SecurityBloc? _securityBloc = ModalRoute.of(context)!.settings.arguments as SecurityBloc?;
-    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => VerificationBloc()..add(const InitBiometricAuth()),
       child: WillPopScope(
@@ -32,7 +31,7 @@ class VerificationScreen extends StatelessWidget {
                 final pageCommand = state.pageCommand;
                 BlocProvider.of<VerificationBloc>(context).add(const ClearVerificationPageCommand());
                 if (pageCommand is PasscodeNotMatch) {
-                  eventBus.fire(ShowSnackBar.success(localization.verificationScreenSnackBarError));
+                  eventBus.fire(ShowSnackBar.success(context.loc.verificationScreenSnackBarError));
                 } else if (pageCommand is BiometricAuthorized) {
                   final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
                   if (_securityBloc == null) {
@@ -106,7 +105,7 @@ class VerificationScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       border: Border.all(color: AppColors.white)),
-                                  child: Text(localization.verificationScreenButtonTitle,
+                                  child: Text(context.loc.verificationScreenButtonTitle,
                                       style: Theme.of(context).textTheme.subtitle2),
                                 ),
                               ),
