@@ -12,10 +12,10 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class InviteScreen extends StatelessWidget {
       create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Invite'.i18n),
+          title: Text(context.loc.inviteScreenAppBarTitle),
           actions: [
             IconButton(
               onPressed: () => NavigationService.of(context).navigateTo(Routes.manageInvites),
@@ -74,7 +74,7 @@ class InviteScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               const SizedBox(height: 16),
-                              Text('Invite amount'.i18n, style: Theme.of(context).textTheme.headline6),
+                              Text( context.loc.inviteScreenInputAmountTitle, style: Theme.of(context).textTheme.headline6),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0),
@@ -87,7 +87,7 @@ class InviteScreen extends StatelessWidget {
                               AlertInputValue(state.alertMessage ?? '', isVisible: state.alertMessage != null),
                               const SizedBox(height: 24),
                               BalanceRow(
-                                label: 'Available Balance'.i18n,
+                                label: context.loc.inviteScreenBalanceTitle,
                                 fiatAmount: state.availableBalanceFiat,
                                 tokenAmount: state.availableBalance,
                               ),
@@ -100,7 +100,7 @@ class InviteScreen extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: FlatButtonLong(
-                            title: 'Create invite'.i18n,
+                            title: context.loc.inviteScreenButtonTitle,
                             enabled: state.isCreateInviteButtonEnabled,
                             onPressed: () =>
                                 BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),

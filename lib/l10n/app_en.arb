@@ -178,5 +178,9 @@
   "explorerFlagInfoDialogSubTitlePartTwo": "When someone has been flagged, their reputation points will go down; enough flags and their points will go down to zero. Flagging also affects all the subsequent members that have been vouched by the flagged member so be careful who you flag!",
   "@explorerFlagInfoDialogSubTitlePartTwo": {},
   "explorerFlagInfoDialogButtonTitle": "Ok, Thank you.",
-  "@explorerFlagInfoDialogButtonTitle": {}
+  "@explorerFlagInfoDialogButtonTitle": {},
+  "inviteScreenAppBarTitle": "Invite",
+  "inviteScreenInputAmountTitle": "Invite amount",
+  "inviteScreenBalanceTitle": "Available Balance",
+  "inviteScreenButtonTitle": "Create invite"
 }
