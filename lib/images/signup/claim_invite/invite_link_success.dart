@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 class InviteLinkSuccess extends CustomPainter {
   const InviteLinkSuccess();
