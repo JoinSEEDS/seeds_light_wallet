@@ -54,24 +54,36 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle2HighEmphasis,
                       ),
                       const SizedBox(height: 16.0),
-                      ProfileAvatar(
-                        size: 60,
-                        account: state.currentAccount,
-                        nickname: state.localizedDisplayName(context),
-                        image: state.profileImageURL,
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
-                      ),
-                      const SizedBox(height: 20.0),
-                      Text(
-                        state.localizedDisplayName(context),
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.headline7,
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        state.currentAccount,
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ProfileAvatar(
+                            size: 60,
+                            account: state.currentAccount,
+                            nickname: state.localizedDisplayName(context),
+                            image: state.profileImageURL,
+                            decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
+                          ),
+                          const SizedBox(width: 16.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.localizedDisplayName(context),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.headline7,
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                state.currentAccount,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 20.0),
                       Row(
@@ -85,12 +97,14 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                           Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline5)
                         ],
                       ),
-                      if (transaction.memo.isNullOrEmpty) const SizedBox.shrink() else const SizedBox(height: 20.0),
-                      if (transaction.memo.isNullOrEmpty)
-                        const SizedBox.shrink()
-                      else
-                        Text("Memo: ${transaction.memo}", maxLines: 4, overflow: TextOverflow.ellipsis),
-                      const SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
+                        child: Text(
+                          "Memo: ${transaction.memo.isEmpty ? '---' : transaction.memo}",
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       InkWell(
                         customBorder: const CircleBorder(),
                         onTap: () => Share.share('https://telos.bloks.io/transaction/${transaction.transactionId}'),
