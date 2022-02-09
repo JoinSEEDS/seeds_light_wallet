@@ -104,8 +104,19 @@
   "@explorerSwapItemTitle": {},
   "@explorerGetSeedsItemTitle": {},
   "@explorerAppBarTitle": {},
-  "@explorerFlagInfoDialogTitle":  {},
+  "@explorerFlagInfoDialogTitle": {},
   "@explorerFlagInfoDialogSubTitle": {},
   "@explorerFlagInfoDialogSubTitlePartTwo": {},
-  "@explorerFlagInfoDialogButtonTitle": {}
+  "@explorerFlagInfoDialogButtonTitle": {},
+  "@inviteScreenAppBarTitle": {},
+  "@inviteScreenInputAmountTitle": {},
+  "@inviteScreenBalanceTitle": {},
+  "@inviteScreenButtonTitle": {},
+  "@inviteLinkDialogRightButtonTitle": {},
+  "@inviteLinkDialogLeftButtonTitle": {},
+  "@inviteLinkDialogMessage": {},
+  "@inviteCreateMapperError": {},
+  "@inviteAmountChangeMapperNotEnoughBalanceError": {},
+  "@inviteAmountChangeMapperMinimumRequiredError": {},
+  "@inviteBalanceMapperError": {}
 }
