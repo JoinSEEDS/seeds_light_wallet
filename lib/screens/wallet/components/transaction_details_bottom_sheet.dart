@@ -54,34 +54,28 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle2HighEmphasis,
                       ),
                       const SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      ProfileAvatar(
+                        size: 60,
+                        account: state.currentAccount,
+                        nickname: state.localizedDisplayName(context),
+                        image: state.profileImageURL,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Column(
                         children: [
-                          ProfileAvatar(
-                            size: 60,
-                            account: state.currentAccount,
-                            nickname: state.localizedDisplayName(context),
-                            image: state.profileImageURL,
-                            decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
+                          Text(
+                            state.localizedDisplayName(context),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline7,
                           ),
-                          const SizedBox(width: 16.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.localizedDisplayName(context),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.headline7,
-                              ),
-                              const SizedBox(height: 8.0),
-                              Text(
-                                state.currentAccount,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                              ),
-                            ],
+                          const SizedBox(height: 8.0),
+                          Text(
+                            state.currentAccount,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                           ),
                         ],
                       ),
@@ -94,7 +88,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                           else
                             Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
                           const SizedBox(width: 4),
-                          Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline5)
+                          Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline6)
                         ],
                       ),
                       Padding(

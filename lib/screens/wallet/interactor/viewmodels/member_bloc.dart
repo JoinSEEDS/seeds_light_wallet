@@ -27,7 +27,6 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       return;
     }
     emit(state.copyWith(pageState: PageState.loading));
-    await Future.delayed(const Duration(seconds: 2));
     final CacheRepository cacheRepository = const CacheRepository();
     // If we have a cached item, use it
     final cacheItem = await cacheRepository.getMemberCacheItem(account);
