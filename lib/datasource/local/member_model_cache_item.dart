@@ -4,7 +4,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 class MemberModelCacheItem {
   ProfileModel member;
   int refreshTimeStamp;
-  MemberModelCacheItem(this.member, this.refreshTimeStamp);
+  MemberModelCacheItem({required this.member, required this.refreshTimeStamp});
 }
 
 class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
@@ -64,7 +64,7 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
     fields.add(reader.readInt());
 
     return MemberModelCacheItem(
-      ProfileModel(
+      member: ProfileModel(
         account: fields[0] as String,
         nickname: fields[1] as String,
         image: fields[2] as String,
@@ -77,7 +77,7 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
         reputation: fields[10] as int,
         timestamp: fields[11] as int,
       ),
-      fields[4] as int,
+      refreshTimeStamp: fields[4] as int,
     );
   }
 
