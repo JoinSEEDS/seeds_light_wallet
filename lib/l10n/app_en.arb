@@ -185,5 +185,9 @@
   "inviteScreenButtonTitle": "Create invite",
   "inviteLinkDialogRightButtonTitle": "Share",
   "inviteLinkDialogLeftButtonTitle": "Close",
-  "inviteLinkDialogMessage": "Share this link with the person you want to invite!"
+  "inviteLinkDialogMessage": "Share this link with the person you want to invite!",
+  "inviteCreateMapperError": "Invite creation failed, try again.",
+  "inviteAmountChangeMapperNotEnoughBalanceError": "Not enough balance",
+  "inviteAmountChangeMapperMinimumRequiredError": "Minimum 5 Seeds required to invite",
+  "inviteBalanceMapperError": "Error loading current balance"
 }
