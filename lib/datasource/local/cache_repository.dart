@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/model/vote_model.dart';
 
 const String _proposalVotesBox = 'proposalVotesBox';
 const String _referendumsVotesBox = 'referendumsVotesBox';
-const String _membersBox = 'membersBox3';
+const String _membersBox = 'membersBox001';
 
 // Cache Repo
 class CacheRepository {

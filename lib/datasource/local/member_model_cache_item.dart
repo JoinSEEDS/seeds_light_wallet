@@ -4,7 +4,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 class MemberModelCacheItem {
   ProfileModel member;
   int refreshTimeStamp;
-  MemberModelCacheItem(this.member, this.refreshTimeStamp);
+  MemberModelCacheItem({required this.member, required this.refreshTimeStamp});
 }
 
 class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
@@ -14,45 +14,57 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
   @override
   MemberModelCacheItem read(BinaryReader reader) {
     final fields = [];
-    /// account
+
+    /// 0 account
     reader.readByte();
     fields.add(reader.readString());
-    /// nickname
+
+    /// 1 nickname
     reader.readByte();
     fields.add(reader.readString());
-    /// image
+
+    /// 2 image
     reader.readByte();
     fields.add(reader.readString());
-    /// status
+
+    /// 3 status
     reader.readByte();
     fields.add(reader.readInt());
-    /// refreshTimeStamp
+
+    /// 4 refreshTimeStamp
     reader.readByte();
     fields.add(reader.readInt());
-    /// type
+
+    /// 5 type
     reader.readByte();
     fields.add(reader.readString());
-    /// story
+
+    /// 6 story
     reader.readByte();
     fields.add(reader.readString());
-    /// roles
+
+    /// 7 roles
     reader.readByte();
     fields.add(reader.readString());
-    /// skills
+
+    /// 8 skills
     reader.readByte();
     fields.add(reader.readString());
-    /// interests
+
+    /// 9 interests
     reader.readByte();
     fields.add(reader.readString());
-    /// reputation
+
+    /// 10 reputation
     reader.readByte();
     fields.add(reader.readInt());
-    /// timestamp
+
+    /// 11 timestamp
     reader.readByte();
     fields.add(reader.readInt());
 
     return MemberModelCacheItem(
-      ProfileModel(
+      member: ProfileModel(
         account: fields[0] as String,
         nickname: fields[1] as String,
         image: fields[2] as String,
@@ -63,9 +75,9 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
         skills: fields[8] as String,
         interests: fields[9] as String,
         reputation: fields[10] as int,
-        timestamp: fields[12] as int,
+        timestamp: fields[11] as int,
       ),
-      fields[4] as int,
+      refreshTimeStamp: fields[4] as int,
     );
   }
 
@@ -79,6 +91,8 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
     writer.writeString(obj.member.image);
     writer.writeByte(3);
     writer.writeInt(obj.member.status.index);
+    writer.writeByte(4);
+    writer.writeInt(obj.refreshTimeStamp);
     writer.writeByte(5);
     writer.writeString(obj.member.type);
     writer.writeByte(6);
@@ -93,7 +107,5 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
     writer.writeInt(obj.member.reputation);
     writer.writeByte(11);
     writer.writeInt(obj.member.timestamp);
-    writer.writeByte(4);
-    writer.writeInt(obj.refreshTimeStamp);
   }
 }
