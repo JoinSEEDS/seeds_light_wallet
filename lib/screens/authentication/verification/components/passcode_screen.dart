@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/screens/authentication/verification/components/circle.dart';
 import 'package:seeds/screens/authentication/verification/components/keyboard.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class _ShakeCurve extends Curve {
   @override
@@ -118,7 +119,8 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                   margin: const EdgeInsets.all(24),
                   child: enteredPasscode.isEmpty
                       ? const SizedBox.shrink()
-                      : Text('Delete', style: Theme.of(context).textTheme.subtitle2),
+                      : Text(context.loc.verificationPasscodeScreenButtonTitle,
+                          style: Theme.of(context).textTheme.subtitle2),
                 ),
               ),
             ),

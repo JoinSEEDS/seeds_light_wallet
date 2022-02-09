@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/user_input_number_formatter.dart';
 
 class UnplantSeedsAmountEntry extends StatelessWidget {

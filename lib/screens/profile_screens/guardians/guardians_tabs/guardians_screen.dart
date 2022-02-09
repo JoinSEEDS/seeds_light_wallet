@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -60,6 +60,8 @@ class GuardiansScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 32),
                         child: FlatButtonLong(
                           title: "+ Add Guardians".i18n,
+                          isLoading: state.isAddGuardianButtonLoading,
+                          enabled: !state.isAddGuardianButtonLoading,
                           onPressed: () {
                             BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                           },

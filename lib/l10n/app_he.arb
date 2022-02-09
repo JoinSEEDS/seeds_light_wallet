@@ -107,5 +107,14 @@
   "@explorerFlagInfoDialogTitle":  {},
   "@explorerFlagInfoDialogSubTitle": {},
   "@explorerFlagInfoDialogSubTitlePartTwo": {},
-  "@explorerFlagInfoDialogButtonTitle": {}
+  "@explorerFlagInfoDialogButtonTitle": {},
+  "@verificationPasscodeDialogButtonTitle": {},
+  "@verificationPasscodeDialogTitle": {},
+  "@verificationPasscodeDialogSubTitle": {},
+  "@verificationPasscodeScreenButtonTitle": {},
+  "@verificationScreenSnackBarError": {},
+  "@verificationScreenButtonTitle": {},
+  "@verificationScreenEnterCode": {},
+  "@verificationScreenReEnterCode": {},
+  "@verificationScreenCreateCode": {}
 }

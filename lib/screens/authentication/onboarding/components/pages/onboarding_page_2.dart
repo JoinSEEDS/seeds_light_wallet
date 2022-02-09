@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 

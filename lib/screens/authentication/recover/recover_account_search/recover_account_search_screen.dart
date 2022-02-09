@@ -4,7 +4,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';

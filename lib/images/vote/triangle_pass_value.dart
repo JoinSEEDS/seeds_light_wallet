@@ -1,5 +1,5 @@
 import 'package:flutter/rendering.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 class TrianglePassValue extends CustomPainter {
   const TrianglePassValue();
