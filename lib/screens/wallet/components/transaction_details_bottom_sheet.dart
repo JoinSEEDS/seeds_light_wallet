@@ -88,7 +88,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                           else
                             Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
                           const SizedBox(width: 4),
-                          Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline6)
+                          Text(transaction.quantity.seedsFormatted, style: Theme.of(context).textTheme.headline5)
                         ],
                       ),
                       Padding(
