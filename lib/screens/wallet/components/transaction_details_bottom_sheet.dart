@@ -30,6 +30,8 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final account = settingsStorage.accountName;
+    final memo =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.";
     return BlocProvider(
       create: (_) =>
           MemberBloc(transaction.to == account ? transaction.from : transaction.to)..add(const OnLoadMemberData()),
@@ -94,8 +96,9 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
                         child: Text(
-                          "Memo: ${transaction.memo.isEmpty ? '---' : transaction.memo}",
-                          maxLines: 4,
+                          "Memo: ${transaction.memo.isEmpty ? '---' : memo}",
+                          maxLines: 6, // <-- memo has a max of 256 characteres
+                          textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
