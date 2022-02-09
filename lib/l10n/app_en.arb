@@ -182,5 +182,8 @@
   "inviteScreenAppBarTitle": "Invite",
   "inviteScreenInputAmountTitle": "Invite amount",
   "inviteScreenBalanceTitle": "Available Balance",
-  "inviteScreenButtonTitle": "Create invite"
+  "inviteScreenButtonTitle": "Create invite",
+  "inviteLinkDialogRightButtonTitle": "Share",
+  "inviteLinkDialogLeftButtonTitle": "Close",
+  "inviteLinkDialogMessage": "Share this link with the person you want to invite!"
 }
