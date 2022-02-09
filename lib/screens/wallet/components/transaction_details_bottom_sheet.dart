@@ -63,7 +63,7 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
                         image: state.profileImageURL,
                         decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.lightGreen2),
                       ),
-                      const SizedBox(width: 16.0),
+                      const SizedBox(height: 16.0),
                       Column(
                         children: [
                           Text(
