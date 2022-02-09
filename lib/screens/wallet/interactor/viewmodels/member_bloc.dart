@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/system_accounts.dart';
 import 'package:seeds/datasource/local/cache_repository.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/system_accounts.dart';
 import 'package:seeds/screens/wallet/interactor/mappers/member_state_mapper.dart';
 import 'package:seeds/screens/wallet/interactor/usecases/load_member_data_usecase.dart';
 
