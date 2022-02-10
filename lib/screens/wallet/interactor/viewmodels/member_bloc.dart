@@ -41,9 +41,12 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
     if (!result.isError && result.asValue != null && result.asValue!.value is ProfileModel) {
       final ProfileModel member = result.asValue!.value;
       await cacheRepository.saveMemberCacheItem(
-          account,
-          MemberModelCacheItem(
-              member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes));
+        account,
+        MemberModelCacheItem(
+            member: member,
+            refreshTimeStamp:
+                DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes),
+      );
     }
     emit(MemberStateMapper().mapResultToState(state, result));
   }
