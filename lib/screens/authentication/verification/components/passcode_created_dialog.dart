@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class PasscodeCreatedDialog extends StatelessWidget {
   const PasscodeCreatedDialog({Key? key}) : super(key: key);
@@ -11,12 +11,12 @@ class PasscodeCreatedDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-      singleLargeButtonTitle: 'Close'.i18n,
+      singleLargeButtonTitle: context.loc.verificationPasscodeDialogButtonTitle,
       children: [
-        Text('Succesful'.i18n, style: Theme.of(context).textTheme.button1),
+        Text(context.loc.verificationPasscodeDialogTitle, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),
         Text(
-          'Pincode created successfully.'.i18n,
+          context.loc.verificationPasscodeDialogSubTitle,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle2,
         ),

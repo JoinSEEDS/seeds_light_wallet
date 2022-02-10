@@ -1,5 +1,7 @@
 part of 'verification_bloc.dart';
 
+enum PasscodeTitle { createPinCode, reEnterPinCode, enterPinCode }
+
 class VerificationState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
@@ -30,11 +32,11 @@ class VerificationState extends Equatable {
         biometricAuthError,
       ];
 
-  String get passcodeTitle {
+  PasscodeTitle get passcodeTitle {
     if (isCreateMode && newPasscode == null) {
-      return 'Create Pincode';
+      return PasscodeTitle.createPinCode;
     } else {
-      return isCreateMode ? 'Re-enter Pincode' : 'Enter Pincode';
+      return isCreateMode ? PasscodeTitle.reEnterPinCode : PasscodeTitle.enterPinCode;
     }
   }
 
@@ -67,5 +69,18 @@ class VerificationState extends Equatable {
       biometricAuthStatus: BiometricAuthStatus.initial,
       biometricAuthError: false,
     );
+  }
+}
+
+extension LocalizedPasscodeTitle on PasscodeTitle {
+  String localizedDescription(BuildContext context) {
+    switch (this) {
+      case PasscodeTitle.createPinCode:
+        return context.loc.verificationScreenCreateCode;
+      case PasscodeTitle.reEnterPinCode:
+        return context.loc.verificationScreenReEnterCode;
+      case PasscodeTitle.enterPinCode:
+        return context.loc.verificationScreenEnterCode;
+    }
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_created_dialog.dart';
 import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class VerificationScreen extends StatelessWidget {
                 final pageCommand = state.pageCommand;
                 BlocProvider.of<VerificationBloc>(context).add(const ClearVerificationPageCommand());
                 if (pageCommand is PasscodeNotMatch) {
-                  eventBus.fire(ShowSnackBar.success('Pincode does not match'.i18n));
+                  eventBus.fire(ShowSnackBar.success(context.loc.verificationScreenSnackBarError));
                 } else if (pageCommand is BiometricAuthorized) {
                   final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
                   if (_securityBloc == null) {
@@ -85,7 +85,8 @@ class VerificationScreen extends StatelessWidget {
                   case PageState.failure:
                   case PageState.success:
                     return PasscodeScreen(
-                      title: Text(state.passcodeTitle.i18n, style: Theme.of(context).textTheme.subtitle2),
+                      title: Text(state.passcodeTitle.localizedDescription(context),
+                          style: Theme.of(context).textTheme.subtitle2),
                       onPasscodeCompleted: (passcode) {
                         if (state.isCreateMode && state.newPasscode == null) {
                           BlocProvider.of<VerificationBloc>(context).add(OnPasscodeCreated(passcode));
@@ -104,7 +105,7 @@ class VerificationScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
                                       border: Border.all(color: AppColors.white)),
-                                  child: Text('Use biometric to unlock'.i18n,
+                                  child: Text(context.loc.verificationScreenButtonTitle,
                                       style: Theme.of(context).textTheme.subtitle2),
                                 ),
                               ),

@@ -18,6 +18,7 @@ import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interacto
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 part 'guardians_event.dart';
+
 part 'guardians_state.dart';
 
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
@@ -57,9 +58,15 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   }
 
   Future<void> _onAddGuardiansTapped(OnAddGuardiansTapped event, Emitter<GuardiansState> emit) async {
+    emit(state.copyWith(isAddGuardianButtonLoading: true));
     final List<GuardianModel> results = await guardians.first;
     results.retainWhere((element) => element.type == GuardianType.myGuardian);
-    emit(state.copyWith(pageCommand: NavigateToRouteWithArguments(route: Routes.selectGuardians, arguments: results)));
+    emit(state.copyWith(
+        isAddGuardianButtonLoading: false,
+        pageCommand: NavigateToRouteWithArguments(
+          route: Routes.selectGuardians,
+          arguments: results,
+        )));
   }
 
   Future<void> _onAcceptGuardianTapped(OnAcceptGuardianTapped event, Emitter<GuardiansState> emit) async {
