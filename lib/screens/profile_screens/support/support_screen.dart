@@ -105,12 +105,11 @@ class SupportScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(state.appName ?? ""),
-                Text(state.version ?? ""),
-                Text(state.buildNumber ?? ""),
+                const SizedBox(height: 6),
+                Text("${state.version}(${state.buildNumber})"),
+                const SizedBox(height: 6),
                 Text(state.firebaseInstallationId ?? ""),
-                const SizedBox(
-                  height: 30,
-                )
+                const SizedBox(height: 30)
               ],
             ),
           ),

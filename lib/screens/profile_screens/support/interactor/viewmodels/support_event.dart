@@ -11,5 +11,5 @@ class LoadSupportData extends SupportEvent {
   const LoadSupportData();
 
   @override
-  String toString() => 'LoadUserBalance';
+  String toString() => 'LoadSupportData';
 }
