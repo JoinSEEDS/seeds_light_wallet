@@ -27,3 +27,8 @@ class ShowTransferSuccess extends TransactionPageCommand {
     required this.shouldShowInAppReview,
   });
 }
+
+class ShownInvalidTransactionResaon extends TransactionPageCommand {
+  final String resaon;
+  ShownInvalidTransactionResaon(this.resaon);
+}
