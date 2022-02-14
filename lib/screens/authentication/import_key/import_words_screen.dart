@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,9 @@ class ImportWordsScreen extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: Platform.isAndroid
+                  ? const EdgeInsets.all(16)
+                  : const EdgeInsets.only(bottom: 32, left: 16, right: 16),
               child: FlatButtonLong(
                 title: context.loc.importKeySearchButtonTitle,
                 onPressed: () {
@@ -128,7 +131,7 @@ class ImportWordsScreen extends StatelessWidget {
                         ),
                       const SizedBox(height: 24),
                       const ImportKeyAccountsWidget(),
-                      const SizedBox(height: 200),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),
