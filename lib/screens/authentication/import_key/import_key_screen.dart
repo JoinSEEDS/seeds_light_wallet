@@ -57,7 +57,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                   onPressed: () => _onSubmitted(),
                   enabled: state.enableButton),
             ),
-            appBar: AppBar(),
+            appBar: AppBar(title: const Text("Import Private Key")),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

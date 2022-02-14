@@ -34,7 +34,7 @@ class ImportWordsScreen extends StatelessWidget {
                 enabled: state.enableButton,
               ),
             ),
-            appBar: AppBar(),
+            appBar: AppBar(title: const Text("12-word Recovery Phrase")),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -63,6 +63,7 @@ class ImportWordsScreen extends StatelessWidget {
                             child: Autocomplete<String>(
                               fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
                                   FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                textEditingController.text = state.userEnteredWords[index] ?? "";
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,
@@ -100,6 +101,12 @@ class ImportWordsScreen extends StatelessWidget {
                         }),
                       ),
                       const SizedBox(height: 24),
+                      TextButton(
+                        child: const Text("Paste From Clipboard"),
+                        onPressed: () {
+                          BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
+                        },
+                      ),
                       if (state.userEnteredWords.isEmpty)
                         RichText(
                           text: TextSpan(
