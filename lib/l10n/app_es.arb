@@ -184,5 +184,13 @@
   "verificationScreenReEnterCode": "Re-ingresar código de acceso",
   "@verificationScreenReEnterCode": {},
   "verificationScreenCreateCode": "Crear código de acceso",
-  "@verificationScreenCreateCode": {}
+  "@verificationScreenCreateCode": {},
+  "walletSendButtonTitle": "Enviar",
+  "@walletSendButtonTitle": {},
+  "walletReceiveButtonTitle": "Recibir",
+  "@walletReceiveButtonTitle": {},
+  "walletCurrencyCardBalance": "Saldo",
+  "@walletCurrencyCardBalance": {},
+  "walletTransactionHistory": "Historia de transacciones",
+  "@walletTransactionHistory": {}
 }
