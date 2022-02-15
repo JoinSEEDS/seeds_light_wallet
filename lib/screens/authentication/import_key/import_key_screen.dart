@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
@@ -51,7 +53,9 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
         builder: (context, state) {
           return Scaffold(
             bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: Platform.isAndroid
+                  ? const EdgeInsets.only(bottom: 16, right: 16, left: 16)
+                  : const EdgeInsets.only(bottom: 32, right: 16, left: 16),
               child: FlatButtonLong(
                   title: context.loc.importKeySearchButtonTitle,
                   onPressed: () => _onSubmitted(),
