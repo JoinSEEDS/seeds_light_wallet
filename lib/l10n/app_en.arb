@@ -196,5 +196,13 @@
   "verificationScreenReEnterCode": "Re-enter Pincode",
   "@verificationScreenReEnterCode": {},
   "verificationScreenCreateCode": "Create Pincode",
-  "@verificationScreenCreateCode": {}
+  "@verificationScreenCreateCode": {},
+  "walletSendButtonTitle": "Send",
+  "@walletSendButtonTitle": {},
+  "walletReceiveButtonTitle": "Receive",
+  "@walletReceiveButtonTitle": {},
+  "walletCurrencyCardBalance": "Balance",
+  "@walletCurrencyCardBalance": {},
+  "walletTransactionHistory": "Transaction History",
+  "@walletTransactionHistory": {}
 }
