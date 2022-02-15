@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
+import 'package:seeds/screens/authentication/import_key/components/import_words_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
@@ -23,8 +24,10 @@ class ImportWordsScreen extends StatelessWidget {
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
+            bottomNavigationBar: SafeArea(
+              minimum: Platform.isAndroid
+                  ? const EdgeInsets.only(bottom: 16, right: 16, left: 16)
+                  : const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
               child: FlatButtonLong(
                 title: context.loc.importKeySearchButtonTitle,
                 onPressed: () {
@@ -119,9 +122,8 @@ class ImportWordsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      const SizedBox(height: 24),
-                      const ImportKeyAccountsWidget(),
-                      const SizedBox(height: 200),
+                      const ImportWordsAccountsWidget(),
+                      const SizedBox(height: 36),
                     ],
                   ),
                 ),

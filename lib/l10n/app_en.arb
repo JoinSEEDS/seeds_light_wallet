@@ -218,5 +218,13 @@
   "inviteAmountChangeMapperMinimumRequiredError": "Minimum 5 Seeds required to invite",
   "@inviteAmountChangeMapperMinimumRequiredError": {},
   "inviteBalanceMapperError": "Error loading current balance",
-  "@inviteBalanceMapperError": {}
+  "@inviteBalanceMapperError": {},
+  "walletSendButtonTitle": "Send",
+  "@walletSendButtonTitle": {},
+  "walletReceiveButtonTitle": "Receive",
+  "@walletReceiveButtonTitle": {},
+  "walletCurrencyCardBalance": "Balance",
+  "@walletCurrencyCardBalance": {},
+  "walletTransactionHistory": "Transaction History",
+  "@walletTransactionHistory": {}
 }
