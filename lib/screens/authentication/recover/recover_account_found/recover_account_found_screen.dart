@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
@@ -89,79 +90,78 @@ class RecoverAccountFoundScreen extends StatelessWidget {
       case PageState.success:
         switch (state.recoveryStatus) {
           case RecoveryStatus.waitingForGuardiansToSign:
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-                          child: TextFormFieldCustom(
-                            enabled: false,
-                            labelText: context.loc.recoverAccountFoundLinkTitle,
-                            suffixIcon: const SizedBox.shrink(),
-                            controller: TextEditingController(text: state.linkToActivateGuardians?.toString()),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        child: TextFormFieldCustom(
+                          enabled: false,
+                          labelText: context.loc.recoverAccountFoundLinkTitle,
+                          suffixIcon: const SizedBox.shrink(),
+                          controller: TextEditingController(text: state.linkToActivateGuardians?.toString()),
+                        ),
+                      ),
+                      Positioned(
+                        right: 4,
+                        top: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8, top: 8),
+                          child: IconButton(
+                            icon: const Icon(Icons.share, color: AppColors.white),
+                            splashRadius: 30,
+                            onPressed: () async {
+                              await Share.share(state.linkToActivateGuardians!.toString());
+                            },
                           ),
                         ),
-                        Positioned(
-                          right: 4,
-                          top: 10,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8, top: 8),
-                            child: IconButton(
-                              icon: const Icon(Icons.share, color: AppColors.white),
-                              splashRadius: 30,
-                              onPressed: () async {
-                                await Share.share(state.linkToActivateGuardians!.toString());
-                              },
-                            ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        Text(state.confirmedGuardianSignatures.toString(), style: Theme.of(context).textTheme.button1),
+                        Text("/${state.userGuardiansData.length}", style: Theme.of(context).textTheme.button1),
+                        const SizedBox(width: 24),
+                        Flexible(
+                          child: Text(
+                            context.loc.recoverAccountFoundGuardiansAcceptedTitle,
+                            style: Theme.of(context).textTheme.buttonLowEmphasis,
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Text(state.confirmedGuardianSignatures.toString(),
-                              style: Theme.of(context).textTheme.button1),
-                          Text("/${state.userGuardiansData.length}", style: Theme.of(context).textTheme.button1),
-                          const SizedBox(width: 24),
-                          Flexible(
-                            child: Text(
-                              context.loc.recoverAccountFoundGuardiansAcceptedTitle,
-                              style: Theme.of(context).textTheme.buttonLowEmphasis,
-                            ),
-                          ),
-                        ],
-                      ),
+                  ),
+                  const Padding(padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0), child: DividerJungle()),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView(
+                      children: state.userGuardiansData
+                          .map((e) => GuardianRowWidget(
+                                guardianModel: e,
+                                showGuardianSigned: state.alreadySignedGuardians
+                                    .where((String element) => element == e.account)
+                                    .isNotEmpty,
+                              ))
+                          .toList(),
                     ),
-                    const Padding(padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0), child: DividerJungle()),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView(
-                        children: state.userGuardiansData
-                            .map((e) => GuardianRowWidget(
-                                  guardianModel: e,
-                                  showGuardianSigned: state.alreadySignedGuardians
-                                      .where((String element) => element == e.account)
-                                      .isNotEmpty,
-                                ))
-                            .toList(),
-                      ),
+                  ),
+                  Padding(
+                    padding: Platform.isAndroid
+                        ? const EdgeInsets.only(bottom: 8, right: 8, left: 8)
+                        : const EdgeInsets.only(bottom: 24, right: 8, left: 8),
+                    child: FlatButtonLong(
+                      title: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
+                      onPressed: () =>
+                          BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: FlatButtonLong(
-                        title: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
-                        onPressed: () =>
-                            BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           default:
