@@ -27,8 +27,14 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
   }
 
   Future<void> _onInitValidations(OnInitValidations event, Emitter<SendConfirmationState> emit) async {
-    final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
-    emit(InitialValidationStateMapper().mapResultToState(state, result));
+    final esoAction = state.transaction.actions.first;
+    final symbol = (esoAction.data['quantity'] as String).split(' ').last;
+    // We can extend this initial validation logic in future using a switch case for any transaction type
+    // for now it only validates a transfer with SEEDS
+    if (state.isTransfer && symbol == settingsStorage.selectedToken.symbol) {
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+      emit(InitialValidationStateMapper().mapResultToState(state, result));
+    }
   }
 
   Future<void> _onSendTransaction(OnSendTransactionButtonPressed event, Emitter<SendConfirmationState> emit) async {
