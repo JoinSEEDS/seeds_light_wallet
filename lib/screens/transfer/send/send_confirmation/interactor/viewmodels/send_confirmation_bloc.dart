@@ -1,11 +1,12 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_results.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -27,12 +28,14 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
   }
 
   Future<void> _onInitValidations(OnInitValidations event, Emitter<SendConfirmationState> emit) async {
-    final esoAction = state.transaction.actions.first;
-    final symbol = (esoAction.data['quantity'] as String).split(' ').last;
     // We can extend this initial validation logic in future using a switch case for any transaction type
     // for now it only validates a transfer
-    if (state.isTransfer && symbol == settingsStorage.selectedToken.symbol) {
-      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+    final esoAction = state.transaction.actions.first;
+    final symbol = (esoAction.data['quantity'] as String).split(' ').last;
+    final targetToken = TokenModel.allTokens.singleWhereOrNull((i) => i.symbol == symbol);
+
+    if (state.isTransfer && targetToken != null) {
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
       emit(InitialValidationStateMapper().mapResultToState(state, result));
     }
   }
