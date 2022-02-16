@@ -10,8 +10,8 @@ class InitialValidationStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       final BalanceModel balance = result.asValue!.value;
-      final esoAction = currentState.transaction.actions.first;
-      final amountRequested = (esoAction.data['quantity'] as String).split(' ').first;
+      final eosAction = currentState.transaction.actions.first;
+      final amountRequested = (eosAction.data['quantity'] as String).split(' ').first;
       final hasEnoughBalance = (balance.quantity - double.parse(amountRequested)) >= 0;
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);
