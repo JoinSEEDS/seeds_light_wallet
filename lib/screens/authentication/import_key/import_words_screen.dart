@@ -1,9 +1,11 @@
 import 'dart:io' show Platform;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_words_accounts_widget.dart';
@@ -103,13 +105,14 @@ class ImportWordsScreen extends StatelessWidget {
                           );
                         }),
                       ),
-                      const SizedBox(height: 24),
-                      TextButton(
-                        child: const Text("Paste From Clipboard"),
-                        onPressed: () {
-                          BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
-                        },
-                      ),
+                      if (state.pageState != PageState.loading && state.accounts.isEmpty)
+                        TextButton(
+                          child: const Text("Paste From Clipboard"),
+                          onPressed: () {
+                            BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
+                          },
+                        ),
+                      const SizedBox(height: 16),
                       if (state.userEnteredWords.isEmpty)
                         RichText(
                           text: TextSpan(
