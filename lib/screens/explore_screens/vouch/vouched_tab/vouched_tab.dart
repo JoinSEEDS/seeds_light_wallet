@@ -6,6 +6,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/not_qualified_to_vouch_dialog.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/vouch_success_dialog.dart';
@@ -49,24 +50,24 @@ class VouchedTab extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return SafeArea(
-                  child: Scaffold(
-                    bottomSheet: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: FlatButtonLong(
-                        enabled: state.canVouch,
-                        title: 'Vouch for a member',
-                        onPressed: () async {
-                          final shouldScreenReload =
-                              await NavigationService.of(context).navigateTo(Routes.vouchForAMember, state.vouched);
-                          if (shouldScreenReload != null) {
-                            // ignore: use_build_context_synchronously
-                            BlocProvider.of<VouchedBloc>(context).add(LoadUserVouchedList(shouldScreenReload));
-                          }
-                        },
-                      ),
+                return Scaffold(
+                  bottomNavigationBar: SafeArea(
+                    minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                    child: FlatButtonLong(
+                      enabled: state.canVouch,
+                      title: 'Vouch for a member',
+                      onPressed: () async {
+                        final shouldScreenReload =
+                            await NavigationService.of(context).navigateTo(Routes.vouchForAMember, state.vouched);
+                        if (shouldScreenReload != null) {
+                          // ignore: use_build_context_synchronously
+                          BlocProvider.of<VouchedBloc>(context).add(LoadUserVouchedList(shouldScreenReload));
+                        }
+                      },
                     ),
-                    body: Padding(
+                  ),
+                  body: SafeArea(
+                    child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: state.vouched.isEmpty
                           ? Center(
