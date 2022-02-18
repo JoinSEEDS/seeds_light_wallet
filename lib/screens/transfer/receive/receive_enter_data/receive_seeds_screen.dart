@@ -17,14 +17,36 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
 
-class ReceiveEnterDataScreen extends StatelessWidget {
+class ReceiveEnterDataScreen extends StatefulWidget {
   const ReceiveEnterDataScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ReceiveEnterDataScreen> createState() => _ReceiveEnterDataScreenState();
+}
+
+class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
+  late final ReceiveEnterDataBloc _receiveEnterDataBloc;
+  final TextEditingController _memoController = TextEditingController();
+
+  @override
+  void initState() {
+    _receiveEnterDataBloc = ReceiveEnterDataBloc(BlocProvider.of<RatesBloc>(context).state)
+      ..add(const LoadUserBalance());
+    _memoController.addListener(() => _receiveEnterDataBloc.add(OnMemoChanged(_memoController.text)));
+    _memoController.text = _receiveEnterDataBloc.state.generateRandomString(6);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _memoController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ReceiveEnterDataBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
+      create: (_) => _receiveEnterDataBloc,
       child: Scaffold(
         appBar: AppBar(title: Text("Receive".i18n)),
         body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
@@ -32,10 +54,9 @@ class ReceiveEnterDataScreen extends StatelessWidget {
           listener: (context, state) {
             final pageCommand = state.pageCommand;
             if (pageCommand is NavigateToReceiveDetails) {
-              NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.receiveDetailArguments);
+              NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.details, true);
+            } else if (state.pageCommand is ShowTransactionFail) {
               BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());
-            }
-            if (state.pageCommand is ShowTransactionFail) {
               eventBus.fire(ShowSnackBar('Receive creation failed, please try again.'.i18n));
             }
           },
@@ -55,22 +76,17 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                             const SizedBox(height: 60),
                             AmountEntryWidget(
                               tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
-                              onValueChange: (value) {
-                                BlocProvider.of<ReceiveEnterDataBloc>(context).add(OnAmountChange(amountChanged: value));
-                              },
+                              onValueChange: (value) => _receiveEnterDataBloc.add(OnAmountChange(value)),
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 36),
                             Column(
                               children: [
                                 TextFormFieldLight(
+                                  controller: _memoController,
                                   labelText: "Memo".i18n,
                                   hintText: "Add a note".i18n,
                                   maxLength: blockChainMaxChars,
-                                  onChanged: (String value) {
-                                    BlocProvider.of<ReceiveEnterDataBloc>(context)
-                                        .add(OnDescriptionChange(description: value));
-                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 BalanceRow(
@@ -88,9 +104,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                         child: FlatButtonLong(
                           title: 'Next'.i18n,
                           enabled: state.isNextButtonEnabled,
-                          onPressed: () {
-                            BlocProvider.of<ReceiveEnterDataBloc>(context).add(const OnNextButtonTapped());
-                          },
+                          onPressed: () => _receiveEnterDataBloc.add(const OnNextButtonTapped()),
                         ),
                       )
                     ],
