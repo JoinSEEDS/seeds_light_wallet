@@ -9,6 +9,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
@@ -60,50 +61,47 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
             // From invite link, there isn't a screen below the stack thus no implicit back arrow
             appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
             body: SafeArea(
+              minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Form(
-                          key: _usernameFormKey,
-                          child: TextFormFieldCustom(
-                            maxLength: 12,
-                            labelText: context.loc.signUpUsernameTitle,
-                            controller: _keyController,
-                            errorText: state.error?.localizedDescription(context),
-                            suffixIcon: QuadStateClipboardIconButton(
-                              isChecked: state.isUsernameValid,
-                              onClear: () => _keyController.clear(),
-                              isLoading: state.pageState == PageState.loading,
-                              canClear: _keyController.text.isNotEmpty,
-                            ),
-                            onChanged: (text) {
-                              _debouncer.run(() => _signupBloc.add(OnAccountNameChanged(text)));
-                            },
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Form(
+                        key: _usernameFormKey,
+                        child: TextFormFieldCustom(
+                          maxLength: 12,
+                          labelText: context.loc.signUpUsernameTitle,
+                          controller: _keyController,
+                          errorText: state.error?.localizedDescription(context),
+                          suffixIcon: QuadStateClipboardIconButton(
+                            isChecked: state.isUsernameValid,
+                            onClear: () => _keyController.clear(),
+                            isLoading: state.pageState == PageState.loading,
+                            canClear: _keyController.text.isNotEmpty,
                           ),
+                          onChanged: (text) {
+                            _debouncer.run(() => _signupBloc.add(OnAccountNameChanged(text)));
+                          },
                         ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: Text(
-                            context.loc.signUpUsernameDescription,
-                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                          ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: Text(
+                          context.loc.signUpUsernameDescription,
+                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                         ),
-                        FlatButtonLong(
-                          title: context.loc.signUpCreateAccountButtonTitle,
-                          onPressed: state.isNextButtonActive
-                              ? () {
-                                  FocusScope.of(context).unfocus();
-                                  _signupBloc.add(OnCreateAccountTapped(_keyController.text));
-                                }
-                              : null,
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                      FlatButtonLong(
+                        title: context.loc.signUpCreateAccountButtonTitle,
+                        onPressed: state.isNextButtonActive
+                            ? () {
+                                FocusScope.of(context).unfocus();
+                                _signupBloc.add(OnCreateAccountTapped(_keyController.text));
+                              }
+                            : null,
+                      ),
+                    ],
                   ),
                   if (state.pageState == PageState.loading) const FullPageLoadingIndicator(),
                 ],
