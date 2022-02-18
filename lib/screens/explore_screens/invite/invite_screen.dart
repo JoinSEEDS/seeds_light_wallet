@@ -67,11 +67,11 @@ class InviteScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: Stack(
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
@@ -97,18 +97,13 @@ class InviteScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: Platform.isAndroid
-                            ? const EdgeInsets.all(horizontalEdgePadding)
-                            : const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Create invite'.i18n,
-                            enabled: state.isCreateInviteButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: 'Create invite'.i18n,
+                          enabled: state.isCreateInviteButtonEnabled,
+                          onPressed: () =>
+                              BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
                         ),
                       ),
                     ],

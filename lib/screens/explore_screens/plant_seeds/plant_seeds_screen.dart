@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
@@ -55,11 +56,11 @@ class PlantSeedsScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: Stack(
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                           height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
@@ -91,16 +92,13 @@ class PlantSeedsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(horizontalEdgePadding),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Plant Seeds'.i18n,
-                            enabled: state.isPlantSeedsButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: 'Plant Seeds'.i18n,
+                          enabled: state.isPlantSeedsButtonEnabled,
+                          onPressed: () =>
+                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
                         ),
                       ),
                     ],
