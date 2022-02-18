@@ -87,11 +87,11 @@ class _UnplantSeedsScreenState extends State<UnplantSeedsScreen> {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: Stack(
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                           height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
@@ -135,16 +135,13 @@ class _UnplantSeedsScreenState extends State<UnplantSeedsScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(horizontalEdgePadding),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Unplant Seeds',
-                            enabled: state.isUnplantSeedsButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<UnplantSeedsBloc>(context).add(const OnUnplantSeedsButtonTapped()),
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: 'Unplant Seeds',
+                          enabled: state.isUnplantSeedsButtonEnabled,
+                          onPressed: () =>
+                              BlocProvider.of<UnplantSeedsBloc>(context).add(const OnUnplantSeedsButtonTapped()),
                         ),
                       ),
                     ],
