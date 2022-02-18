@@ -20,60 +20,59 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(title: Text("Scan QR Code".i18n)),
-        body: Stack(
-          children: [
-            Container(
-              height: height,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
-                    QrCodeGeneratorWidget(
-                      data: arguments.invoiceLink,
-                      size: width * 0.8,
-                    ),
-                    const SizedBox(height: 20),
-                    ShareLinkRow(
-                      label: 'Share Link to Invoice'.i18n,
-                      link: arguments.invoiceLinkUri == null
-                          ? arguments.invoiceLink
-                          : arguments.invoiceLinkUri.toString(),
-                    ),
-                    const SizedBox(height: 4),
-                    const DividerJungle(
-                      height: 6,
-                    ),
-                    const SizedBox(height: 16),
-                    BalanceRow(
-                      label: "Total".i18n,
-                      fiatAmount: arguments.fiatAmount,
-                      tokenAmount: arguments.tokenAmount,
-                    ),
-                    const SizedBox(height: 4),
-                    const DividerJungle(
-                      thickness: 2.0,
-                      height: 10,
-                    ),
-                    const SizedBox(height: 4),
-                    if (arguments.description != null)
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: RichText(
-                          text: TextSpan(
-                              text: 'Memo: '.i18n, children: <TextSpan>[TextSpan(text: arguments.description)]),
-                        ),
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    const SizedBox(height: 150),
-                  ],
+        body: SafeArea(
+          minimum: const EdgeInsets.all(horizontalEdgePadding),
+          child: Stack(
+            children: [
+              Container(
+                height: height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      QrCodeGeneratorWidget(
+                        data: arguments.invoiceLink,
+                        size: width * 0.8,
+                      ),
+                      const SizedBox(height: 20),
+                      ShareLinkRow(
+                        label: 'Share Link to Invoice'.i18n,
+                        link: arguments.invoiceLinkUri == null
+                            ? arguments.invoiceLink
+                            : arguments.invoiceLinkUri.toString(),
+                      ),
+                      const SizedBox(height: 4),
+                      const DividerJungle(
+                        height: 6,
+                      ),
+                      const SizedBox(height: 16),
+                      BalanceRow(
+                        label: "Total".i18n,
+                        fiatAmount: arguments.fiatAmount,
+                        tokenAmount: arguments.tokenAmount,
+                      ),
+                      const SizedBox(height: 4),
+                      const DividerJungle(
+                        thickness: 2.0,
+                        height: 10,
+                      ),
+                      const SizedBox(height: 4),
+                      if (arguments.description != null)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Memo: '.i18n, children: <TextSpan>[TextSpan(text: arguments.description)]),
+                          ),
+                        )
+                      else
+                        const SizedBox.shrink(),
+                      const SizedBox(height: 150),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(horizontalEdgePadding),
-              child: Align(
+              Align(
                 alignment: Alignment.bottomCenter,
                 child: FlatButtonLong(
                   title: 'Done'.i18n,
@@ -83,8 +82,8 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

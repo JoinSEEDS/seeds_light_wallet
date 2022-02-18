@@ -44,24 +44,24 @@ class ReceiveEnterDataScreen extends StatelessWidget {
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.success:
-                return Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 100),
-                          AmountEntryWidget(
-                            tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
-                            onValueChange: (value) {
-                              BlocProvider.of<ReceiveEnterDataBloc>(context).add(OnAmountChange(amountChanged: value));
-                            },
-                            autoFocus: state.isAutoFocus,
-                          ),
-                          const SizedBox(height: 36),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                            child: Column(
+                return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 60),
+                            AmountEntryWidget(
+                              tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
+                              onValueChange: (value) {
+                                BlocProvider.of<ReceiveEnterDataBloc>(context).add(OnAmountChange(amountChanged: value));
+                              },
+                              autoFocus: state.isAutoFocus,
+                            ),
+                            const SizedBox(height: 36),
+                            Column(
                               children: [
                                 TextFormFieldLight(
                                   labelText: "Memo".i18n,
@@ -80,13 +80,10 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(horizontalEdgePadding),
-                      child: Align(
+                      Align(
                         alignment: Alignment.bottomCenter,
                         child: FlatButtonLong(
                           title: 'Next'.i18n,
@@ -95,9 +92,9 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                             BlocProvider.of<ReceiveEnterDataBloc>(context).add(const OnNextButtonTapped());
                           },
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 );
               default:
                 return const SizedBox.shrink();
