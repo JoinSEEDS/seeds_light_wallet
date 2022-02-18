@@ -1,4 +1,3 @@
-import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/account_action_row.dart';
@@ -8,7 +7,6 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/components/remove_flag_info_dialog.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/flag_bloc.dart';
@@ -24,10 +22,8 @@ class FlagScreen extends StatelessWidget {
         builder: (context, FlagState state) {
           return Scaffold(
             appBar: AppBar(title: const Text('Flag')),
-            bottomSheet: Padding(
-              padding: Platform.isAndroid
-                  ? const EdgeInsets.only(bottom: 16, right: 16, left: 16)
-                  : const EdgeInsets.only(bottom: 32, right: 16, left: 16),
+            bottomNavigationBar: SafeArea(
+              minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
               child: FlatButtonLong(
                 title: 'Flag a User',
                 onPressed: () async {

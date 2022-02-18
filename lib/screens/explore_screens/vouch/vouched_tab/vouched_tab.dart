@@ -6,7 +6,6 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/not_qualified_to_vouch_dialog.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/components/vouch_success_dialog.dart';
