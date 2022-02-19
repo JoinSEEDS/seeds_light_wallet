@@ -54,10 +54,10 @@ class GuardiansScreen extends StatelessWidget {
             return DefaultTabController(
               length: 2,
               child: Scaffold(
-                floatingActionButton: state.pageState == PageState.loading
+                bottomNavigationBar: state.pageState == PageState.loading
                     ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.only(left: 32),
+                    : SafeArea(
+                        minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
                         child: FlatButtonLong(
                           title: "+ Add Guardians".i18n,
                           isLoading: state.isAddGuardianButtonLoading,

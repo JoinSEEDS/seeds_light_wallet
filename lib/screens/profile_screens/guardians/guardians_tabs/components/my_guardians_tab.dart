@@ -40,7 +40,7 @@ class MyGuardiansTab extends StatelessWidget {
               if (alreadyGuardians.length < 3) {
                 items.add(
                   Padding(
-                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
+                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16,bottom: 20),
                     child: Center(
                       child: Text(
                         "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key".i18n,

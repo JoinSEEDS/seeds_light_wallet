@@ -6,6 +6,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/edit_name/edit_name.i18n.dart';
 import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
 
@@ -59,33 +60,28 @@ class _EditNameScreenState extends State<EditNameScreen> {
             switch (state.pageState) {
               case PageState.initial:
                 return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: Form(
                     key: _formKeyName,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          TextFormFieldCustom(
-                            labelText: 'Name'.i18n,
-                            controller: _nameController,
-                            onFieldSubmitted: (_) => _onSubmitted(),
-                            validator: (value) {
-                              if (value!.length > 42) {
-                                return 'Please enter a smaller name'.i18n;
-                              }
-                              return null;
-                            },
-                          ),
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: FlatButtonLong(
-                              title: 'Save Changes'.i18n,
-                              onPressed: () => _onSubmitted(),
-                            ),
-                          )
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        TextFormFieldCustom(
+                          labelText: 'Name'.i18n,
+                          controller: _nameController,
+                          onFieldSubmitted: (_) => _onSubmitted(),
+                          validator: (value) {
+                            if (value!.length > 42) {
+                              return 'Please enter a smaller name'.i18n;
+                            }
+                            return null;
+                          },
+                        ),
+                        const Spacer(),
+                        FlatButtonLong(
+                          title: 'Save Changes'.i18n,
+                          onPressed: () => _onSubmitted(),
+                        )
+                      ],
                     ),
                   ),
                 );

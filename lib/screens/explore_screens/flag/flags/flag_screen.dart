@@ -22,21 +22,18 @@ class FlagScreen extends StatelessWidget {
         builder: (context, FlagState state) {
           return Scaffold(
             appBar: AppBar(title: const Text('Flag')),
-            bottomSheet: SafeArea(
-              minimum: const EdgeInsets.only(bottom: 16),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FlatButtonLong(
-                  title: 'Flag a User',
-                  onPressed: () async {
-                    final shouldScreenReload =
-                        await NavigationService.of(context).navigateTo(Routes.flagUser, state.usersIHaveFlagged);
-                    if (shouldScreenReload != null) {
-                      // ignore: use_build_context_synchronously
-                      BlocProvider.of<FlagBloc>(context).add(const LoadUsersFlags());
-                    }
-                  },
-                ),
+            bottomNavigationBar: SafeArea(
+              minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
+              child: FlatButtonLong(
+                title: 'Flag a User',
+                onPressed: () async {
+                  final shouldScreenReload =
+                      await NavigationService.of(context).navigateTo(Routes.flagUser, state.usersIHaveFlagged);
+                  if (shouldScreenReload != null) {
+                    // ignore: use_build_context_synchronously
+                    BlocProvider.of<FlagBloc>(context).add(const LoadUsersFlags());
+                  }
+                },
               ),
             ),
             body: SafeArea(

@@ -101,16 +101,12 @@ class InviteScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: context.loc.inviteScreenButtonTitle,
-                            enabled: state.isCreateInviteButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: context.loc.inviteScreenButtonTitle,
+                          enabled: state.isCreateInviteButtonEnabled,
+                          onPressed: () => BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
                         ),
                       ),
                     ],

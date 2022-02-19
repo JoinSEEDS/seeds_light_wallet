@@ -5,6 +5,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/explore_screens/vouch/sponsor_tab/interactor/viewmodels/sponsor_bloc.dart';
 
 class SponsorTab extends StatelessWidget {
@@ -22,22 +23,20 @@ class SponsorTab extends StatelessWidget {
             case PageState.failure:
               return const FullPageErrorIndicator();
             case PageState.success:
-              return SafeArea(
-                child: Scaffold(
-                  body: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: state.sponsors.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No one has vouched for you',
-                              style: Theme.of(context).textTheme.buttonLowEmphasis,
-                            ),
-                          )
-                        : ListView(
-                            padding: const EdgeInsets.only(top: 10),
-                            children: [for (final i in state.sponsors) MemberInfoRow(i)],
+              return Scaffold(
+                body: SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
+                  child: state.sponsors.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No one has vouched for you',
+                            style: Theme.of(context).textTheme.buttonLowEmphasis,
                           ),
-                  ),
+                        )
+                      : ListView(
+                          padding: const EdgeInsets.only(top: 10),
+                          children: [for (final i in state.sponsors) MemberInfoRow(i)],
+                        ),
                 ),
               );
             default:
