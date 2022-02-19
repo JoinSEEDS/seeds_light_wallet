@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,7 +17,7 @@ class PickImageBloc extends Bloc<PickImageEvent, PickImageState> {
     try {
       final image = await ImagePicker().pickImage(source: event.source, imageQuality: 50, maxWidth: 2000);
       if (image != null) {
-        final croppedFile = await ImageCropper.cropImage(
+        final croppedFile = await ImageCropper().cropImage(
           sourcePath: image.path,
           aspectRatioPresets: [CropAspectRatioPreset.square],
           compressQuality: 50,
