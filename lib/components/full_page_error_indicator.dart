@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 
 class FullPageErrorIndicator extends StatelessWidget {
@@ -23,7 +23,7 @@ class FullPageErrorIndicator extends StatelessWidget {
       ),
       if (buttonTitle != null && buttonOnPressed != null)
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: FlatButtonLong(title: buttonTitle!, onPressed: buttonOnPressed),
         ),
     ]);

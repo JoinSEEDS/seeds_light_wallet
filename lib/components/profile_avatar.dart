@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
 /// PROFILE AVATAR

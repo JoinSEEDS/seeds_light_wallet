@@ -12,6 +12,7 @@ part 'root_state.dart';
 class RootBloc extends Bloc<RootEvent, RootState> {
   late StreamSubscription _snackSubscription;
   late StreamSubscription _connectivityResult;
+  Timer? timer;
 
   RootBloc() : super(RootState.initial()) {
     _snackSubscription = eventBus.on<ShowSnackBar>().listen((event) async => add(OnRootBusEventRecived(event)));
@@ -38,18 +39,22 @@ class RootBloc extends Bloc<RootEvent, RootState> {
         // And past state was dsiconnected.
         if (state.internetConnectionStatus == InternetConnectionStatus.disconnected) {
           emit(state.copyWith(internetConnectionStatus: InternetConnectionStatus.connected));
+          // Clear any offline message scheduled
+          timer?.cancel();
           eventBus.fire(const ShowSnackBar('Your internet connection was restored'));
         }
       } else {
         // Network data detected but no internet connection found.
         emit(state.copyWith(internetConnectionStatus: InternetConnectionStatus.disconnected));
-        eventBus.fire(const ShowSnackBar('You are currently offline'));
+        // Delayed offline message to avoid send it too often.
+        timer = Timer(const Duration(seconds: 5), () => eventBus.fire(const ShowSnackBar('You are currently offline')));
       }
     }
     // device has no mobile network and wifi connection at all
     else {
       emit(state.copyWith(internetConnectionStatus: InternetConnectionStatus.disconnected));
-      eventBus.fire(const ShowSnackBar('You are currently offline'));
+      // Delayed offline message to avoid send it too often.
+      timer = Timer(const Duration(seconds: 5), () => eventBus.fire(const ShowSnackBar('You are currently offline')));
     }
   }
 }

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 const double _padding = 20;
 const double _avatarRadius = 40;
@@ -88,7 +88,7 @@ class CustomDialog extends StatelessWidget {
                                 Expanded(
                                   child: FlatButtonLongOutlined(
                                     title: leftButtonTitle,
-                                    onPressed: onLeftButtonPressed,
+                                    onPressed: onLeftButtonPressed ?? () => Navigator.pop(context),
                                   ),
                                 ),
                               if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),

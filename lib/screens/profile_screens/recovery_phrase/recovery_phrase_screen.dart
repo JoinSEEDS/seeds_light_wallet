@@ -19,8 +19,8 @@ class RecoveryPhraseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('12-word Recovery Phrase')),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
         child: FlatButtonLong(title: 'I’ve written it down', onPressed: () => Navigator.of(context).pop()),
       ),
       body: SafeArea(

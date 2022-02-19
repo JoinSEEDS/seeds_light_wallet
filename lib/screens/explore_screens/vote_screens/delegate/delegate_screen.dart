@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/delegates_tab.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegators_tab/delegators_tab.dart';

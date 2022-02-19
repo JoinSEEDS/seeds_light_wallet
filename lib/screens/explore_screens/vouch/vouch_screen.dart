@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/explore_screens/vouch/sponsor_tab/sponsor_tab.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab/vouched_tab.dart';
@@ -24,7 +24,7 @@ class VouchScreen extends StatelessWidget {
           ),
           title: const Text("Vouch"),
         ),
-        body: const SafeArea(child: TabBarView(children: [VouchedTab(), SponsorTab()])),
+        body: const TabBarView(children: [VouchedTab(), SponsorTab()]),
       ),
     );
   }

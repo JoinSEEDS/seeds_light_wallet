@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegates_bloc.dart';
 
 class RemoveDelegateConfirmationDialog extends StatelessWidget {
@@ -19,7 +19,6 @@ class RemoveDelegateConfirmationDialog extends StatelessWidget {
         icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
         leftButtonTitle: "Cancel",
         rightButtonTitle: "Yes, I'm sure",
-        onLeftButtonPressed: () => Navigator.of(context).pop(),
         onRightButtonPressed: () {
           BlocProvider.of<DelegatesBloc>(context).add(const RemoveDelegate());
           Navigator.of(context).pop();

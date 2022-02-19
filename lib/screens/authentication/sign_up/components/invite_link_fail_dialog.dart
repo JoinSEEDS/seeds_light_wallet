@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
   const InviteLinkFailDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return CustomDialog(
       icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
-      singleLargeButtonTitle: localization.signUpCloseButtonTitle,
+      singleLargeButtonTitle: context.loc.signUpCloseButtonTitle,
       children: [
-        Text(localization.signUpInviteCodeErrorTitle, style: Theme.of(context).textTheme.headline6),
+        Text(context.loc.signUpInviteCodeErrorTitle, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 24.0),
         Text(
-          localization.signUpInviteCodeErrorDescription,
+          context.loc.signUpInviteCodeErrorDescription,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle2,
         ),

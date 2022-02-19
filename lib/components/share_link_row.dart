@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:share/share.dart';
 

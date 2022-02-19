@@ -4,7 +4,7 @@ import 'package:seeds/components/account_action_row.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -20,24 +20,24 @@ class FlagScreen extends StatelessWidget {
       create: (_) => FlagBloc()..add(const LoadUsersFlags()),
       child: BlocBuilder<FlagBloc, FlagState>(
         builder: (context, FlagState state) {
-          return SafeArea(
-            child: Scaffold(
-              appBar: AppBar(title: const Text('Flag')),
-              bottomSheet: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FlatButtonLong(
-                  title: 'Flag a User',
-                  onPressed: () async {
-                    final shouldScreenReload =
-                        await NavigationService.of(context).navigateTo(Routes.flagUser, state.usersIHaveFlagged);
-                    if (shouldScreenReload != null) {
-                      // ignore: use_build_context_synchronously
-                      BlocProvider.of<FlagBloc>(context).add(const LoadUsersFlags());
-                    }
-                  },
-                ),
+          return Scaffold(
+            appBar: AppBar(title: const Text('Flag')),
+            bottomNavigationBar: SafeArea(
+              minimum: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
+              child: FlatButtonLong(
+                title: 'Flag a User',
+                onPressed: () async {
+                  final shouldScreenReload =
+                      await NavigationService.of(context).navigateTo(Routes.flagUser, state.usersIHaveFlagged);
+                  if (shouldScreenReload != null) {
+                    // ignore: use_build_context_synchronously
+                    BlocProvider.of<FlagBloc>(context).add(const LoadUsersFlags());
+                  }
+                },
               ),
-              body: BlocBuilder<FlagBloc, FlagState>(
+            ),
+            body: SafeArea(
+              child: BlocBuilder<FlagBloc, FlagState>(
                 builder: (context, state) {
                   switch (state.pageState) {
                     case PageState.initial:

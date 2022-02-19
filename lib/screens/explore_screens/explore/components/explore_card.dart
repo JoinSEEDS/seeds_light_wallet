@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class ExploreCard extends StatelessWidget {
   final String title;
@@ -26,7 +26,6 @@ class ExploreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return InkWell(
       borderRadius: BorderRadius.circular(defaultCardBorderRadius),
       onTap: onTap,
@@ -40,7 +39,7 @@ class ExploreCard extends StatelessWidget {
           alignment: AlignmentDirectional.bottomStart,
           children: [
             if (backgroundImage != null) Image.asset(backgroundImage!),
-            if (title == localization.explorerSwapItemTitle)
+            if (title == context.loc.explorerSwapItemTitle)
               LayoutBuilder(builder: (context, constrains) {
                 return ClipRRect(
                   borderRadius: const BorderRadius.only(

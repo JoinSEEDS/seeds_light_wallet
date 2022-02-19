@@ -1,13 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
+import 'package:seeds/screens/authentication/import_key/components/import_words_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
 
 const _numberOfWords = 12;
@@ -18,16 +19,15 @@ class ImportWordsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => ImportKeyBloc(),
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
+            bottomNavigationBar: SafeArea(
+              minimum: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
               child: FlatButtonLong(
-                title: localization.importKeySearchButtonTitle,
+                title: context.loc.importKeySearchButtonTitle,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
@@ -35,7 +35,7 @@ class ImportWordsScreen extends StatelessWidget {
                 enabled: state.enableButton,
               ),
             ),
-            appBar: AppBar(),
+            appBar: AppBar(title: const Text("12-word Recovery Phrase")),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -44,7 +44,7 @@ class ImportWordsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        localization.importKeyImportUsingRecoveryPhraseTitle,
+                        context.loc.importKeyImportUsingRecoveryPhraseTitle,
                         style: Theme.of(context).textTheme.subtitle3,
                         textAlign: TextAlign.left,
                       ),
@@ -64,6 +64,7 @@ class ImportWordsScreen extends StatelessWidget {
                             child: Autocomplete<String>(
                               fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
                                   FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                textEditingController.text = state.userEnteredWords[index] ?? "";
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,
@@ -100,14 +101,21 @@ class ImportWordsScreen extends StatelessWidget {
                           );
                         }),
                       ),
-                      const SizedBox(height: 24),
+                      if (state.pageState != PageState.loading && state.accounts.isEmpty)
+                        TextButton(
+                          child: const Text("Paste From Clipboard"),
+                          onPressed: () {
+                            BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
+                          },
+                        ),
+                      const SizedBox(height: 16),
                       if (state.userEnteredWords.isEmpty)
                         RichText(
                           text: TextSpan(
                             style: Theme.of(context).textTheme.subtitle2,
                             children: <TextSpan>[
                               TextSpan(
-                                text: localization.importKeyImportUsingPrivateKeyActionLink,
+                                text: context.loc.importKeyImportUsingPrivateKeyActionLink,
                                 style: Theme.of(context).textTheme.subtitle2Green2,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -116,13 +124,12 @@ class ImportWordsScreen extends StatelessWidget {
                                   },
                               ),
                               const TextSpan(text: " "),
-                              TextSpan(text: localization.importKeyImportUsingPrivateKeyDescription),
+                              TextSpan(text: context.loc.importKeyImportUsingPrivateKeyDescription),
                             ],
                           ),
                         ),
-                      const SizedBox(height: 24),
-                      const ImportKeyAccountsWidget(),
-                      const SizedBox(height: 200),
+                      const ImportWordsAccountsWidget(),
+                      const SizedBox(height: 36),
                     ],
                   ),
                 ),

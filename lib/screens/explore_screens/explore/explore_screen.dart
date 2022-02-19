@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/images/explore/exclamation_circle.dart';
@@ -19,6 +18,7 @@ import 'package:seeds/screens/explore_screens/explore/components/flag_user_info_
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_item.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -26,45 +26,44 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     final List<ExploreItem> _exploreItems = [
       ExploreItem(
-          title: localization.explorerInviteItemTitle,
+          title: context.loc.explorerInviteItemTitle,
           icon: const Padding(
               padding: EdgeInsets.only(left: 6.0), child: CustomPaint(size: Size(40, 40), painter: InvitePerson())),
           onTapEvent: const OnExploreCardTapped(Routes.createInvite)),
       ExploreItem(
-          title: localization.explorerVouchItemTitle,
+          title: context.loc.explorerVouchItemTitle,
           icon: const CustomPaint(size: Size(35, 41), painter: Vouch()),
           onTapEvent: const OnExploreCardTapped(Routes.vouch)),
       ExploreItem(
-          title: localization.explorerFlagItemTitle,
+          title: context.loc.explorerFlagItemTitle,
           icon: const CustomPaint(size: Size(41, 41), painter: ExclamationCircle()),
           onTapEvent: const OnFlagUserTap()),
       ExploreItem(
-        title: localization.explorerVoteItemTitle,
+        title: context.loc.explorerVoteItemTitle,
         icon: const Padding(
             padding: EdgeInsets.only(right: 6.0), child: CustomPaint(size: Size(40, 40), painter: Vote())),
         onTapEvent: const OnExploreCardTapped(Routes.vote),
       ),
       ExploreItem(
-        title: localization.explorerPlantItemTitle,
+        title: context.loc.explorerPlantItemTitle,
         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
         onTapEvent: const OnExploreCardTapped(Routes.plantSeeds),
       ),
       ExploreItem(
-        title: localization.explorerUnplantItemTitle,
+        title: context.loc.explorerUnplantItemTitle,
         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
         onTapEvent: const OnExploreCardTapped(Routes.unPlantSeeds),
       ),
       ExploreItem(
-        title: localization.explorerSwapItemTitle,
+        title: context.loc.explorerSwapItemTitle,
         icon: const CustomPaint(size: Size(24, 24), painter: SwapSeeds()),
         iconUseCircleBackground: false,
         onTapEvent: const OnExploreCardTapped(Routes.swapSeeds),
       ),
       ExploreItem(
-        title: localization.explorerGetSeedsItemTitle,
+        title: context.loc.explorerGetSeedsItemTitle,
         icon: const CustomPaint(size: Size(9, 22), painter: SeedsSymbol()),
         backgroundIconColor: AppColors.white,
         backgroundImage: 'assets/images/explore/get_seeds_card.png',
@@ -79,7 +78,7 @@ class ExploreScreen extends StatelessWidget {
     ];
     List<ExploreItem> items = _exploreItems;
     if (!remoteConfigurations.featureFlagP2PEnabled) {
-      items = _exploreItems.where((i) => i.title != localization.explorerSwapItemTitle).toList();
+      items = _exploreItems.where((i) => i.title != context.loc.explorerSwapItemTitle).toList();
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
@@ -103,7 +102,7 @@ class ExploreScreen extends StatelessWidget {
         },
         builder: (context, _) {
           return Scaffold(
-            appBar: AppBar(title: Text(localization.explorerAppBarTitle)),
+            appBar: AppBar(title: Text(context.loc.explorerAppBarTitle)),
             body: GridView.count(
               padding: const EdgeInsets.all(18),
               crossAxisSpacing: 18,

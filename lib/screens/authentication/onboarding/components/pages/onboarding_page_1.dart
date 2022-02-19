@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding5.png",
       topPadding: 30,
-      title: localization.onboardingTransactionsTitle,
-      subTitle: localization.onboardingTransactionsSubtitle,
+      title: context.loc.onboardingTransactionsTitle,
+      subTitle: context.loc.onboardingTransactionsSubtitle,
       topLeaf1: Positioned(
         right: 80,
         top: -10,

@@ -1,20 +1,19 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 enum RecoverAccountSearchError { noActiveGuardians, unableToLoadGuardians, unableToLoadAccount, invalidAccount }
 
 extension LocalizedRecoverAccountErrors on RecoverAccountSearchError {
   String localizedDescription(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     switch (this) {
       case RecoverAccountSearchError.noActiveGuardians:
-        return localization.recoverAccountSearchErrorNoActiveGuardians;
+        return context.loc.recoverAccountSearchErrorNoActiveGuardians;
       case RecoverAccountSearchError.unableToLoadGuardians:
-        return localization.recoverAccountSearchErrorLoadingGuardians;
+        return context.loc.recoverAccountSearchErrorLoadingGuardians;
       case RecoverAccountSearchError.unableToLoadAccount:
-        return localization.recoverAccountSearchErrorLoadingAccount;
+        return context.loc.recoverAccountSearchErrorLoadingAccount;
       case RecoverAccountSearchError.invalidAccount:
-        return localization.recoverAccountSearchErrorNoValidAccount;
+        return context.loc.recoverAccountSearchErrorNoValidAccount;
     }
   }
 }
