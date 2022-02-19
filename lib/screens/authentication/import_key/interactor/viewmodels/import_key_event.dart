@@ -52,3 +52,10 @@ class FindAccountFromWords extends ImportKeyEvent {
   @override
   String toString() => 'FindAccountFromWords ';
 }
+
+class OnUserPastedWords extends ImportKeyEvent {
+  const OnUserPastedWords();
+
+  @override
+  String toString() => 'OnUserPastedWords ';
+}
