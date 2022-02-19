@@ -51,7 +51,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(title: const Text("Import Private Key")),
             body: SafeArea(
               minimum: const EdgeInsets.symmetric(vertical: 16),
               child: Stack(
