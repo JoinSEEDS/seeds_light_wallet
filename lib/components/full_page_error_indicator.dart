@@ -23,7 +23,7 @@ class FullPageErrorIndicator extends StatelessWidget {
       ),
       if (buttonTitle != null && buttonOnPressed != null)
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: FlatButtonLong(title: buttonTitle!, onPressed: buttonOnPressed),
         ),
     ]);

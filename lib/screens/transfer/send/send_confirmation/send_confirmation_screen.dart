@@ -11,6 +11,7 @@ import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
@@ -70,11 +71,12 @@ class SendConfirmationScreen extends StatelessWidget {
                     case PageState.initial:
                     case PageState.success:
                       return SafeArea(
+                        minimum: const EdgeInsets.all(horizontalEdgePadding),
                         child: Column(
                           children: [
                             Expanded(
                               child: ListView(
-                                padding: const EdgeInsets.fromLTRB(12.0, 0, 0, 24),
+                                padding: const EdgeInsets.only(bottom: 24),
                                 shrinkWrap: true,
                                 children: [
                                   Padding(
@@ -91,16 +93,13 @@ class SendConfirmationScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: FlatButtonLong(
-                                title: 'Confirm and Send'.i18n,
-                                onPressed: () {
-                                  final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                                  BlocProvider.of<SendConfirmationBloc>(context)
-                                      .add(OnSendTransactionButtonPressed(rates));
-                                },
-                              ),
+                            FlatButtonLong(
+                              title: 'Confirm and Send'.i18n,
+                              onPressed: () {
+                                final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                                BlocProvider.of<SendConfirmationBloc>(context)
+                                    .add(OnSendTransactionButtonPressed(rates));
+                              },
                             ),
                           ],
                         ),

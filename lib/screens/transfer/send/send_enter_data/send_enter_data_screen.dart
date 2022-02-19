@@ -98,6 +98,7 @@ class SendEnterDataScreen extends StatelessWidget {
                   return const SafeArea(child: FullPageErrorIndicator());
                 case PageState.success:
                   return SafeArea(
+                    minimum: const EdgeInsets.all(horizontalEdgePadding),
                     child: Stack(
                       children: [
                         SingleChildScrollView(
@@ -105,7 +106,7 @@ class SendEnterDataScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 16, top: 10),
+                                padding: const EdgeInsets.only( top: 10),
                                 child: Text(
                                   "Send to".i18n,
                                   style: Theme.of(context).textTheme.subtitle1,
@@ -124,43 +125,37 @@ class SendEnterDataScreen extends StatelessWidget {
                               const SizedBox(height: 24),
                               AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
                               const SizedBox(height: 30),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16, right: 16),
-                                child: Column(
-                                  children: [
-                                    TextFormFieldLight(
-                                      labelText: "Memo".i18n,
-                                      hintText: "Add a note".i18n,
-                                      maxLength: blockChainMaxChars,
-                                      onChanged: (String value) {
-                                        BlocProvider.of<SendEnterDataBloc>(context)
-                                            .add(OnMemoChange(memoChanged: value));
-                                      },
-                                    ),
-                                    const SizedBox(height: 16),
-                                    BalanceRow(
-                                      label: "Available Balance".i18n,
-                                      fiatAmount: state.availableBalanceFiat,
-                                      tokenAmount: state.availableBalance,
-                                    ),
-                                    const SizedBox(height: 100),
-                                  ],
-                                ),
+                              Column(
+                                children: [
+                                  TextFormFieldLight(
+                                    labelText: "Memo".i18n,
+                                    hintText: "Add a note".i18n,
+                                    maxLength: blockChainMaxChars,
+                                    onChanged: (String value) {
+                                      BlocProvider.of<SendEnterDataBloc>(context)
+                                          .add(OnMemoChange(memoChanged: value));
+                                    },
+                                  ),
+                                  const SizedBox(height: 16),
+                                  BalanceRow(
+                                    label: "Available Balance".i18n,
+                                    fiatAmount: state.availableBalanceFiat,
+                                    tokenAmount: state.availableBalance,
+                                  ),
+                                  const SizedBox(height: 100),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: FlatButtonLong(
-                              title: 'Next'.i18n,
-                              enabled: state.isNextButtonEnabled,
-                              onPressed: () {
-                                BlocProvider.of<SendEnterDataBloc>(context).add(const OnNextButtonTapped());
-                              },
-                            ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FlatButtonLong(
+                            title: 'Next'.i18n,
+                            enabled: state.isNextButtonEnabled,
+                            onPressed: () {
+                              BlocProvider.of<SendEnterDataBloc>(context).add(const OnNextButtonTapped());
+                            },
                           ),
                         )
                       ],

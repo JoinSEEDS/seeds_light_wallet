@@ -6,6 +6,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
@@ -50,76 +51,88 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(
-                  title: context.loc.importKeySearchButtonTitle,
-                  onPressed: () => _onSubmitted(),
-                  enabled: state.enableButton),
-            ),
             appBar: AppBar(title: const Text("Import Private Key")),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Form(
-                  key: _formImportKey,
-                  autovalidateMode: AutovalidateMode.disabled,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        TextFormFieldCustom(
-                          autofocus: true,
-                          labelText: context.loc.importKeyPrivateKeyFieldPlaceholder,
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.paste, color: AppColors.white),
-                            onPressed: () async {
-                              final clipboardData = await Clipboard.getData('text/plain');
-                              final clipboardText = clipboardData?.text ?? '';
-                              _keyController.text = clipboardText;
-                              // ignore: use_build_context_synchronously
-                              BlocProvider.of<ImportKeyBloc>(context)
-                                  .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
-                              _onSubmitted();
-                            },
+            body: SafeArea(
+              minimum: const EdgeInsets.symmetric(vertical: 16),
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Form(
+                        key: _formImportKey,
+                        autovalidateMode: AutovalidateMode.disabled,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                          child: Column(
+                            children: [
+                              TextFormFieldCustom(
+                                autofocus: true,
+                                labelText: context.loc.importKeyPrivateKeyFieldPlaceholder,
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.paste, color: AppColors.white),
+                                  onPressed: () async {
+                                    final clipboardData = await Clipboard.getData('text/plain');
+                                    final clipboardText = clipboardData?.text ?? '';
+                                    _keyController.text = clipboardText;
+                                    // ignore: use_build_context_synchronously
+                                    BlocProvider.of<ImportKeyBloc>(context)
+                                        .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
+                                    _onSubmitted();
+                                  },
+                                ),
+                                onFieldSubmitted: (value) {
+                                  BlocProvider.of<ImportKeyBloc>(context)
+                                      .add(OnPrivateKeyChange(privateKeyChanged: value));
+                                },
+                                controller: _keyController,
+                                onChanged: (value) {
+                                  BlocProvider.of<ImportKeyBloc>(context)
+                                      .add(OnPrivateKeyChange(privateKeyChanged: value));
+                                },
+                              ),
+                            ],
                           ),
-                          onFieldSubmitted: (value) {
-                            BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
-                          },
-                          controller: _keyController,
-                          onChanged: (value) {
-                            BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
-                          },
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (_keyController.text.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.subtitle2,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
-                              style: Theme.of(context).textTheme.subtitle2Green2,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).pop();
-                                  NavigationService.of(context).navigateTo(Routes.importWords);
-                                }),
-                          const TextSpan(text: " "),
-                          TextSpan(text: context.loc.importKeyImportUsingRecoveryPhraseDescription),
-                        ],
                       ),
+                      if (_keyController.text.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: RichText(
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.subtitle2,
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
+                                    style: Theme.of(context).textTheme.subtitle2Green2,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).pop();
+                                        NavigationService.of(context).navigateTo(Routes.importWords);
+                                      }),
+                                const TextSpan(text: " "),
+                                TextSpan(text: context.loc.importKeyImportUsingRecoveryPhraseDescription),
+                              ],
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 20),
+                      const ImportKeyAccountsWidget(),
+                      const SizedBox(height: 50),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButtonLong(
+                          title: context.loc.importKeySearchButtonTitle,
+                          onPressed: () => _onSubmitted(),
+                          enabled: state.enableButton),
                     ),
                   ),
-                const SizedBox(height: 20),
-                const ImportKeyAccountsWidget(),
-                const SizedBox(height: 80),
-              ],
+                ],
+              ),
             ),
           );
         },

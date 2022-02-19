@@ -12,6 +12,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
@@ -65,11 +66,11 @@ class InviteScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return SafeArea(
+                  minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: Stack(
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
@@ -95,16 +96,13 @@ class InviteScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Create invite'.i18n,
-                            enabled: state.isCreateInviteButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: 'Create invite'.i18n,
+                          enabled: state.isCreateInviteButtonEnabled,
+                          onPressed: () =>
+                              BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
                         ),
                       ),
                     ],
