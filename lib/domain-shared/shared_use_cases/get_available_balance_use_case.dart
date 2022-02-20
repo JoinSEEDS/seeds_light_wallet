@@ -1,17 +1,18 @@
-import 'package:async/async.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 
-class GetAvailableBalanceUseCase {
+class GetAvailableBalanceUseCase extends InputUseCase<BalanceModel, TokenModel> {
   final BalanceRepository _balanceRepository = BalanceRepository();
 
-  Future<Result<BalanceModel>> run(TokenModel token) {
+  @override
+  Future<Result<BalanceModel>> run(TokenModel input) {
     return _balanceRepository.getTokenBalance(
       settingsStorage.accountName,
-      tokenContract: token.contract,
-      symbol: token.symbol,
+      tokenContract: input.contract,
+      symbol: input.symbol,
     );
   }
 }

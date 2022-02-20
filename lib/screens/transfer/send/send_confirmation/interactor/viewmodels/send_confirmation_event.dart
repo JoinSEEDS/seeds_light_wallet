@@ -7,6 +7,13 @@ abstract class SendConfirmationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnInitValidations extends SendConfirmationEvent {
+  const OnInitValidations();
+
+  @override
+  String toString() => ' OnInitValidations';
+}
+
 class OnSendTransactionButtonPressed extends SendConfirmationEvent {
   final RatesState rates;
 

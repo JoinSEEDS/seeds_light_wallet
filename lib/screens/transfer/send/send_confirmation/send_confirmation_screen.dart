@@ -10,6 +10,8 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -27,7 +29,7 @@ class SendConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
     return BlocProvider(
-      create: (_) => SendConfirmationBloc(arguments),
+      create: (_) => SendConfirmationBloc(arguments)..add(const OnInitValidations()),
       child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
         builder: (context, state) {
           return WillPopScope(
@@ -60,6 +62,8 @@ class SendConfirmationScreen extends StatelessWidget {
                       barrierDismissible: false, // user must tap button
                       builder: (_) => GenericTransactionSuccessDialog(pageCommand.transactionModel),
                     );
+                  } else if (pageCommand is ShownInvalidTransactionResaon) {
+                    eventBus.fire(ShowSnackBar(pageCommand.resaon));
                   }
                 },
                 builder: (context, state) {
@@ -68,7 +72,6 @@ class SendConfirmationScreen extends StatelessWidget {
                       return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
                     case PageState.failure:
                       return const FullPageErrorIndicator();
-                    case PageState.initial:
                     case PageState.success:
                       return SafeArea(
                         minimum: const EdgeInsets.all(horizontalEdgePadding),
@@ -93,13 +96,17 @@ class SendConfirmationScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            FlatButtonLong(
-                              title: 'Confirm and Send'.i18n,
-                              onPressed: () {
-                                final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                                BlocProvider.of<SendConfirmationBloc>(context)
-                                    .add(OnSendTransactionButtonPressed(rates));
-                              },
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: FlatButtonLong(
+                                enabled: state.invalidTransaction == InvalidTransaction.none,
+                                title: 'Confirm and Send'.i18n,
+                                onPressed: () {
+                                  final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                                  BlocProvider.of<SendConfirmationBloc>(context)
+                                      .add(OnSendTransactionButtonPressed(rates));
+                                },
+                              ),
                             ),
                           ],
                         ),
