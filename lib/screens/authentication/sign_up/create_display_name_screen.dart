@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -44,31 +45,29 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
             // From invite link, there isn't a screen below the stack thus no implicit back arrow
             appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
             body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    TextFormFieldCustom(
-                      labelText: context.loc.signUpFullNameTitle,
-                      onFieldSubmitted: (_) => _onNextPressed(),
-                      maxLength: 36,
-                      controller: _keyController,
-                      validator: (value) {
-                        if (value.isNullOrEmpty) {
-                          return context.loc.signUpNameCannotBeEmpty;
-                        }
-                        return null;
-                      },
-                    ),
-                    Expanded(
-                        child: Text(
-                      context.loc.signUpFullNameDescription,
-                      style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                    )),
-                    FlatButtonLong(onPressed: _onNextPressed(), title: context.loc.signUpNextButtonTitle),
-                  ],
-                ),
+              minimum: const EdgeInsets.all(horizontalEdgePadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  TextFormFieldCustom(
+                    labelText: context.loc.signUpFullNameTitle,
+                    onFieldSubmitted: (_) => _onNextPressed(),
+                    maxLength: 36,
+                    controller: _keyController,
+                    validator: (value) {
+                      if (value.isNullOrEmpty) {
+                        return context.loc.signUpNameCannotBeEmpty;
+                      }
+                      return null;
+                    },
+                  ),
+                  Expanded(
+                      child: Text(
+                    context.loc.signUpFullNameDescription,
+                    style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                  )),
+                  FlatButtonLong(onPressed: _onNextPressed(), title: context.loc.signUpNextButtonTitle),
+                ],
               ),
             ),
           );

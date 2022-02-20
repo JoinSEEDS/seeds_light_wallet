@@ -7,6 +7,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians/interactor/viewmodels/invite_guardians_bloc.dart';
@@ -37,6 +38,7 @@ class InviteGuardians extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(title: Text("Invite Guardians".i18n)),
               body: SafeArea(
+                minimum: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
@@ -59,7 +61,7 @@ class InviteGuardians extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                       child: FlatButtonLong(
                         title: 'Send Invite'.i18n,
                         onPressed: () {

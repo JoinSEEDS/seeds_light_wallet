@@ -90,6 +90,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
         switch (state.recoveryStatus) {
           case RecoveryStatus.waitingForGuardiansToSign:
             return SafeArea(
+              minimum: const EdgeInsets.symmetric(vertical: 16),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -153,7 +154,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                       child: FlatButtonLong(
                         title: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
                         onPressed: () =>

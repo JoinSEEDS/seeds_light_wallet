@@ -1,9 +1,9 @@
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
+import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_page_command.dart';
+import 'package:seeds/screens/explore_screens/invite/invite_errors.dart';
 
 class CreateInviteResultStateMapper extends StateMapper {
   InviteState mapResultsToState(InviteState currentState, List<Result> results) {
@@ -12,7 +12,7 @@ class CreateInviteResultStateMapper extends StateMapper {
       print('Error transaction hash not retrieved');
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: ShowErrorMessage('Invite creation failed, try again.'.i18n),
+        pageCommand: ShowErrorMessage(InviteError.inviteFail),
         isCreateInviteButtonEnabled: false,
       );
     } else {
@@ -35,7 +35,7 @@ class CreateInviteResultStateMapper extends StateMapper {
         print('Error transaction hash not retrieved');
         return currentState.copyWith(
           pageState: PageState.success,
-          pageCommand: ShowErrorMessage('Invite creation failed, try again.'.i18n),
+          pageCommand: ShowErrorMessage(InviteError.inviteFail),
           isCreateInviteButtonEnabled: false,
         );
       }

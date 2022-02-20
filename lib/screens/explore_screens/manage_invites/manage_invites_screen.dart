@@ -29,23 +29,22 @@ class ManageInvitesScreen extends StatelessWidget {
         builder: (context, state) {
           return DefaultTabController(
             length: 2,
-            child: SafeArea(
-              top: false,
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text("Manage Invites".i18n),
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  bottom: TabBar(
-                    tabs: [
-                      Padding(padding: const EdgeInsets.all(16.0), child: Text(state.claimedTabTitle)),
-                      Padding(padding: const EdgeInsets.all(16.0), child: Text(state.unClaimedTabTitle))
-                    ],
-                  ),
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text("Manage Invites".i18n),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                body: state.pageState == PageState.loading
+                bottom: TabBar(
+                  tabs: [
+                    Padding(padding: const EdgeInsets.all(16.0), child: Text(state.claimedTabTitle)),
+                    Padding(padding: const EdgeInsets.all(16.0), child: Text(state.unClaimedTabTitle))
+                  ],
+                ),
+              ),
+              body: SafeArea(
+                child: state.pageState == PageState.loading
                     ? const FullPageLoadingIndicator()
                     : TabBarView(
                         children: [

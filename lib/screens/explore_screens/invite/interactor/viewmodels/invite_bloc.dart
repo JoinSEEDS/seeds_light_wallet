@@ -13,9 +13,11 @@ import 'package:seeds/screens/explore_screens/invite/interactor/mappers/create_i
 import 'package:seeds/screens/explore_screens/invite/interactor/mappers/seeds_amount_change_mapper.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/mappers/user_balance_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/usecases/create_invite_use_case.dart';
+import 'package:seeds/screens/explore_screens/invite/invite_errors.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
 
 part 'invite_event.dart';
+
 part 'invite_state.dart';
 
 class InviteBloc extends Bloc<InviteEvent, InviteState> {

@@ -24,7 +24,7 @@ class VouchScreen extends StatelessWidget {
           ),
           title: const Text("Vouch"),
         ),
-        body: const SafeArea(child: TabBarView(children: [VouchedTab(), SponsorTab()])),
+        body: const TabBarView(children: [VouchedTab(), SponsorTab()]),
       ),
     );
   }

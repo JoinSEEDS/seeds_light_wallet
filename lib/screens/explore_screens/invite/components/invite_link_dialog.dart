@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
-import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 
 class InviteLinkDialog extends StatefulWidget {
@@ -33,8 +33,8 @@ class _InviteLinkDialogState extends State<InviteLinkDialog> {
             child: SingleChildScrollView(
               child: CustomDialog(
                 icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-                rightButtonTitle: 'Share'.i18n,
-                leftButtonTitle: _showCloseDialogButton ? 'Close'.i18n : '',
+                rightButtonTitle: context.loc.inviteLinkDialogRightButtonTitle,
+                leftButtonTitle: _showCloseDialogButton ? context.loc.inviteLinkDialogLeftButtonTitle : '',
                 onRightButtonPressed: () async {
                   setState(() => _showCloseDialogButton = true);
                   await Share.share(state.dynamicSecretLink!);
@@ -56,7 +56,7 @@ class _InviteLinkDialogState extends State<InviteLinkDialog> {
                   QrCodeGeneratorWidget(data: state.dynamicSecretLink!, size: 254),
                   const SizedBox(height: 20.0),
                   Text(
-                    'Share this link with the person you want to invite!'.i18n,
+                    context.loc.inviteLinkDialogMessage,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.button,
                   ),

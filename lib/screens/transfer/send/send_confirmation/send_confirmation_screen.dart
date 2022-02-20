@@ -13,6 +13,7 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
@@ -73,11 +74,12 @@ class SendConfirmationScreen extends StatelessWidget {
                       return const FullPageErrorIndicator();
                     case PageState.success:
                       return SafeArea(
+                        minimum: const EdgeInsets.all(horizontalEdgePadding),
                         child: Column(
                           children: [
                             Expanded(
                               child: ListView(
-                                padding: const EdgeInsets.fromLTRB(12.0, 0, 0, 24),
+                                padding: const EdgeInsets.only(bottom: 24),
                                 shrinkWrap: true,
                                 children: [
                                   Padding(

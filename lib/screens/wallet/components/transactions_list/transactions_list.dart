@@ -4,13 +4,13 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/i18n/wallet/wallet.i18n.dart';
 import 'package:seeds/screens/wallet/components/transaction_details_bottom_sheet.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_loading_row.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_bloc.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class TransactionsList extends StatefulWidget {
   const TransactionsList({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(children: [
             Expanded(
-                child: Text(testnetMode ? 'Transactions TESTNET' : 'Transactions History'.i18n,
+                child: Text(testnetMode ? 'Transactions TESTNET' : context.loc.walletTransactionHistory,
                     style: Theme.of(context).textTheme.headline7LowEmphasis)),
           ]),
         ),
