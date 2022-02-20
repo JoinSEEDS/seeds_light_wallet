@@ -3,7 +3,7 @@ part of 'invite_bloc.dart';
 class InviteState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
-  final String? errorMessage;
+  final InviteError? errorMessage;
   final RatesState ratesState;
   final bool isAutoFocus;
   final TokenDataModel tokenAmount;
@@ -11,7 +11,7 @@ class InviteState extends Equatable {
   final TokenDataModel? availableBalance;
   final FiatDataModel? availableBalanceFiat;
   final bool isCreateInviteButtonEnabled;
-  final String? alertMessage;
+  final InviteError? alertMessage;
   final String? mnemonicSecretCode;
   final String? dynamicSecretLink;
   final bool showCloseDialogButton;
@@ -52,7 +52,7 @@ class InviteState extends Equatable {
   InviteState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
-    String? errorMessage,
+    InviteError? errorMessage,
     RatesState? ratesState,
     bool? isAutoFocus,
     TokenDataModel? tokenAmount,
@@ -60,7 +60,7 @@ class InviteState extends Equatable {
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
     bool? isCreateInviteButtonEnabled,
-    String? alertMessage,
+    InviteError? alertMessage,
     String? mnemonicSecretCode,
     String? dynamicSecretLink,
     bool? showCloseDialogButton,
@@ -95,5 +95,3 @@ class InviteState extends Equatable {
     );
   }
 }
-
-class ShowInviteLinkView extends PageCommand {}

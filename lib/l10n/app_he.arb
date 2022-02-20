@@ -211,5 +211,16 @@
   "@verificationScreenButtonTitle": {},
   "@verificationScreenEnterCode": {},
   "@verificationScreenReEnterCode": {},
-  "@verificationScreenCreateCode": {}
+  "@verificationScreenCreateCode": {},
+  "@inviteScreenAppBarTitle": {},
+  "@inviteScreenInputAmountTitle": {},
+  "@inviteScreenBalanceTitle": {},
+  "@inviteScreenButtonTitle": {},
+  "@inviteLinkDialogRightButtonTitle": {},
+  "@inviteLinkDialogLeftButtonTitle": {},
+  "@inviteLinkDialogMessage": {},
+  "@inviteCreateMapperError": {},
+  "@inviteAmountChangeMapperNotEnoughBalanceError": {},
+  "@inviteAmountChangeMapperMinimumRequiredError": {},
+  "@inviteBalanceMapperError": {}
 }
