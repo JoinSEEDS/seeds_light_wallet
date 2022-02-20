@@ -14,6 +14,9 @@ class CacheRepository {
 
   bool _boxIsClosed(Box box) => !box.isOpen;
 
+  /// Deletes all currently open boxes from disk.
+  Future<void> clear() => Hive.deleteFromDisk();
+
   Future<MemberModelCacheItem?> getMemberCacheItem(String account) async {
     final box = await Hive.openBox<MemberModelCacheItem>(_membersBox);
     if (_boxIsClosed(box)) {
