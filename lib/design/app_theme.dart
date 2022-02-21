@@ -227,6 +227,14 @@ extension CustomStyles on TextTheme {
       subtitle1!.copyWith(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 2, color: AppColors.green1);
 
   TextStyle get subtitle1Red2 => subtitle1Green1.copyWith(color: AppColors.red1);
+
+  // Font to be use for special cases where the I and L needs to be distinguished from each other
+  //IOS:
+  TextStyle get subtitle2IOSCourier => Typography.material2018().englishLike.subtitle2!.copyWith(fontFamily: "Courier");
+
+  //Android:
+  TextStyle get subtitle2AndroidMonospace =>
+      Typography.material2018().englishLike.subtitle2!.copyWith(fontFamily: "monospace");
 }
 
 class SeedsInputDecorationTheme {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -104,11 +106,14 @@ class SupportScreen extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Text(state.appName ?? ""),
+                Text(state.appName ?? "", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(height: 6),
-                Text("${state.version}(${state.buildNumber})"),
+                Text("${state.version} (${state.buildNumber})", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(height: 6),
-                Text(state.firebaseInstallationId ?? ""),
+                Text(state.firebaseInstallationId ?? "",
+                    style: Platform.isIOS
+                        ? Theme.of(context).textTheme.subtitle2IOSCourier
+                        : Theme.of(context).textTheme.subtitle2AndroidMonospace),
                 const SizedBox(height: 30)
               ],
             ),
