@@ -228,7 +228,5 @@
   "walletCurrencyCardBalance": "Saldo",
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historia de transacciones",
-  "@walletTransactionHistory": {},
-  "explorerFlagInfoDialogTitle": "",
-  "@explorerFlagInfoDialogTitle": {}
+  "@walletTransactionHistory": {}
 }

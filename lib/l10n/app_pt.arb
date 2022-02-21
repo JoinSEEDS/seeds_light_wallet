@@ -228,7 +228,5 @@
   "walletCurrencyCardBalance": "Saldo",
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historico de transações",
-  "@walletTransactionHistory": {},
-  "signUpErrorValidationFailedOnlyNumbers15": "",
-  "@signUpErrorValidationFailedOnlyNumbers15": {}
+  "@walletTransactionHistory": {}
 }
