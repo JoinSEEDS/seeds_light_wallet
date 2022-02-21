@@ -203,16 +203,10 @@
   "@explorerFlagInfoDialogSubTitle": {},
   "recoverAccountFoundAllGuardiansAcceptedTitle": "כל 3 שומרי המפתחות שלך קיבלו את בקשתך לשחזור חשבון.\nחשבונך יפתח מחדש לאחר 24 שעות.",
   "@recoverAccountFoundAllGuardiansAcceptedTitle": {},
-  "walletTransactionHistory": "",
-  "@walletTransactionHistory": {},
   "verificationPasscodeScreenButtonTitle": "",
   "@verificationPasscodeScreenButtonTitle": {},
-  "verificationScreenReEnterCode": "",
-  "@verificationScreenReEnterCode": {},
   "inviteScreenBalanceTitle": "",
   "@inviteScreenBalanceTitle": {},
-  "inviteLinkDialogMessage": "",
-  "@inviteLinkDialogMessage": {},
   "inviteBalanceMapperError": "",
   "@inviteBalanceMapperError": {}
 }

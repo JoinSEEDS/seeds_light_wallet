@@ -229,8 +229,6 @@
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historico de transações",
   "@walletTransactionHistory": {},
-  "explorerFlagInfoDialogButtonTitle": "",
-  "@explorerFlagInfoDialogButtonTitle": {},
   "signUpErrorValidationFailedOnlyNumbers15": "",
   "@signUpErrorValidationFailedOnlyNumbers15": {}
 }
