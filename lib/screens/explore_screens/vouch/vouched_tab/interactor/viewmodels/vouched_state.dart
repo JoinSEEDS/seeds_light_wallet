@@ -6,6 +6,7 @@ class VouchedState extends Equatable {
   final String? errorMessage;
   final List<ProfileModel> vouched;
   final bool canVouch;
+  final ProfileModel profile;
 
   const VouchedState({
     required this.pageState,
@@ -13,6 +14,7 @@ class VouchedState extends Equatable {
     this.errorMessage,
     required this.vouched,
     required this.canVouch,
+    required this.profile,
   });
 
   @override
@@ -22,6 +24,7 @@ class VouchedState extends Equatable {
         errorMessage,
         vouched,
         canVouch,
+        profile,
       ];
 
   VouchedState copyWith({
@@ -30,6 +33,7 @@ class VouchedState extends Equatable {
     String? errorMessage,
     List<ProfileModel>? vouched,
     bool? canVouch,
+    ProfileModel? profile,
   }) {
     return VouchedState(
       pageState: pageState ?? this.pageState,
@@ -37,14 +41,28 @@ class VouchedState extends Equatable {
       errorMessage: errorMessage,
       vouched: vouched ?? this.vouched,
       canVouch: canVouch ?? this.canVouch,
+      profile: profile ?? this.profile,
     );
   }
 
-  factory VouchedState.initial(bool isVisitor) {
+  factory VouchedState.initial() {
     return VouchedState(
       pageState: PageState.initial,
       vouched: [],
-      canVouch: !isVisitor,
+      canVouch: false,
+      profile: ProfileModel(
+        account: settingsStorage.accountName,
+        status: ProfileStatus.visitor,
+        type: '',
+        nickname: '',
+        image: '',
+        story: '',
+        roles: '',
+        skills: '',
+        interests: '',
+        reputation: 0,
+        timestamp: 0,
+      ),
     );
   }
 }
