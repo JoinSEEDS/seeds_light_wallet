@@ -229,14 +229,8 @@
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historia de transacciones",
   "@walletTransactionHistory": {},
-  "signUpErrorQRCodeScanFailed": "",
-  "@signUpErrorQRCodeScanFailed": {},
   "signUpErrorValidationFailedOnlyNumbers15": "",
   "@signUpErrorValidationFailedOnlyNumbers15": {},
-  "signUpErrorValidationFailedNoSpecialCharactersOrSpaces": "",
-  "@signUpErrorValidationFailedNoSpecialCharactersOrSpaces": {},
   "explorerFlagInfoDialogTitle": "",
-  "@explorerFlagInfoDialogTitle": {},
-  "explorerFlagInfoDialogSubTitlePartTwo": "",
-  "@explorerFlagInfoDialogSubTitlePartTwo": {}
+  "@explorerFlagInfoDialogTitle": {}
 }
