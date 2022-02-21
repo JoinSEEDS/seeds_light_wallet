@@ -202,7 +202,5 @@
   "explorerFlagInfoDialogSubTitle": "לסמן מישהי/ו משמעו שהיא/הוא עשו משהו ששובר את רשת האמון במערכת האקולוגית של סידס. חשבונות מזויפים, הונאה, רמאות, פריצה הן כמה מהסיבות שמצדיקות סימון.",
   "@explorerFlagInfoDialogSubTitle": {},
   "recoverAccountFoundAllGuardiansAcceptedTitle": "כל 3 שומרי המפתחות שלך קיבלו את בקשתך לשחזור חשבון.\nחשבונך יפתח מחדש לאחר 24 שעות.",
-  "@recoverAccountFoundAllGuardiansAcceptedTitle": {},
-  "inviteScreenBalanceTitle": "",
-  "@inviteScreenBalanceTitle": {}
+  "@recoverAccountFoundAllGuardiansAcceptedTitle": {}
 }
