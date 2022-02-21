@@ -6,6 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/support/support.i18n.dart';
 import 'package:seeds/screens/profile_screens/support/interactor/viewmodels/support_bloc.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportScreen extends StatelessWidget {
@@ -18,99 +19,108 @@ class SupportScreen extends StatelessWidget {
       child: BlocBuilder<SupportBloc, SupportState>(builder: (context, state) {
         return Scaffold(
           appBar: AppBar(title: Text('Support'.i18n)),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                InkWell(
-                  borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                  onTap: () async => launch('https://discord.gg/pSWdqxTjvB'),
-                  child: Ink(
-                    decoration: const BoxDecoration(
-                      color: AppColors.lightGreen2,
-                      borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(defaultCardBorderRadius),
-                              ),
-                              child: SvgPicture.asset(
-                                "assets/images/lotus_support_small.svg",
-                                color: AppColors.canopy,
-                                alignment: Alignment.topLeft,
-                              ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: [
-                                const SizedBox(height: 50),
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(defaultCardBorderRadius),
-                                  ),
-                                  child: SvgPicture.asset(
-                                    "assets/images/lotus_support_big.svg",
-                                    color: AppColors.canopy,
-                                    alignment: Alignment.bottomRight,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
-                          child: Column(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                    onTap: () async => launch('https://discord.gg/pSWdqxTjvB'),
+                    child: Ink(
+                      decoration: const BoxDecoration(
+                        color: AppColors.lightGreen2,
+                        borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+                      ),
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 80.0),
-                                child: Text(
-                                  'If you have any questions or concerns, Please find our'.i18n,
-                                  style: Theme.of(context).textTheme.buttonLowEmphasis,
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(defaultCardBorderRadius),
+                                ),
+                                child: SvgPicture.asset(
+                                  "assets/images/lotus_support_small.svg",
+                                  color: AppColors.canopy,
+                                  alignment: Alignment.topLeft,
                                 ),
                               ),
-                              Text(
-                                'Seeds Light Wallet',
-                                style: Theme.of(context).textTheme.headline8.copyWith(color: AppColors.canopy),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  const SizedBox(height: 50),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomRight: Radius.circular(defaultCardBorderRadius),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      "assets/images/lotus_support_big.svg",
+                                      color: AppColors.canopy,
+                                      alignment: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 8.0),
-                              RichText(
-                                text: TextSpan(
-                                  style: Theme.of(context).textTheme.buttonLowEmphasis,
-                                  children: <TextSpan>[
-                                    TextSpan(text: 'Channel in'.i18n),
-                                    TextSpan(
-                                        text: ' Discord ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .buttonLowEmphasis
-                                            .copyWith(color: AppColors.canopy)),
-                                    TextSpan(text: 'here.'.i18n),
-                                  ],
-                                ),
-                              )
                             ],
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 80.0),
+                                  child: Text(
+                                    'If you have any questions or concerns, Please find our'.i18n,
+                                    style: Theme.of(context).textTheme.buttonLowEmphasis,
+                                  ),
+                                ),
+                                Text(
+                                  'Seeds Light Wallet',
+                                  style: Theme.of(context).textTheme.headline8.copyWith(color: AppColors.canopy),
+                                ),
+                                const SizedBox(height: 8.0),
+                                RichText(
+                                  text: TextSpan(
+                                    style: Theme.of(context).textTheme.buttonLowEmphasis,
+                                    children: <TextSpan>[
+                                      TextSpan(text: 'Channel in'.i18n),
+                                      TextSpan(
+                                          text: ' Discord ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .buttonLowEmphasis
+                                              .copyWith(color: AppColors.canopy)),
+                                      TextSpan(text: 'here.'.i18n),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const Spacer(),
-                Text(state.appName ?? ""),
-                const SizedBox(height: 6),
-                Text("${state.version}(${state.buildNumber})"),
-                const SizedBox(height: 6),
-                Text(state.firebaseInstallationId ?? ""),
-                const SizedBox(height: 30)
-              ],
+                  const Spacer(),
+                  Text(state.appName ?? ""),
+                  const SizedBox(height: 6),
+                  Text("${state.version}(${state.buildNumber})"),
+                  const SizedBox(height: 6),
+                  Text(state.firebaseInstallationId ?? ""),
+                  const SizedBox(height: 6),
+                  MaterialButton(
+                    onPressed: () => Share.share(
+                        "${state.appName}, ${state.version}(${state.buildNumber}), ${state.firebaseInstallationId}"),
+                    color: AppColors.green1,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                    child: const Text("Tap to share"),
+                  ),
+                ],
+              ),
             ),
           ),
         );
