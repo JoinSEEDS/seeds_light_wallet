@@ -15,6 +15,7 @@
   "@onboardingCampaignsSubtitle": {},
   "globalUnknownError": "אופס, משהו השתבש",
   "@globalUnknownError": {},
+  "@importKeyAppBarTitle": {},
   "importKeySearchButtonTitle": "חיפוש",
   "@importKeySearchButtonTitle": {},
   "importKeyPrivateKeyFieldPlaceholder": "מפתח אישי",
