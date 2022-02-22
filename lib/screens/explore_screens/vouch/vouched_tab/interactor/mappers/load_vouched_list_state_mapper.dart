@@ -11,7 +11,6 @@ class LoadVouchedListStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         vouched: result.asValue!.value,
-        canVouch: true,
       );
     }
   }

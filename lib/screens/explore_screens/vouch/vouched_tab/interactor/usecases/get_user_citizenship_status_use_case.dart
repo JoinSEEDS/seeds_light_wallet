@@ -8,14 +8,6 @@ class GetUserCitizenshipStatusUseCase extends NoInputUseCase<ProfileModel> {
 
   @override
   Future<Result<ProfileModel>> run() async {
-    final result = await _profileRepository.getProfile(settingsStorage.accountName);
-
-    if (result.isError) {
-      return Result.error(result.asError!.error);
-    } else {
-      final ProfileModel profile = result.asValue!.value;
-
-      return Result.value(profile);
-    }
+    return _profileRepository.getProfile(settingsStorage.accountName);
   }
 }

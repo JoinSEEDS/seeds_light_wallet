@@ -22,19 +22,15 @@ class VouchedBloc extends Bloc<VouchedEvent, VouchedState> {
   }
 
   Future<void> _loadUserVouchedList(LoadUserVouchedList event, Emitter<VouchedState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
-    final result = await GetUserCitizenshipStatusUseCase().run();
-    VouchedState newState;
-    emit(newState = GetUserCitizenshipStatusStateMapper().mapResultToState(state, result));
-    if (newState.profile.status == ProfileStatus.visitor) {
-      emit(state.copyWith(pageState: PageState.success, canVouch: false, pageCommand: ShowNotQualifiedToVouch()));
-    } else {
-      event.showVouchForMemberSuccess
-          ? emit(state.copyWith(pageState: PageState.loading, pageCommand: ShowVouchForMemberSuccess()))
-          : emit(state.copyWith(pageState: PageState.loading));
-
-      final Result<List<ProfileModel>> results = await LoadVouchedListUseCase().run();
-      emit(LoadVouchedListStateMapper().mapResultToState(state, results));
+    if (event.showVouchForMemberSuccess) {
+      emit(state.copyWith(pageState: PageState.loading, pageCommand: ShowVouchForMemberSuccess()));
     }
+
+    emit(state.copyWith(pageState: PageState.loading));
+    final Result<ProfileModel> result = await GetUserCitizenshipStatusUseCase().run();
+    emit(GetUserCitizenshipStatusStateMapper().mapResultToState(state, result));
+
+    final Result<List<ProfileModel>> results = await LoadVouchedListUseCase().run();
+    emit(LoadVouchedListStateMapper().mapResultToState(state, results));
   }
 }
