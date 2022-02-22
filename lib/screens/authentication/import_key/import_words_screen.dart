@@ -36,7 +36,7 @@ class ImportWordsScreen extends StatelessWidget {
                 enabled: state.enableButton,
               ),
             ),
-            appBar: AppBar(title: const Text("12-word Recovery Phrase")),
+            appBar: AppBar(title: Text(context.loc.importWordAppBarTitle)),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -45,7 +45,7 @@ class ImportWordsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        context.loc.importKeyImportUsingRecoveryPhraseTitle,
+                        context.loc.importWordUsingRecoveryPhraseTitle,
                         style: Theme.of(context).textTheme.subtitle3,
                         textAlign: TextAlign.left,
                       ),
@@ -104,7 +104,7 @@ class ImportWordsScreen extends StatelessWidget {
                       ),
                       if (state.pageState != PageState.loading && state.accounts.isEmpty)
                         FlatButtonShort(
-                          title: "Paste From Clipboard",
+                          title: context.loc.importWordClipBoardTitle,
                           onPressed: () {
                             BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
                           },
