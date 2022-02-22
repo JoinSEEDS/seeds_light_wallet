@@ -33,4 +33,3 @@ class LoadVouchedListUseCase extends NoInputUseCase<List<ProfileModel>> {
     }
   }
 }
-

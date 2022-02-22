@@ -17,7 +17,7 @@ class GetVouchedInitialDataUseCase extends NoInputUseCase<VouchedDto> {
       final ProfileModel userProfile = userProfileResult.asValue!.value;
 
       if (userProfile.status == ProfileStatus.visitor) {
-        return Result.value(VouchedDto(userProfile, null));
+        return Result.value(VouchedDto(userProfile, []));
       } else {
         final Result<List<ProfileModel>> vouchedList = await LoadVouchedListUseCase().run();
 
@@ -33,7 +33,7 @@ class GetVouchedInitialDataUseCase extends NoInputUseCase<VouchedDto> {
 
 class VouchedDto {
   ProfileModel userProfile;
-  List<ProfileModel>? vouchedUsers;
+  List<ProfileModel> vouchedUsers;
 
   VouchedDto(this.userProfile, this.vouchedUsers);
 }
