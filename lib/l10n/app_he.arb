@@ -198,12 +198,16 @@
   "@explorerAppBarTitle": {},
   "explorerFlagInfoDialogTitle": "סימון חבר",
   "@explorerFlagInfoDialogTitle": {},
-  "explorerFlagInfoDialogSubTitlePartTwo": "כשמישהh/ו מסומנ/ת, תדמית המשתמש שלו תרד: מספיק סימונים ותדמית המשתמש שלהם תרד לאפס. הסימון גם משפיע על כל החברים שקיבלו ערבות מהחבר המסומן אז שימ/י לב את מי את/ה מסמנ/ת!",
+  "explorerFlagInfoDialogSubTitlePartTwo": "כשמישהי/ו מסומנ/ת, תדמית המשתמש שלו תרד: מספיק סימונים ותדמית המשתמש שלהם תרד לאפס. הסימון גם משפיע על כל החברים שקיבלו ערבות מהחבר המסומן אז שימ/י לב את מי את/ה מסמנ/ת!",
   "@explorerFlagInfoDialogSubTitlePartTwo": {},
   "explorerFlagInfoDialogButtonTitle": "אוקיי, תודה רבה.",
   "@explorerFlagInfoDialogButtonTitle": {},
   "explorerFlagInfoDialogSubTitle": "לסמן מישהי/ו משמעו שהיא/הוא עשו משהו ששובר את רשת האמון במערכת האקולוגית של סידס. חשבונות מזויפים, הונאה, רמאות, פריצה הן כמה מהסיבות שמצדיקות סימון.",
   "@explorerFlagInfoDialogSubTitle": {},
   "recoverAccountFoundAllGuardiansAcceptedTitle": "כל 3 שומרי המפתחות שלך קיבלו את בקשתך לשחזור חשבון.\nחשבונך יפתח מחדש לאחר 24 שעות.",
-  "@recoverAccountFoundAllGuardiansAcceptedTitle": {}
+  "@recoverAccountFoundAllGuardiansAcceptedTitle": {},
+  "verificationPasscodeDialogButtonTitle": "סגר/י",
+  "@verificationPasscodeDialogButtonTitle": {},
+  "inviteCreateMapperError": "יצירת ההזמנה נכשלה, נסי/ה שנית.",
+  "@inviteCreateMapperError": {}
 }
