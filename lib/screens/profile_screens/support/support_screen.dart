@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seeds/components/flat_button_short.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
@@ -112,12 +113,10 @@ class SupportScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(state.firebaseInstallationId ?? ""),
                   const SizedBox(height: 6),
-                  MaterialButton(
+                  FlatButtonShort(
+                    title: "Tap to share",
                     onPressed: () => Share.share(
                         "${state.appName}, ${state.version}(${state.buildNumber}), ${state.firebaseInstallationId}"),
-                    color: AppColors.green1,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                    child: const Text("Tap to share"),
                   ),
                 ],
               ),
