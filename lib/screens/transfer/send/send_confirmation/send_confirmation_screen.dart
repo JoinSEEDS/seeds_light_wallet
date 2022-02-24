@@ -34,6 +34,7 @@ class SendConfirmationScreen extends StatelessWidget {
         builder: (context, state) {
           return WillPopScope(
             onWillPop: () async {
+              // Clear deeplink on navigate back (i.e. cancel confirm link)
               BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
               Navigator.of(context).pop(state.transactionResult);
               return true;
@@ -44,6 +45,8 @@ class SendConfirmationScreen extends StatelessWidget {
                 listenWhen: (_, current) => current.pageCommand != null,
                 listener: (context, state) {
                   final pageCommand = state.pageCommand;
+                  // Clear deeplink despite the submit result
+                  BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
                   if (pageCommand is ShowTransferSuccess) {
                     Navigator.of(context).pop(state.transactionResult);
                     if (pageCommand.shouldShowInAppReview) {
@@ -62,8 +65,8 @@ class SendConfirmationScreen extends StatelessWidget {
                       barrierDismissible: false, // user must tap button
                       builder: (_) => GenericTransactionSuccessDialog(pageCommand.transactionModel),
                     );
-                  } else if (pageCommand is ShownInvalidTransactionResaon) {
-                    eventBus.fire(ShowSnackBar(pageCommand.resaon));
+                  } else if (pageCommand is ShowInvalidTransactionReason) {
+                    eventBus.fire(ShowSnackBar(pageCommand.reason));
                   }
                 },
                 builder: (context, state) {
