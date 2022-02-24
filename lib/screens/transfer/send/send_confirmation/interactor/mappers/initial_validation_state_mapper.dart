@@ -18,7 +18,7 @@ class InitialValidationStateMapper extends StateMapper {
       } else {
         return currentState.copyWith(
           pageState: PageState.success,
-          pageCommand: ShownInvalidTransactionResaon('You do not have enough seeds'),
+          pageCommand: ShowInvalidTransactionReason('You do not have enough seeds'),
           invalidTransaction: InvalidTransaction.insufficientBalance,
         );
       }
