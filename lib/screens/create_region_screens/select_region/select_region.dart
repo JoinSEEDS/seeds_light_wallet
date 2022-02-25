@@ -12,14 +12,16 @@ class SelectRegion extends StatelessWidget {
           title: Text(context.loc.createRegionSelectRegionAppBarTitle),
         ),
         bottomNavigationBar: SafeArea(
+          minimum: const EdgeInsets.all(16),
           child: FlatButtonLong(title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)", onPressed: () {}),
         ),
         body: SafeArea(
+            minimum: const EdgeInsets.all(16),
             child: Column(
-          children: [
-            Text(context.loc.createRegionSelectRegionDescription),
-            // TODO(gguij004): Waiting on map component.
-          ],
-        )));
+              children: [
+                Text(context.loc.createRegionSelectRegionDescription),
+                // TODO(gguij004): Waiting on map component.
+              ],
+            )));
   }
 }
