@@ -231,5 +231,8 @@
   "walletCurrencyCardBalance": "Saldo",
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historico de transações",
-  "@walletTransactionHistory": {}
+  "@walletTransactionHistory": {},
+  "@createRegionSelectRegionAppBarTitle": {},
+  "@createRegionSelectRegionDescription": {},
+  "@createRegionSelectRegionButtonTitle": {}
 }

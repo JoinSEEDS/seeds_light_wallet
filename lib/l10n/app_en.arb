@@ -232,5 +232,11 @@
   "walletCurrencyCardBalance": "Balance",
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Transaction History",
-  "@walletTransactionHistory": {}
+  "@walletTransactionHistory": {},
+  "createRegionSelectRegionAppBarTitle": "Create Region",
+  "@createRegionSelectRegionAppBarTitle": {},
+  "createRegionSelectRegionDescription": "Begin by searching for the area closest to your region. Place a pin on the center most point of your region. ",
+  "@createRegionSelectRegionDescription": {},
+  "createRegionSelectRegionButtonTitle": "Next",
+  "@createRegionSelectRegionButtonTitle": {}
 }

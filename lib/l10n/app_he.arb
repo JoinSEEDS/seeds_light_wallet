@@ -209,5 +209,8 @@
   "verificationPasscodeDialogButtonTitle": "סגר/י",
   "@verificationPasscodeDialogButtonTitle": {},
   "inviteCreateMapperError": "יצירת ההזמנה נכשלה, נסי/ה שנית.",
-  "@inviteCreateMapperError": {}
+  "@inviteCreateMapperError": {},
+  "@createRegionSelectRegionAppBarTitle": {},
+  "@createRegionSelectRegionDescription": {},
+  "@createRegionSelectRegionButtonTitle": {}
 }
