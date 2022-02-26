@@ -8,6 +8,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/images/explore/exclamation_circle.dart';
 import 'package:seeds/images/explore/invite_person.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
+import 'package:seeds/images/explore/regions.dart';
 import 'package:seeds/images/explore/seeds_symbol.dart';
 import 'package:seeds/images/explore/swap_seeds.dart';
 import 'package:seeds/images/explore/vote.dart';
@@ -27,6 +28,11 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ExploreItem> _exploreItems = [
+      ExploreItem(
+          title: context.loc.explorerRegionsItemTitle,
+          icon: const Padding(
+              padding: EdgeInsets.only(left: 2.0), child: CustomPaint(size: Size(40, 40), painter: Regions())),
+          onTapEvent: const OnExploreCardTapped(Routes.joinRegion)),
       ExploreItem(
           title: context.loc.explorerInviteItemTitle,
           icon: const Padding(
@@ -77,6 +83,9 @@ class ExploreScreen extends StatelessWidget {
       ),
     ];
     List<ExploreItem> items = _exploreItems;
+    if (!remoteConfigurations.featureFlagRegionsEnabled) {
+      items = _exploreItems.where((i) => i.title != context.loc.explorerRegionsItemTitle).toList();
+    }
     if (!remoteConfigurations.featureFlagP2PEnabled) {
       items = _exploreItems.where((i) => i.title != context.loc.explorerSwapItemTitle).toList();
     }
