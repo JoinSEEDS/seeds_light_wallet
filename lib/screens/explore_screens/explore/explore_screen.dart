@@ -27,7 +27,7 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ExploreItem> _exploreItems = [
+    final List<ExploreItem> exploreItems = [
       ExploreItem(
           title: context.loc.explorerRegionsItemTitle,
           icon: const Padding(
@@ -82,12 +82,11 @@ class ExploreScreen extends StatelessWidget {
         onTapEvent: const OnBuySeedsCardTap(),
       ),
     ];
-    List<ExploreItem> items = _exploreItems;
     if (!remoteConfigurations.featureFlagRegionsEnabled) {
-      items = _exploreItems.where((i) => i.title != context.loc.explorerRegionsItemTitle).toList();
+      exploreItems.removeWhere((i) => i.title == context.loc.explorerRegionsItemTitle);
     }
     if (!remoteConfigurations.featureFlagP2PEnabled) {
-      items = _exploreItems.where((i) => i.title != context.loc.explorerSwapItemTitle).toList();
+      exploreItems.removeWhere((i) => i.title == context.loc.explorerSwapItemTitle);
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
@@ -118,7 +117,7 @@ class ExploreScreen extends StatelessWidget {
               mainAxisSpacing: 18,
               crossAxisCount: 2,
               children: [
-                for (final i in items)
+                for (final i in exploreItems)
                   ExploreCard(
                     title: i.title,
                     icon: i.icon,
