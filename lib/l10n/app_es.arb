@@ -244,5 +244,11 @@
   "createRegionSelectRegionDescription": "Comience buscando el área más cercana a su región. Coloque un alfiler en el punto más central de su región. ",
   "@createRegionSelectRegionDescription": {},
   "createRegionSelectRegionButtonTitle": "Próximo",
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "createRegionAddBackGroundImageDescription": "Dimensiones de la imagen.",
+  "@createRegionAddBackGroundImageDescription": {},
+  "createRegionAddBackGroundImageAcceptedFilesTitle": "Formatos de archivo aceptados",
+  "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
+  "createRegionAddBackGroundImageBoxTitle": "Agregar foto",
+  "@createRegionAddBackGroundImageBoxTitle": {}
 }

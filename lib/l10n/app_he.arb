@@ -214,5 +214,8 @@
   "@joinRegionAppBarTitle": {},
   "@createRegionSelectRegionAppBarTitle": {},
   "@createRegionSelectRegionDescription": {},
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionAddBackGroundImageDescription": {},
+  "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
+  "@createRegionAddBackGroundImageBoxTitle": {}
 }
