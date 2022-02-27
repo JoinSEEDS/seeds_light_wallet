@@ -141,7 +141,7 @@ class RegionRepository extends HttpRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountRegion.value
-        ..name = SeedsEosAction.actionNameCreateRegion.value
+        ..name = SeedsEosAction.actionNameUpdateRegion.value
         ..authorization = [
           Authorization()
             ..actor = userAccount
