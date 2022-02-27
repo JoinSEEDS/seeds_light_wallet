@@ -159,6 +159,8 @@
   "@recoverAccountSearchErrorLoadingAccount": {},
   "recoverAccountSearchErrorNoValidAccount": "Account is not valid",
   "@recoverAccountSearchErrorNoValidAccount": {},
+  "explorerRegionsItemTitle": "Regions",
+  "@explorerRegionsItemTitle": {},
   "explorerInviteItemTitle": "Invite a Friend",
   "@explorerInviteItemTitle": {},
   "explorerVouchItemTitle": "Vouch",
@@ -232,5 +234,7 @@
   "walletCurrencyCardBalance": "Balance",
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Transaction History",
-  "@walletTransactionHistory": {}
+  "@walletTransactionHistory": {},
+  "joinRegionAppBarTitle": "Join Region",
+  "@joinRegionAppBarTitle": {}
 }

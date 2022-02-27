@@ -28,7 +28,7 @@ class ShowTransferSuccess extends TransactionPageCommand {
   });
 }
 
-class ShownInvalidTransactionResaon extends TransactionPageCommand {
-  final String resaon;
-  ShownInvalidTransactionResaon(this.resaon);
+class ShowInvalidTransactionReason extends TransactionPageCommand {
+  final String reason;
+  ShowInvalidTransactionReason(this.reason);
 }

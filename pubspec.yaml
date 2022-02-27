@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.7.0+69
+version: 2.8.0+72
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -47,7 +47,7 @@ dependencies:
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.2.1
-  hive: ^2.0.4
+  hive: ^2.0.6
   hive_flutter: ^1.1.0
   palette_generator: ^0.3.2
   webview_flutter: ^3.0.0
