@@ -212,5 +212,7 @@
   "@inviteCreateMapperError": {},
   "@createRegionSelectRegionAppBarTitle": {},
   "@createRegionSelectRegionDescription": {},
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "@createRegionChooseRegionNameDescription": {}
 }

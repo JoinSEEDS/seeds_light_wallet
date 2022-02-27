@@ -13,7 +13,6 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/screens/create_region_screens/select_region/select_region.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
@@ -120,7 +119,7 @@ class NavigationService {
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.vouch: (_) => const VouchScreen(),
     Routes.vouchForAMember: (_) => const VouchForAMemberScreen(),
-    Routes.plantSeeds: (_) => const SelectRegion(),
+    Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
