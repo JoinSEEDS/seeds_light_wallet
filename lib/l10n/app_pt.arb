@@ -239,5 +239,10 @@
   "@createRegionSelectRegionButtonTitle": {},
   "@createRegionDialogLeftButtonTitle": {},
   "@createRegionDialogTitle": {},
-  "@createRegionDialogSubtitle": {}
+  "@createRegionDialogSubtitle": {},
+  "@createRegionNotEnoughSeedsDialogLeftButtonTitle": {},
+  "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
+  "@createRegionNotEnoughSeedsDialogTitle": {},
+  "@createRegionNotEnoughSeedsDialogSubtitle": {}
+
 }

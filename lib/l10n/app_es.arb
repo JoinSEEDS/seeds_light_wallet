@@ -250,5 +250,13 @@
   "createRegionDialogTitle": "Creando una nueva Región",
   "@createRegionDialogTitle": {},
   "createRegionDialogSubtitle": "¡Parece que has decidido crear tu propia región! Para comenzar el proceso de creación, deberá estaquear 1000 seeds.",
-  "@createRegionDialogSubtitle": {}
+  "@createRegionDialogSubtitle": {},
+  "createRegionNotEnoughSeedsDialogLeftButtonTitle": "Regresar",
+  "@createRegionNotEnoughSeedsDialogLeftButtonTitle": {},
+  "createRegionNotEnoughSeedsDialogRightButtonTitle": "Comprar Seeds",
+  "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
+  "createRegionNotEnoughSeedsDialogTitle": "¡No tienes suficientes seeds!",
+  "@createRegionNotEnoughSeedsDialogTitle": {},
+  "createRegionNotEnoughSeedsDialogSubtitle": "Parece que no tienes suficientes seeds para crear una región. Haga clic en el enlace a continuación para comprar algunas seeds en nuestro sitio web oficial.",
+  "@createRegionNotEnoughSeedsDialogSubtitle": {}
 }
