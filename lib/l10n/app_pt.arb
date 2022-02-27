@@ -166,6 +166,7 @@
   "@recoverAccountSearchErrorLoadingAccount": {},
   "recoverAccountSearchErrorNoValidAccount": "A conta não é válida",
   "@recoverAccountSearchErrorNoValidAccount": {},
+ "@explorerRegionsItemTitle": {},
   "explorerInviteItemTitle": "Convide um amigo",
   "@explorerInviteItemTitle": {},
   "explorerVouchItemTitle": "Atestar",
@@ -232,6 +233,7 @@
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historico de transações",
   "@walletTransactionHistory": {},
+  "@joinRegionAppBarTitle": {},
   "@createRegionSelectRegionAppBarTitle": {},
   "@createRegionSelectRegionDescription": {},
   "@createRegionSelectRegionButtonTitle": {}
