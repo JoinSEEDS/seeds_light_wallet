@@ -57,8 +57,8 @@ class ReceiveSendButtons extends StatelessWidget {
 
                     // 1 - Get Region Fee
 
-                    final fee = await RegionRepository().getRegionFee();
-                    print("fee: ${fee.asValue?.value}");
+                    // final fee = await RegionRepository().getRegionFee();
+                    // print("fee: ${fee.asValue?.value}");
                     // flutter: fee: 1000.0
 
                     // 2 - Get regions
@@ -69,11 +69,11 @@ class ReceiveSendButtons extends StatelessWidget {
                     }
 
                     // 3 - Get members in region 0
-                    final membersResult = await RegionRepository().getRegionMembers(regions[0].id);
-                    final members = membersResult.asValue!.value;
-                    for (final item in members) {
-                      print("member: ${item.account} joined: ${item.joinedDate} reg: ${item.region}");
-                    }
+                    // final membersResult = await RegionRepository().getRegionMembers(regions[0].id);
+                    // final members = membersResult.asValue!.value;
+                    // for (final item in members) {
+                    //   print("member: ${item.account} joined: ${item.joinedDate} reg: ${item.region}");
+                    // }
 
                     // 4 - JOIN REGION
 
@@ -98,17 +98,28 @@ class ReceiveSendButtons extends StatelessWidget {
                     // }
 
                     // 6 - CREATE REGION
+                    // print("create region");
                     // final txResult = await RegionRepository().create(
-                    //   founderAccount: "testingseeds",
+                    //   userAccount: "testingseeds",
                     //   regionAccount: "wallet1.rgn",
+                    //   title: "Wallet Region Ubud",
                     //   description: 'test region create from wallet - Ubud location',
                     //   latitude: -8.506854,
                     //   longitude: 115.262482,
                     // );
+                    // print(txResult);
 
-                    // Regions printout after this call:
-                    // flutter: reg: testreg1.rgn founder: seedsuserbbb count: 2
-                    // flutter: reg: wallet1.rgn founder: testingseeds count: 1
+                    // 6 - UPDATE REGION
+                    print("update region");
+                    final txResult = await RegionRepository().update(
+                      userAccount: "testingseeds",
+                      regionAccount: "wallet1.rgn",
+                      title: "Region Ubud",
+                      description: 'Updated description',
+                      latitude: -8.506855,
+                      longitude: 115.262483,
+                    );
+                    print(txResult);
                   },
                   color: tokenColor ?? AppColors.green1,
                   disabledColor: tokenColor ?? AppColors.green1,
