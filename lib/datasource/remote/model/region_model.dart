@@ -32,14 +32,16 @@ class RegionModel {
     // uint64_t members_count;
     // time_point created_at = current_block_time().to_time_point();
 
+    print("json source $json");
+
     return RegionModel(
       id: json['id'],
       founder: json['founder'],
       status: json['status'],
       description: json['description'],
       locationJson: json['locationjson'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      latitude: double.parse(json['latitude']),
+      longitude: double.parse(json['longitude']),
       membersCount: json['members_count'],
       createdAt: json['created_at'],
     );
