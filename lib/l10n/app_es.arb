@@ -238,5 +238,9 @@
   "walletTransactionHistory": "Historia de transacciones",
   "@walletTransactionHistory": {},
   "joinRegionAppBarTitle": "Unirse a región",
-  "@joinRegionAppBarTitle": {}
+  "@joinRegionAppBarTitle": {},
+  "createRegionAddDescriptionInputFormTitle": "Descripción",
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "createRegionAddDescriptionPageInfo": "Introduzca una descripción para su región. Sea claro acerca de su región para que ayude a las personas a entender lo que t",
+  "@createRegionAddDescriptionPageInfo": {}
 }

@@ -236,5 +236,13 @@
   "walletTransactionHistory": "Transaction History",
   "@walletTransactionHistory": {},
   "joinRegionAppBarTitle": "Join Region",
-  "@joinRegionAppBarTitle": {}
+  "@joinRegionAppBarTitle": {},
+  "createRegionSelectRegionAppBarTitle": "Create Region",
+  "@createRegionSelectRegionAppBarTitle": {},
+  "createRegionSelectRegionButtonTitle": "Next",
+  "@createRegionSelectRegionButtonTitle": {},
+  "createRegionAddDescriptionInputFormTitle": "Description",
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "createRegionAddDescriptionPageInfo": "Enter a description for your region. Be clear about your region so  It should help people understand what t",
+  "@createRegionAddDescriptionPageInfo": {}
 }
