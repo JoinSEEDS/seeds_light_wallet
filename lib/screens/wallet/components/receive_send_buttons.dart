@@ -110,16 +110,16 @@ class ReceiveSendButtons extends StatelessWidget {
                     // print(txResult);
 
                     // 6 - UPDATE REGION
-                    print("update region");
-                    final txResult = await RegionRepository().update(
-                      userAccount: "testingseeds",
-                      regionAccount: "wallet1.rgn",
-                      title: "Region Ubud",
-                      description: 'Updated description',
-                      latitude: -8.506855,
-                      longitude: 115.262483,
-                    );
-                    print(txResult);
+                    // print("update region");
+                    // final txResult = await RegionRepository().update(
+                    //   userAccount: "testingseeds",
+                    //   regionAccount: "wallet1.rgn",
+                    //   title: "Region Ubud",
+                    //   description: 'Updated description',
+                    //   latitude: -8.506855,
+                    //   longitude: 115.262483,
+                    // );
+                    // print(txResult);
                   },
                   color: tokenColor ?? AppColors.green1,
                   disabledColor: tokenColor ?? AppColors.green1,
