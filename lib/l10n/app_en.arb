@@ -242,5 +242,11 @@
   "createRegionSelectRegionDescription": "Begin by searching for the area closest to your region. Place a pin on the center most point of your region. ",
   "@createRegionSelectRegionDescription": {},
   "createRegionSelectRegionButtonTitle": "Next",
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "createRegionDialogLeftButtonTitle": "Cancel",
+  "@createRegionDialogLeftButtonTitle": {},
+  "createRegionDialogTitle": "Creating a new Region",
+  "@createRegionDialogTitle": {},
+  "createRegionDialogSubtitle": "It looks like you have decided to create your own region! To begin the creation process, you will have to stake 1000 Seeds. ",
+  "@createRegionDialogSubtitle": {}
 }

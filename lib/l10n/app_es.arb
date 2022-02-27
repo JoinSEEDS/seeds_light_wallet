@@ -244,5 +244,11 @@
   "createRegionSelectRegionDescription": "Comience buscando el área más cercana a su región. Coloque un alfiler en el punto más central de su región. ",
   "@createRegionSelectRegionDescription": {},
   "createRegionSelectRegionButtonTitle": "Próximo",
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "createRegionDialogLeftButtonTitle": "Cancelar",
+  "@createRegionDialogLeftButtonTitle": {},
+  "createRegionDialogTitle": "Creando una nueva Región",
+  "@createRegionDialogTitle": {},
+  "createRegionDialogSubtitle": "¡Parece que has decidido crear tu propia región! Para comenzar el proceso de creación, deberá estaquear 1000 seeds.",
+  "@createRegionDialogSubtitle": {}
 }
