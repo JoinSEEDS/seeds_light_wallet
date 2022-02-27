@@ -233,5 +233,8 @@
   "@walletCurrencyCardBalance": {},
   "walletTransactionHistory": "Historico de transações",
   "@walletTransactionHistory": {},
-  "@joinRegionAppBarTitle": {}
+  "@joinRegionAppBarTitle": {},
+  "@createRegionSelectRegionAppBarTitle": {},
+  "@createRegionSelectRegionDescription": {},
+  "@createRegionSelectRegionButtonTitle": {}
 }

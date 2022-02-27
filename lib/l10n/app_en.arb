@@ -236,5 +236,11 @@
   "walletTransactionHistory": "Transaction History",
   "@walletTransactionHistory": {},
   "joinRegionAppBarTitle": "Join Region",
-  "@joinRegionAppBarTitle": {}
+  "@joinRegionAppBarTitle": {},
+  "createRegionSelectRegionAppBarTitle": "Create Region",
+  "@createRegionSelectRegionAppBarTitle": {},
+  "createRegionSelectRegionDescription": "Begin by searching for the area closest to your region. Place a pin on the center most point of your region. ",
+  "@createRegionSelectRegionDescription": {},
+  "createRegionSelectRegionButtonTitle": "Next",
+  "@createRegionSelectRegionButtonTitle": {}
 }

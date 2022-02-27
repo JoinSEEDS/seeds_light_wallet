@@ -238,5 +238,11 @@
   "walletTransactionHistory": "Historia de transacciones",
   "@walletTransactionHistory": {},
   "joinRegionAppBarTitle": "Unirse a región",
-  "@joinRegionAppBarTitle": {}
+  "@joinRegionAppBarTitle": {},
+  "createRegionSelectRegionAppBarTitle": "Crear Región",
+  "@createRegionSelectRegionAppBarTitle": {},
+  "createRegionSelectRegionDescription": "Comience buscando el área más cercana a su región. Coloque un alfiler en el punto más central de su región. ",
+  "@createRegionSelectRegionDescription": {},
+  "createRegionSelectRegionButtonTitle": "Próximo",
+  "@createRegionSelectRegionButtonTitle": {}
 }
