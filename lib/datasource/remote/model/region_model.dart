@@ -2,6 +2,7 @@ class RegionModel {
   final String id;
   final String founder;
   final String status;
+  final String title;
   final String description;
   final String locationJson;
   final double latitude;
@@ -13,6 +14,7 @@ class RegionModel {
     required this.id,
     required this.founder,
     required this.status,
+    required this.title,
     required this.description,
     required this.locationJson,
     required this.latitude,
@@ -38,6 +40,7 @@ class RegionModel {
       id: json['id'],
       founder: json['founder'],
       status: json['status'],
+      title: json['title'],
       description: json['description'],
       locationJson: json['locationjson'],
       latitude: double.parse(json['latitude']),

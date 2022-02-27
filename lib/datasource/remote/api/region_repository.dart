@@ -71,8 +71,9 @@ class RegionRepository extends HttpRepository with EosRepository {
   /// Note: The region fee is variable, see getRegionFee().
   ///
   Future<Result<TransactionResponse>> create({
-    required String founderAccount,
+    required String userAccount,
     required String regionAccount,
+    required String title,
     required String description,
     required double latitude,
     required double longitude,
@@ -86,11 +87,11 @@ class RegionRepository extends HttpRepository with EosRepository {
         ..name = SeedsEosAction.actionNameTransfer.value
         ..authorization = [
           Authorization()
-            ..actor = founderAccount
+            ..actor = userAccount
             ..permission = permissionActive
         ]
         ..data = {
-          'from': founderAccount,
+          'from': userAccount,
           'to': SeedsCode.accountRegion.value,
           'quantity': '${regionFee.toStringAsFixed(4)} $currencySeedsCode',
           'memo': 'Create region fee',
@@ -100,18 +101,61 @@ class RegionRepository extends HttpRepository with EosRepository {
         ..name = SeedsEosAction.actionNameCreateRegion.value
         ..authorization = [
           Authorization()
-            ..actor = founderAccount
+            ..actor = userAccount
             ..permission = permissionActive
         ]
         ..data = {
-          'founder': founderAccount,
+          'founder': userAccount,
           'rgnaccount': regionAccount,
+          'title': title,
           'description': description,
           'locationJson': '{lat:$latitude,lon:$longitude}',
           'latitude': latitude,
           'longitude': longitude
         },
-    ], founderAccount);
+    ], userAccount);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  ///
+  /// Update Region
+  ///
+  /// Only the founder can update a region
+  ///
+  Future<Result<TransactionResponse>> update({
+    required String userAccount,
+    required String regionAccount,
+    required String title,
+    required String description,
+    required double latitude,
+    required double longitude,
+  }) async {
+    print('[eos] update region $regionAccount');
+
+    final transaction = buildFreeTransaction([
+      Action()
+        ..account = SeedsCode.accountRegion.value
+        ..name = SeedsEosAction.actionNameCreateRegion.value
+        ..authorization = [
+          Authorization()
+            ..actor = userAccount
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'rgnaccount': regionAccount,
+          'title': title,
+          'description': description,
+          'locationJson': '{lat:$latitude,lon:$longitude}',
+          'latitude': latitude,
+          'longitude': longitude
+        },
+    ], userAccount);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -126,25 +170,24 @@ class RegionRepository extends HttpRepository with EosRepository {
   ///
   Future<Result<TransactionResponse>> join({
     required String region,
-    required String account,
+    required String userAccount,
   }) async {
     print('[eos] join region $region');
 
-    // ACTION join(name region, name account);
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountRegion.value
         ..name = SeedsEosAction.actionNameJoinRegion.value
         ..authorization = [
           Authorization()
-            ..actor = account
+            ..actor = userAccount
             ..permission = permissionActive
         ]
         ..data = {
           'region': region,
-          'account': account,
+          'account': userAccount,
         },
-    ], account);
+    ], userAccount);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -159,7 +202,7 @@ class RegionRepository extends HttpRepository with EosRepository {
   ///
   Future<Result<TransactionResponse>> leave({
     required String region,
-    required String account,
+    required String userAccount,
   }) async {
     print('[eos] leave region $region');
 
@@ -169,14 +212,14 @@ class RegionRepository extends HttpRepository with EosRepository {
         ..name = SeedsEosAction.actionNameLeaveRegion.value
         ..authorization = [
           Authorization()
-            ..actor = account
+            ..actor = userAccount
             ..permission = permissionActive
         ]
         ..data = {
           'region': region,
-          'account': account,
+          'account': userAccount,
         },
-    ], account);
+    ], userAccount);
 
     return buildEosClient()
         .pushTransaction(transaction)
