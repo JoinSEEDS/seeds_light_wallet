@@ -130,7 +130,6 @@ class RegionRepository extends HttpRepository with EosRepository {
   }) async {
     print('[eos] join region $region');
 
-    // ACTION join(name region, name account);
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountRegion.value
