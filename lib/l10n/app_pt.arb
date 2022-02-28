@@ -234,6 +234,11 @@
   "walletTransactionHistory": "Historico de transações",
   "@walletTransactionHistory": {},
   "@joinRegionAppBarTitle": {},
+  "@createRegionSelectRegionAppBarTitle": {},
+  "@createRegionSelectRegionDescription": {},
+  "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "@createRegionChooseRegionNameDescription": {},
   "@createRegionAddDescriptionInputFormTitle": {},
   "@createRegionAddDescriptionPageInfo": {}
 }

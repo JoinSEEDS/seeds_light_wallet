@@ -212,6 +212,11 @@
   "inviteCreateMapperError": "יצירת ההזמנה נכשלה, נסי/ה שנית.",
   "@inviteCreateMapperError": {},
   "@joinRegionAppBarTitle": {},
+  "@createRegionSelectRegionAppBarTitle": {},
+  "@createRegionSelectRegionDescription": {},
+  "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "@createRegionChooseRegionNameDescription": {},
   "@createRegionAddDescriptionInputFormTitle": {},
   "@createRegionAddDescriptionPageInfo": {}
 }
