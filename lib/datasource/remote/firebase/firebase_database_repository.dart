@@ -2,7 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-const String FIREBASE_DATABASE_USERS_TOKEN = 'users';
+const String FIREBASE_DATABASE_USERS_COLLECTION = 'users';
+const String FIREBASE_DATABASE_LOCATION_COLLECTION = 'regionLocations';
+const String FIREBASE_DATABASE_REGION_COLLECTION = 'regions';
+
 const String GUARDIAN_NOTIFICATION_KEY = 'guardianNotification';
 const String PENDING_NOTIFICATIONS_KEY = 'pendingNotifications';
 const String GUARDIANS_COLLECTION_KEY = 'guardians';
@@ -22,5 +25,11 @@ const String FIREBASE_MESSAGE_TOKENS_KEY = 'firebaseMessageTokens';
 const String USER_PHONE_NUMBER_KEY = 'phoneNumber';
 
 abstract class FirebaseDatabaseService {
-  CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_TOKEN);
+  CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_COLLECTION);
+
+  CollectionReference get locationCollection =>
+      FirebaseFirestore.instance.collection(FIREBASE_DATABASE_LOCATION_COLLECTION);
+
+  CollectionReference get regionCollection =>
+      FirebaseFirestore.instance.collection(FIREBASE_DATABASE_REGION_COLLECTION);
 }
