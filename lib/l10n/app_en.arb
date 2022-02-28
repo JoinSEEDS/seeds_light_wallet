@@ -264,5 +264,11 @@
   "createRegionNotEnoughSeedsDialogTitle": "Not enough Seeds!",
   "@createRegionNotEnoughSeedsDialogTitle": {},
   "createRegionNotEnoughSeedsDialogSubtitle": "It looks like you don’t have enough Seeds to create a Region. Please click the link below to buy some seeds from our official website.",
-  "@createRegionNotEnoughSeedsDialogSubtitle": {}
+  "@createRegionNotEnoughSeedsDialogSubtitle": {},
+  "createRegionAddBackGroundImageDescription": "Dimensions of Picture.",
+  "@createRegionAddBackGroundImageDescription": {},
+  "createRegionAddBackGroundImageAcceptedFilesTitle": "Accepted file formats",
+  "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
+  "createRegionAddBackGroundImageBoxTitle": "Add Picture",
+  "@createRegionAddBackGroundImageBoxTitle": {}
 }

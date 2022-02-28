@@ -247,5 +247,8 @@
   "@createRegionNotEnoughSeedsDialogLeftButtonTitle": {},
   "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
   "@createRegionNotEnoughSeedsDialogTitle": {},
-  "@createRegionNotEnoughSeedsDialogSubtitle": {}
+  "@createRegionNotEnoughSeedsDialogSubtitle": {},
+  "@createRegionAddBackGroundImageDescription": {},
+  "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
+  "@createRegionAddBackGroundImageBoxTitle": {}
 }
