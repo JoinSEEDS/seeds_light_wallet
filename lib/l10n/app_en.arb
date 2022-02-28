@@ -250,5 +250,11 @@
   "createRegionAddDescriptionInputFormTitle": "Description",
   "@createRegionAddDescriptionInputFormTitle": {},
   "createRegionAddDescriptionPageInfo": "Enter a description for your region. Be clear about your region so  It should help people understand what t",
-  "@createRegionAddDescriptionPageInfo": {}
+  "@createRegionAddDescriptionPageInfo": {},
+  "createRegionDialogLeftButtonTitle": "Cancel",
+  "@createRegionDialogLeftButtonTitle": {},
+  "createRegionDialogTitle": "Creating a new Region",
+  "@createRegionDialogTitle": {},
+  "createRegionDialogSubtitle": "It looks like you have decided to create your own region! To begin the creation process, you will have to stake 1000 Seeds. ",
+  "@createRegionDialogSubtitle": {}
 }

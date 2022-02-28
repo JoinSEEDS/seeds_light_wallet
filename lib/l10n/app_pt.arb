@@ -240,5 +240,8 @@
   "@createRegionChooseRegionNameInputFormTitle": {},
   "@createRegionChooseRegionNameDescription": {},
   "@createRegionAddDescriptionInputFormTitle": {},
-  "@createRegionAddDescriptionPageInfo": {}
+  "@createRegionAddDescriptionPageInfo": {},
+  "@createRegionDialogLeftButtonTitle": {},
+  "@createRegionDialogTitle": {},
+  "@createRegionDialogSubtitle": {}
 }
