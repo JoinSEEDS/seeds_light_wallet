@@ -244,5 +244,13 @@
   "createRegionSelectRegionDescription": "Comience buscando el área más cercana a su región. Coloque un alfiler en el punto más central de su región. ",
   "@createRegionSelectRegionDescription": {},
   "createRegionSelectRegionButtonTitle": "Próximo",
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "createRegionChooseRegionNameInputFormTitle": "Nombre de la región",
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "createRegionChooseRegionNameDescription": "Elija el nombre de su región con cuidado. Le sugerimos que mantenga el punto de referencia o la ciudad más cercana como un ancla para el nombre de su región para que su nueva comunidad sepa en qué se está metiendo.",
+  "@createRegionChooseRegionNameDescription": {},
+  "createRegionAddDescriptionInputFormTitle": "Descripción",
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "createRegionAddDescriptionPageInfo": "Introduzca una descripción para su región. Sea claro acerca de su región para que ayude a las personas a entender lo que t",
+  "@createRegionAddDescriptionPageInfo": {}
 }
