@@ -237,6 +237,10 @@
   "@createRegionSelectRegionAppBarTitle": {},
   "@createRegionSelectRegionDescription": {},
   "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "@createRegionChooseRegionNameDescription": {},
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "@createRegionAddDescriptionPageInfo": {},
   "@createRegionDialogLeftButtonTitle": {},
   "@createRegionDialogTitle": {},
   "@createRegionDialogSubtitle": {},
@@ -244,5 +248,4 @@
   "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
   "@createRegionNotEnoughSeedsDialogTitle": {},
   "@createRegionNotEnoughSeedsDialogSubtitle": {}
-
 }
