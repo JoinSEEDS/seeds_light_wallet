@@ -246,5 +246,9 @@
   "createRegionChooseRegionNameInputFormTitle": "Region Name",
   "@createRegionChooseRegionNameInputFormTitle": {},
   "createRegionChooseRegionNameDescription": "Choose your Region’s name carefully. We suggest that you keep the nearest landmark or City as an anchor to your Region’s name so your new community knows what getting into!",
-  "@createRegionChooseRegionNameDescription": {}
+  "@createRegionChooseRegionNameDescription": {},
+  "createRegionAddDescriptionInputFormTitle": "Description",
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "createRegionAddDescriptionPageInfo": "Enter a description for your region. Be clear about your region so  It should help people understand what t",
+  "@createRegionAddDescriptionPageInfo": {}
 }

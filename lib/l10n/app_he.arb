@@ -216,5 +216,7 @@
   "@createRegionSelectRegionDescription": {},
   "@createRegionSelectRegionButtonTitle": {},
   "@createRegionChooseRegionNameInputFormTitle": {},
-  "@createRegionChooseRegionNameDescription": {}
+  "@createRegionChooseRegionNameDescription": {},
+  "@createRegionAddDescriptionInputFormTitle": {},
+  "@createRegionAddDescriptionPageInfo": {}
 }
