@@ -1,5 +1,5 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:seeds/components/dotted_border/dotted_border.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
@@ -21,7 +21,7 @@ class UploadPictureBox extends StatelessWidget {
       borderRadius: BorderRadius.circular(defaultCardBorderRadius),
       onTap: onTap,
       child: DottedBorder(
-        borderType: BorderType.RRect,
+        borderType: BorderType.rRect,
         radius: const Radius.circular(defaultCardBorderRadius),
         dashPattern: [8, 4],
         strokeWidth: 2,

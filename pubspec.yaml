@@ -58,7 +58,6 @@ dependencies:
   connectivity_plus: ^2.2.0
   package_info_plus: ^1.3.0
   flutterfire_installations: ^0.1.0
-  dotted_border: ^2.0.0+2
 
 dev_dependencies:
   flutter_test:
