@@ -62,9 +62,10 @@ class ImportWordsScreen extends StatelessWidget {
                                 left: (index % _numberOfColumns == 0) ? 0 : 8,
                                 right: ((index + 1) % _numberOfColumns == 0) ? 0 : 8),
                             child: Autocomplete<String>(
-                              fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
-                                  FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                                 textEditingController.text = state.userEnteredWords[index] ?? "";
+                                textEditingController.selection =
+                                    TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length));
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,

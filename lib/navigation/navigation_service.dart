@@ -18,6 +18,7 @@ import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/join_region_screen.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
@@ -78,6 +79,7 @@ class Routes {
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
   static const swapSeeds = 'swapSeeds';
+  static const joinRegion = 'joinRegion';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -125,6 +127,7 @@ class NavigationService {
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.swapSeeds: (_) => const SwapSeedsScreen(),
+    Routes.joinRegion: (_) => const JoinRegionScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
