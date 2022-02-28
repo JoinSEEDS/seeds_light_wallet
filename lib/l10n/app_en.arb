@@ -256,5 +256,13 @@
   "createRegionDialogTitle": "Creating a new Region",
   "@createRegionDialogTitle": {},
   "createRegionDialogSubtitle": "It looks like you have decided to create your own region! To begin the creation process, you will have to stake 1000 Seeds. ",
-  "@createRegionDialogSubtitle": {}
+  "@createRegionDialogSubtitle": {},
+  "createRegionNotEnoughSeedsDialogLeftButtonTitle": "Go back",
+  "@createRegionNotEnoughSeedsDialogLeftButtonTitle": {},
+  "createRegionNotEnoughSeedsDialogRightButtonTitle": "Buy Seeds",
+  "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
+  "createRegionNotEnoughSeedsDialogTitle": "Not enough Seeds!",
+  "@createRegionNotEnoughSeedsDialogTitle": {},
+  "createRegionNotEnoughSeedsDialogSubtitle": "It looks like you don’t have enough Seeds to create a Region. Please click the link below to buy some seeds from our official website.",
+  "@createRegionNotEnoughSeedsDialogSubtitle": {}
 }
