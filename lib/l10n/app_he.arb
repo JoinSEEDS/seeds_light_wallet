@@ -214,5 +214,7 @@
   "@joinRegionAppBarTitle": {},
   "@createRegionSelectRegionAppBarTitle": {},
   "@createRegionSelectRegionDescription": {},
-  "@createRegionSelectRegionButtonTitle": {}
+  "@createRegionSelectRegionButtonTitle": {},
+  "@createRegionChooseRegionNameInputFormTitle": {},
+  "@createRegionChooseRegionNameDescription": {}
 }
