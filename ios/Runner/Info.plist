@@ -50,10 +50,10 @@
 	<string>We do not access user contacts but one of the packages we are using is triggering this.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock wallet with FaceID</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We do not track a user's location but one of the packages we are using is triggering this. That code does not run.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We don't ask for a user's location, this warning triggered by a library we are using. But we never ask for location.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs access to location when in the background.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We do not access motion sensors but one of the packages we are using is triggering this.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
