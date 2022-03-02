@@ -3,12 +3,10 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
 
 // Location Keys
-const _regionIdKey = "regionId";
+const _regionAccountKey = "regionAccount";
 
 // Region Keys
-const _nameKey = "name";
-const _descriptionKey = "description";
-const _creatorIdKey = "creatorId";
+const _creatorAccountKey = "creatorAccount";
 const _locationIdKey = "locationId";
 const _imageUrlKey = "imageUrl";
 const _dateCreatedKey = "dateCreated";
@@ -21,7 +19,8 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
 
   /// Create a region
   Future<void> createRegion({
-    required String creatorId,
+    required String regionAccount,
+    required String creatorAccount,
     required double lat,
     required double long,
     required String imageUrl,
@@ -29,23 +28,25 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     final GeoFirePoint regionLocation = _geo.point(latitude: lat, longitude: long);
 
     final DocumentReference<Object?> locationRef = locationCollection.doc();
-    final DocumentReference<Object?> regionRef = regionCollection.doc();
+    final DocumentReference<Object?> regionRef = regionCollection.doc(regionAccount);
 
     final batch = FirebaseFirestore.instance.batch();
 
+    /// Location Data
     batch.set(
         locationRef,
         {
-          _regionIdKey: regionRef.id,
+          _regionAccountKey: regionAccount,
           _pointKey: regionLocation.data,
           _dateCreatedKey: FieldValue.serverTimestamp(),
         },
         SetOptions(merge: true));
 
+    /// Region Data
     batch.set(
         regionRef,
         {
-          _creatorIdKey: creatorId,
+          _creatorAccountKey: creatorAccount,
           _imageUrlKey: imageUrl,
           _dateCreatedKey: FieldValue.serverTimestamp(),
           _locationIdKey: locationRef.id,
@@ -59,9 +60,9 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   /// Update a region's Image
   Future<void> editRegionImage({
     required String imageUrl,
-    required String regionId,
+    required String regionAccount,
   }) {
-    return regionCollection.doc(regionId).update(
+    return regionCollection.doc(regionAccount).update(
       {
         _imageUrlKey: imageUrl,
         _dateUpdatedKey: FieldValue.serverTimestamp(),
