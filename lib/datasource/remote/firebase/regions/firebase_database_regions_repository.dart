@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 // Location Keys
 const _regionIdKey = "regionId";
@@ -22,8 +21,6 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
 
   /// Create a region
   Future<void> createRegion({
-    required String title,
-    required String description,
     required String creatorId,
     required double lat,
     required double long,
@@ -48,8 +45,6 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     batch.set(
         regionRef,
         {
-          _nameKey: title,
-          _descriptionKey: description,
           _creatorIdKey: creatorId,
           _imageUrlKey: imageUrl,
           _dateCreatedKey: FieldValue.serverTimestamp(),
@@ -61,55 +56,16 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     return batch.commit();
   }
 
-  /// Update a region
-  Future<void> editRegion({
-    String? name,
-    String? description,
-    LocationData? locationData,
-    String? imageUrl,
+  /// Update a region's Image
+  Future<void> editRegionImage({
+    required String imageUrl,
     required String regionId,
   }) {
-    final batch = FirebaseFirestore.instance.batch();
-
-    final Map<String, dynamic> regionData = {};
-
-    if (!name.isNullOrEmpty) {
-      regionData.putIfAbsent(_nameKey, () => name);
-    }
-    if (!description.isNullOrEmpty) {
-      regionData.putIfAbsent(_descriptionKey, () => description);
-    }
-    if (!imageUrl.isNullOrEmpty) {
-      regionData.putIfAbsent(_imageUrlKey, () => imageUrl);
-    }
-
-    regionData.putIfAbsent(_dateUpdatedKey, () => FieldValue.serverTimestamp());
-
-    if (locationData != null) {
-      final GeoFirePoint regionLocation = _geo.point(latitude: locationData.newLat, longitude: locationData.newLong);
-      final DocumentReference<Object?> locationRef = locationCollection.doc(locationData.currentLocationId);
-      regionData.putIfAbsent(_pointKey, () => regionLocation.data);
-
-      batch.set(
-          locationRef,
-          {
-            _pointKey: regionLocation.data,
-            _dateUpdatedKey: FieldValue.serverTimestamp(),
-          },
-          SetOptions(merge: true));
-    }
-
-    final DocumentReference<Object?> regionRef = regionCollection.doc(regionId);
-    batch.set(regionRef, regionData, SetOptions(merge: true));
-
-    return batch.commit();
+    return regionCollection.doc(regionId).update(
+      {
+        _imageUrlKey: imageUrl,
+        _dateUpdatedKey: FieldValue.serverTimestamp(),
+      },
+    );
   }
-}
-
-class LocationData {
-  final double newLat;
-  final double newLong;
-  final String currentLocationId;
-
-  LocationData(this.newLat, this.newLong, this.currentLocationId);
 }
