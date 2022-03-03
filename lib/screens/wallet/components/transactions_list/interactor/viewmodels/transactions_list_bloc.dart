@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
@@ -6,8 +7,8 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/shared_use_cases/load_transactions_use_case.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/mappers/transactions_state_mapper.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/usecases/load_transactions_use_case.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
 
 part 'transactions_list_event.dart';
