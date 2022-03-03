@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 // Location Keys
-const _regionIdKey = "regionId";
+const _regionAccountKey = "regionAccount";
 
 // Region Keys
-const _nameKey = "name";
-const _descriptionKey = "description";
-const _creatorIdKey = "creatorId";
+const _creatorAccountKey = "creatorAccount";
 const _locationIdKey = "locationId";
 const _imageUrlKey = "imageUrl";
 const _dateCreatedKey = "dateCreated";
@@ -22,9 +19,8 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
 
   /// Create a region
   Future<void> createRegion({
-    required String title,
-    required String description,
-    required String creatorId,
+    required String regionAccount,
+    required String creatorAccount,
     required double lat,
     required double long,
     required String imageUrl,
@@ -32,25 +28,25 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     final GeoFirePoint regionLocation = _geo.point(latitude: lat, longitude: long);
 
     final DocumentReference<Object?> locationRef = locationCollection.doc();
-    final DocumentReference<Object?> regionRef = regionCollection.doc();
+    final DocumentReference<Object?> regionRef = regionCollection.doc(regionAccount);
 
     final batch = FirebaseFirestore.instance.batch();
 
+    /// Location Data
     batch.set(
         locationRef,
         {
-          _regionIdKey: regionRef.id,
+          _regionAccountKey: regionAccount,
           _pointKey: regionLocation.data,
           _dateCreatedKey: FieldValue.serverTimestamp(),
         },
         SetOptions(merge: true));
 
+    /// Region Data
     batch.set(
         regionRef,
         {
-          _nameKey: title,
-          _descriptionKey: description,
-          _creatorIdKey: creatorId,
+          _creatorAccountKey: creatorAccount,
           _imageUrlKey: imageUrl,
           _dateCreatedKey: FieldValue.serverTimestamp(),
           _locationIdKey: locationRef.id,
@@ -61,55 +57,16 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     return batch.commit();
   }
 
-  /// Update a region
-  Future<void> editRegion({
-    String? name,
-    String? description,
-    LocationData? locationData,
-    String? imageUrl,
-    required String regionId,
+  /// Update a region's Image
+  Future<void> editRegionImage({
+    required String imageUrl,
+    required String regionAccount,
   }) {
-    final batch = FirebaseFirestore.instance.batch();
-
-    final Map<String, dynamic> regionData = {};
-
-    if (!name.isNullOrEmpty) {
-      regionData.putIfAbsent(_nameKey, () => name);
-    }
-    if (!description.isNullOrEmpty) {
-      regionData.putIfAbsent(_descriptionKey, () => description);
-    }
-    if (!imageUrl.isNullOrEmpty) {
-      regionData.putIfAbsent(_imageUrlKey, () => imageUrl);
-    }
-
-    regionData.putIfAbsent(_dateUpdatedKey, () => FieldValue.serverTimestamp());
-
-    if (locationData != null) {
-      final GeoFirePoint regionLocation = _geo.point(latitude: locationData.newLat, longitude: locationData.newLong);
-      final DocumentReference<Object?> locationRef = locationCollection.doc(locationData.currentLocationId);
-      regionData.putIfAbsent(_pointKey, () => regionLocation.data);
-
-      batch.set(
-          locationRef,
-          {
-            _pointKey: regionLocation.data,
-            _dateUpdatedKey: FieldValue.serverTimestamp(),
-          },
-          SetOptions(merge: true));
-    }
-
-    final DocumentReference<Object?> regionRef = regionCollection.doc(regionId);
-    batch.set(regionRef, regionData, SetOptions(merge: true));
-
-    return batch.commit();
+    return regionCollection.doc(regionAccount).update(
+      {
+        _imageUrlKey: imageUrl,
+        _dateUpdatedKey: FieldValue.serverTimestamp(),
+      },
+    );
   }
-}
-
-class LocationData {
-  final double newLat;
-  final double newLong;
-  final String currentLocationId;
-
-  LocationData(this.newLat, this.newLong, this.currentLocationId);
 }
