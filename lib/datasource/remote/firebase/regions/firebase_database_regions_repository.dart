@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 
 // Location Keys
 const _regionAccountKey = "regionAccount";
@@ -18,16 +19,16 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   final _geo = Geoflutterfire();
 
   /// Create a region
-  Future<void> createRegion({
+  Future<Result<String>> createRegion({
     required String regionAccount,
-    required String creatorAccount,
-    required double lat,
-    required double long,
+    required String userAccount,
+    required double latitude,
+    required double longitude,
     required String imageUrl,
   }) {
-    final GeoFirePoint regionLocation = _geo.point(latitude: lat, longitude: long);
+    final GeoFirePoint regionLocation = _geo.point(latitude: latitude, longitude: longitude);
 
-    final DocumentReference<Object?> locationRef = locationCollection.doc();
+    final DocumentReference<Object?> locationRef = locationCollection.doc(regionAccount);
     final DocumentReference<Object?> regionRef = regionCollection.doc(regionAccount);
 
     final batch = FirebaseFirestore.instance.batch();
@@ -46,15 +47,20 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     batch.set(
         regionRef,
         {
-          _creatorAccountKey: creatorAccount,
+          _creatorAccountKey: userAccount,
           _imageUrlKey: imageUrl,
           _dateCreatedKey: FieldValue.serverTimestamp(),
-          _locationIdKey: locationRef.id,
+          _locationIdKey: regionAccount,
           _pointKey: regionLocation.data,
         },
         SetOptions(merge: true));
 
-    return batch.commit();
+    return batch
+        .commit()
+        .then((value) => mapFirebaseResponse<String>(() {
+              return regionAccount;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(stackTrace));
   }
 
   /// Update a region's Image
@@ -68,5 +74,14 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         _dateUpdatedKey: FieldValue.serverTimestamp(),
       },
     );
+  }
+
+  /// Delete a region and its matching location
+  Future<void> deleteRegion(String regionAccount) {
+    final batch = FirebaseFirestore.instance.batch();
+    batch.delete(regionCollection.doc(regionAccount));
+    batch.delete(locationCollection.doc(regionAccount));
+
+    return batch.commit();
   }
 }
