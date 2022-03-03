@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,7 +24,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvent, ReceiveEnterDataS
   ReceiveEnterDataBloc(RatesState rates) : super(ReceiveEnterDataState.initial(rates)) {
     on<LoadUserBalance>(_loadUserBalance);
     on<OnAmountChange>(_onAmountChange);
-    on<OnDescriptionChange>((event, emit) => emit(state.copyWith(description: event.description)));
+    on<OnMemoChanged>((event, emit) => emit(state.copyWith(memo: event.memo)));
     on<OnNextButtonTapped>(_onNextButtonTapped);
     on<ClearReceiveEnterDataState>(_clearReceiveEnterDataState);
   }
@@ -41,11 +44,8 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvent, ReceiveEnterDataS
 
   Future<void> _onNextButtonTapped(OnNextButtonTapped event, Emitter<ReceiveEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result<ReceiveInvoiceResponse> result =
-        await ReceiveSeedsInvoiceUseCase().run(ReceiveSeedsInvoiceUseCase.input(
-      tokenAmount: state.tokenAmount,
-      memo: state.description,
-    ));
+    final Result<ReceiveInvoiceResponse> result = await ReceiveSeedsInvoiceUseCase()
+        .run(ReceiveSeedsInvoiceUseCase.input(tokenAmount: state.tokenAmount, memo: state.memo));
     emit(CreateInvoiceResultMapper().mapResultToState(state, result));
   }
 
