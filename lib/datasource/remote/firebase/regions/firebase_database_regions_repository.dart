@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/region_location_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 
 // Location Keys
@@ -83,5 +84,22 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     batch.delete(locationCollection.doc(regionAccount));
 
     return batch.commit();
+  }
+
+  /// This function returns a Stream of the list of DocumentSnapshot data,
+  /// plus some useful metadata like distance from the centerpoint.
+  Future<List<RegionLocation>> findRegionsByLocation({
+    required double latitude,
+    required double longitude,
+    required double radius,
+  }) {
+    // Create a geoFirePoint
+    final GeoFirePoint center = _geo.point(latitude: latitude, longitude: longitude);
+    return _geo
+        .collection(collectionRef: locationCollection)
+        .within(center: center, radius: radius, field: _pointKey)
+        .asyncMap((List<DocumentSnapshot> event) =>
+            // ignore: cast_nullable_to_non_nullable
+            event.map((DocumentSnapshot e) => RegionLocation.fromMap(e.data() as Map<String, dynamic>)).toList()).single;
   }
 }
