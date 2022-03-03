@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
 
 class RegionLocation {
   final String regionAccount;

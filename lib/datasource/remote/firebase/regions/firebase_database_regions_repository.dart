@@ -98,8 +98,10 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     return _geo
         .collection(collectionRef: locationCollection)
         .within(center: center, radius: radius, field: _pointKey)
-        .asyncMap((List<DocumentSnapshot> event) =>
+        .asyncMap((List<DocumentSnapshot> event) => event
             // ignore: cast_nullable_to_non_nullable
-            event.map((DocumentSnapshot e) => RegionLocation.fromMap(e.data() as Map<String, dynamic>)).toList()).single;
+            .map((DocumentSnapshot document) => RegionLocation.fromMap(document.data() as Map<String, dynamic>))
+            .toList())
+        .single;
   }
 }
