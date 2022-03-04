@@ -62,6 +62,7 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
+  google_maps_webservice: ^0.0.20-nullsafety.5
 
 dev_dependencies:
   flutter_test:
@@ -186,6 +187,8 @@ flutter:
     - assets/images/transfer/arrow_up.svg
     - assets/animations/forest.json
     - assets/animations/send_animation.json
+    - assets/images/google/powered_by_google_on_white.png
+    - assets/images/google/powered_by_google_on_non_white.png
     # assets end
 
   fonts:

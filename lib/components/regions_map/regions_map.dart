@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:seeds/components/regions_map/components/regions_serach_bar.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/regions_map_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -71,7 +72,6 @@ class _RegionsMapState extends State<RegionsMap> {
                       ),
                     ),
                   ),
-                  if (state.markerStatus == MarkerStatus.initial) const RegionsSearchBar(),
                   Positioned(
                     bottom: MediaQuery.of(context).padding.bottom,
                     right: MediaQuery.of(context).size.width * 0.05,
@@ -98,6 +98,7 @@ class _RegionsMapState extends State<RegionsMap> {
                       ),
                     ),
                   ),
+                  if (state.markerStatus == MarkerStatus.initial) const RegionsSearchBar(),
                 ],
               );
             default:
@@ -105,33 +106,6 @@ class _RegionsMapState extends State<RegionsMap> {
           }
         },
       ),
-    );
-  }
-}
-
-class RegionsSearchBar extends StatelessWidget {
-  const RegionsSearchBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RegionsMapBloc, RegionsMapState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-              color: AppColors.primary.withOpacity(0.5),
-              child: Row(
-                children: [
-                  const SizedBox(width: 16.0),
-                  Expanded(child: Text(state.newPlace.placeText)),
-                  const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.search)),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

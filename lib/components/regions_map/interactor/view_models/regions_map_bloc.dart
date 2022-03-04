@@ -18,6 +18,8 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>(_onMapMoving);
     on<OnMapEndMove>(_onMapEndMove);
+    on<ToggleSearchBar>((_, emit) => emit(state.copyWith(isSearchingPlace: !state.isSearchingPlace)));
+    on<OnPlaceResultSelected>(_onPlaceResultSelected);
   }
 
   Future<void> _setInitialValues(SetInitialValues event, Emitter<RegionsMapState> emit) async {
@@ -104,5 +106,11 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         markerStatus: MarkerStatus.initial,
       ));
     }
+  }
+
+  void _onPlaceResultSelected(OnPlaceResultSelected event, Emitter<RegionsMapState> emit) {
+    emit(state.copyWith(moveCamera: false)); // reset
+    // Update place and move map
+    emit(state.copyWith(newPlace: event.place, moveCamera: true));
   }
 }
