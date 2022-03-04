@@ -49,6 +49,8 @@ import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_scre
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
+import '../screens/create_region_screens/create_region_screen_controller.dart';
+
 /// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
   static const onboarding = 'onboarding';
@@ -75,6 +77,7 @@ class Routes {
   static const vouch = 'vouch';
   static const vouchForAMember = 'vouchForAMember';
   static const unPlantSeeds = 'unPlantSeeds';
+  static const createRegion = 'createRegion';
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
@@ -123,6 +126,7 @@ class NavigationService {
     Routes.vouchForAMember: (_) => const VouchForAMemberScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
+    Routes.createRegion: (_) => const CreateRegionScreenController(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
