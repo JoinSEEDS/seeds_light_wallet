@@ -12,10 +12,10 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class ReceiveEnterDataScreen extends StatefulWidget {
   const ReceiveEnterDataScreen({Key? key}) : super(key: key);
@@ -48,7 +48,7 @@ class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
     return BlocProvider(
       create: (_) => _receiveEnterDataBloc,
       child: Scaffold(
-        appBar: AppBar(title: Text("Receive".i18n)),
+        appBar: AppBar(title: Text(context.loc.transferReceiveTitle)),
         body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -57,7 +57,7 @@ class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
               NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.details, true);
             } else if (state.pageCommand is ShowTransactionFail) {
               BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());
-              eventBus.fire(ShowSnackBar('Receive creation failed, please try again.'.i18n));
+              eventBus.fire(ShowSnackBar(context.loc.transferReceiveTransactionFail));
             }
           },
           builder: (context, state) {
@@ -84,13 +84,13 @@ class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
                               children: [
                                 TextFormFieldLight(
                                   controller: _memoController,
-                                  labelText: "Memo".i18n,
-                                  hintText: "Add a note".i18n,
+                                  labelText: context.loc.transferReceiveMemoFieldLabel,
+                                  hintText: context.loc.transferReceiveMemoFieldHint,
                                   maxLength: blockChainMaxChars,
                                 ),
                                 const SizedBox(height: 16),
                                 BalanceRow(
-                                  label: "Available Balance".i18n,
+                                  label: context.loc.transferReceiveAvailableBalance,
                                   fiatAmount: state.availableBalanceFiat,
                                   tokenAmount: state.availableBalanceToken,
                                 ),
@@ -102,7 +102,7 @@ class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: FlatButtonLong(
-                          title: 'Next'.i18n,
+                          title: context.loc.transferReceiveNextButtonTitle,
                           enabled: state.isNextButtonEnabled,
                           onPressed: () => _receiveEnterDataBloc.add(const OnNextButtonTapped()),
                         ),
