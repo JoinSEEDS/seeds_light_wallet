@@ -13,6 +13,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
+import 'package:seeds/screens/create_region_screens/create_region_screen_controller.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
@@ -48,8 +49,6 @@ import 'package:seeds/screens/transfer/send/send_confirmation/transaction_action
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
-
-import '../screens/create_region_screens/create_region_screen_controller.dart';
 
 /// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
