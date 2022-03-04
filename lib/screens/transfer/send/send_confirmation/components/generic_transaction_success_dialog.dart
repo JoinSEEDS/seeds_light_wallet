@@ -8,8 +8,8 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {
   final GenericTransactionModel transactionModel;
@@ -22,16 +22,18 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          singleLargeButtonTitle: 'Close'.i18n,
+          singleLargeButtonTitle: context.loc.transferTransactionSuccessCloseButtonTitle,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text('Success'.i18n, style: Theme.of(context).textTheme.headline4)],
+              children: [
+                Text(context.loc.transferTransactionSuccessHeader, style: Theme.of(context).textTheme.headline4)
+              ],
             ),
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessDate, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy HH:mm').format(transactionModel.timestamp?.toLocal() ?? DateTime.now()),
@@ -41,7 +43,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Transaction ID:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -54,15 +56,16 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transactionModel.transactionId ?? "No transaction ID"))
-                        .then((_) => eventBus.fire(ShowSnackBar('Copied'.i18n)));
+                    Clipboard.setData(ClipboardData(
+                            text: transactionModel.transactionId ?? context.loc.transferTransactionSuccessNoID))
+                        .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
                   },
                 )
               ],
             ),
             Row(
               children: [
-                Text('Status:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
                   decoration: const BoxDecoration(
@@ -70,7 +73,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(
-                      "Successful".i18n,
+                      context.loc.transferTransactionSuccessSuccessful,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
@@ -83,7 +86,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    'See Transaction Actions (%s)'.i18n.fill([transactionModel.transaction.actions.length]),
+                    context.loc.transferTransactionSuccessCount(transactionModel.transaction.actions.length),
                     style: Theme.of(context).textTheme.buttonGreen1,
                     maxLines: 2,
                   ),
