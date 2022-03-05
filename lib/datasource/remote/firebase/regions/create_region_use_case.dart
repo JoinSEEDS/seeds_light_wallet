@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/region_repository.dart';
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
@@ -8,7 +9,6 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
   final FirebaseDatabaseRegionsRepository _firebaseRegionsRepository = FirebaseDatabaseRegionsRepository();
 
   static _Input input({
-    required String userAccount,
     required String regionAccount,
     required String title,
     required String description,
@@ -17,7 +17,7 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
     required String imageUrl,
   }) =>
       _Input(
-        userAccount: userAccount,
+        userAccount: settingsStorage.accountName,
         regionAccount: regionAccount,
         title: title,
         description: description,
