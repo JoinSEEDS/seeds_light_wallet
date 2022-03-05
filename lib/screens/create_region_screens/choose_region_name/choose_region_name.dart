@@ -28,16 +28,14 @@ class ChooseRegionName extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-            onWillPop: () => _navigateBack(),
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: BackButton(onPressed: _navigateBack),
-                  title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-                ),
-                body: SafeArea(
-                    minimum: const EdgeInsets.all(horizontalEdgePadding),
-                    child: Stack(
-                      children: [
+              onWillPop: () => _navigateBack(),
+              child: Scaffold(
+                  appBar: AppBar(
+                      leading: BackButton(onPressed: _navigateBack),
+                      title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
+                  body: SafeArea(
+                      minimum: const EdgeInsets.all(horizontalEdgePadding),
+                      child: Stack(children: [
                         Column(
                           children: [
                             const SizedBox(height: 10),
@@ -47,17 +45,15 @@ class ChooseRegionName extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             Text(context.loc.createRegionChooseRegionNameDescription,
-                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                           ],
                         ),
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (2/5)",
-                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
-                      ],
-                    ))),
-          );
+                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
+                      ]))));
 
         default:
           return const SizedBox.shrink();

@@ -23,9 +23,7 @@ class SelectRegion extends StatelessWidget {
               return const FullPageErrorIndicator();
             case PageState.success:
               return Scaffold(
-                  appBar: AppBar(
-                    title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-                  ),
+                  appBar: AppBar(title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
                   bottomNavigationBar: SafeArea(
                       minimum: const EdgeInsets.all(16),
                       child: FlatButtonLong(
@@ -33,12 +31,10 @@ class SelectRegion extends StatelessWidget {
                           onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
                   body: SafeArea(
                       minimum: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Text(context.loc.createRegionSelectRegionDescription),
-                          // TODO(gguij004): Waiting on map component.
-                        ],
-                      )));
+                      child: Column(children: [
+                        Text(context.loc.createRegionSelectRegionDescription),
+                        // TODO(gguij004): Waiting on map component.
+                      ])));
             default:
               return const SizedBox.shrink();
           }

@@ -20,7 +20,6 @@ class AddRegionDescription extends StatelessWidget {
         BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
         return Future.value(false);
       }
-
       switch (state.pageState) {
         case PageState.loading:
           return const FullPageLoadingIndicator();
@@ -28,26 +27,23 @@ class AddRegionDescription extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-            onWillPop: () => _navigateBack(),
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: BackButton(onPressed: _navigateBack),
-                  title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-                ),
-                body: SafeArea(
-                    minimum: const EdgeInsets.all(horizontalEdgePadding),
-                    child: Stack(
-                      children: [
+              onWillPop: () => _navigateBack(),
+              child: Scaffold(
+                  appBar: AppBar(
+                      leading: BackButton(onPressed: _navigateBack),
+                      title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
+                  body: SafeArea(
+                      minimum: const EdgeInsets.all(horizontalEdgePadding),
+                      child: Stack(children: [
                         SingleChildScrollView(
                           child: Column(
                             children: [
                               TextFormFieldCustom(
-                                autofocus: true,
-                                maxLines: 10,
-                                labelText: context.loc.createRegionAddDescriptionInputFormTitle,
-                              ),
+                                  autofocus: true,
+                                  maxLines: 10,
+                                  labelText: context.loc.createRegionAddDescriptionInputFormTitle),
                               Text(context.loc.createRegionAddDescriptionPageInfo,
-                                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                             ],
                           ),
                         ),
@@ -55,10 +51,8 @@ class AddRegionDescription extends StatelessWidget {
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
-                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
-                      ],
-                    ))),
-          );
+                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
+                      ]))));
 
         default:
           return const SizedBox.shrink();

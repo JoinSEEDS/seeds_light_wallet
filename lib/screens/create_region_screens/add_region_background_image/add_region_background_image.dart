@@ -28,35 +28,28 @@ class AddRegionBackgroundImage extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-            onWillPop: () => _navigateBack(),
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: BackButton(onPressed: _navigateBack),
-                  title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-                ),
-                bottomNavigationBar: SafeArea(
-                    minimum: const EdgeInsets.all(horizontalEdgePadding),
-                    child: FlatButtonLong(
-                        title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
-                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
-                body: SafeArea(
-                    minimum: const EdgeInsets.all(horizontalEdgePadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+              onWillPop: () => _navigateBack(),
+              child: Scaffold(
+                  appBar: AppBar(
+                    leading: BackButton(onPressed: _navigateBack),
+                    title: Text(context.loc.createRegionSelectRegionAppBarTitle),
+                  ),
+                  bottomNavigationBar: SafeArea(
+                      minimum: const EdgeInsets.all(horizontalEdgePadding),
+                      child: FlatButtonLong(
+                          title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
+                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
+                  body: SafeArea(
+                      minimum: const EdgeInsets.all(horizontalEdgePadding),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         const SizedBox(height: 20),
-                        UploadPictureBox(
-                          title: context.loc.createRegionAddBackGroundImageBoxTitle,
-                          onTap: () {},
-                        ),
+                        UploadPictureBox(title: context.loc.createRegionAddBackGroundImageBoxTitle, onTap: () {}),
                         const SizedBox(height: 26),
                         Text(context.loc.createRegionAddBackGroundImageDescription,
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
                         Text("${context.loc.createRegionAddBackGroundImageAcceptedFilesTitle}: png//.jpg",
-                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
-                      ],
-                    ))),
-          );
+                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                      ]))));
 
         default:
           return const SizedBox.shrink();

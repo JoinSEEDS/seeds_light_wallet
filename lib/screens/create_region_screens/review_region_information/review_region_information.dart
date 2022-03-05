@@ -27,19 +27,18 @@ class ReviewRegion extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-            onWillPop: () => _navigateBack(),
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: BackButton(onPressed: _navigateBack),
-                  title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-                ),
-                bottomNavigationBar: SafeArea(
-                    minimum: const EdgeInsets.all(16),
-                    child: FlatButtonLong(
-                        title: "Create Region (5/5)",
-                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnCreateRegionTapped()))),
-                body: SafeArea(minimum: const EdgeInsets.all(16), child: Column())),
-          );
+              onWillPop: () => _navigateBack(),
+              child: Scaffold(
+                  appBar: AppBar(
+                      leading: BackButton(onPressed: _navigateBack),
+                      title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
+                  bottomNavigationBar: SafeArea(
+                      minimum: const EdgeInsets.all(16),
+                      child: FlatButtonLong(
+                          title: "Create Region (5/5)",
+                          onPressed: () =>
+                              BlocProvider.of<CreateRegionBloc>(context).add(const OnCreateRegionTapped()))),
+                  body: SafeArea(minimum: const EdgeInsets.all(16), child: Column())));
         default:
           return const SizedBox.shrink();
       }
