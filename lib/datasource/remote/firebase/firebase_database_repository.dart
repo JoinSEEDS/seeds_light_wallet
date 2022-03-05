@@ -1,6 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seeds/utils/result_extension.dart';
 
 const String FIREBASE_DATABASE_USERS_COLLECTION = 'users';
 const String FIREBASE_DATABASE_LOCATION_COLLECTION = 'regionLocations';
@@ -27,9 +30,19 @@ const String USER_PHONE_NUMBER_KEY = 'phoneNumber';
 abstract class FirebaseDatabaseService {
   CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_COLLECTION);
 
-  CollectionReference get locationCollection =>
+  CollectionReference<Map<String, dynamic>> get locationCollection =>
       FirebaseFirestore.instance.collection(FIREBASE_DATABASE_LOCATION_COLLECTION);
 
   CollectionReference get regionCollection =>
       FirebaseFirestore.instance.collection(FIREBASE_DATABASE_REGION_COLLECTION);
+
+  FutureOr<Result<T>> mapFirebaseResponse<T>(Function modelMapper) {
+    print('Model Class: $modelMapper');
+    return Result.value(modelMapper());
+  }
+
+  ErrorResult mapFirebaseError(dynamic error) {
+    print('mapFirebaseError: $error');
+    return ErrorResult(error);
+  }
 }
