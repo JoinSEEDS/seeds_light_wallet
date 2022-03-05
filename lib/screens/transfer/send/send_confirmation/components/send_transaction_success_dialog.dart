@@ -10,8 +10,8 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
