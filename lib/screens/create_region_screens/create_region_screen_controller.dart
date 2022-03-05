@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/add_region_background_image.dart';
 import 'package:seeds/screens/create_region_screens/add_region_description/add_region_description.dart';
 import 'package:seeds/screens/create_region_screens/choose_region_name/choose_region_name.dart';
@@ -19,11 +17,7 @@ class CreateRegionScreenController extends StatelessWidget {
       child: BlocConsumer<CreateRegionBloc, CreateRegionState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          final pageCommand = state.pageCommand;
-          if (pageCommand is ReturnToLogin) {
-            NavigationService.of(context).pushAndRemoveAll(Routes.joinRegion); // return user to login
-          }
-        },
+          },
         buildWhen: (previous, current) => previous.createRegionsScreens != current.createRegionsScreens,
         builder: (_, state) {
           final CreateRegionScreen createRegionsScreens = state.createRegionsScreens;
