@@ -27,10 +27,10 @@ class SelectRegion extends StatelessWidget {
                     title: Text(context.loc.createRegionSelectRegionAppBarTitle),
                   ),
                   bottomNavigationBar: SafeArea(
-                    minimum: const EdgeInsets.all(16),
-                    child: FlatButtonLong(
-                        title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)", onPressed: () {}),
-                  ),
+                      minimum: const EdgeInsets.all(16),
+                      child: FlatButtonLong(
+                          title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)",
+                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
                   body: SafeArea(
                       minimum: const EdgeInsets.all(16),
                       child: Column(

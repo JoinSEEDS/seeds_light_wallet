@@ -15,6 +15,8 @@ class ClearCreateRegionPageCommand extends CreateRegionEvent {
 }
 
 class OnNextTapped extends CreateRegionEvent {
+  const OnNextTapped();
+
   @override
   String toString() => 'OnNextTapped}';
 }
@@ -27,6 +29,8 @@ class OnBackPressed extends CreateRegionEvent {
 }
 
 class OnCreateRegionTapped extends CreateRegionEvent {
+  const OnCreateRegionTapped();
+
   @override
   String toString() => 'onCreateRegionTapped';
 }
