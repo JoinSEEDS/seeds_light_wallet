@@ -1,11 +1,11 @@
 part of 'create_region_bloc.dart';
 
-enum CreateRegionScreens { selectRegion, displayName, addDescription, selectBackgroundImage, reviewRegion }
+enum CreateRegionScreen { selectRegion, displayName, addDescription, selectBackgroundImage, reviewRegion }
 
 class CreateRegionState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
-  final CreateRegionScreens createRegionsScreens;
+  final CreateRegionScreen createRegionsScreens;
 
   const CreateRegionState({
     required this.pageState,
@@ -23,7 +23,7 @@ class CreateRegionState extends Equatable {
   CreateRegionState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
-    CreateRegionScreens? createRegionsScreens,
+    CreateRegionScreen? createRegionsScreens,
     String? displayName,
   }) =>
       CreateRegionState(
@@ -35,7 +35,7 @@ class CreateRegionState extends Equatable {
   factory CreateRegionState.initial() {
     return const CreateRegionState(
       pageState: PageState.success,
-      createRegionsScreens: CreateRegionScreens.selectRegion,
+      createRegionsScreens: CreateRegionScreen.selectRegion,
     );
   }
 }

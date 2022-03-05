@@ -26,17 +26,17 @@ class CreateRegionScreenController extends StatelessWidget {
         },
         buildWhen: (previous, current) => previous.createRegionsScreens != current.createRegionsScreens,
         builder: (_, state) {
-          final CreateRegionScreens  createRegionsScreens = state.createRegionsScreens;
+          final CreateRegionScreen  createRegionsScreens = state.createRegionsScreens;
           switch (createRegionsScreens) {
-            case CreateRegionScreens.selectRegion:
+            case CreateRegionScreen.selectRegion:
               return const SelectRegion();
-            case CreateRegionScreens.displayName:
+            case CreateRegionScreen.displayName:
               return const ChooseRegionName();
-            case CreateRegionScreens.addDescription:
+            case CreateRegionScreen.addDescription:
               return const AddRegionDescription();
-            case CreateRegionScreens.selectBackgroundImage:
+            case CreateRegionScreen.selectBackgroundImage:
               return const AddRegionBackgroundImage();
-          case CreateRegionScreens.reviewRegion:
+          case CreateRegionScreen.reviewRegion:
           return const ReviewRegion();
           }
         },
