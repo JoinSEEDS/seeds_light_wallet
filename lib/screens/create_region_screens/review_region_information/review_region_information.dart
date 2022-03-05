@@ -15,11 +15,6 @@ class ReviewRegion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreateRegionBloc, CreateRegionState>(builder: (context, state) {
-      Future<bool> _navigateBack() {
-        BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
-        return Future.value(false);
-      }
-
       switch (state.pageState) {
         case PageState.loading:
           return const FullPageLoadingIndicator();
@@ -27,10 +22,14 @@ class ReviewRegion extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-              onWillPop: () => _navigateBack(),
+              onWillPop: () async {
+                BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
+                return false;
+              },
               child: Scaffold(
                   appBar: AppBar(
-                      leading: BackButton(onPressed: _navigateBack),
+                      leading: BackButton(
+                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
                       title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
                   bottomNavigationBar: SafeArea(
                       minimum: const EdgeInsets.all(16),

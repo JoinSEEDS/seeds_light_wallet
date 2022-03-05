@@ -28,10 +28,14 @@ class AddRegionBackgroundImage extends StatelessWidget {
           return const FullPageErrorIndicator();
         case PageState.success:
           return WillPopScope(
-              onWillPop: () => _navigateBack(),
+              onWillPop: () async {
+                BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
+                return false;
+              },
               child: Scaffold(
                   appBar: AppBar(
-                    leading: BackButton(onPressed: _navigateBack),
+                    leading: BackButton(
+                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
                     title: Text(context.loc.createRegionSelectRegionAppBarTitle),
                   ),
                   bottomNavigationBar: SafeArea(
