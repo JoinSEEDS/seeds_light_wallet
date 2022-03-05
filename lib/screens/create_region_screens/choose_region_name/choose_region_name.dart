@@ -16,11 +16,6 @@ class ChooseRegionName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreateRegionBloc, CreateRegionState>(builder: (context, state) {
-      Future<bool> _navigateBack() {
-        BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
-        return Future.value(false);
-      }
-
       switch (state.pageState) {
         case PageState.loading:
           return const FullPageLoadingIndicator();
