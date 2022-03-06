@@ -229,5 +229,7 @@
   "@createRegionAddBackGroundImageDescription": {},
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
   "@createRegionAddBackGroundImageBoxTitle": {},
-  "@createRegionChooseRegionIDInputFormTitle": {}
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "@createRegionChooseRegionIdDescription": {}
+
 }

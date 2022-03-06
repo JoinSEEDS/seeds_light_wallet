@@ -271,6 +271,8 @@
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
   "createRegionAddBackGroundImageBoxTitle": "Add Picture",
   "@createRegionAddBackGroundImageBoxTitle": {},
-  "createRegionChooseRegionIDInputFormTitle": "Region ID",
-  "@createRegionChooseRegionIDInputFormTitle": {}
+  "createRegionChooseRegionIdInputFormTitle": "Region ID",
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "createRegionChooseRegionIdDescription": "Your Region ID cannot be changed.",
+  "@createRegionChooseRegionIdDescription": {}
 }

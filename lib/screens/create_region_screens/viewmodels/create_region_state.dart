@@ -1,6 +1,6 @@
 part of 'create_region_bloc.dart';
 
-enum CreateRegionScreen { selectRegion, displayName, addDescription, selectBackgroundImage, reviewRegion }
+enum CreateRegionScreen { selectRegion, displayName, regionId, addDescription, selectBackgroundImage, reviewRegion }
 
 class CreateRegionState extends Equatable {
   final PageState pageState;
