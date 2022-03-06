@@ -108,7 +108,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  context.loc.transferSendTo,
+                                  context.loc.transferSendSendTo,
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                               ),
