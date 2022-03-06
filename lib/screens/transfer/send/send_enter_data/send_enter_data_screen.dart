@@ -130,7 +130,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                 children: [
                                   TextFormFieldLight(
                                     labelText: context.loc.transferMemoFieldLabel,
-                                    hintText: context.loc.transferSendAddNoteMemoHint,
+                                    hintText: context.loc.transferMemoFieldHint,
                                     maxLength: blockChainMaxChars,
                                     onChanged: (String value) {
                                       BlocProvider.of<SendEnterDataBloc>(context).add(OnMemoChange(memoChanged: value));
