@@ -6,7 +6,7 @@ import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
   final TokenDataModel tokenAmount;
@@ -46,8 +46,8 @@ class SendConfirmationDialog extends StatelessWidget {
         onSendButtonPressed.call();
         Navigator.of(context).pop();
       },
-      leftButtonTitle: "Edit".i18n,
-      rightButtonTitle: "Send".i18n,
+      leftButtonTitle: context.loc.transferSendEditButtonTitle,
+      rightButtonTitle: context.loc.transferSendSendButtonTitle,
       children: [
         const SizedBox(height: 6),
         Row(
@@ -62,13 +62,14 @@ class SendConfirmationDialog extends StatelessWidget {
         ),
         Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
-        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
+        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: context.loc.transferSendTo),
         const SizedBox(height: 24.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Network Fee".i18n, textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
-            Text("Always Free and Instant!".i18n,
+            Text(context.loc.transferSendNetworkFee,
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
+            Text(context.loc.transferSendFreeAndInstant,
                 textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
           ],
         ),
@@ -77,7 +78,8 @@ class SendConfirmationDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Memo".i18n, textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+              Text(context.loc.transferSendMemo,
+                  textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
               const SizedBox(width: 16.0),
               Flexible(
                 child: Text(memo!,
