@@ -84,7 +84,7 @@ class _ReceiveEnterDataScreenState extends State<ReceiveEnterDataScreen> {
                               children: [
                                 TextFormFieldLight(
                                   controller: _memoController,
-                                  labelText: context.loc.transferReceiveMemoFieldLabel,
+                                  labelText: context.loc.transferMemoFieldLabel,
                                   hintText: context.loc.transferReceiveMemoFieldHint,
                                   maxLength: blockChainMaxChars,
                                 ),

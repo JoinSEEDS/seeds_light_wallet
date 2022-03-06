@@ -129,7 +129,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               Column(
                                 children: [
                                   TextFormFieldLight(
-                                    labelText: context.loc.transferSendAddNoteMemoLabel,
+                                    labelText: context.loc.transferMemoFieldLabel,
                                     hintText: context.loc.transferSendAddNoteMemoHint,
                                     maxLength: blockChainMaxChars,
                                     onChanged: (String value) {
