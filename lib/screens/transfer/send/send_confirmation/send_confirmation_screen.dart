@@ -14,13 +14,13 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class SendConfirmationScreen extends StatelessWidget {
   const SendConfirmationScreen({Key? key}) : super(key: key);
@@ -103,7 +103,7 @@ class SendConfirmationScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(16),
                               child: FlatButtonLong(
                                 enabled: state.invalidTransaction == InvalidTransaction.none,
-                                title: 'Confirm and Send'.i18n,
+                                title: context.loc.transferConfirmationButton,
                                 onPressed: () {
                                   final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                                   BlocProvider.of<SendConfirmationBloc>(context)

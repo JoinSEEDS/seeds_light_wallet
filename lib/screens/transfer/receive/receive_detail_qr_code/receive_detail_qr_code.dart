@@ -6,9 +6,9 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
 import 'package:seeds/components/share_link_row.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
   final ReceiveDetails details;
@@ -27,7 +27,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: Text("Scan QR Code".i18n)),
+            appBar: AppBar(title: Text(context.loc.transferReceiveScanQRCode)),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Stack(
@@ -41,7 +41,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           QrCodeGeneratorWidget(data: state.details.invoiceLink, size: size.width * 0.8),
                           const SizedBox(height: 20),
                           ShareLinkRow(
-                            label: 'Share Link to Invoice'.i18n,
+                            label: context.loc.transferReceiveShareLink,
                             link: state.details.invoiceLinkUri == null
                                 ? state.details.invoiceLink
                                 : state.details.invoiceLinkUri.toString(),
@@ -50,7 +50,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                           const DividerJungle(height: 6),
                           const SizedBox(height: 16),
                           BalanceRow(
-                            label: "Total".i18n,
+                            label: context.loc.transferReceiveBalanceTotal,
                             fiatAmount: state.details.fiatAmount,
                             tokenAmount: state.details.tokenAmount,
                           ),
@@ -61,7 +61,9 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: RichText(
-                                text: TextSpan(text: 'Memo: '.i18n, children: [TextSpan(text: state.details.memo)]),
+                                text: TextSpan(
+                                    text: context.loc.transferReceiveMemo,
+                                    children: [TextSpan(text: state.details.memo)]),
                               ),
                             ),
                           const SizedBox(height: 150),
@@ -71,7 +73,9 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: FlatButtonLong(title: 'Done'.i18n, onPressed: () => Navigator.of(context).pop()),
+                    child: FlatButtonLong(
+                        title: context.loc.transferReceiveDoneButtonTitle,
+                        onPressed: () => Navigator.of(context).pop()),
                   ),
                 ],
               ),

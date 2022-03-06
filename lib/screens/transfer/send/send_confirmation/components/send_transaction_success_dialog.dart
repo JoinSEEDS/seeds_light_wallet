@@ -9,8 +9,8 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
@@ -60,7 +60,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          singleLargeButtonTitle: 'Close'.i18n,
+          singleLargeButtonTitle: context.loc.transferTransactionSuccessCloseButtonTitle,
           children: [
             const SizedBox(height: 6),
             Row(
@@ -75,13 +75,21 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
+            DialogRow(
+                imageUrl: toImage,
+                account: toAccount,
+                name: toName,
+                toOrFromText: context.loc.transferTransactionSuccessTo),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From".i18n),
+            DialogRow(
+                imageUrl: fromImage,
+                account: fromAccount,
+                name: fromName,
+                toOrFromText: context.loc.transferTransactionSuccessFrom),
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessDate, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy').format(DateTime.now()),
@@ -91,7 +99,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Transaction ID:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -105,14 +113,14 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   color: AppColors.lightGreen6,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: transactionID))
-                        .then((_) => eventBus.fire(ShowSnackBar('Copied'.i18n)));
+                        .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
                   },
                 )
               ],
             ),
             Row(
               children: [
-                Text('Status:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
                   decoration: const BoxDecoration(
@@ -120,7 +128,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(
-                      "Successful".i18n,
+                      context.loc.transferTransactionSuccessSuccessful,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
