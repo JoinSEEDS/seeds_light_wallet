@@ -272,5 +272,9 @@
   "createRegionAddBackGroundImageAcceptedFilesTitle": "Formatos de archivo aceptados",
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
   "createRegionAddBackGroundImageBoxTitle": "Agregar foto",
-  "@createRegionAddBackGroundImageBoxTitle": {}
+  "@createRegionAddBackGroundImageBoxTitle": {},
+  "createRegionChooseRegionIdInputFormTitle": "Identificación de la región",
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "createRegionChooseRegionIdDescription": "Su ID de región no se puede cambiar.",
+  "@createRegionChooseRegionIdDescription": {}
 }

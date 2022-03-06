@@ -10,8 +10,8 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class AddRegionDescription extends StatelessWidget {
-  const AddRegionDescription({Key? key}) : super(key: key);
+class ChooseRegionId extends StatelessWidget {
+  const ChooseRegionId({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +35,23 @@ class AddRegionDescription extends StatelessWidget {
                   body: SafeArea(
                       minimum: const EdgeInsets.all(horizontalEdgePadding),
                       child: Stack(children: [
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              TextFormFieldCustom(
-                                  autofocus: true,
-                                  maxLines: 10,
-                                  labelText: context.loc.createRegionAddDescriptionInputFormTitle),
-                              Text(context.loc.createRegionAddDescriptionPageInfo,
-                                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-                            ],
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10),
+                            TextFormFieldCustom(
+                                suffixText: ".TODO",
+                                autofocus: true,
+                                labelText: context.loc.createRegionChooseRegionIdInputFormTitle),
+                            const SizedBox(height: 20),
+                            Text(context.loc.createRegionChooseRegionIdDescription,
+                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                          ],
                         ),
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
-                                title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
+                                title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));
 

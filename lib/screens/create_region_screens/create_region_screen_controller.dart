@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/add_region_background_image.dart';
 import 'package:seeds/screens/create_region_screens/add_region_description/add_region_description.dart';
+import 'package:seeds/screens/create_region_screens/choose_region_id/choose_region_id.dart';
 import 'package:seeds/screens/create_region_screens/choose_region_name/choose_region_name.dart';
 import 'package:seeds/screens/create_region_screens/review_region_information/review_region_information.dart';
 import 'package:seeds/screens/create_region_screens/select_region/select_region.dart';
@@ -16,8 +17,7 @@ class CreateRegionScreenController extends StatelessWidget {
       create: (_) => CreateRegionBloc(),
       child: BlocConsumer<CreateRegionBloc, CreateRegionState>(
         listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {
-          },
+        listener: (context, state) {},
         buildWhen: (previous, current) => previous.createRegionsScreens != current.createRegionsScreens,
         builder: (_, state) {
           final CreateRegionScreen createRegionsScreens = state.createRegionsScreens;
@@ -26,6 +26,8 @@ class CreateRegionScreenController extends StatelessWidget {
               return const SelectRegion();
             case CreateRegionScreen.displayName:
               return const ChooseRegionName();
+            case CreateRegionScreen.regionId:
+              return const ChooseRegionId();
             case CreateRegionScreen.addDescription:
               return const AddRegionDescription();
             case CreateRegionScreen.selectBackgroundImage:

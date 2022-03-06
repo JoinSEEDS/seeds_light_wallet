@@ -34,7 +34,7 @@ class ReviewRegion extends StatelessWidget {
                   bottomNavigationBar: SafeArea(
                       minimum: const EdgeInsets.all(16),
                       child: FlatButtonLong(
-                          title: "Create Region (5/5)",
+                          title: "Create Region",
                           onPressed: () =>
                               BlocProvider.of<CreateRegionBloc>(context).add(const OnCreateRegionTapped()))),
                   body: SafeArea(minimum: const EdgeInsets.all(16), child: Column())));
