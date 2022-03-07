@@ -40,3 +40,22 @@ class OnMapEndMove extends RegionsMapEvent {
   @override
   String toString() => 'OnMapEndMove';
 }
+
+class ToggleSearchBar extends RegionsMapEvent {
+  const ToggleSearchBar();
+
+  @override
+  String toString() => 'ToggleSearchBar';
+}
+
+class OnPlaceResultSelected extends RegionsMapEvent {
+  final Place place;
+
+  const OnPlaceResultSelected(this.place);
+
+  @override
+  List<Object?> get props => [place];
+
+  @override
+  String toString() => 'OnPlaceResultSelected { place: $place }';
+}
