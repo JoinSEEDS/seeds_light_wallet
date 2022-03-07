@@ -228,5 +228,8 @@
   "@createRegionNotEnoughSeedsDialogSubtitle": {},
   "@createRegionAddBackGroundImageDescription": {},
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
-  "@createRegionAddBackGroundImageBoxTitle": {}
+  "@createRegionAddBackGroundImageBoxTitle": {},
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "@createRegionChooseRegionIdDescription": {}
+
 }

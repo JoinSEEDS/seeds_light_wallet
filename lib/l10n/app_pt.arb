@@ -339,5 +339,7 @@
   "transferSendScanQRCodePrompt": "Escanear Código QR para Enviar",
   "@transferSendScanQRCodePrompt": {},
   "transferSendSearchTitle": "Enviar",
-  "@transferSendSearchTitle": {}
+  "@transferSendSearchTitle": {},
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "@createRegionChooseRegionIdDescription": {}
 }

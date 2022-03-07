@@ -17,7 +17,27 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     on<ClearCreateRegionPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  void _onNextTapped(OnNextTapped event, Emitter<CreateRegionState> emit) {}
+  void _onNextTapped(OnNextTapped event, Emitter<CreateRegionState> emit) {
+    switch (state.createRegionsScreens) {
+      case CreateRegionScreen.selectRegion:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.displayName));
+        break;
+      case CreateRegionScreen.displayName:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.regionId));
+        break;
+      case CreateRegionScreen.regionId:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.addDescription));
+        break;
+      case CreateRegionScreen.addDescription:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.selectBackgroundImage));
+        break;
+      case CreateRegionScreen.selectBackgroundImage:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.reviewRegion));
+        break;
+      case CreateRegionScreen.reviewRegion:
+        break;
+    }
+  }
 
   Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<CreateRegionState> emit) async {}
 
@@ -29,8 +49,11 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
       case CreateRegionScreen.displayName:
         emit(state.copyWith(createRegionsScreens: CreateRegionScreen.selectRegion));
         break;
-      case CreateRegionScreen.addDescription:
+      case CreateRegionScreen.regionId:
         emit(state.copyWith(createRegionsScreens: CreateRegionScreen.displayName));
+        break;
+      case CreateRegionScreen.addDescription:
+        emit(state.copyWith(createRegionsScreens: CreateRegionScreen.regionId));
         break;
       case CreateRegionScreen.selectBackgroundImage:
         emit(state.copyWith(createRegionsScreens: CreateRegionScreen.addDescription));

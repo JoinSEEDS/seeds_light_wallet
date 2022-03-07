@@ -361,5 +361,9 @@
   "transferSendScanQRCodePrompt": "Escanear El Código QR Para Enviar",
   "@transferSendScanQRCodePrompt": {},
   "transferSendSearchTitle": "Enviar",
-  "@transferSendSearchTitle": {}
+  "@transferSendSearchTitle": {},
+  "createRegionChooseRegionIdInputFormTitle": "Identificación de la región",
+  "@createRegionChooseRegionIdInputFormTitle": {},
+  "createRegionChooseRegionIdDescription": "Su ID de región no se puede cambiar.",
+  "@createRegionChooseRegionIdDescription": {}
 }
