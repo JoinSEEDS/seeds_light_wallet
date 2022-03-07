@@ -6,11 +6,19 @@ class CreateRegionState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final CreateRegionScreen createRegionsScreens;
+  final String? regionName;
+  final bool isRegionNameNextAvailable;
+  final String? regionDescription;
+  final bool isRegionDescriptionNextAvailable;
 
   const CreateRegionState({
     required this.pageState,
     this.pageCommand,
     required this.createRegionsScreens,
+    this.regionName,
+    required this.isRegionNameNextAvailable,
+    this.regionDescription,
+    required this.isRegionDescriptionNextAvailable,
   });
 
   @override
@@ -18,24 +26,36 @@ class CreateRegionState extends Equatable {
         pageState,
         pageCommand,
         createRegionsScreens,
+        regionName,
+        isRegionNameNextAvailable,
+        regionDescription,
+        isRegionDescriptionNextAvailable,
       ];
 
   CreateRegionState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
     CreateRegionScreen? createRegionsScreens,
-    String? displayName,
+    String? regionName,
+    bool? isRegionNameNextAvailable,
+    String? regionDescription,
+    bool? isRegionDescriptionNextAvailable,
   }) =>
       CreateRegionState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
         createRegionsScreens: createRegionsScreens ?? this.createRegionsScreens,
+        regionName: regionName ?? this.regionName,
+        isRegionNameNextAvailable: isRegionNameNextAvailable ?? this.isRegionNameNextAvailable,
+        regionDescription: regionDescription ?? this.regionDescription,
+        isRegionDescriptionNextAvailable: isRegionDescriptionNextAvailable ?? this.isRegionDescriptionNextAvailable,
       );
 
   factory CreateRegionState.initial() {
     return const CreateRegionState(
-      pageState: PageState.success,
-      createRegionsScreens: CreateRegionScreen.selectRegion,
-    );
+        pageState: PageState.success,
+        createRegionsScreens: CreateRegionScreen.selectRegion,
+        isRegionNameNextAvailable: false,
+        isRegionDescriptionNextAvailable: false);
   }
 }

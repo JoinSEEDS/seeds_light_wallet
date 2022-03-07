@@ -10,8 +10,32 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class AddRegionDescription extends StatelessWidget {
+class AddRegionDescription extends StatefulWidget {
   const AddRegionDescription({Key? key}) : super(key: key);
+
+  @override
+  _AddRegionDescription createState() => _AddRegionDescription();
+}
+
+class _AddRegionDescription extends State<AddRegionDescription> {
+  final _keyController = TextEditingController();
+  late CreateRegionBloc _createRegionBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _createRegionBloc = BlocProvider.of<CreateRegionBloc>(context);
+    _keyController.text = _createRegionBloc.state.regionDescription ?? '';
+    _keyController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +63,14 @@ class AddRegionDescription extends StatelessWidget {
                           child: Column(
                             children: [
                               TextFormFieldCustom(
-                                  autofocus: true,
-                                  maxLines: 10,
-                                  labelText: context.loc.createRegionAddDescriptionInputFormTitle),
+                                controller: _keyController,
+                                autofocus: true,
+                                maxLines: 10,
+                                labelText: context.loc.createRegionAddDescriptionInputFormTitle,
+                                onChanged: (text) {
+                                  BlocProvider.of<CreateRegionBloc>(context).add(OnRegionDescriptionChange(text));
+                                },
+                              ),
                               Text(context.loc.createRegionAddDescriptionPageInfo,
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                             ],
@@ -50,6 +79,7 @@ class AddRegionDescription extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
+                                enabled: state.isRegionDescriptionNextAvailable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));

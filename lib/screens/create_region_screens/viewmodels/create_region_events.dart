@@ -18,7 +18,7 @@ class OnNextTapped extends CreateRegionEvent {
   const OnNextTapped();
 
   @override
-  String toString() => 'OnNextTapped}';
+  String toString() => 'OnNextTapped';
 }
 
 class OnBackPressed extends CreateRegionEvent {
@@ -26,6 +26,24 @@ class OnBackPressed extends CreateRegionEvent {
 
   @override
   String toString() => 'OnBackPressed';
+}
+
+class OnRegionNameChange extends CreateRegionEvent {
+  final String regionName;
+
+  const OnRegionNameChange(this.regionName);
+
+  @override
+  String toString() => 'OnRegionNameChange { regionName: $regionName}';
+}
+
+class OnRegionDescriptionChange extends CreateRegionEvent {
+  final String regionDescription;
+
+  const OnRegionDescriptionChange(this.regionDescription);
+
+  @override
+  String toString() => 'OnRegionDescriptionChange { OnRegionDescriptionChange: $regionDescription}';
 }
 
 class OnCreateRegionTapped extends CreateRegionEvent {

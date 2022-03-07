@@ -10,8 +10,32 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class ChooseRegionName extends StatelessWidget {
+class ChooseRegionName extends StatefulWidget {
   const ChooseRegionName({Key? key}) : super(key: key);
+
+  @override
+  _ChooseRegionName createState() => _ChooseRegionName();
+}
+
+class _ChooseRegionName extends State<ChooseRegionName> {
+  final _keyController = TextEditingController();
+  late CreateRegionBloc _createRegionBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _createRegionBloc = BlocProvider.of<CreateRegionBloc>(context);
+    _keyController.text = _createRegionBloc.state.regionName ?? '';
+    _keyController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +63,13 @@ class ChooseRegionName extends StatelessWidget {
                           children: [
                             const SizedBox(height: 10),
                             TextFormFieldCustom(
+                              maxLength: 36,
+                              controller: _keyController,
                               autofocus: true,
                               labelText: context.loc.createRegionChooseRegionNameInputFormTitle,
+                              onChanged: (text) {
+                                BlocProvider.of<CreateRegionBloc>(context).add(OnRegionNameChange(text));
+                              },
                             ),
                             const SizedBox(height: 20),
                             Text(context.loc.createRegionChooseRegionNameDescription,
@@ -50,6 +79,7 @@ class ChooseRegionName extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
+                                enabled: state.isRegionNameNextAvailable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (2/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));
