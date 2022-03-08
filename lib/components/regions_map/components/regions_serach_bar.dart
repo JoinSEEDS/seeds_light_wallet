@@ -12,30 +12,28 @@ class RegionsSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegionsMapBloc, RegionsMapState>(
       builder: (context, state) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: InkWell(
-              onTap: () => BlocProvider.of<RegionsMapBloc>(context).add(const ToggleSearchBar()),
-              child: state.isSearchingPlace
-                  ? SearchPlaces(
-                      onPlaceSelected: (place) {
-                        BlocProvider.of<RegionsMapBloc>(context).add(OnPlaceResultSelected(place));
-                      },
-                    )
-                  : Card(
-                      color: AppColors.primary.withOpacity(0.5),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 16.0),
-                          Expanded(
-                            child: Text(state.newPlace.placeText, style: Theme.of(context).textTheme.buttonWhiteL),
-                          ),
-                          const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.search)),
-                        ],
-                      ),
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: InkWell(
+            onTap: () => BlocProvider.of<RegionsMapBloc>(context).add(const ToggleSearchBar()),
+            child: state.isSearchingPlace
+                ? SearchPlaces(
+                    onPlaceSelected: (place) {
+                      BlocProvider.of<RegionsMapBloc>(context).add(OnPlaceResultSelected(place));
+                    },
+                  )
+                : Card(
+                    color: AppColors.primary.withOpacity(0.5),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 16.0),
+                        Expanded(
+                          child: Text(state.newPlace.placeText, style: Theme.of(context).textTheme.buttonWhiteL),
+                        ),
+                        const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.search)),
+                      ],
                     ),
-            ),
+                  ),
           ),
         );
       },

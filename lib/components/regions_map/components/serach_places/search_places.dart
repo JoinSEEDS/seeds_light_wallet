@@ -43,7 +43,8 @@ class _SearchPlacesState extends State<SearchPlaces> {
             listener: (_, state) => widget.onPlaceSelected(state.placeSelected!),
           ),
         ],
-        child: Column(
+        child: ListView(
+          clipBehavior: Clip.none,
           children: [
             Card(
               color: AppColors.primary.withOpacity(0.5),
@@ -83,6 +84,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
               builder: (context, state) {
                 return state.predictions.isNotEmpty
                     ? Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
                         color: AppColors.primary,
                         child: Column(
                           children: [
@@ -99,6 +101,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
             ),
             Container(
               color: AppColors.primary,
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: BlocBuilder<SearchPlacesBloc, SearchPlacesState>(
                 builder: (context, state) {
                   return state.predictions.isNotEmpty
