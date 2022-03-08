@@ -10,32 +10,8 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class ChooseRegionName extends StatefulWidget {
+class ChooseRegionName extends StatelessWidget {
   const ChooseRegionName({Key? key}) : super(key: key);
-
-  @override
-  _ChooseRegionName createState() => _ChooseRegionName();
-}
-
-class _ChooseRegionName extends State<ChooseRegionName> {
-  final _keyController = TextEditingController();
-  late CreateRegionBloc _createRegionBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _createRegionBloc = BlocProvider.of<CreateRegionBloc>(context);
-    _keyController.text = _createRegionBloc.state.regionName ?? '';
-    _keyController.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _keyController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +39,8 @@ class _ChooseRegionName extends State<ChooseRegionName> {
                           children: [
                             const SizedBox(height: 10),
                             TextFormFieldCustom(
+                              initialValue: state.regionName,
                               maxLength: 36,
-                              controller: _keyController,
                               autofocus: true,
                               labelText: context.loc.createRegionChooseRegionNameInputFormTitle,
                               onChanged: (text) {

@@ -10,32 +10,8 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class AddRegionDescription extends StatefulWidget {
+class AddRegionDescription extends StatelessWidget {
   const AddRegionDescription({Key? key}) : super(key: key);
-
-  @override
-  _AddRegionDescription createState() => _AddRegionDescription();
-}
-
-class _AddRegionDescription extends State<AddRegionDescription> {
-  final _keyController = TextEditingController();
-  late CreateRegionBloc _createRegionBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _createRegionBloc = BlocProvider.of<CreateRegionBloc>(context);
-    _keyController.text = _createRegionBloc.state.regionDescription ?? '';
-    _keyController.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _keyController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +39,7 @@ class _AddRegionDescription extends State<AddRegionDescription> {
                           child: Column(
                             children: [
                               TextFormFieldCustom(
-                                controller: _keyController,
+                                initialValue: state.regionDescription,
                                 autofocus: true,
                                 maxLines: 10,
                                 labelText: context.loc.createRegionAddDescriptionInputFormTitle,

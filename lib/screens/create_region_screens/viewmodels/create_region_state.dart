@@ -6,18 +6,18 @@ class CreateRegionState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final CreateRegionScreen createRegionsScreens;
-  final String? regionName;
+  final String regionName;
   final bool isRegionNameNextAvailable;
-  final String? regionDescription;
+  final String regionDescription;
   final bool isRegionDescriptionNextAvailable;
 
   const CreateRegionState({
     required this.pageState,
     this.pageCommand,
     required this.createRegionsScreens,
-    this.regionName,
+    required this.regionName,
     required this.isRegionNameNextAvailable,
-    this.regionDescription,
+    required this.regionDescription,
     required this.isRegionDescriptionNextAvailable,
   });
 
@@ -53,9 +53,12 @@ class CreateRegionState extends Equatable {
 
   factory CreateRegionState.initial() {
     return const CreateRegionState(
-        pageState: PageState.success,
-        createRegionsScreens: CreateRegionScreen.selectRegion,
-        isRegionNameNextAvailable: false,
-        isRegionDescriptionNextAvailable: false);
+      pageState: PageState.success,
+      createRegionsScreens: CreateRegionScreen.selectRegion,
+      regionName: "",
+      isRegionNameNextAvailable: false,
+      regionDescription: "",
+      isRegionDescriptionNextAvailable: false,
+    );
   }
 }
