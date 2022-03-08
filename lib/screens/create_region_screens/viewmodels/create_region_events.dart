@@ -14,6 +14,13 @@ class ClearCreateRegionPageCommand extends CreateRegionEvent {
   String toString() => 'clearCreateRegionPageCommand ';
 }
 
+class UploadImage extends CreateRegionEvent {
+  const UploadImage();
+
+  @override
+  String toString() => 'OnImageUpload';
+}
+
 class OnNextTapped extends CreateRegionEvent {
   const OnNextTapped();
 

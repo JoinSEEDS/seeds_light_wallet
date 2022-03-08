@@ -6,11 +6,15 @@ class CreateRegionState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final CreateRegionScreen createRegionsScreens;
+  final File? file;
+  final bool isUploadImageNextAvailable;
 
   const CreateRegionState({
     required this.pageState,
     this.pageCommand,
     required this.createRegionsScreens,
+    this.file,
+    required this.isUploadImageNextAvailable,
   });
 
   @override
@@ -18,6 +22,8 @@ class CreateRegionState extends Equatable {
         pageState,
         pageCommand,
         createRegionsScreens,
+        file,
+        isUploadImageNextAvailable,
       ];
 
   CreateRegionState copyWith({
@@ -25,17 +31,21 @@ class CreateRegionState extends Equatable {
     PageCommand? pageCommand,
     CreateRegionScreen? createRegionsScreens,
     String? displayName,
+    File? file,
+    bool? isUploadImageNextAvailable,
   }) =>
       CreateRegionState(
-        pageState: pageState ?? this.pageState,
-        pageCommand: pageCommand,
-        createRegionsScreens: createRegionsScreens ?? this.createRegionsScreens,
-      );
+          pageState: pageState ?? this.pageState,
+          pageCommand: pageCommand,
+          createRegionsScreens: createRegionsScreens ?? this.createRegionsScreens,
+          file: file ?? this.file,
+          isUploadImageNextAvailable: isUploadImageNextAvailable ?? this.isUploadImageNextAvailable);
 
   factory CreateRegionState.initial() {
     return const CreateRegionState(
       pageState: PageState.success,
       createRegionsScreens: CreateRegionScreen.selectRegion,
+      isUploadImageNextAvailable: false,
     );
   }
 }
