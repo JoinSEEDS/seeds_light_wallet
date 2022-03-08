@@ -4,6 +4,7 @@ class RegionModel {
   final String status;
   final String title;
   final String description;
+  /// This Json will hold the region address
   final String locationJson;
   final double latitude;
   final double longitude;
