@@ -6,6 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///
 class TextFormFieldCustom extends StatelessWidget {
+  final String? initialValue;
   final bool autofocus;
   final FocusNode? focusNode;
   final FocusNode? nextFocus;
@@ -30,6 +31,7 @@ class TextFormFieldCustom extends StatelessWidget {
 
   const TextFormFieldCustom(
       {Key? key,
+      this.initialValue,
       this.autofocus = false,
       this.focusNode,
       this.nextFocus,
@@ -45,7 +47,7 @@ class TextFormFieldCustom extends StatelessWidget {
       this.enabled,
       this.validator,
       this.suffixIcon,
-        this.suffixText,
+      this.suffixText,
       this.hintText,
       this.labelText,
       this.disabledLabelColor,
@@ -58,6 +60,7 @@ class TextFormFieldCustom extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        initialValue: initialValue,
         autofocus: autofocus,
         focusNode: focusNode,
         onFieldSubmitted: onFieldSubmitted,
