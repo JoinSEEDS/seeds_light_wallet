@@ -134,6 +134,7 @@ flutter:
     - assets/images/explore/hypha_dho_card.jpg
     - assets/images/explore/get_seeds_card.png
     - assets/images/explore/delegate.svg
+    - assets/images/explore/marker_location.svg
     - assets/images/explore/introducing_delegate.png
     - assets/images/explore/swap_leaves_left.png
     - assets/images/explore/swap_leaves_rigth.png
