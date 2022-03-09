@@ -59,3 +59,10 @@ class OnPlaceResultSelected extends RegionsMapEvent {
   @override
   String toString() => 'OnPlaceResultSelected { place: $place }';
 }
+
+class ClearRegionsMapPageCommand extends RegionsMapEvent {
+  const ClearRegionsMapPageCommand();
+
+  @override
+  String toString() => 'ClearRegionsMapPageCommand';
+}

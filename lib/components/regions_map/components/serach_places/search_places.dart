@@ -106,12 +106,16 @@ class _SearchPlacesState extends State<SearchPlaces> {
                 builder: (context, state) {
                   return state.predictions.isNotEmpty
                       ? ListView(
+                          clipBehavior: Clip.none,
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           children: [
                             for (var i in state.predictions)
                               ListTile(
-                                onTap: () => _searchPlacesBloc.add(OnPredictionSelected(i)),
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  _searchPlacesBloc.add(OnPredictionSelected(i));
+                                },
                                 leading: const Icon(Icons.location_on),
                                 title: Text(
                                   i.description ?? '',
