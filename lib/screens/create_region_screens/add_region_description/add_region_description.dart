@@ -39,9 +39,14 @@ class AddRegionDescription extends StatelessWidget {
                           child: Column(
                             children: [
                               TextFormFieldCustom(
-                                  autofocus: true,
-                                  maxLines: 10,
-                                  labelText: context.loc.createRegionAddDescriptionInputFormTitle),
+                                initialValue: state.regionDescription,
+                                autofocus: true,
+                                maxLines: 10,
+                                labelText: context.loc.createRegionAddDescriptionInputFormTitle,
+                                onChanged: (text) {
+                                  BlocProvider.of<CreateRegionBloc>(context).add(OnRegionDescriptionChange(text));
+                                },
+                              ),
                               Text(context.loc.createRegionAddDescriptionPageInfo,
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                             ],
@@ -50,6 +55,7 @@ class AddRegionDescription extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
+                                enabled: state.isRegionDescriptionNextAvailable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));

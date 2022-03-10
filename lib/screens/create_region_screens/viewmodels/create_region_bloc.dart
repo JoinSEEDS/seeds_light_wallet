@@ -15,10 +15,32 @@ part 'create_region_state.dart';
 class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   CreateRegionBloc() : super(CreateRegionState.initial()) {
     on<OnNextTapped>(_onNextTapped);
-    on<OnCreateRegionTapped>(_onCreateRegionTapped);
     on<OnBackPressed>(_onBackPressed);
+    on<OnRegionNameChange>(_onRegionNameChange);
+    on<OnRegionDescriptionChange>(_onOnRegionDescriptionChange);
     on<UploadImage>(_uploadImage);
+    on<OnCreateRegionTapped>(_onCreateRegionTapped);
     on<ClearCreateRegionPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  void _onRegionNameChange(OnRegionNameChange event, Emitter<CreateRegionState> emit) {
+    if (event.regionName.isEmpty) {
+      emit(state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: false));
+    } else {
+      emit(
+        state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: true),
+      );
+    }
+  }
+
+  void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
+    if (event.regionDescription.isEmpty) {
+      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: false));
+    } else {
+      emit(
+        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: true),
+      );
+    }
   }
 
   Future<void> _uploadImage(UploadImage event, Emitter<CreateRegionState> emit) async {
@@ -36,6 +58,8 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
       emit(state.copyWith(pageCommand: ShowErrorMessage(e.toString())));
     }
   }
+
+  Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<CreateRegionState> emit) async {}
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionState> emit) {
     switch (state.createRegionsScreens) {
@@ -58,8 +82,6 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
         break;
     }
   }
-
-  Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<CreateRegionState> emit) async {}
 
   void _onBackPressed(OnBackPressed event, Emitter<CreateRegionState> emit) {
     switch (state.createRegionsScreens) {

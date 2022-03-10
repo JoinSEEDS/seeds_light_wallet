@@ -108,7 +108,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  context.loc.transferSendTo,
+                                  context.loc.transferSendSendTo,
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                               ),
@@ -129,8 +129,8 @@ class SendEnterDataScreen extends StatelessWidget {
                               Column(
                                 children: [
                                   TextFormFieldLight(
-                                    labelText: context.loc.transferSendAddNoteMemoLabel,
-                                    hintText: context.loc.transferSendAddNoteMemoHint,
+                                    labelText: context.loc.transferMemoFieldLabel,
+                                    hintText: context.loc.transferMemoFieldHint,
                                     maxLength: blockChainMaxChars,
                                     onChanged: (String value) {
                                       BlocProvider.of<SendEnterDataBloc>(context).add(OnMemoChange(memoChanged: value));

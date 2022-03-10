@@ -4,24 +4,27 @@ class RegionModel {
   final String status;
   final String title;
   final String description;
+
+  /// This Json will hold the region address
   final String locationJson;
   final double latitude;
   final double longitude;
   final int membersCount;
   final String createdAt;
+  final String? imageUrl;
 
-  const RegionModel({
-    required this.id,
-    required this.founder,
-    required this.status,
-    required this.title,
-    required this.description,
-    required this.locationJson,
-    required this.latitude,
-    required this.longitude,
-    required this.membersCount,
-    required this.createdAt,
-  });
+  const RegionModel(
+      {required this.id,
+      required this.founder,
+      required this.status,
+      required this.title,
+      required this.description,
+      required this.locationJson,
+      required this.latitude,
+      required this.longitude,
+      required this.membersCount,
+      required this.createdAt,
+      this.imageUrl});
 
   factory RegionModel.fromJson(Map<String, dynamic> json) {
     // name id;
@@ -47,6 +50,22 @@ class RegionModel {
       longitude: double.parse(json['longitude']),
       membersCount: json['members_count'],
       createdAt: json['created_at'],
+    );
+  }
+
+  RegionModel addImageUrlToModel(String imageUrl) {
+    return RegionModel(
+      id: id,
+      founder: founder,
+      status: status,
+      title: title,
+      description: description,
+      locationJson: locationJson,
+      latitude: latitude,
+      longitude: longitude,
+      membersCount: membersCount,
+      createdAt: createdAt,
+      imageUrl: imageUrl,
     );
   }
 }

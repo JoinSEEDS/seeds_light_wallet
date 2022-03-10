@@ -15,6 +15,7 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
     required double latitude,
     required double longitude,
     required String imageUrl,
+    required String regionAddress
   }) =>
       _Input(
         userAccount: settingsStorage.accountName,
@@ -24,6 +25,7 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
         latitude: latitude,
         longitude: longitude,
         imageUrl: imageUrl,
+        regionAddress: regionAddress
       );
 
   @override
@@ -46,6 +48,7 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
         description: input.description,
         latitude: input.latitude,
         longitude: input.longitude,
+        regionAddress: input.regionAddress
       );
 
       if (createRegionResult.isValue) {
@@ -71,6 +74,7 @@ class _Input {
   final String imageUrl;
   final double latitude;
   final double longitude;
+  final String regionAddress;
 
   _Input({
     required this.userAccount,
@@ -80,5 +84,6 @@ class _Input {
     required this.description,
     required this.latitude,
     required this.longitude,
+    required this.regionAddress,
   });
 }

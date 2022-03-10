@@ -41,6 +41,7 @@ import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_sc
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/screens/regions_main/region_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -98,6 +99,7 @@ class Routes {
   static const citizenship = 'citizenship';
   static const contribution = 'contribution';
   static const contributionDetail = 'contributionDetail';
+  static const region = 'region';
 }
 
 class NavigationService {
@@ -149,6 +151,7 @@ class NavigationService {
     Routes.contributionDetail: (_) => const ContributionDetailScreen(),
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
+    Routes.region: (_) => const RegionScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too
