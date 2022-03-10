@@ -20,8 +20,10 @@ class AddRegionBackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CreateRegionBloc, CreateRegionState>(
-        listenWhen: (_, current) => current.pageCommand != null,
+        listenWhen: (previous, current) => current.pageCommand != null || previous.file != current.file,
         listener: (context, state) {
+          Navigator.of(context).pop();
+
           final pageCommand = state.pageCommand;
 
           if (pageCommand is ShowErrorMessage) {

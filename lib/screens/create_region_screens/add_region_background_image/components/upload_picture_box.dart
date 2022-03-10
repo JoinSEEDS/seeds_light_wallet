@@ -21,38 +21,28 @@ class UploadPictureBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return InkWell(
-      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-      onTap: onTap,
-      child: DottedBorder(
-        borderType: BorderType.rRect,
-        radius: const Radius.circular(defaultCardBorderRadius),
-        dashPattern: [8, 4],
-        strokeWidth: 2,
-        color: AppColors.grey,
-        child: Ink(
-          height: 200,
-          child: Container(
-            width: width,
-            child: backgroundImage != null
-                ? Image.file(backgroundImage!, fit: BoxFit.cover)
-                : Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.add),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(title, style: Theme.of(context).textTheme.subtitle2),
-                        ],
-                      )
-                    ],
-                  ),
-          ),
-        ),
-      ),
-    );
+        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+        onTap: onTap,
+        child: DottedBorder(
+            borderType: BorderType.rRect,
+            radius: const Radius.circular(defaultCardBorderRadius),
+            dashPattern: [8, 4],
+            strokeWidth: 2,
+            color: AppColors.grey,
+            child: Ink(
+                height: 200,
+                child: Container(
+                    width: width,
+                    child: backgroundImage != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                            child: Image.file(backgroundImage!, fit: BoxFit.fill))
+                        : Stack(alignment: Alignment.center, children: [
+                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              const Icon(Icons.add),
+                              const SizedBox(width: 6),
+                              Text(title, style: Theme.of(context).textTheme.subtitle2)
+                            ])
+                          ])))));
   }
 }

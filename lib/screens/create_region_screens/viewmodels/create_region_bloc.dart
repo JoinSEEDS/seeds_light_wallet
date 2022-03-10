@@ -27,7 +27,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
       if (image != null) {
         final croppedFile = await ImageCropper().cropImage(
           sourcePath: image.path,
-          aspectRatioPresets: [CropAspectRatioPreset.square],
+          aspectRatioPresets: [CropAspectRatioPreset.ratio5x3],
           compressQuality: 50,
         );
         emit(state.copyWith(file: croppedFile, isUploadImageNextAvailable: true));
