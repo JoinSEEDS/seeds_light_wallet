@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/create_region_screens/viewmodels/create_region_page_commands.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 part 'create_region_events.dart';
 

@@ -11,7 +11,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
-import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionBackgroundImage extends StatelessWidget {
