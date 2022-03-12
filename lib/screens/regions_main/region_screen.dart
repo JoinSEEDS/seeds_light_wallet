@@ -26,7 +26,6 @@ class _RegionScreenState extends State<RegionScreen> {
                 expandedHeight: 200.0,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
-                    expandedTitleScale: 1,
                     centerTitle: false,
                     title: const Text("state.regionAddress"),
                     background: Image.network(

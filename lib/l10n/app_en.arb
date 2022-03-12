@@ -283,8 +283,6 @@
   "@transferReceiveBalanceTotal": {},
   "transferReceiveMemo": "Memo: ",
   "@transferReceiveMemo": {},
-  "transferReceiveDoneButtonTitle": "Done",
-  "@transferReceiveDoneButtonTitle": {},
   "transferReceiveTitle": "Receive",
   "@transferReceiveTitle": {},
   "transferReceiveTransactionFail": "Receive creation failed, please try again",

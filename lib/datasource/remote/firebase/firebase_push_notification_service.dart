@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/push_notification_data.dart';
 
@@ -22,17 +23,18 @@ class PushNotificationService {
   static final PushNotificationService _instance = PushNotificationService._();
 
   late final FirebaseMessaging _firebaseMessaging;
-  late StreamController<PushNotificationData> _streamController;
+  late BehaviorSubject<PushNotificationData> _streamController;
   bool _initialized = false;
   String? token;
 
   Stream<PushNotificationData> get notificationStream => _streamController.stream;
-
+  StreamSink<PushNotificationData> get _mySteamInputSink => _streamController.sink;
   void dispose() => _streamController.close();
 
   Future initialise() async {
     if (!_initialized) {
-      _streamController = StreamController<PushNotificationData>();
+      _streamController = BehaviorSubject<PushNotificationData>();
+
       _firebaseMessaging = FirebaseMessaging.instance;
 
       // If the application has been opened from a terminated state
@@ -95,7 +97,7 @@ class PushNotificationService {
   }
 
   Future<void> _onNotificationRecived(PushNotificationData data, {bool isAppInForeground = false}) async {
-    _streamController.add(data);
+    _mySteamInputSink.add(data);
 
     // If remote config changed, set them to stale. And fetch new config
     if (data.isRefreshConfig) {

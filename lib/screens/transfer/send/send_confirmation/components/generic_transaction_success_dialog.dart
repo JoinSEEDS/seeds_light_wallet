@@ -91,7 +91,6 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                //const SizedBox(width: 16),
                 IconButton(
                   onPressed: () {
                     NavigationService.of(context)
