@@ -12,6 +12,8 @@ class CreateRegionState extends Equatable {
   final bool isRegionDescriptionNextAvailable;
   final File? file;
   final bool isUploadImageNextAvailable;
+  final String? imageUrl;
+  final PictureBoxState pictureBoxState;
 
   const CreateRegionState({
     required this.pageState,
@@ -23,6 +25,8 @@ class CreateRegionState extends Equatable {
     required this.isRegionDescriptionNextAvailable,
     this.file,
     required this.isUploadImageNextAvailable,
+    this.imageUrl,
+    required this.pictureBoxState,
   });
 
   @override
@@ -36,6 +40,8 @@ class CreateRegionState extends Equatable {
         isRegionDescriptionNextAvailable,
         file,
         isUploadImageNextAvailable,
+        imageUrl,
+        pictureBoxState,
       ];
 
   CreateRegionState copyWith({
@@ -48,6 +54,8 @@ class CreateRegionState extends Equatable {
     bool? isRegionDescriptionNextAvailable,
     File? file,
     bool? isUploadImageNextAvailable,
+    String? imageUrl,
+    PictureBoxState? pictureBoxState,
   }) =>
       CreateRegionState(
           pageState: pageState ?? this.pageState,
@@ -58,7 +66,9 @@ class CreateRegionState extends Equatable {
           regionDescription: regionDescription ?? this.regionDescription,
           isRegionDescriptionNextAvailable: isRegionDescriptionNextAvailable ?? this.isRegionDescriptionNextAvailable,
           file: file ?? this.file,
-          isUploadImageNextAvailable: isUploadImageNextAvailable ?? this.isUploadImageNextAvailable);
+          isUploadImageNextAvailable: isUploadImageNextAvailable ?? this.isUploadImageNextAvailable,
+          imageUrl: imageUrl,
+          pictureBoxState: pictureBoxState ?? this.pictureBoxState);
 
   factory CreateRegionState.initial() {
     return const CreateRegionState(
@@ -69,6 +79,7 @@ class CreateRegionState extends Equatable {
       regionDescription: "",
       isRegionDescriptionNextAvailable: false,
       isUploadImageNextAvailable: false,
+      pictureBoxState: PictureBoxState.pickImage,
     );
   }
 }
