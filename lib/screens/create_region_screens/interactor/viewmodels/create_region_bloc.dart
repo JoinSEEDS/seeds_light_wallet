@@ -39,19 +39,23 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onRegionNameNextTapped(OnRegionNameNextTapped event, Emitter<CreateRegionState> emit) {
-    String suggestedRegionId = state.regionName.toLowerCase().trim().split('').map((character) {
-      // ignore: unnecessary_raw_strings
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
+    if (state.regionId.isEmpty) {
+      String suggestedRegionId = state.regionName.toLowerCase().trim().split('').map((character) {
+        // ignore: unnecessary_raw_strings
+        final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
 
-      return legalChar ? character : '';
-    }).join();
+        return legalChar ? character : '';
+      }).join();
 
-    suggestedRegionId = suggestedRegionId.padRight(12, '1');
+      suggestedRegionId = suggestedRegionId.padRight(8, '1');
 
-    emit(state.copyWith(
-        regionId: suggestedRegionId.substring(0, 12),
-        createRegionsScreens: CreateRegionScreen.regionId,
-        isRegionIdNextButtonEnable: true));
+      emit(state.copyWith(
+          regionId: suggestedRegionId.substring(0, 8),
+          createRegionsScreens: CreateRegionScreen.regionId,
+          isRegionIdNextButtonEnable: true));
+    } else {
+      emit(state.copyWith(createRegionsScreens: CreateRegionScreen.regionId));
+    }
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
