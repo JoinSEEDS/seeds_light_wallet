@@ -18,25 +18,22 @@ class JoinRegionScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
           child: Column(
             children: [
-              const Text('Search for your closest region by inputting your address or nearest city.'),
+              Text(context.loc.joinRegionSearchDescription),
               const SizedBox(height: 20.0),
-              SizedBox(height: MediaQuery.of(context).size.height / 3, child: const RegionsMap()),
-              const Spacer(),
+              const Expanded(child: RegionsMap()),
               RichText(
                 text: TextSpan(
-                  children: <TextSpan>[
-                    const TextSpan(text: 'Select'),
+                  children: [
+                    TextSpan(text: context.loc.joinRegionCreateDescription1),
                     TextSpan(
-                        text: ' Create New ',
+                        text: context.loc.joinRegionCreateDescription2,
                         style: Theme.of(context).textTheme.buttonWhiteL.copyWith(color: AppColors.canopy)),
-                    const TextSpan(
-                        text:
-                            'Select if you do not see your region and would like to start your own. Heads up, you’ll need 1,000 seeds to create a region!'),
+                    TextSpan(text: context.loc.joinRegionCreateDescription3),
                   ],
                 ),
               ),
               const SizedBox(height: 20.0),
-              FlatButtonLong(title: 'Create new', onPressed: () {}),
+              FlatButtonLong(title: context.loc.joinRegionCreateDescription2, onPressed: () {}),
             ],
           ),
         ),
