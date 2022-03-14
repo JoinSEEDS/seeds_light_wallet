@@ -1,32 +1,31 @@
 part of 'receive_details_bloc.dart';
 
 class ReceiveDetailsState extends Equatable {
-  final PageState pageState;
   final ReceiveDetails details;
-  final TransactionModel? receivePaidTransaction;
+  final ReceivePaidSuccessArgs? receivePaidSuccessArgs;
+  final bool isCheckButtonLoading;
 
   const ReceiveDetailsState({
-    required this.pageState,
     required this.details,
-    this.receivePaidTransaction,
+    this.receivePaidSuccessArgs,
+    required this.isCheckButtonLoading,
   });
 
   @override
   List<Object?> get props => [
-        pageState,
-        details,
-        receivePaidTransaction,
+        receivePaidSuccessArgs,
+        isCheckButtonLoading,
       ];
 
-  ReceiveDetailsState copyWith({PageState? pageState, TransactionModel? receivePaidTransaction}) {
+  ReceiveDetailsState copyWith({ReceivePaidSuccessArgs? receivePaidSuccessArgs, bool? isCheckButtonLoading}) {
     return ReceiveDetailsState(
-      pageState: pageState ?? this.pageState,
       details: details,
-      receivePaidTransaction: receivePaidTransaction,
+      receivePaidSuccessArgs: receivePaidSuccessArgs,
+      isCheckButtonLoading: isCheckButtonLoading ?? this.isCheckButtonLoading,
     );
   }
 
   factory ReceiveDetailsState.initial(ReceiveDetails details) {
-    return ReceiveDetailsState(pageState: PageState.initial, details: details);
+    return ReceiveDetailsState(details: details, isCheckButtonLoading: false);
   }
 }

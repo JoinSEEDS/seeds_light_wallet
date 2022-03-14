@@ -8,10 +8,22 @@ abstract class ReceiveDetailsEvent extends Equatable {
 }
 
 class OnPaymentReceived extends ReceiveDetailsEvent {
-  final PushNotificationData data;
-
-  const OnPaymentReceived(this.data);
+  const OnPaymentReceived();
 
   @override
   String toString() => 'OnPaymentReceived';
+}
+
+class OnPollCheckPayment extends ReceiveDetailsEvent {
+  const OnPollCheckPayment();
+
+  @override
+  String toString() => 'OnPollCheckPayment';
+}
+
+class OnCheckPaymentButtonPressed extends ReceiveDetailsEvent {
+  const OnCheckPaymentButtonPressed();
+
+  @override
+  String toString() => 'OnCheckPaymentButtonPressed';
 }
