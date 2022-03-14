@@ -4,9 +4,9 @@ import 'package:seeds/screens/create_region_screens/add_region_background_image/
 import 'package:seeds/screens/create_region_screens/add_region_description/add_region_description.dart';
 import 'package:seeds/screens/create_region_screens/choose_region_id/choose_region_id.dart';
 import 'package:seeds/screens/create_region_screens/choose_region_name/choose_region_name.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 import 'package:seeds/screens/create_region_screens/review_region_information/review_region_information.dart';
 import 'package:seeds/screens/create_region_screens/select_region/select_region.dart';
-import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
 
 class CreateRegionScreenController extends StatelessWidget {
   const CreateRegionScreenController({Key? key}) : super(key: key);

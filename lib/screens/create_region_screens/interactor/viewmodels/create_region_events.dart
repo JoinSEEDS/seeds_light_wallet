@@ -14,12 +14,27 @@ class ClearCreateRegionPageCommand extends CreateRegionEvent {
   String toString() => 'clearCreateRegionPageCommand ';
 }
 
+class OnPickImage extends CreateRegionEvent {
+  const OnPickImage();
+
+  @override
+  String toString() => 'OnImageUpload';
+}
+
 class OnNextTapped extends CreateRegionEvent {
   const OnNextTapped();
 
   @override
   String toString() => 'OnNextTapped';
 }
+
+class OnPickImageNextTapped extends CreateRegionEvent {
+  const OnPickImageNextTapped();
+
+  @override
+  String toString() => 'OnNextTapped';
+}
+
 
 class OnBackPressed extends CreateRegionEvent {
   const OnBackPressed();

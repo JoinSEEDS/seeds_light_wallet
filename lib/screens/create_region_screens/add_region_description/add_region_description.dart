@@ -7,7 +7,7 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionDescription extends StatelessWidget {

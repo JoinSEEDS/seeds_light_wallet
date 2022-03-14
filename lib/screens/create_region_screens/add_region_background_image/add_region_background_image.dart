@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/full_page_error_indicator.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
-import 'package:seeds/screens/create_region_screens/viewmodels/create_region_bloc.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionBackgroundImage extends StatelessWidget {
@@ -15,13 +16,21 @@ class AddRegionBackgroundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateRegionBloc, CreateRegionState>(builder: (context, state) {
-      switch (state.pageState) {
-        case PageState.loading:
-          return const FullPageLoadingIndicator();
-        case PageState.failure:
-          return const FullPageErrorIndicator();
-        case PageState.success:
+    return BlocConsumer<CreateRegionBloc, CreateRegionState>(
+        listenWhen: (previous, current) => current.pageCommand != null || previous.file != current.file,
+        listener: (context, state) {
+          if (state.pageCommand != null) {
+            final pageCommand = state.pageCommand;
+
+            if (pageCommand is ShowErrorMessage) {
+              eventBus.fire(ShowSnackBar(pageCommand.message));
+            }
+          } else {
+            // This pop remove the authentication screen
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context, CreateRegionState state) {
           return WillPopScope(
               onWillPop: () async {
                 BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
@@ -36,23 +45,36 @@ class AddRegionBackgroundImage extends StatelessWidget {
                   bottomNavigationBar: SafeArea(
                       minimum: const EdgeInsets.all(horizontalEdgePadding),
                       child: FlatButtonLong(
+                          enabled: state.isUploadImageNextAvailable,
                           title: "${context.loc.createRegionSelectRegionButtonTitle} (5/5)",
-                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
+                          onPressed: () =>
+                              BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImageNextTapped()))),
                   body: SafeArea(
                       minimum: const EdgeInsets.all(horizontalEdgePadding),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         const SizedBox(height: 20),
-                        UploadPictureBox(title: context.loc.createRegionAddBackGroundImageBoxTitle, onTap: () {}),
-                        const SizedBox(height: 26),
+                        UploadPictureBox(
+                            pictureBoxState: state.pictureBoxState,
+                            backgroundImage: state.file,
+                            title: context.loc.createRegionAddBackGroundImageBoxTitle,
+                            onTap: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage())),
+                        const SizedBox(height: 10),
+                        if (state.file != null)
+                          Center(
+                            child: MaterialButton(
+                                color: AppColors.green1,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                                child: const Text("Replace Image"),
+                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage())),
+                          )
+                        else
+                          const SizedBox.shrink(),
+                        const SizedBox(height: 20),
                         Text(context.loc.createRegionAddBackGroundImageDescription,
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
                         Text("${context.loc.createRegionAddBackGroundImageAcceptedFilesTitle}: png//.jpg",
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                       ]))));
-
-        default:
-          return const SizedBox.shrink();
-      }
-    });
+        });
   }
 }
