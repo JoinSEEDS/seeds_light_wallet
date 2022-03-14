@@ -74,13 +74,13 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                               ),
                             ),
                           const SizedBox(height: 40),
-                          Text('Waiting for Payment... ', style: Theme.of(context).textTheme.headline6),
+                          Text(context.loc.transferReceiveWaiting, style: Theme.of(context).textTheme.headline6),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(60.0, 40, 60.0, 0),
                             child: FlatButtonLong(
                               enabled: !state.isCheckButtonLoading,
                               isLoading: state.isCheckButtonLoading,
-                              title: 'Check Payment',
+                              title: context.loc.transferReceiveCheckPaymentButtonTitle,
                               onPressed: () {
                                 BlocProvider.of<ReceiveDetailsBloc>(context).add(const OnCheckPaymentButtonPressed());
                               },
