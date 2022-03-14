@@ -30,10 +30,10 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionNameChange(OnRegionNameChange event, Emitter<CreateRegionState> emit) {
     if (event.regionName.isEmpty) {
-      emit(state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: false));
+      emit(state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: false));
     } else {
       emit(
-        state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: true),
+        state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: true),
       );
     }
   }
@@ -56,10 +56,10 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
     if (event.regionDescription.isEmpty) {
-      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: false));
+      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: false));
     } else {
       emit(
-        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: true),
+        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: true),
       );
     }
   }

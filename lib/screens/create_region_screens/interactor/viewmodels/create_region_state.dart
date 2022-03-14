@@ -7,11 +7,11 @@ class CreateRegionState extends Equatable {
   final PageCommand? pageCommand;
   final CreateRegionScreen createRegionsScreens;
   final String regionName;
-  final bool isRegionNameNextAvailable;
+  final bool isRegionNameNextButtonEnable;
   final String regionDescription;
-  final bool isRegionDescriptionNextAvailable;
+  final bool isRegionDescriptionNextButtonEnable;
   final File? file;
-  final bool isUploadImageNextAvailable;
+  final bool isUploadImageNextButtonEnable;
   final String? imageUrl;
   final PictureBoxState pictureBoxState;
   final String regionId;
@@ -22,11 +22,11 @@ class CreateRegionState extends Equatable {
     this.pageCommand,
     required this.createRegionsScreens,
     required this.regionName,
-    required this.isRegionNameNextAvailable,
+    required this.isRegionNameNextButtonEnable,
     required this.regionDescription,
-    required this.isRegionDescriptionNextAvailable,
+    required this.isRegionDescriptionNextButtonEnable,
     this.file,
-    required this.isUploadImageNextAvailable,
+    required this.isUploadImageNextButtonEnable,
     this.imageUrl,
     required this.pictureBoxState,
     required this.isRegionIdNextButtonEnable,
@@ -39,11 +39,11 @@ class CreateRegionState extends Equatable {
         pageCommand,
         createRegionsScreens,
         regionName,
-        isRegionNameNextAvailable,
+        isRegionNameNextButtonEnable,
         regionDescription,
-        isRegionDescriptionNextAvailable,
+        isRegionDescriptionNextButtonEnable,
         file,
-        isUploadImageNextAvailable,
+        isUploadImageNextButtonEnable,
         imageUrl,
         pictureBoxState,
         isRegionIdNextButtonEnable,
@@ -55,11 +55,11 @@ class CreateRegionState extends Equatable {
     PageCommand? pageCommand,
     CreateRegionScreen? createRegionsScreens,
     String? regionName,
-    bool? isRegionNameNextAvailable,
+    bool? isRegionNameNextButtonEnable,
     String? regionDescription,
-    bool? isRegionDescriptionNextAvailable,
+    bool? isRegionDescriptionNextButtonEnable,
     File? file,
-    bool? isUploadImageNextAvailable,
+    bool? isUploadImageNextButtonEnable,
     String? imageUrl,
     PictureBoxState? pictureBoxState,
     bool? isRegionIdNextButtonEnable,
@@ -70,11 +70,12 @@ class CreateRegionState extends Equatable {
         pageCommand: pageCommand,
         createRegionsScreens: createRegionsScreens ?? this.createRegionsScreens,
         regionName: regionName ?? this.regionName,
-        isRegionNameNextAvailable: isRegionNameNextAvailable ?? this.isRegionNameNextAvailable,
+        isRegionNameNextButtonEnable: isRegionNameNextButtonEnable ?? this.isRegionNameNextButtonEnable,
         regionDescription: regionDescription ?? this.regionDescription,
-        isRegionDescriptionNextAvailable: isRegionDescriptionNextAvailable ?? this.isRegionDescriptionNextAvailable,
+        isRegionDescriptionNextButtonEnable:
+            isRegionDescriptionNextButtonEnable ?? this.isRegionDescriptionNextButtonEnable,
         file: file ?? this.file,
-        isUploadImageNextAvailable: isUploadImageNextAvailable ?? this.isUploadImageNextAvailable,
+        isUploadImageNextButtonEnable: isUploadImageNextButtonEnable ?? this.isUploadImageNextButtonEnable,
         imageUrl: imageUrl,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         isRegionIdNextButtonEnable: isRegionIdNextButtonEnable ?? this.isRegionIdNextButtonEnable,
@@ -86,10 +87,10 @@ class CreateRegionState extends Equatable {
       pageState: PageState.success,
       createRegionsScreens: CreateRegionScreen.selectRegion,
       regionName: "",
-      isRegionNameNextAvailable: false,
+      isRegionNameNextButtonEnable: false,
       regionDescription: "",
-      isRegionDescriptionNextAvailable: false,
-      isUploadImageNextAvailable: false,
+      isRegionDescriptionNextButtonEnable: false,
+      isUploadImageNextButtonEnable: false,
       pictureBoxState: PictureBoxState.pickImage,
       isRegionIdNextButtonEnable: false,
       regionId: "",

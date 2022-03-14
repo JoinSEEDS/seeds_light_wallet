@@ -17,7 +17,7 @@ class PickImageStateMapper extends StateMapper {
       return currentState.copyWith(
           pageState: PageState.success,
           file: result.asValue!.value,
-          isUploadImageNextAvailable: true,
+          isUploadImageNextButtonEnable: true,
           // ignore: avoid_redundant_argument_values
           imageUrl: null,
           pictureBoxState: PictureBoxState.imagePicked);
