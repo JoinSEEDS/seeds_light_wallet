@@ -19,7 +19,9 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     on<OnNextTapped>(_onNextTapped);
     on<OnBackPressed>(_onBackPressed);
     on<OnRegionNameChange>(_onRegionNameChange);
+    on<OnRegionNameNextTapped>(_onRegionNameNextTapped);
     on<OnRegionDescriptionChange>(_onOnRegionDescriptionChange);
+    on<OnRegionIdChange>(_onRegionIdChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnCreateRegionTapped>(_onCreateRegionTapped);
@@ -36,12 +38,39 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     }
   }
 
+  void _onRegionNameNextTapped(OnRegionNameNextTapped event, Emitter<CreateRegionState> emit) {
+    String suggestedRegionId = state.regionName.toLowerCase().trim().split('').map((character) {
+      // ignore: unnecessary_raw_strings
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
+
+      return legalChar ? character : '';
+    }).join();
+
+    suggestedRegionId = suggestedRegionId.padRight(12, '1');
+
+    emit(state.copyWith(
+        regionId: suggestedRegionId.substring(0, 12),
+        createRegionsScreens: CreateRegionScreen.regionId,
+        isRegionIdNextButtonEnable: true));
+  }
+
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
     if (event.regionDescription.isEmpty) {
       emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: false));
     } else {
       emit(
         state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: true),
+      );
+    }
+  }
+
+  void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
+    // TODO(gguij004): Pending validation usecase.
+    if (event.regionId.isEmpty) {
+      emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
+    } else {
+      emit(
+        state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: true),
       );
     }
   }

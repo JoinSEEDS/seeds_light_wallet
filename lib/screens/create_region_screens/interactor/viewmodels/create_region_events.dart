@@ -35,7 +35,6 @@ class OnPickImageNextTapped extends CreateRegionEvent {
   String toString() => 'OnNextTapped';
 }
 
-
 class OnBackPressed extends CreateRegionEvent {
   const OnBackPressed();
 
@@ -58,7 +57,23 @@ class OnRegionDescriptionChange extends CreateRegionEvent {
   const OnRegionDescriptionChange(this.regionDescription);
 
   @override
-  String toString() => 'OnRegionDescriptionChange { OnRegionDescriptionChange: $regionDescription}';
+  String toString() => 'OnRegionDescriptionChange { regionDescription: $regionDescription}';
+}
+
+class OnRegionIdChange extends CreateRegionEvent {
+  final String regionId;
+
+  const OnRegionIdChange(this.regionId);
+
+  @override
+  String toString() => 'OnRegionIdChange { regionId: $regionId}';
+}
+
+class OnRegionNameNextTapped extends CreateRegionEvent {
+  const OnRegionNameNextTapped();
+
+  @override
+  String toString() => 'OnRegionNameNextTapped';
 }
 
 class OnCreateRegionTapped extends CreateRegionEvent {

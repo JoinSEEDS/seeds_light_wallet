@@ -40,9 +40,13 @@ class ChooseRegionId extends StatelessWidget {
                           children: [
                             const SizedBox(height: 10),
                             TextFormFieldCustom(
-                                suffixText: ".TODO",
+                                initialValue: state.regionId,
+                                maxLength: 8,
+                                suffixText: ".rgn",
                                 autofocus: true,
-                                labelText: context.loc.createRegionChooseRegionIdInputFormTitle),
+                                labelText: context.loc.createRegionChooseRegionIdInputFormTitle,
+                                onChanged: (val) =>
+                                    BlocProvider.of<CreateRegionBloc>(context).add(OnRegionIdChange(val))),
                             const SizedBox(height: 20),
                             Text(context.loc.createRegionChooseRegionIdDescription,
                                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
@@ -51,6 +55,7 @@ class ChooseRegionId extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
+                                enabled: state.isRegionIdNextButtonEnable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));
