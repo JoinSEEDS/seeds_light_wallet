@@ -234,6 +234,13 @@
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
   "@createRegionAddBackGroundImageBoxTitle": {},
   "@createRegionChooseRegionIdInputFormTitle": {},
-  "@createRegionChooseRegionIdDescription": {}
-
+  "@createRegionChooseRegionIdDescription": {},
+  "@transferReceiveMemoWaiting": {},
+  "@transferReceiveCheckPaymentButtonTitle": {},
+  "@transferReceivePaidSuccessCloseButtonTitle": {},
+  "@transferReceivePaidSuccessHeader": {},
+  "@transferReceivePaidSuccessFrom": {},
+  "@transferReceivePaidSuccessDate": {},
+  "@transferReceivePaidSuccessStatus": {},
+  "@transferReceivePaidSuccessButtonTitle": {}
 }

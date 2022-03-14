@@ -12,10 +12,7 @@ class ReceiveDetailsState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-        receivePaidSuccessArgs,
-        isCheckButtonLoading,
-      ];
+  List<Object?> get props => [receivePaidSuccessArgs, isCheckButtonLoading];
 
   ReceiveDetailsState copyWith({ReceivePaidSuccessArgs? receivePaidSuccessArgs, bool? isCheckButtonLoading}) {
     return ReceiveDetailsState(
