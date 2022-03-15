@@ -385,5 +385,19 @@
   "createRegionChooseRegionIdInputFormTitle": "Region ID",
   "@createRegionChooseRegionIdInputFormTitle": {},
   "createRegionChooseRegionIdDescription": "Your Region ID cannot be changed.",
-  "@createRegionChooseRegionIdDescription": {}
+  "@createRegionChooseRegionIdDescription": {},
+  "supportTitle": "Support",
+  "@supportTitle": {},
+  "supportDiscordChannelPart1": "If you have any questions or concerns, please find our",
+  "@supportDiscordChannelPart1": {},
+  "supportDiscordChannelPart2": "Seeds Light Wallet",
+  "@supportDiscordChannelPart2": {},
+  "supportDiscordChannelPart3": "channel in",
+  "@supportDiscordChannelPart3": {},
+  "supportDiscordChannelPart4": " Discord ",
+  "@supportDiscordChannelPart4": {},
+  "supportDiscordChannelPart5": "here.",
+  "@supportDiscordChannelPart5": {},
+  "supportTapToShare": "Tap to share",
+  "@supportTapToShare": {}
 }

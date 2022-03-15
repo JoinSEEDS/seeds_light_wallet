@@ -359,5 +359,19 @@
   "transferSendSearchTitle": "Enviar",
   "@transferSendSearchTitle": {},
   "@createRegionChooseRegionIdInputFormTitle": {},
-  "@createRegionChooseRegionIdDescription": {}
+  "@createRegionChooseRegionIdDescription": {},
+  "supportTitle": "Suporte",
+  "@supportTitle": {},
+  "supportDiscordChannelPart1": "Se tiver perguntas ou questionamentos, procure nosso",
+  "@supportDiscordChannelPart1": {},
+  "supportDiscordChannelPart2": "Seeds Light Wallet",
+  "@supportDiscordChannelPart2": {},
+  "supportDiscordChannelPart3": "canal no",
+  "@supportDiscordChannelPart3": {},
+  "supportDiscordChannelPart4": " Discord ",
+  "@supportDiscordChannelPart4": {},
+  "supportDiscordChannelPart5": "aqui.",
+  "@supportDiscordChannelPart5": {},
+  "supportTapToShare": "Toque para compartilhar",
+  "@supportTapToShare": {}
 }

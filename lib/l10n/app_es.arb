@@ -387,5 +387,19 @@
   "createRegionChooseRegionIdInputFormTitle": "Identificación de la región",
   "@createRegionChooseRegionIdInputFormTitle": {},
   "createRegionChooseRegionIdDescription": "Su ID de región no se puede cambiar.",
-  "@createRegionChooseRegionIdDescription": {}
+  "@createRegionChooseRegionIdDescription": {},
+  "supportTitle": "Soporte",
+  "@supportTitle": {},
+  "supportDiscordChannelPart1": "Si tiene alguna pregunta o inquietud, busque nuestro",
+  "@supportDiscordChannelPart1": {},
+  "supportDiscordChannelPart2": "Seeds Light Wallet",
+  "@supportDiscordChannelPart2": {},
+  "supportDiscordChannelPart3": "canal en",
+  "@supportDiscordChannelPart3": {},
+  "supportDiscordChannelPart4": " Discord ",
+  "@supportDiscordChannelPart4": {},
+  "supportDiscordChannelPart5": "aqui.",
+  "@supportDiscordChannelPart5": {},
+  "supportTapToShare": "Toca para compartir",
+  "@supportTapToShare": {}
 }
