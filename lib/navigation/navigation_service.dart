@@ -13,6 +13,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
+import 'package:seeds/screens/create_region_event_screens/create_region_event_screen_controller.dart';
 import 'package:seeds/screens/create_region_screens/create_region_screen_controller.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
@@ -78,6 +79,7 @@ class Routes {
   static const vouchForAMember = 'vouchForAMember';
   static const unPlantSeeds = 'unPlantSeeds';
   static const createRegion = 'createRegion';
+  static const createRegionEvent = 'createRegionEvent';
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
@@ -128,6 +130,7 @@ class NavigationService {
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.createRegion: (_) => const CreateRegionScreenController(),
+    Routes.createRegionEvent: (_) => const CreateRegionEventScreenController(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
