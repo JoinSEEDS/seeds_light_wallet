@@ -199,9 +199,10 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
-  Future<Stream<Iterable<RegionMessageModel>>> getMessagesForRegion(String regionAccount) async {
+  Stream<List<RegionMessageModel>> getMessagesForRegion(String regionAccount) {
     return regionMessageCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
-        (QuerySnapshot event) =>
-            event.docs.map((QueryDocumentSnapshot event) => RegionMessageModel.mapToRegionMessageModel(event)));
+        (QuerySnapshot event) => event.docs
+            .map((QueryDocumentSnapshot event) => RegionMessageModel.mapToRegionMessageModel(event))
+            .toList());
   }
 }
