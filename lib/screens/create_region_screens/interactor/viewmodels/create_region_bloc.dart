@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
@@ -40,19 +41,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionNameNextTapped(OnRegionNameNextTapped event, Emitter<CreateRegionState> emit) {
     if (state.regionId.isEmpty) {
-      String suggestedRegionId = state.regionName.toLowerCase().trim().split('').map((character) {
-        // ignore: unnecessary_raw_strings
-        final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
-
-        return legalChar ? character : '';
-      }).join();
-
-      suggestedRegionId = suggestedRegionId.padRight(8, '1');
-
-      emit(state.copyWith(
-          regionId: suggestedRegionId.substring(0, 8),
-          createRegionsScreens: CreateRegionScreen.regionId,
-          isRegionIdNextButtonEnable: true));
+      emit(GenerateRegionIdStateMapper().mapResultToState(state));
     } else {
       emit(state.copyWith(createRegionsScreens: CreateRegionScreen.regionId));
     }
@@ -70,7 +59,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
     // TODO(gguij004): Pending validation usecase.
-    if (event.regionId.isEmpty) {
+    if (event.regionId.isEmpty || event.regionId.length < 8) {
       emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
     } else {
       emit(
