@@ -12,8 +12,9 @@ class GenerateRegionIdStateMapper extends StateMapper {
       return legalChar ? character : '';
     }).join();
 
-    suggestedRegionId = suggestedRegionId.padRight(8, '1');
-    suggestedRegionId = suggestedRegionId.substring(0, 8);
+    if (suggestedRegionId.length > 8) {
+      suggestedRegionId = suggestedRegionId.substring(0, 8);
+    }
 
     return currentState.copyWith(
         pageState: PageState.success,

@@ -59,7 +59,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
     // TODO(gguij004): Pending validation usecase.
-    if (event.regionId.isEmpty || event.regionId.length < 8) {
+    if (event.regionId.isEmpty) {
       emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
     } else {
       emit(
