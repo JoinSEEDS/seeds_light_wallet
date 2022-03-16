@@ -1,19 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_location_model.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/region_message_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 
 // Location Keys
-const _regionAccountKey = "regionAccount";
+const regionAccountKey = "regionAccount";
 
 // Region Keys
-const _creatorAccountKey = "creatorAccount";
+const creatorAccountKey = "creatorAccount";
 const _locationIdKey = "locationId";
 const _imageUrlKey = "imageUrl";
-const _dateCreatedKey = "dateCreated";
+const dateCreatedKey = "dateCreated";
 const _dateUpdatedKey = "dateUpdated";
 const _pointKey = "point";
+
+// Events
+const eventNameKey = "eventName";
+const eventLocationKey = "eventLocation";
+const eventImageKey = "eventImage";
+const eventTimeKey = "eventTime";
+
+// messages
+const messageTextKey = "messageText";
 
 class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   // Init firestore and geoFlutterFire
@@ -38,9 +49,9 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     batch.set(
         locationRef,
         {
-          _regionAccountKey: regionAccount,
+          regionAccountKey: regionAccount,
           _pointKey: regionLocation.data,
-          _dateCreatedKey: FieldValue.serverTimestamp(),
+          dateCreatedKey: FieldValue.serverTimestamp(),
         },
         SetOptions(merge: true));
 
@@ -48,9 +59,9 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     batch.set(
         regionRef,
         {
-          _creatorAccountKey: userAccount,
+          creatorAccountKey: userAccount,
           _imageUrlKey: imageUrl,
-          _dateCreatedKey: FieldValue.serverTimestamp(),
+          dateCreatedKey: FieldValue.serverTimestamp(),
           _locationIdKey: regionAccount,
           _pointKey: regionLocation.data,
         },
@@ -103,5 +114,95 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
             .map((DocumentSnapshot document) => RegionLocation.fromMap(document.data() as Map<String, dynamic>))
             .toList())
         .single;
+  }
+
+  Future<Result<String>> createRegionEvent(
+    String eventName,
+    String regionAccount,
+    String creatorAccount,
+    String eventLocation,
+    String eventImage,
+    DateTime eventTime,
+  ) async {
+    final data = {
+      regionAccountKey: regionAccount,
+      eventNameKey: eventName,
+      creatorAccountKey: creatorAccount,
+      eventLocationKey: eventLocation,
+      eventImageKey: eventImage,
+      eventTimeKey: eventTime,
+      dateCreatedKey: FieldValue.serverTimestamp(),
+    };
+
+    return regionEventCollection
+        .doc()
+        .set(data)
+        .then((value) => mapFirebaseResponse<String>(() {
+              return eventName;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
+  }
+
+  Future<Result<String>> editRegionEvent(
+    String eventId,
+    String? eventName,
+    String? eventLocation,
+    String? eventImage,
+    DateTime? eventTime,
+  ) async {
+    final data = {};
+    if (eventName != null) {
+      data.putIfAbsent(eventNameKey, () => eventName);
+    }
+
+    if (eventLocation != null) {
+      data.putIfAbsent(eventLocationKey, () => eventLocation);
+    }
+
+    if (eventImage != null) {
+      data.putIfAbsent(eventImageKey, () => eventImage);
+    }
+
+    if (eventTime != null) {
+      data.putIfAbsent(eventTimeKey, () => eventTime);
+    }
+
+    return regionEventCollection
+        .doc(eventId)
+        .set(data, SetOptions(merge: true))
+        .then((value) => mapFirebaseResponse<String>(() {
+              return eventName;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
+  }
+
+  Future<Stream<Iterable<RegionEventModel>>> getEventsForRegion(String regionAccount) async {
+    return regionEventCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
+        (QuerySnapshot event) =>
+            event.docs.map((QueryDocumentSnapshot event) => RegionEventModel.mapToRegionEventModel(event)));
+  }
+
+  Future<Result<String>> sendMessageToRegion(String regionAccount, String creatorAccount, String message) {
+    final data = {
+      regionAccountKey: regionAccount,
+      creatorAccountKey: creatorAccount,
+      dateCreatedKey: FieldValue.serverTimestamp(),
+      messageTextKey: message
+    };
+
+    return regionMessageCollection
+        .doc()
+        .set(data)
+        .then((value) => mapFirebaseResponse<String>(() {
+              return creatorAccount;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
+  }
+
+  Stream<List<RegionMessageModel>> getMessagesForRegion(String regionAccount) {
+    return regionMessageCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
+        (QuerySnapshot event) => event.docs
+            .map((QueryDocumentSnapshot event) => RegionMessageModel.mapToRegionMessageModel(event))
+            .toList());
   }
 }
