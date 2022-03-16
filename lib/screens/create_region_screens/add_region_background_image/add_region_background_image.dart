@@ -45,7 +45,7 @@ class AddRegionBackgroundImage extends StatelessWidget {
                   bottomNavigationBar: SafeArea(
                       minimum: const EdgeInsets.all(horizontalEdgePadding),
                       child: FlatButtonLong(
-                          enabled: state.isUploadImageNextAvailable,
+                          enabled: state.isUploadImageNextButtonEnable,
                           title: "${context.loc.createRegionSelectRegionButtonTitle} (5/5)",
                           onPressed: () =>
                               BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImageNextTapped()))),
