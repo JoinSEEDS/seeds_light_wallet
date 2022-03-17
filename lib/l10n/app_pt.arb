@@ -377,5 +377,13 @@
   "selectCurrencyTitle": "Selecione a moeda",
   "@selectCurrencyTitle": {},
   "selectCurrencySearchHint": "Buscar…",
-  "@selectCurrencySearchHint": {}
+  "@selectCurrencySearchHint": {},
+  "editNameTitle": "Editar nome",
+  "@editNameTitle": {},
+  "editNameLabel": "Nome",
+  "@editNameLabel": {},
+  "editNameTooLongError": "Por favor, insira um nome menor",
+  "@editNameTooLongError": {},
+  "editNameSaveButtonTitle": "Salvar Alterações",
+  "@editNameSaveButtonTitle": {}
 }

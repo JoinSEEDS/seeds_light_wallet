@@ -7,8 +7,8 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/profile_screens/edit_name/edit_name.i18n.dart';
 import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
     _profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
     _nameController.text = _profileModel?.nickname ?? '';
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Name'.i18n)),
+      appBar: AppBar(title: Text(context.loc.editNameTitle)),
       body: BlocProvider(
         create: (_) => _editNameBloc,
         child: BlocConsumer<EditNameBloc, EditNameState>(
@@ -66,19 +66,19 @@ class _EditNameScreenState extends State<EditNameScreen> {
                     child: Column(
                       children: [
                         TextFormFieldCustom(
-                          labelText: 'Name'.i18n,
+                          labelText: context.loc.editNameLabel,
                           controller: _nameController,
                           onFieldSubmitted: (_) => _onSubmitted(),
                           validator: (value) {
                             if (value!.length > 42) {
-                              return 'Please enter a smaller name'.i18n;
+                              return context.loc.editNameTooLongError;
                             }
                             return null;
                           },
                         ),
                         const Spacer(),
                         FlatButtonLong(
-                          title: 'Save Changes'.i18n,
+                          title: context.loc.editNameSaveButtonTitle,
                           onPressed: () => _onSubmitted(),
                         )
                       ],
