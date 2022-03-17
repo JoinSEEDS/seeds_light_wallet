@@ -103,7 +103,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     required double latitude,
     required double longitude,
     required double radius,
-  }) {
+  }) async {
     // Create a geoFirePoint
     final GeoFirePoint center = _geo.point(latitude: latitude, longitude: longitude);
     return _geo
@@ -113,7 +113,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
             // ignore: cast_nullable_to_non_nullable
             .map((DocumentSnapshot document) => RegionLocation.fromMap(document.data() as Map<String, dynamic>))
             .toList())
-        .single;
+        .firstWhere((i) => true);
   }
 
   Future<Result<String>> createRegionEvent(

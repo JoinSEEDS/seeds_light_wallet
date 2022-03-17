@@ -13,14 +13,16 @@ import 'package:seeds/domain-shared/page_state.dart';
 
 class RegionsMap extends StatefulWidget {
   final ValueSetter<Place>? onPlaceChanged;
+  final Widget? bottomWidget;
+  final List<Marker>? markers;
 
-  const RegionsMap({Key? key, this.onPlaceChanged}) : super(key: key);
+  const RegionsMap({Key? key, this.onPlaceChanged, this.bottomWidget, this.markers}) : super(key: key);
 
   @override
   _RegionsMapState createState() => _RegionsMapState();
 }
 
-class _RegionsMapState extends State<RegionsMap> {
+class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
   late final RegionsMapBloc _regionsMapBloc;
   GoogleMapController? _mapController;
 
@@ -34,6 +36,14 @@ class _RegionsMapState extends State<RegionsMap> {
   void dispose() {
     _mapController?.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Fix for bug https://github.com/flutter/flutter/issues/40284
+    if (state == AppLifecycleState.resumed) {
+      _mapController!.setMapStyle("[]");
+    }
   }
 
   @override
@@ -65,6 +75,12 @@ class _RegionsMapState extends State<RegionsMap> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
+                    child: Expanded(
+                      child: Column(children: [
+                        Expanded(flex: 5, child: Container()),
+                        if (widget.bottomWidget != null) Expanded(flex: 3, child: widget.bottomWidget!)
+                      ]),
+                    ),
                   ),
                   // Map
                   ClipRRect(
@@ -91,6 +107,7 @@ class _RegionsMapState extends State<RegionsMap> {
                               }
                             },
                             onCameraIdle: () => _regionsMapBloc.add(const OnMapEndMove()),
+                            markers: Set.from(widget.markers ?? []),
                           ),
                           Center(
                             child: Padding(

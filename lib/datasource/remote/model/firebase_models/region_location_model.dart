@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class RegionLocation {
   final String regionAccount;
   final Timestamp dateCreated;
-  final GeoPoint geoPoint;
+  final GeoFirePoint geoPoint;
 
   RegionLocation({
     required this.regionAccount,
@@ -11,10 +12,12 @@ class RegionLocation {
     required this.geoPoint,
   });
 
-  RegionLocation.fromMap(Map<String, dynamic> data)
-      : this(
-          regionAccount: data['regionAccount'],
-          dateCreated: data['dateCreated'],
-          geoPoint: data['point'],
-        );
+  factory RegionLocation.fromMap(Map<String, dynamic> data) {
+    final GeoPoint geoPoint = data['point']['geopoint'];
+    return RegionLocation(
+      regionAccount: data['regionAccount'],
+      dateCreated: data['dateCreated'],
+      geoPoint: GeoFirePoint(geoPoint.latitude, geoPoint.longitude),
+    );
+  }
 }
