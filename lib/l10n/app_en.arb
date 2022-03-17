@@ -403,5 +403,13 @@
   "selectCurrencyTitle": "Select Currency",
   "@selectCurrencyTitle": {},
   "selectCurrencySearchHint": "Search…",
-  "@selectCurrencySearchHint": {}
+  "@selectCurrencySearchHint": {},
+  "editNameTitle": "Edit Name",
+  "@editNameTitle": {},
+  "editNameLabel": "Name",
+  "@editNameLabel": {},
+  "editNameTooLongError": "Please enter a smaller name",
+  "@editNameTooLongError": {},
+  "editNameSaveButtonTitle": "Save Changes",
+  "@editNameSaveButtonTitle": {}
 }
