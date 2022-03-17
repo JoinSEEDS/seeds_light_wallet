@@ -399,5 +399,9 @@
   "supportDiscordChannelPart5": "here.",
   "@supportDiscordChannelPart5": {},
   "supportTapToShare": "Tap to share",
-  "@supportTapToShare": {}
+  "@supportTapToShare": {},
+  "selectCurrencyTitle": "Select Currency",
+  "@selectCurrencyTitle": {},
+  "selectCurrencySearchHint": "Search…",
+  "@selectCurrencySearchHint": {}
 }
