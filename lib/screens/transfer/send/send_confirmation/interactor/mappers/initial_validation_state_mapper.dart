@@ -16,9 +16,10 @@ class InitialValidationStateMapper extends StateMapper {
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);
       } else {
+        final tokenRequested = (eosAction.data['quantity'] as String).split(' ').last;
         return currentState.copyWith(
           pageState: PageState.success,
-          pageCommand: ShownInvalidTransactionResaon('You do not have enough seeds'),
+          pageCommand: ShowInvalidTransactionReason('You do not have enough $tokenRequested'),
           invalidTransaction: InvalidTransaction.insufficientBalance,
         );
       }

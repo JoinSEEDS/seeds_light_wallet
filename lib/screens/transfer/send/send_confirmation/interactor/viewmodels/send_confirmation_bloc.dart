@@ -30,13 +30,16 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
   Future<void> _onInitValidations(OnInitValidations event, Emitter<SendConfirmationState> emit) async {
     // We can extend this initial validation logic in future using a switch case for any transaction type
     // for now it only validates a transfer
-    final esoAction = state.transaction.actions.first;
-    final symbol = (esoAction.data['quantity'] as String).split(' ').last;
-    final targetToken = TokenModel.allTokens.singleWhereOrNull((i) => i.symbol == symbol);
-
-    if (state.isTransfer && targetToken != null) {
-      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
-      emit(InitialValidationStateMapper().mapResultToState(state, result));
+    if (state.isTransfer) {
+      final esoAction = state.transaction.actions.first;
+      final symbol = (esoAction.data['quantity'] as String).split(' ').last;
+      final targetToken = TokenModel.allTokens.singleWhereOrNull((i) => i.symbol == symbol);
+      if (targetToken != null) {
+        final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
+        emit(InitialValidationStateMapper().mapResultToState(state, result));
+      }
+    } else {
+      emit(state.copyWith(pageState: PageState.success));
     }
   }
 

@@ -61,10 +61,8 @@ class ProposalDetailsState extends Equatable {
   bool get shouldShowNexProposalButton {
     final isVoted = vote?.isVoted ?? false;
     final hasMoreItems = currentIndex < proposals.length - 1;
-    return showNextButton ||
-        isVoted ||
-        !isCitizen ||
-        (proposals[currentIndex].stage != 'active' || proposals[currentIndex].status != 'active') && hasMoreItems;
+    final isProposalActive = proposals[currentIndex].stage == 'active' || proposals[currentIndex].status == 'active';
+    return (showNextButton || isVoted || !isCitizen || !isProposalActive) && hasMoreItems;
   }
 
   bool get shouldShowVoteModule {

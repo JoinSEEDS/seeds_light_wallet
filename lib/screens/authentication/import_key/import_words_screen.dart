@@ -35,7 +35,7 @@ class ImportWordsScreen extends StatelessWidget {
                 enabled: state.enableButton,
               ),
             ),
-            appBar: AppBar(title: const Text("12-word Recovery Phrase")),
+            appBar: AppBar(title: Text(context.loc.importWordAppBarTitle)),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -44,7 +44,7 @@ class ImportWordsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        context.loc.importKeyImportUsingRecoveryPhraseTitle,
+                        context.loc.importWordUsingRecoveryPhraseTitle,
                         style: Theme.of(context).textTheme.subtitle3,
                         textAlign: TextAlign.left,
                       ),
@@ -62,9 +62,10 @@ class ImportWordsScreen extends StatelessWidget {
                                 left: (index % _numberOfColumns == 0) ? 0 : 8,
                                 right: ((index + 1) % _numberOfColumns == 0) ? 0 : 8),
                             child: Autocomplete<String>(
-                              fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
-                                  FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                                 textEditingController.text = state.userEnteredWords[index] ?? "";
+                                textEditingController.selection =
+                                    TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length));
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,
@@ -103,7 +104,7 @@ class ImportWordsScreen extends StatelessWidget {
                       ),
                       if (state.pageState != PageState.loading && state.accounts.isEmpty)
                         TextButton(
-                          child: const Text("Paste From Clipboard"),
+                          child: Text(context.loc.importWordClipBoardTitle),
                           onPressed: () {
                             BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
                           },
