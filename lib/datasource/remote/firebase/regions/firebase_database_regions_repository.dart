@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/firebase_region_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/region_location_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_message_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 
@@ -11,11 +11,10 @@ const regionAccountKey = "regionAccount";
 
 // Region Keys
 const creatorAccountKey = "creatorAccount";
-const _locationIdKey = "locationId";
-const _imageUrlKey = "imageUrl";
+const imageUrlKey = "imageUrl";
 const dateCreatedKey = "dateCreated";
 const _dateUpdatedKey = "dateUpdated";
-const _pointKey = "point";
+const pointKey = "point";
 
 // Events
 const eventNameKey = "eventName";
@@ -40,30 +39,18 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   }) {
     final GeoFirePoint regionLocation = _geo.point(latitude: latitude, longitude: longitude);
 
-    final DocumentReference<Object?> locationRef = locationCollection.doc(regionAccount);
     final DocumentReference<Object?> regionRef = regionCollection.doc(regionAccount);
 
     final batch = FirebaseFirestore.instance.batch();
-
-    /// Location Data
-    batch.set(
-        locationRef,
-        {
-          regionAccountKey: regionAccount,
-          _pointKey: regionLocation.data,
-          dateCreatedKey: FieldValue.serverTimestamp(),
-        },
-        SetOptions(merge: true));
 
     /// Region Data
     batch.set(
         regionRef,
         {
           creatorAccountKey: userAccount,
-          _imageUrlKey: imageUrl,
+          imageUrlKey: imageUrl,
           dateCreatedKey: FieldValue.serverTimestamp(),
-          _locationIdKey: regionAccount,
-          _pointKey: regionLocation.data,
+          pointKey: regionLocation.data,
         },
         SetOptions(merge: true));
 
@@ -82,7 +69,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   }) {
     return regionCollection.doc(regionAccount).update(
       {
-        _imageUrlKey: imageUrl,
+        imageUrlKey: imageUrl,
         _dateUpdatedKey: FieldValue.serverTimestamp(),
       },
     );
@@ -92,14 +79,12 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   Future<void> deleteRegion(String regionAccount) {
     final batch = FirebaseFirestore.instance.batch();
     batch.delete(regionCollection.doc(regionAccount));
-    batch.delete(locationCollection.doc(regionAccount));
-
     return batch.commit();
   }
 
   /// This function returns a Stream of the list of DocumentSnapshot data,
   /// plus some useful metadata like distance from the centerpoint.
-  Future<List<RegionLocation>> findRegionsByLocation({
+  Future<List<FirebaseRegion>> findRegionsByLocation({
     required double latitude,
     required double longitude,
     required double radius,
@@ -107,11 +92,11 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     // Create a geoFirePoint
     final GeoFirePoint center = _geo.point(latitude: latitude, longitude: longitude);
     return _geo
-        .collection(collectionRef: locationCollection)
-        .within(center: center, radius: radius, field: _pointKey)
+        .collection(collectionRef: regionCollection)
+        .within(center: center, radius: radius, field: pointKey)
         .asyncMap((List<DocumentSnapshot> event) => event
             // ignore: cast_nullable_to_non_nullable
-            .map((DocumentSnapshot document) => RegionLocation.fromMap(document.data() as Map<String, dynamic>))
+            .map((DocumentSnapshot document) => FirebaseRegion.fromMap(document.data() as Map<String, dynamic>))
             .toList())
         .single;
   }

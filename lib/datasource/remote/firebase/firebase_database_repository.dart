@@ -32,10 +32,7 @@ const String USER_PHONE_NUMBER_KEY = 'phoneNumber';
 abstract class FirebaseDatabaseService {
   CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_COLLECTION);
 
-  CollectionReference<Map<String, dynamic>> get locationCollection =>
-      FirebaseFirestore.instance.collection(FIREBASE_DATABASE_LOCATION_COLLECTION);
-
-  CollectionReference get regionCollection =>
+  CollectionReference<Map<String, dynamic>> get regionCollection =>
       FirebaseFirestore.instance.collection(FIREBASE_DATABASE_REGION_COLLECTION);
 
   CollectionReference get regionEventCollection =>
