@@ -93,7 +93,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   }) async {
     // Create a geoFirePoint
     final GeoFirePoint center = _geo.point(latitude: latitude, longitude: longitude);
-    final res = await _geo
+    return _geo
         .collection(collectionRef: regionCollection)
         .within(center: center, radius: radius, field: pointKey)
         .asyncMap((List<DocumentSnapshot> event) => event
@@ -101,7 +101,6 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
             .map((DocumentSnapshot document) => FirebaseRegion.fromMap(document.data() as Map<String, dynamic>))
             .toList())
         .firstWhere((i) => true);
-    return res;
   }
 
   Future<Result<String>> createRegionEvent(
