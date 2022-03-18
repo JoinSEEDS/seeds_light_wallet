@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class RegionLocation {
   final String regionAccount;
   final Timestamp dateCreated;
-  final GeoPoint geoPoint;
+  final GeoFirePoint geoPoint;
 
   RegionLocation({
     required this.regionAccount,
@@ -17,4 +18,6 @@ class RegionLocation {
           dateCreated: data['dateCreated'],
           geoPoint: data['point'],
         );
+
+  double distanceTo(double lat, double lng) => geoPoint.kmDistance(lat: lat, lng: lng);
 }
