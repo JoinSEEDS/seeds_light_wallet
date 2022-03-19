@@ -20,4 +20,7 @@ class RegionLocation {
       geoPoint: GeoFirePoint(geoPoint.latitude, geoPoint.longitude),
     );
   }
+
+  double distanceTo(double lat, double lng) => geoPoint.kmDistance(lat: lat, lng: lng);
+
 }
