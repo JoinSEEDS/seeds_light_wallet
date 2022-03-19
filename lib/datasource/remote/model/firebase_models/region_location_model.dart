@@ -12,12 +12,15 @@ class RegionLocation {
     required this.geoPoint,
   });
 
-  RegionLocation.fromMap(Map<String, dynamic> data)
-      : this(
-          regionAccount: data['regionAccount'],
-          dateCreated: data['dateCreated'],
-          geoPoint: data['point'],
-        );
+  factory RegionLocation.fromMap(Map<String, dynamic> data) {
+    final GeoPoint geoPoint = data['point']['geopoint'];
+    return RegionLocation(
+      regionAccount: data['regionAccount'],
+      dateCreated: data['dateCreated'],
+      geoPoint: GeoFirePoint(geoPoint.latitude, geoPoint.longitude),
+    );
+  }
 
   double distanceTo(double lat, double lng) => geoPoint.kmDistance(lat: lat, lng: lng);
+
 }
