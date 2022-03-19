@@ -13,3 +13,17 @@ class ClearCreateRegionEventPageCommand extends CreateRegionEventEvents {
   @override
   String toString() => 'ClearCreateRegionEventPageCommand';
 }
+
+class OnNextTapped extends CreateRegionEventEvents {
+  const OnNextTapped();
+
+  @override
+  String toString() => 'OnNextTapped';
+}
+
+class OnBackPressed extends CreateRegionEventEvents {
+  const OnBackPressed();
+
+  @override
+  String toString() => 'OnBackPressed';
+}
