@@ -55,9 +55,9 @@ class ChooseRegionName extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
-                                enabled: state.isRegionNameNextAvailable,
+                                enabled: state.isRegionNameNextButtonEnable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (2/5)",
-                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
+                                onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnRegionNameNextTapped())))
                       ]))));
 
         default:
