@@ -12,7 +12,12 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   CreateRegionEventBloc() : super(CreateRegionEventState.initial()) {
     on<OnNextTapped>(_onNextTapped);
     on<OnBackPressed>(_onBackPressed);
+    on<OnRegionEventDescriptionChange>(_onRegionEventDescriptionChange);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  void _onRegionEventDescriptionChange(OnRegionEventDescriptionChange event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(eventDescription: event.eventDescription));
   }
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionEventState> emit) {
