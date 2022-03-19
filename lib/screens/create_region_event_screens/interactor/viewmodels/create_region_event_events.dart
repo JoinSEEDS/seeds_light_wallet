@@ -14,15 +14,6 @@ class ClearCreateRegionEventPageCommand extends CreateRegionEventEvents {
   String toString() => 'ClearCreateRegionEventPageCommand';
 }
 
-class OnRegionEventNameChange extends CreateRegionEventEvents {
-  final String eventName;
-
-  const OnRegionEventNameChange(this.eventName);
-
-  @override
-  String toString() => 'OnRegionEventNameChange { eventName: $eventName}';
-}
-
 class OnNextTapped extends CreateRegionEventEvents {
   const OnNextTapped();
 
@@ -35,4 +26,22 @@ class OnBackPressed extends CreateRegionEventEvents {
 
   @override
   String toString() => 'OnBackPressed';
+}
+
+class OnRegionEventNameChange extends CreateRegionEventEvents {
+  final String eventName;
+
+  const OnRegionEventNameChange(this.eventName);
+
+  @override
+  String toString() => 'OnRegionEventNameChange { eventName: $eventName}';
+}
+
+class OnRegionEventDescriptionChange extends CreateRegionEventEvents {
+  final String eventDescription;
+
+  const OnRegionEventDescriptionChange(this.eventDescription);
+
+  @override
+  String toString() => 'OnRegionEventDescriptionChange {eventDescription: $eventDescription}';
 }

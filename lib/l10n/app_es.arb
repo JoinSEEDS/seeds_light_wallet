@@ -401,5 +401,17 @@
   "supportDiscordChannelPart5": "aqui.",
   "@supportDiscordChannelPart5": {},
   "supportTapToShare": "Toca para compartir",
-  "@supportTapToShare": {}
+  "@supportTapToShare": {},
+  "selectCurrencyTitle": "Selecionar moneda",
+  "@selectCurrencyTitle": {},
+  "selectCurrencySearchHint": "Buscar…",
+  "@selectCurrencySearchHint": {},
+  "editNameTitle": "Editar nombre",
+  "@editNameTitle": {},
+  "editNameLabel": "Nombre",
+  "@editNameLabel": {},
+  "editNameTooLongError": "Ingrese un nombre más pequeño",
+  "@editNameTooLongError": {},
+  "editNameSaveButtonTitle": "Guardar cambios",
+  "@editNameSaveButtonTitle": {}
 }

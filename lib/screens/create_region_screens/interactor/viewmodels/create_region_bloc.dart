@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
@@ -19,7 +20,9 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     on<OnNextTapped>(_onNextTapped);
     on<OnBackPressed>(_onBackPressed);
     on<OnRegionNameChange>(_onRegionNameChange);
+    on<OnRegionNameNextTapped>(_onRegionNameNextTapped);
     on<OnRegionDescriptionChange>(_onOnRegionDescriptionChange);
+    on<OnRegionIdChange>(_onRegionIdChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnCreateRegionTapped>(_onCreateRegionTapped);
@@ -28,20 +31,39 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionNameChange(OnRegionNameChange event, Emitter<CreateRegionState> emit) {
     if (event.regionName.isEmpty) {
-      emit(state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: false));
+      emit(state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: false));
     } else {
       emit(
-        state.copyWith(regionName: event.regionName, isRegionNameNextAvailable: true),
+        state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: true),
       );
+    }
+  }
+
+  void _onRegionNameNextTapped(OnRegionNameNextTapped event, Emitter<CreateRegionState> emit) {
+    if (state.regionId.isEmpty) {
+      emit(GenerateRegionIdStateMapper().mapResultToState(state));
+    } else {
+      emit(state.copyWith(createRegionsScreens: CreateRegionScreen.regionId));
     }
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
     if (event.regionDescription.isEmpty) {
-      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: false));
+      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: false));
     } else {
       emit(
-        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextAvailable: true),
+        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: true),
+      );
+    }
+  }
+
+  void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
+    // TODO(gguij004): Pending validation usecase.
+    if (event.regionId.isEmpty) {
+      emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
+    } else {
+      emit(
+        state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: true),
       );
     }
   }

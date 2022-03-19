@@ -55,7 +55,7 @@ class AddRegionDescription extends StatelessWidget {
                         Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
-                                enabled: state.isRegionDescriptionNextAvailable,
+                                enabled: state.isRegionDescriptionNextButtonEnable,
                                 title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
                                 onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
                       ]))));

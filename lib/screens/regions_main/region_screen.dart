@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/screens/regions_main/components/tab_about.dart';
+import 'package:seeds/screens/regions_main/components/tab_events.dart';
+import 'package:seeds/screens/regions_main/components/tab_messages.dart';
 
 class RegionScreen extends StatefulWidget {
   const RegionScreen({Key? key}) : super(key: key);
@@ -47,9 +50,7 @@ class _RegionScreenState extends State<RegionScreen> {
               ),
             ];
           },
-          body: const Center(
-            child: Text("Sample text"),
-          ),
+          body: const SafeArea(child: TabBarView(children: [MessagesTab(), EventsTab(), AboutTab()])),
         ),
       ),
     );
