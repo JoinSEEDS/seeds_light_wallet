@@ -2,21 +2,17 @@ part of 'root_bloc.dart';
 
 class RootState extends Equatable {
   final BusEvent? busEvent;
-  final InternetConnectionStatus internetConnectionStatus;
 
-  const RootState({this.busEvent, required this.internetConnectionStatus});
+  const RootState({this.busEvent});
 
   @override
   List<Object?> get props => [busEvent];
 
-  RootState copyWith({BusEvent? busEvent, InternetConnectionStatus? internetConnectionStatus}) {
-    return RootState(
-      busEvent: busEvent,
-      internetConnectionStatus: internetConnectionStatus ?? this.internetConnectionStatus,
-    );
+  RootState copyWith({BusEvent? busEvent}) {
+    return RootState(busEvent: busEvent);
   }
 
   factory RootState.initial() {
-    return const RootState(internetConnectionStatus: InternetConnectionStatus.connected);
+    return const RootState();
   }
 }

@@ -19,13 +19,6 @@ class OnRootBusEventRecived extends RootEvent {
   String toString() => 'OnRootBusEventRecived { BusEvent: ${busEvent.runtimeType} }';
 }
 
-class OnConnectivityChanged extends RootEvent {
-  const OnConnectivityChanged();
-
-  @override
-  String toString() => 'OnConnectivityChanged';
-}
-
 class ClearRootBusEvent extends RootEvent {
   const ClearRootBusEvent();
 

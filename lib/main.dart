@@ -11,49 +11,36 @@ import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/datasource/remote/internet_connection_checker.dart';
 import 'package:seeds/domain-shared/bloc_observer.dart';
-import 'package:seeds/screens/authentication/offline_screen.dart';
 import 'package:seeds/seeds_app.dart';
 
 Future<void> main() async {
   // Zone to handle asynchronous errors (Dart).
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
-    late StreamSubscription listener;
-    listener = InternetConnectionChecker().onStatusChange.listen((status) async {
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          await listener.cancel();
-          WidgetsFlutterBinding.ensureInitialized();
-          await Firebase.initializeApp();
-          await settingsStorage.initialise();
-          await PushNotificationService().initialise();
-          await remoteConfigurations.initialise();
-          await Hive.initFlutter();
-          Hive.registerAdapter(MemberModelCacheItemAdapter());
-          Hive.registerAdapter(VoteModelAdapter());
-          await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    await settingsStorage.initialise();
+    await PushNotificationService().initialise();
+    await remoteConfigurations.initialise();
+    await Hive.initFlutter();
+    Hive.registerAdapter(MemberModelCacheItemAdapter());
+    Hive.registerAdapter(VoteModelAdapter());
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-          // Called whenever the Flutter framework catches an error.
-          FlutterError.onError = (details) async {
-            FlutterError.presentError(details);
-            // TODO(Raul): use FirebaseCrashlytics or whatever
-            //await FirebaseCrashlytics.instance.recordFlutterError(details);
-          };
+    // Called whenever the Flutter framework catches an error.
+    FlutterError.onError = (details) async {
+      FlutterError.presentError(details);
+      // TODO(Raul): use FirebaseCrashlytics or whatever
+      //await FirebaseCrashlytics.instance.recordFlutterError(details);
+    };
 
-          if (kDebugMode) {
-            /// Bloc logs only in debug (for better performance in release)
-            BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-          } else {
-            runApp(const SeedsApp());
-          }
-          break;
-        case InternetConnectionStatus.disconnected:
-          runApp(const MaterialApp(home: OfflineScreen()));
-          break;
-      }
-    });
+    if (kDebugMode) {
+      /// Bloc logs only in debug (for better performance in release)
+      BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
+    } else {
+      runApp(const SeedsApp());
+    }
   }, (error, stackTrace) async {
     //await FirebaseCrashlytics.instance.recordError(error, stack);
   });
