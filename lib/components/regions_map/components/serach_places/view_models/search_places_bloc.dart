@@ -38,8 +38,7 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
         final res = await GetPlacesAutocompleteUseCase().run(GetPlacesAutocompleteUseCase.input(
           event.query,
           location: Location(lat: position.latitude, lng: position.longitude),
-          language: 'es',
-          components: [Component(Component.country, "mx")],
+          language: 'en',
         ));
 
         if (res.isError) {
