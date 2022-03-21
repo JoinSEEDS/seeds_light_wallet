@@ -16,8 +16,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher_round"
-        android:label="SEEDS Wallet"
-        >
+        android:label="SEEDS Wallet">
         <!-- android:usesCleartextTraffic="true" -->
 
         <meta-data
@@ -50,7 +49,7 @@
 
 
             </intent-filter>
-                        
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -61,7 +60,7 @@
                     android:host="seedswallet.page.link"
                     android:scheme="https" />
             </intent-filter>
-            
+
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
