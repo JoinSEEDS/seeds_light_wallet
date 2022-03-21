@@ -13,12 +13,14 @@ class CreateRegionEventState extends Equatable {
   final PageCommand? pageCommand;
   final CreateRegionEventScreen createRegionEventScreen;
   final String eventDescription;
+  final String eventName;
 
   const CreateRegionEventState({
     required this.pageState,
     this.pageCommand,
     required this.createRegionEventScreen,
     required this.eventDescription,
+    required this.eventName,
   });
 
   @override
@@ -27,6 +29,7 @@ class CreateRegionEventState extends Equatable {
         pageCommand,
         createRegionEventScreen,
         eventDescription,
+        eventName,
       ];
 
   CreateRegionEventState copyWith({
@@ -34,18 +37,22 @@ class CreateRegionEventState extends Equatable {
     PageCommand? pageCommand,
     CreateRegionEventScreen? createRegionEventScreen,
     String? eventDescription,
+    String? eventName,
   }) =>
       CreateRegionEventState(
-          pageState: pageState ?? this.pageState,
-          pageCommand: pageCommand,
-          createRegionEventScreen: createRegionEventScreen ?? this.createRegionEventScreen,
-          eventDescription: eventDescription ?? this.eventDescription);
+        pageState: pageState ?? this.pageState,
+        pageCommand: pageCommand,
+        createRegionEventScreen: createRegionEventScreen ?? this.createRegionEventScreen,
+        eventDescription: eventDescription ?? this.eventDescription,
+        eventName: eventName ?? this.eventName,
+      );
 
   factory CreateRegionEventState.initial() {
     return const CreateRegionEventState(
       pageState: PageState.success,
       createRegionEventScreen: CreateRegionEventScreen.selectLocation,
       eventDescription: "",
+      eventName: "",
     );
   }
 }

@@ -28,6 +28,15 @@ class OnBackPressed extends CreateRegionEventEvents {
   String toString() => 'OnBackPressed';
 }
 
+class OnRegionEventNameChange extends CreateRegionEventEvents {
+  final String eventName;
+
+  const OnRegionEventNameChange(this.eventName);
+
+  @override
+  String toString() => 'OnRegionEventNameChange { eventName: $eventName}';
+}
+
 class OnRegionEventDescriptionChange extends CreateRegionEventEvents {
   final String eventDescription;
 
