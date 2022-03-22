@@ -14,6 +14,7 @@ class CreateRegionEventState extends Equatable {
   final CreateRegionEventScreen createRegionEventScreen;
   final String eventDescription;
   final String eventName;
+  final Place? currentPlace;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -21,6 +22,7 @@ class CreateRegionEventState extends Equatable {
     required this.createRegionEventScreen,
     required this.eventDescription,
     required this.eventName,
+    this.currentPlace,
   });
 
   @override
@@ -30,6 +32,7 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen,
         eventDescription,
         eventName,
+        currentPlace,
       ];
 
   CreateRegionEventState copyWith({
@@ -38,6 +41,7 @@ class CreateRegionEventState extends Equatable {
     CreateRegionEventScreen? createRegionEventScreen,
     String? eventDescription,
     String? eventName,
+    Place? currentPlace,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -45,6 +49,7 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen: createRegionEventScreen ?? this.createRegionEventScreen,
         eventDescription: eventDescription ?? this.eventDescription,
         eventName: eventName ?? this.eventName,
+        currentPlace: currentPlace ?? this.currentPlace,
       );
 
   factory CreateRegionEventState.initial() {
