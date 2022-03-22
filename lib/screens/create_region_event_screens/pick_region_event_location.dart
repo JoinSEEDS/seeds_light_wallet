@@ -10,8 +10,9 @@ class PickRegionEventLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateRegionEventBloc, CreateRegionEventState>(builder: (context, state) {
-      return Scaffold(
+    return BlocBuilder<CreateRegionEventBloc, CreateRegionEventState>(
+      builder: (context, state) {
+        return Scaffold(
           appBar: AppBar(title: const Text("Create Event")),
           bottomNavigationBar: SafeArea(
               minimum: const EdgeInsets.all(16),
@@ -20,15 +21,24 @@ class PickRegionEventLocation extends StatelessWidget {
                   title: "${context.loc.createRegionSelectRegionButtonTitle} (1/4)",
                   onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()))),
           body: SafeArea(
-              minimum: const EdgeInsets.all(16),
-              child: Column(children: [
+            minimum: const EdgeInsets.all(16),
+            child: Column(
+              children: [
                 const Text(
                     "Choose the location of your event. First input the address and then move the pin to the exact location to be even more precise!"),
                 const SizedBox(height: 20),
-                Expanded(child: RegionsMap(onPlaceChanged: (place) {
-                  BlocProvider.of<CreateRegionEventBloc>(context).add(OnUpdateMapLocation(place));
-                }))
-              ])));
-    });
+                Expanded(
+                  child: RegionsMap(
+                    onPlaceChanged: (place) {
+                      BlocProvider.of<CreateRegionEventBloc>(context).add(OnUpdateMapLocation(place));
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
