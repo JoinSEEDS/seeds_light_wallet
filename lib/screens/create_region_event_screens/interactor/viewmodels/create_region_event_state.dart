@@ -14,6 +14,7 @@ class CreateRegionEventState extends Equatable {
   final CreateRegionEventScreen createRegionEventScreen;
   final String eventDescription;
   final String eventName;
+  final Place? currentPlace;
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
@@ -24,6 +25,7 @@ class CreateRegionEventState extends Equatable {
     required this.createRegionEventScreen,
     required this.eventDescription,
     required this.eventName,
+    this.currentPlace,
     this.file,
     required this.pictureBoxState,
     this.imageUrl,
@@ -36,6 +38,7 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen,
         eventDescription,
         eventName,
+        currentPlace,
         file,
         pictureBoxState,
         imageUrl,
@@ -47,6 +50,7 @@ class CreateRegionEventState extends Equatable {
     CreateRegionEventScreen? createRegionEventScreen,
     String? eventDescription,
     String? eventName,
+    Place? currentPlace,
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
@@ -57,6 +61,7 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen: createRegionEventScreen ?? this.createRegionEventScreen,
         eventDescription: eventDescription ?? this.eventDescription,
         eventName: eventName ?? this.eventName,
+        currentPlace: currentPlace ?? this.currentPlace,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl,

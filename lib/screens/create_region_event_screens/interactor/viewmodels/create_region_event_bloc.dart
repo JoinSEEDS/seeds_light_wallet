@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -16,11 +17,16 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   CreateRegionEventBloc() : super(CreateRegionEventState.initial()) {
     on<OnNextTapped>(_onNextTapped);
     on<OnBackPressed>(_onBackPressed);
+    on<OnUpdateMapLocation>(_onUpdateMapLocations);
     on<OnRegionEventNameChange>(_onRegionEventNameChange);
     on<OnRegionEventDescriptionChange>(_onRegionEventDescriptionChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  void _onUpdateMapLocations(OnUpdateMapLocation event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(currentPlace: event.place));
   }
 
   void _onRegionEventNameChange(OnRegionEventNameChange event, Emitter<CreateRegionEventState> emit) {

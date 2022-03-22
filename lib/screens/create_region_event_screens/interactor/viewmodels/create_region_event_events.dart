@@ -7,6 +7,15 @@ abstract class CreateRegionEventEvents extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnUpdateMapLocation extends CreateRegionEventEvents {
+  final Place place;
+
+  const OnUpdateMapLocation(this.place);
+
+  @override
+  String toString() => 'OnUpdateMapLocation { Place: $place}';
+}
+
 class ClearCreateRegionEventPageCommand extends CreateRegionEventEvents {
   const ClearCreateRegionEventPageCommand();
 
