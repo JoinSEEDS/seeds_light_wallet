@@ -16,6 +16,7 @@ class CreateRegionState extends Equatable {
   final PictureBoxState pictureBoxState;
   final String regionId;
   final bool isRegionIdNextButtonEnable;
+  final Place? currentPlace;
 
   const CreateRegionState({
     required this.pageState,
@@ -31,6 +32,7 @@ class CreateRegionState extends Equatable {
     required this.pictureBoxState,
     required this.isRegionIdNextButtonEnable,
     required this.regionId,
+    this.currentPlace,
   });
 
   @override
@@ -48,6 +50,7 @@ class CreateRegionState extends Equatable {
         pictureBoxState,
         isRegionIdNextButtonEnable,
         regionId,
+        currentPlace,
       ];
 
   CreateRegionState copyWith({
@@ -64,6 +67,7 @@ class CreateRegionState extends Equatable {
     PictureBoxState? pictureBoxState,
     bool? isRegionIdNextButtonEnable,
     String? regionId,
+    Place? currentPlace,
   }) =>
       CreateRegionState(
         pageState: pageState ?? this.pageState,
@@ -80,6 +84,7 @@ class CreateRegionState extends Equatable {
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         isRegionIdNextButtonEnable: isRegionIdNextButtonEnable ?? this.isRegionIdNextButtonEnable,
         regionId: regionId ?? this.regionId,
+        currentPlace: currentPlace ?? this.currentPlace,
       );
 
   factory CreateRegionState.initial() {
