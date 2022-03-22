@@ -14,6 +14,9 @@ class CreateRegionEventState extends Equatable {
   final CreateRegionEventScreen createRegionEventScreen;
   final String eventDescription;
   final String eventName;
+  final File? file;
+  final PictureBoxState pictureBoxState;
+  final String? imageUrl;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -21,6 +24,9 @@ class CreateRegionEventState extends Equatable {
     required this.createRegionEventScreen,
     required this.eventDescription,
     required this.eventName,
+    this.file,
+    required this.pictureBoxState,
+    this.imageUrl,
   });
 
   @override
@@ -30,6 +36,9 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen,
         eventDescription,
         eventName,
+        file,
+        pictureBoxState,
+        imageUrl,
       ];
 
   CreateRegionEventState copyWith({
@@ -38,6 +47,9 @@ class CreateRegionEventState extends Equatable {
     CreateRegionEventScreen? createRegionEventScreen,
     String? eventDescription,
     String? eventName,
+    File? file,
+    PictureBoxState? pictureBoxState,
+    String? imageUrl,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -45,6 +57,9 @@ class CreateRegionEventState extends Equatable {
         createRegionEventScreen: createRegionEventScreen ?? this.createRegionEventScreen,
         eventDescription: eventDescription ?? this.eventDescription,
         eventName: eventName ?? this.eventName,
+        file: file ?? this.file,
+        pictureBoxState: pictureBoxState ?? this.pictureBoxState,
+        imageUrl: imageUrl,
       );
 
   factory CreateRegionEventState.initial() {
@@ -53,6 +68,7 @@ class CreateRegionEventState extends Equatable {
       createRegionEventScreen: CreateRegionEventScreen.selectLocation,
       eventDescription: "",
       eventName: "",
+      pictureBoxState: PictureBoxState.pickImage,
     );
   }
 }
