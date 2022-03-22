@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
-import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
@@ -12,7 +10,6 @@ import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_firebase_regions_use_case.dart';
 
 part 'create_region_events.dart';
 
