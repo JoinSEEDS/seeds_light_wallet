@@ -60,7 +60,7 @@ class ExploreScreen extends StatelessWidget {
       ExploreItem(
         title: context.loc.explorerUnplantItemTitle,
         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-        onTapEvent: const OnExploreCardTapped(Routes.createRegion),
+        onTapEvent: const OnExploreCardTapped(Routes.unPlantSeeds),
       ),
       ExploreItem(
         title: context.loc.explorerSwapItemTitle,
