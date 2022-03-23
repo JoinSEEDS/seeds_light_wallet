@@ -62,6 +62,34 @@ class RegionRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
+  /// Return a users current region, or null if the user is not yet in a region
+  Future<Result<RegionMemberModel?>> getRegion(String account) {
+    print('[http] get region for $account');
+
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: SeedsCode.accountRegion,
+      scope: SeedsCode.accountRegion.value,
+      table: SeedsTable.tableRegionMembers,
+      lowerBound: account,
+      upperBound: account,
+      limit: 10,
+    );
+
+    return http
+        .post(membersURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<RegionMemberModel>(response, (dynamic body) {
+              final List<dynamic> items = body['rows'].toList();
+              if (items.isEmpty) {
+                return null;
+              } else {
+                return RegionMemberModel.fromJson(items[0]);
+              }
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
   ///
   /// Create Region
   ///
