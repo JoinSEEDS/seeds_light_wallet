@@ -14,6 +14,15 @@ class ClearCreateRegionPageCommand extends CreateRegionEvent {
   String toString() => 'clearCreateRegionPageCommand ';
 }
 
+class OnUpdateMapLocation extends CreateRegionEvent {
+  final Place place;
+
+  const OnUpdateMapLocation(this.place);
+
+  @override
+  String toString() => 'OnUpdateMapLocation { Place: $place}';
+}
+
 class OnPickImage extends CreateRegionEvent {
   const OnPickImage();
 
