@@ -31,6 +31,25 @@ class MyGuardiansTab extends StatelessWidget {
             } else {
               final List<Widget> items = [];
 
+              items.add(StreamBuilder<bool>(
+                  stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,
+                  builder: (context, isGuardiansInitialized) {
+                    if (isGuardiansInitialized.hasData && !isGuardiansInitialized.data!) {
+                      return Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+                          },
+                          child: const Text("Activate Guardians"),
+                        ),
+                      ));
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }));
+
               items.add(Expanded(
                   child: MyGuardiansListWidget(
                 currentUserId: settingsStorage.accountName,
@@ -40,7 +59,7 @@ class MyGuardiansTab extends StatelessWidget {
               if (alreadyGuardians.length < 3) {
                 items.add(
                   Padding(
-                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16,bottom: 20),
+                    padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 20),
                     child: Center(
                       child: Text(
                         "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key".i18n,
@@ -54,17 +73,11 @@ class MyGuardiansTab extends StatelessWidget {
                 items.add(StreamBuilder<bool>(
                     stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,
                     builder: (context, isGuardiansInitialized) {
-                      if (isGuardiansInitialized.hasData) {
-                        if (isGuardiansInitialized.data!) {
-                          return Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Text("Your guardians are active!".i18n),
-                          );
-                        } else {
-                          BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
-
-                          return const SizedBox.shrink();
-                        }
+                      if (isGuardiansInitialized.hasData && isGuardiansInitialized.data!) {
+                        return Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text("Your guardians are active!".i18n),
+                        );
                       } else {
                         return const SizedBox.shrink();
                       }
