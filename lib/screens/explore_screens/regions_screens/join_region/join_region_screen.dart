@@ -5,7 +5,9 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/regions_map/regions_map.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/region_result_tile.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -20,7 +22,14 @@ class JoinRegionScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: Text(context.loc.joinRegionAppBarTitle)),
-        body: BlocBuilder<JoinRegionBloc, JoinRegionState>(
+        body: BlocConsumer<JoinRegionBloc, JoinRegionState>(
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (context, state) {
+            final command = state.pageCommand;
+            if (command is NavigateToRoute) {
+              NavigationService.of(context).navigateTo(command.route, true);
+            }
+          },
           builder: (context, state) {
             switch (state.pageState) {
               case PageState.success:
@@ -29,7 +38,7 @@ class JoinRegionScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
                     child: Column(
                       children: [
-                        Text(context.loc.joinRegionSearchDescription),
+                        if (state.regions.isEmpty) Text(context.loc.joinRegionSearchDescription),
                         const SizedBox(height: 20.0),
                         Expanded(
                             child: RegionsMap(
@@ -51,17 +60,18 @@ class JoinRegionScreen extends StatelessWidget {
                                 )
                               : null,
                         )),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: context.loc.joinRegionCreateDescription1),
-                              TextSpan(
-                                  text: context.loc.joinRegionCreateDescription2,
-                                  style: Theme.of(context).textTheme.buttonWhiteL.copyWith(color: AppColors.canopy)),
-                              TextSpan(text: context.loc.joinRegionCreateDescription3),
-                            ],
+                        if (state.regions.isEmpty)
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(text: context.loc.joinRegionCreateDescription1),
+                                TextSpan(
+                                    text: context.loc.joinRegionCreateDescription2,
+                                    style: Theme.of(context).textTheme.buttonWhiteL.copyWith(color: AppColors.canopy)),
+                                TextSpan(text: context.loc.joinRegionCreateDescription3),
+                              ],
+                            ),
                           ),
-                        ),
                         const SizedBox(height: 20.0),
                         FlatButtonLong(title: context.loc.joinRegionCreateDescription2, onPressed: () {}),
                       ],

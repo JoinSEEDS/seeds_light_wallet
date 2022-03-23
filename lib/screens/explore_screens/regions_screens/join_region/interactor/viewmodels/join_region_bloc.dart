@@ -3,6 +3,7 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_firebase_regions_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_regions_use_case.dart';
@@ -14,6 +15,7 @@ class JoinRegionBloc extends Bloc<JoinRegionEvent, JoinRegionState> {
   JoinRegionBloc() : super(JoinRegionState.initial()) {
     on<OnLoadRegions>(_onLoadRegions);
     on<OnUpdateMapLocation>(_onUpdateMapLocations);
+    on<OnRegionResultSelected>(_onRegionResultSelected);
   }
 
   Future<void> _onLoadRegions(OnLoadRegions event, Emitter<JoinRegionState> emit) async {
@@ -42,5 +44,16 @@ class JoinRegionBloc extends Bloc<JoinRegionEvent, JoinRegionState> {
       }
       emit(state.copyWith(regions: newRegions, currentPlace: event.place));
     }
+  }
+
+  Future<void> _onRegionResultSelected(OnRegionResultSelected event, Emitter<JoinRegionState> emit) async {
+    // TODO(Raul): Waiting for call to check if a user already has joined a region
+    // final result = await JoinRegionUseCase()
+    //     .run(JoinRegionUseCase.input(region: event.regionId, userAccount: settingsStorage.accountName));
+    // if (result.isError) {
+    //   emit(state.copyWith(pageState: PageState.failure));
+    // } else {
+    //   emit(state.copyWith(pageCommand: NavigateToRoute(Routes.region)));
+    // }
   }
 }
