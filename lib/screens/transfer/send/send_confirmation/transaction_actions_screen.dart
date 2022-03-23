@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/design/app_colors.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/transaction_action_card.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class TransactionActionsScreen extends StatelessWidget {
   const TransactionActionsScreen({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class TransactionActionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final actions = ModalRoute.of(context)?.settings.arguments as List<EOSAction>?;
     return Scaffold(
-      appBar: AppBar(title: Text('Transaction Actions'.i18n)),
+      appBar: AppBar(title: Text(context.loc.transferTransactionActionsTitle)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(12.0, 0, 12.0, 24),

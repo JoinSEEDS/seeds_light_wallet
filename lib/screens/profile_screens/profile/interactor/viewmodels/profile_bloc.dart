@@ -12,6 +12,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_words_from_private_key_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/mappers/profile_values_state_mapper.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/mappers/update_profile_image_state_mapper.dart';
@@ -19,12 +20,12 @@ import 'package:seeds/screens/profile_screens/profile/interactor/mappers/upgrade
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/get_profile_values_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_citizen_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_resident_use_case.dart';
-import 'package:seeds/screens/profile_screens/profile/interactor/usecases/save_image_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/update_profile_image_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 import 'package:share/share.dart';
 
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -63,7 +64,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _onUpdateProfileImage(OnUpdateProfileImage event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final urlResult = await SaveImageUseCase().run(file: event.file);
+    final urlResult = await SaveImageUseCase().run(SaveImageUseCaseInput(
+        file: event.file, pathPrefix: PathPrefix.profileImage, creatorId: settingsStorage.accountName));
     final result = await UpdateProfileImageUseCase()
         .run(UpdateProfileImageUseCase.input(imageUrl: urlResult.asValue!.value, profile: state.profile!));
     emit(UpdateProfileImageStateMapper().mapResultToState(state, result));
