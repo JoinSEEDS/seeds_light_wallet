@@ -84,17 +84,19 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
   }
 
   Future<void> _onMapEndMove(OnMapEndMove event, Emitter<RegionsMapState> emit) async {
-    final result = await GetPlacesFromCoordinatesUseCase()
-        .run(GetPlacesFromCoordinatesUseCase.input(lat: state.newPlace.lat, lng: state.newPlace.lng));
-    if (result.isError) {
-      emit(state.copyWith(pageState: PageState.failure));
-    } else {
-      final placemarks = result.asValue!.value;
-      emit(state.copyWith(
-        pageCommand: MoveCameraStop(),
-        newPlace: state.newPlace.copyWith(placeText: placemarks.first.toPlaceText),
-        isCameraMoving: false,
-      ));
+    if (event.pickedLat != 0 && event.pickedLong != 0) {
+      final result = await GetPlacesFromCoordinatesUseCase()
+          .run(GetPlacesFromCoordinatesUseCase.input(lat: event.pickedLat, lng: event.pickedLong));
+      if (result.isError) {
+        emit(state.copyWith(pageState: PageState.failure));
+      } else {
+        final placemarks = result.asValue!.value;
+        emit(state.copyWith(
+          pageCommand: MoveCameraStop(),
+          newPlace: state.newPlace.copyWith(placeText: placemarks.first.toPlaceText),
+          isCameraMoving: false,
+        ));
+      }
     }
   }
 

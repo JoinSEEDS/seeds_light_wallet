@@ -16,11 +16,16 @@ class RegionResultTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: ListTile(
+        onTap: () => BlocProvider.of<JoinRegionBloc>(context).add(OnRegionResultSelected(region.id)),
         tileColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         leading:
             region.imageUrl != null ? CircleAvatar(foregroundImage: NetworkImage(region.imageUrl!), radius: 23) : null,
-        title: Text(region.title, style: Theme.of(context).textTheme.headline7LowEmphasis),
+        title: Text(
+          region.title,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.headline7LowEmphasis,
+        ),
         subtitle: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -22,23 +22,23 @@ class MoveToCurrentLocation extends RegionsMapEvent {
 }
 
 class OnMapMoving extends RegionsMapEvent {
+  const OnMapMoving();
+
+  @override
+  String toString() => 'OnMapMoving';
+}
+
+class OnMapEndMove extends RegionsMapEvent {
   final double pickedLat;
   final double pickedLong;
 
-  const OnMapMoving({required this.pickedLat, required this.pickedLong});
+  const OnMapEndMove({required this.pickedLat, required this.pickedLong});
 
   @override
   List<Object?> get props => [pickedLat, pickedLong];
 
   @override
-  String toString() => 'OnMapMoving { pickedLat: $pickedLat pickedLong: $pickedLong}';
-}
-
-class OnMapEndMove extends RegionsMapEvent {
-  const OnMapEndMove();
-
-  @override
-  String toString() => 'OnMapEndMove';
+  String toString() => 'OnMapEndMove { pickedLat: $pickedLat pickedLong: $pickedLong}';
 }
 
 class ToggleSearchBar extends RegionsMapEvent {

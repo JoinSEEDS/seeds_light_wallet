@@ -25,6 +25,8 @@ class RegionsMap extends StatefulWidget {
 class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
   late final RegionsMapBloc _regionsMapBloc;
   GoogleMapController? _mapController;
+  double lat = 0;
+  double lng = 0;
 
   @override
   void initState() {
@@ -75,12 +77,10 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                    child: Expanded(
-                      child: Column(children: [
-                        Expanded(flex: 5, child: Container()),
-                        if (widget.bottomWidget != null) Expanded(flex: 3, child: widget.bottomWidget!)
-                      ]),
-                    ),
+                    child: Column(children: [
+                      Expanded(flex: 5, child: Container()),
+                      if (widget.bottomWidget != null) Expanded(flex: 3, child: widget.bottomWidget!)
+                    ]),
                   ),
                   // Map
                   ClipRRect(
@@ -94,6 +94,7 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                             gestureRecognizers: {
                               Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
                             },
+                            mapToolbarEnabled: false,
                             myLocationEnabled: true,
                             myLocationButtonEnabled: false,
                             zoomControlsEnabled: false,
@@ -101,12 +102,15 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                             initialCameraPosition:
                                 CameraPosition(target: LatLng(state.newPlace.lat, state.newPlace.lng), zoom: 15),
                             onCameraMove: (p) {
+                              // These vars are to void rebuild map for each different lat, lng
+                              // Also to avoid fire a new place instance on moving
+                              lat = p.target.latitude;
+                              lng = p.target.longitude;
                               if (!state.isCameraMoving) {
-                                _regionsMapBloc
-                                    .add(OnMapMoving(pickedLat: p.target.latitude, pickedLong: p.target.longitude));
+                                _regionsMapBloc.add(const OnMapMoving());
                               }
                             },
-                            onCameraIdle: () => _regionsMapBloc.add(const OnMapEndMove()),
+                            onCameraIdle: () => _regionsMapBloc.add(OnMapEndMove(pickedLat: lat, pickedLong: lng)),
                             markers: Set.from(widget.markers ?? []),
                           ),
                           Center(
@@ -132,7 +136,7 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                  // Bar
+                  // Search Bar
                   if (!state.isCameraMoving) const RegionsSearchBar(),
                 ],
               );
