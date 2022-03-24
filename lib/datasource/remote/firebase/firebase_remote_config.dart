@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/firebase_eos_servers.dart';
 
-const String _activeEOSEndpointKey = 'eos_enpoints';
+const String _activeEOSEndpointKey = 'eos_endpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
@@ -118,7 +118,7 @@ class _FirebaseRemoteConfigService {
               : _testnetEosEndpoints
           : _remoteConfig.getString(_activeEOSEndpointKey))
       .firstWhere((FirebaseEosServer element) => element.isDefault!,
-          orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
+          orElse: () => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey)).first);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.
