@@ -35,7 +35,7 @@ class MyGuardiansTab extends StatelessWidget {
               items.add(StreamBuilder<bool>(
                   stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,
                   builder: (context, isGuardiansInitialized) {
-                    if (isGuardiansInitialized.hasData && !isGuardiansInitialized.data!) {
+                    if (shouldShowReadyToActivateGuardiansButton(isGuardiansInitialized, alreadyGuardians)) {
                       return Center(
                           child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -96,5 +96,10 @@ class MyGuardiansTab extends StatelessWidget {
             return const FullPageLoadingIndicator();
           }
         });
+  }
+
+  bool shouldShowReadyToActivateGuardiansButton(
+      AsyncSnapshot<bool> isGuardiansInitialized, Iterable<GuardianModel> alreadyGuardians) {
+    return isGuardiansInitialized.hasData && !isGuardiansInitialized.data! && alreadyGuardians.length >= 3;
   }
 }
