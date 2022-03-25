@@ -1,6 +1,7 @@
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 class GenerateRegionIdStateMapper extends StateMapper {
   CreateRegionState mapResultToState(CreateRegionState currentState) {
@@ -17,9 +18,10 @@ class GenerateRegionIdStateMapper extends StateMapper {
     }
 
     return currentState.copyWith(
-        pageState: PageState.success,
-        regionId: suggestedRegionId,
-        createRegionsScreens: CreateRegionScreen.regionId,
-        isRegionIdNextButtonEnable: true);
+      pageState: PageState.success,
+      regionId: suggestedRegionId,
+      createRegionsScreens: CreateRegionScreen.regionId,
+      pageCommand: ValidateGeneratedRegionId(),
+    );
   }
 }

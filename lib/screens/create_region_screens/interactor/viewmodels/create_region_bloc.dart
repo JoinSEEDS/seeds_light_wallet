@@ -3,12 +3,17 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
+import 'package:seeds/screens/create_region_screens/choose_region_id/components/authentication_status.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/validate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/pick_image_usecase.dart';
+import 'package:seeds/screens/create_region_screens/interactor/usecases/validate_region_id_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 part 'create_region_events.dart';
@@ -62,14 +67,14 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     }
   }
 
-  void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
-    // TODO(gguij004): Pending validation usecase.
+  Future<void> _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) async {
+    emit(state.copyWith(regionIdAuthenticationState: AuthenticationState.loading));
     if (event.regionId.isEmpty) {
-      emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
+      emit(state.copyWith(regionId: event.regionId, regionIdAuthenticationState: AuthenticationState.invalid));
     } else {
-      emit(
-        state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: true),
-      );
+      final Result<RegionModel> result = await ValidateRegionIdUseCase().run(event.regionId);
+      emit(ValidateRegionIdStateMapper().mapResultToState(state, result));
+      emit(state.copyWith(regionId: event.regionId));
     }
   }
 

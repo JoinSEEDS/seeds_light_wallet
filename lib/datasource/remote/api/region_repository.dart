@@ -36,6 +36,33 @@ class RegionRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
+  Future<Result<RegionModel>> getRegionById(String regionId) {
+    print('[http] get region');
+
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: SeedsCode.accountRegion,
+      scope: SeedsCode.accountRegion.value,
+      table: SeedsTable.tableRegions,
+      lowerBound: regionId,
+      upperBound: regionId,
+      limit: 10,
+    );
+
+    return http
+        .post(membersURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<RegionModel>(response, (dynamic body) {
+              final List<dynamic> items = body['rows'].toList();
+              if (items.isEmpty) {
+                return null;
+              } else {
+                return RegionModel.fromJson(items.first);
+              }
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
   Future<Result<List<RegionMemberModel>>> getRegionMembers(String region) {
     print('[http] get region members for $region');
 
@@ -283,13 +310,13 @@ class RegionRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  // Not implemented actions:
-  // ACTION addrole(name region, name admin, name account, name role);
-  // ACTION removerole(name region, name admin, name account);
-  // ACTION leaverole(name region, name account);
-  // ACTION removemember(name region, name admin, name account);
-  // ACTION setfounder(name region, name founder, name new_founder);
-  // ACTION removergn(name region);
-  // ACTION createacct(name region, string publicKey);
+// Not implemented actions:
+// ACTION addrole(name region, name admin, name account, name role);
+// ACTION removerole(name region, name admin, name account);
+// ACTION leaverole(name region, name account);
+// ACTION removemember(name region, name admin, name account);
+// ACTION setfounder(name region, name founder, name new_founder);
+// ACTION removergn(name region);
+// ACTION createacct(name region, string publicKey);
 
 }
