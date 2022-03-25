@@ -60,7 +60,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-          singleLargeButtonTitle: context.loc.transferTransactionSuccessCloseButtonTitle,
+          singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
           children: [
             const SizedBox(height: 6),
             Row(
