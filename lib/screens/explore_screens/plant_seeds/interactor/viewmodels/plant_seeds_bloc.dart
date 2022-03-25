@@ -11,6 +11,7 @@ import 'package:seeds/screens/explore_screens/plant_seeds/interactor/mappers/see
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/mappers/user_balance_and_planted_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/usecases/get_available_balance_and_planted_use_case.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/usecases/plant_seeds_use_case.dart';
+import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_errors.dart';
 
 part 'plant_seeds_event.dart';
 part 'plant_seeds_state.dart';
