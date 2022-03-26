@@ -4,6 +4,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 
 class PickImageStateMapper extends StateMapper {
   CreateRegionEventState mapResultToState(CreateRegionEventState currentState, Result<File> result) {
@@ -16,6 +17,7 @@ class PickImageStateMapper extends StateMapper {
       return currentState.copyWith(
           pageState: PageState.success,
           file: result.asValue!.value,
+          pageCommand: RemoveAuthenticationScreen(),
           // ignore: avoid_redundant_argument_values
           imageUrl: null,
           pictureBoxState: PictureBoxState.imagePicked);

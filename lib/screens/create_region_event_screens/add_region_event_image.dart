@@ -9,6 +9,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionEventImage extends StatelessWidget {
@@ -17,7 +18,7 @@ class AddRegionEventImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CreateRegionEventBloc, CreateRegionEventState>(
-        listenWhen: (previous, current) => current.pageCommand != null || previous.file != current.file,
+        listenWhen: (previous, current) => current.pageCommand != null,
         listener: (context, state) {
           if (state.pageCommand != null) {
             final pageCommand = state.pageCommand;
@@ -25,9 +26,13 @@ class AddRegionEventImage extends StatelessWidget {
             if (pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             }
-          } else {
-            // This pop remove the authentication screen
-            Navigator.of(context).pop();
+
+            if (pageCommand is RemoveAuthenticationScreen) {
+              // This pop remove the authentication screen
+              Navigator.of(context).pop();
+            }
+
+            BlocProvider.of<CreateRegionEventBloc>(context).add(const ClearCreateRegionEventPageCommand());
           }
         },
         builder: (context, state) {
