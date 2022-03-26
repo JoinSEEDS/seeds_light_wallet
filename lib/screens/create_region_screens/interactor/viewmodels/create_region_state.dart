@@ -15,6 +15,7 @@ class CreateRegionState extends Equatable {
   final String? imageUrl;
   final PictureBoxState pictureBoxState;
   final String regionId;
+  final String? regionIdErrorMessage;
   final Place? currentPlace;
   final AuthenticationState regionIdAuthenticationState;
 
@@ -31,6 +32,7 @@ class CreateRegionState extends Equatable {
     this.imageUrl,
     required this.pictureBoxState,
     required this.regionId,
+    this.regionIdErrorMessage,
     this.currentPlace,
     required this.regionIdAuthenticationState,
   });
@@ -49,6 +51,7 @@ class CreateRegionState extends Equatable {
         imageUrl,
         pictureBoxState,
         regionId,
+        regionIdErrorMessage,
         currentPlace,
         regionIdAuthenticationState,
       ];
@@ -66,6 +69,7 @@ class CreateRegionState extends Equatable {
     String? imageUrl,
     PictureBoxState? pictureBoxState,
     String? regionId,
+    String? regionIdErrorMessage,
     Place? currentPlace,
     AuthenticationState? regionIdAuthenticationState,
   }) =>
@@ -83,6 +87,7 @@ class CreateRegionState extends Equatable {
         imageUrl: imageUrl,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         regionId: regionId ?? this.regionId,
+        regionIdErrorMessage: regionIdErrorMessage,
         currentPlace: currentPlace ?? this.currentPlace,
         regionIdAuthenticationState: regionIdAuthenticationState ?? this.regionIdAuthenticationState,
       );

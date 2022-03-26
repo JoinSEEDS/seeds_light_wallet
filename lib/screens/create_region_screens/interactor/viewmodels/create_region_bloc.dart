@@ -70,7 +70,10 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   Future<void> _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) async {
     emit(state.copyWith(regionIdAuthenticationState: AuthenticationState.loading));
     if (event.regionId.isEmpty) {
-      emit(state.copyWith(regionId: event.regionId, regionIdAuthenticationState: AuthenticationState.invalid));
+      emit(state.copyWith(
+          regionId: event.regionId,
+          regionIdAuthenticationState: AuthenticationState.invalid,
+          regionIdErrorMessage: "Region Id cannot be empty"));
     } else {
       final Result<RegionModel> result = await ValidateRegionIdUseCase().run(event.regionId);
       emit(ValidateRegionIdStateMapper().mapResultToState(state, result));

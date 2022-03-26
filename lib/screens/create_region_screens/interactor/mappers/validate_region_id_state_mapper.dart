@@ -14,7 +14,9 @@ class ValidateRegionIdStateMapper extends StateMapper {
       if (result.asValue?.value == null) {
         return currentState.copyWith(regionIdAuthenticationState: AuthenticationState.valid);
       } else {
-        return currentState.copyWith(regionIdAuthenticationState: AuthenticationState.invalid);
+        return currentState.copyWith(
+            regionIdAuthenticationState: AuthenticationState.invalid,
+            regionIdErrorMessage: "Region Id is already taken, please provide a new one");
       }
     }
   }

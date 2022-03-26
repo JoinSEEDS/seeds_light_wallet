@@ -51,6 +51,7 @@ class ChooseRegionId extends StatelessWidget {
                               child: AuthenticationStatus(authenticationIdState: state.regionIdAuthenticationState))),
                       const SizedBox(height: 10),
                       TextFormFieldCustom(
+                          errorText: state.regionIdErrorMessage,
                           initialValue: state.regionId,
                           maxLength: 8,
                           suffixText: ".rgn",
