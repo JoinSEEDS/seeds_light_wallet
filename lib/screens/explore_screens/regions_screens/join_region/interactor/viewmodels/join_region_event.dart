@@ -19,10 +19,3 @@ class OnUpdateMapLocation extends JoinRegionEvent {
   @override
   String toString() => 'OnUpdateMapLocation';
 }
-
-class OnRegionResultSelected extends JoinRegionEvent {
-  final String regionId;
-  const OnRegionResultSelected(this.regionId);
-  @override
-  String toString() => 'OnRegionResultSelected';
-}

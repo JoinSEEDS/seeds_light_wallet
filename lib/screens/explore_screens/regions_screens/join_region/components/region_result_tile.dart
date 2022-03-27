@@ -4,6 +4,7 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/images/explore/region_members.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 
 class RegionResultTile extends StatelessWidget {
@@ -16,7 +17,7 @@ class RegionResultTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: ListTile(
-        onTap: () => BlocProvider.of<JoinRegionBloc>(context).add(OnRegionResultSelected(region.id)),
+        onTap: () => NavigationService.of(context).navigateTo(Routes.region, region.id),
         tileColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         leading:

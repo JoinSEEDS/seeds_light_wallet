@@ -6,3 +6,10 @@ abstract class RegionEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
+class OnJoinRegionButtonPressed extends RegionEvent {
+  final String regionId;
+  const OnJoinRegionButtonPressed(this.regionId);
+  @override
+  String toString() => 'OnJoinRegionButtonPressed';
+}
