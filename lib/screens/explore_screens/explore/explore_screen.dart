@@ -19,6 +19,7 @@ import 'package:seeds/screens/explore_screens/explore/components/flag_user_info_
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_item.dart';
 import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_page_command.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/introducing_regions_dialog.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,7 +33,7 @@ class ExploreScreen extends StatelessWidget {
           title: context.loc.explorerRegionsItemTitle,
           icon: const Padding(
               padding: EdgeInsets.only(left: 2.0), child: CustomPaint(size: Size(40, 40), painter: Regions())),
-          onTapEvent: const OnExploreCardTapped(Routes.joinRegion)),
+          onTapEvent: const OnRegionsTapped()),
       ExploreItem(
           title: context.loc.explorerInviteItemTitle,
           icon: const Padding(
@@ -45,7 +46,7 @@ class ExploreScreen extends StatelessWidget {
       ExploreItem(
           title: context.loc.explorerFlagItemTitle,
           icon: const CustomPaint(size: Size(41, 41), painter: ExclamationCircle()),
-          onTapEvent: const OnFlagUserTap()),
+          onTapEvent: const OnFlagUserTapped()),
       ExploreItem(
         title: context.loc.explorerVoteItemTitle,
         icon: const Padding(
@@ -79,7 +80,7 @@ class ExploreScreen extends StatelessWidget {
           end: Alignment.bottomLeft,
         ),
         iconUseCircleBackground: false,
-        onTapEvent: const OnBuySeedsCardTap(),
+        onTapEvent: const OnBuySeedsCardTapped(),
       ),
     ];
 /*     if (!remoteConfigurations.featureFlagRegionsEnabled) {
@@ -106,6 +107,12 @@ class ExploreScreen extends StatelessWidget {
             ).whenComplete(
               () => BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.flag)),
             );
+          } else if (pageCommand is ShowIntroduceRegions) {
+            const IntroducingRegionsDialog().show(context).then((isNextPressed) {
+              if (isNextPressed ?? false) {
+                BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.joinRegion));
+              }
+            });
           }
         },
         builder: (context, _) {

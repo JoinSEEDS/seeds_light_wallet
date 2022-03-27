@@ -1,6 +1,8 @@
 {
   "genericCloseButtonTitle": "סגור",
   "@genericCloseButtonTitle": {},
+  "@genericCancelButtonTitle": {},
+  "@genericNextButtonTitle": {},
   "onboardingEconomySubtitle": "התאחדו עם תנועה עולמית של\nארגונים ואנשים לשיקום ולהתחדשות של\nהפלנטה שלנו ולריפוי הכלכלה שלנו.",
   "@onboardingEconomySubtitle": {},
   "onboardingTransactionsTitle": "כל פעולה\nתורמת\nלעולם טוב יותר",
@@ -304,5 +306,14 @@
   "inviteAmountChangeMapperNotEnoughBalanceError": "אין מספיק יתרה",
   "@inviteAmountChangeMapperNotEnoughBalanceError": {},
   "inviteAmountChangeMapperMinimumRequiredError": "צריך מינימום 5 סידס כדי להזמין",
-  "@inviteAmountChangeMapperMinimumRequiredError": {}
+  "@inviteAmountChangeMapperMinimumRequiredError": {},
+  "@introducingRegionsDialogTitle": {},
+  "@introducingRegionsDialogDescription1": {},
+  "@introducingRegionsDialogDescription2": {},
+  "@introducingRegionsDialogDescription3": {},
+  "@introducingRegionsDialogDescription4": {},
+  "@introducingRegionsDialogDescription5": {},
+  "@introducingRegionsDialogDescription6": {},
+  "@introducingRegionsDialogDescription7": {},
+  "@introducingRegionsDialogDescription8": {}
 }

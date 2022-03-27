@@ -1,6 +1,8 @@
 {
   "genericCloseButtonTitle": "Fechar",
   "@genericCloseButtonTitle": {},
+  "@genericCancelButtonTitle": {},
+  "@genericNextButtonTitle": {},
   "genericLoadingPageError": "Erro Carregando a Página",
   "@genericLoadingPageError": {},
   "onboardingTransactionsSubtitle": "Realize pagamentos globalmente sem taxas.\nObtenha recompensas enquanto apoia\npessoas e organizações 'regenerativas'.",
@@ -373,5 +375,14 @@
   "plantSeedsUnplantExplanationMessage": "Desplantar Seeds leva 12 semanas no total, com 8,33% do valor solicitado liberado a cada semana.",
   "@plantSeedsUnplantExplanationMessage": {},
   "plantSeedsPlantFailedError": "Erro ao plantar, tente novamente",
-  "@plantSeedsPlantFailedError": {}
+  "@plantSeedsPlantFailedError": {},
+  "@introducingRegionsDialogTitle": {},
+  "@introducingRegionsDialogDescription1": {},
+  "@introducingRegionsDialogDescription2": {},
+  "@introducingRegionsDialogDescription3": {},
+  "@introducingRegionsDialogDescription4": {},
+  "@introducingRegionsDialogDescription5": {},
+  "@introducingRegionsDialogDescription6": {},
+  "@introducingRegionsDialogDescription7": {},
+  "@introducingRegionsDialogDescription8": {}
 }
