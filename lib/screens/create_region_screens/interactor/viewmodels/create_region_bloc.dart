@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
+import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
+import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/create_region_screens/add_region_background_image/components/upload_picture_box.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
-import 'package:seeds/screens/create_region_screens/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 part 'create_region_events.dart';
@@ -63,7 +63,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) {
-    // TODO(gguij004): Pending validation usecase.
+    // TODO(gguij004): Pending validation usecases.
     if (event.regionId.isEmpty) {
       emit(state.copyWith(regionId: event.regionId, isRegionIdNextButtonEnable: false));
     } else {
@@ -82,7 +82,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   Future<void> _onPickImageNextTapped(OnPickImageNextTapped event, Emitter<CreateRegionState> emit) async {
     emit(state.copyWith(imageUrl: state.imageUrl));
 
-    // TODO(gguij004): need to wait for region ID screen to be completed before using this usecase.
+    // TODO(gguij004): need to wait for region ID screen to be completed before using this usecases.
     // if (state.imageUrl == null) {
     //   final Result<String> urlResult = await SaveImageUseCase()
     //       .run(SaveImageUseCaseInput(file: state.file!, pathPrefix: PathPrefix.regionImage, creatorId: "TODO"));

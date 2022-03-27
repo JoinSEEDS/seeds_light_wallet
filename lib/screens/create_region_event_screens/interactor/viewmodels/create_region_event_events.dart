@@ -54,3 +54,17 @@ class OnRegionEventDescriptionChange extends CreateRegionEventEvents {
   @override
   String toString() => 'OnRegionEventDescriptionChange {eventDescription: $eventDescription}';
 }
+
+class OnPickImage extends CreateRegionEventEvents {
+  const OnPickImage();
+
+  @override
+  String toString() => 'OnPickImage';
+}
+
+class OnPickImageNextTapped extends CreateRegionEventEvents {
+  const OnPickImageNextTapped();
+
+  @override
+  String toString() => 'OnPickImageNextTapped';
+}
