@@ -65,7 +65,7 @@ const husdToken = TokenModel(
 
 const hyphaToken = TokenModel(
   chainName: "Telos",
-  contract: "token.hypha",
+  contract: "hypha.hypha",
   symbol: "HYPHA",
   name: "Hypha",
   backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
