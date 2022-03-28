@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/regions_map/regions_map.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -21,17 +23,25 @@ class JoinRegionScreen extends StatelessWidget {
       create: (_) => JoinRegionBloc()..add(const OnLoadRegions()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(title: Text(context.loc.joinRegionAppBarTitle)),
+        appBar: AppBar(title: BlocBuilder<JoinRegionBloc, JoinRegionState>(
+          builder: (context, state) {
+            return Text(state.pageState == PageState.success ? context.loc.joinRegionAppBarTitle : '');
+          },
+        )),
         body: BlocConsumer<JoinRegionBloc, JoinRegionState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final command = state.pageCommand;
             if (command is NavigateToRoute) {
-              NavigationService.of(context).navigateTo(command.route, true);
+              NavigationService.of(context).navigateTo(command.route, null, true);
             }
           },
           builder: (context, state) {
             switch (state.pageState) {
+              case PageState.failure:
+                return const FullPageErrorIndicator();
+              case PageState.loading:
+                return const FullPageLoadingIndicator();
               case PageState.success:
                 return SafeArea(
                   child: Padding(
@@ -73,7 +83,10 @@ class JoinRegionScreen extends StatelessWidget {
                             ),
                           ),
                         const SizedBox(height: 20.0),
-                        FlatButtonLong(title: context.loc.joinRegionCreateDescription2, onPressed: () {}),
+                        FlatButtonLong(
+                          title: context.loc.joinRegionCreateDescription2,
+                          onPressed: () => NavigationService.of(context).navigateTo(Routes.createRegion),
+                        ),
                       ],
                     ),
                   ),

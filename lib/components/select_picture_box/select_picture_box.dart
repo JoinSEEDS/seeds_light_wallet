@@ -8,13 +8,13 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 
 enum PictureBoxState { loading, pickImage, imagePicked }
 
-class UploadPictureBox extends StatelessWidget {
+class SelectPictureBox extends StatelessWidget {
   final String title;
   final File? backgroundImage;
   final VoidCallback onTap;
   final PictureBoxState pictureBoxState;
 
-  const UploadPictureBox({
+  const SelectPictureBox({
     Key? key,
     required this.title,
     this.backgroundImage,

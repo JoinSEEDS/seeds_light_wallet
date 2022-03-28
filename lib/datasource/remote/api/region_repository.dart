@@ -106,7 +106,7 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<RegionMemberModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<RegionMemberModel?>(response, (dynamic body) {
               final List<dynamic> items = body['rows'].toList();
               if (items.isEmpty) {
                 return null;
@@ -224,10 +224,7 @@ class RegionRepository extends HttpRepository with EosRepository {
   ///
   /// Join a region
   ///
-  Future<Result<TransactionResponse>> join({
-    required String region,
-    required String userAccount,
-  }) async {
+  Future<Result<TransactionResponse>> join({required String region, required String userAccount}) async {
     print('[eos] join region $region');
 
     final transaction = buildFreeTransaction([
@@ -256,10 +253,7 @@ class RegionRepository extends HttpRepository with EosRepository {
   ///
   /// Leave a region
   ///
-  Future<Result<TransactionResponse>> leave({
-    required String region,
-    required String userAccount,
-  }) async {
+  Future<Result<TransactionResponse>> leave({required String region, required String userAccount}) async {
     print('[eos] leave region $region');
 
     final transaction = buildFreeTransaction([

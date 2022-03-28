@@ -27,6 +27,7 @@ const String _kIsVisitor = 'is_visitor';
 const String _kIsFirstRun = 'is_first_run';
 const String _kIsFirstTimeOnDelegateScreen = 'is_first_time_on_delegate_screen';
 const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
+const String _kIsFirstTimeOnRegionsScreen = 'IsFirstTimeOnRegionsScreen';
 
 class _SettingsStorage {
   late SharedPreferences _preferences;
@@ -78,6 +79,8 @@ class _SettingsStorage {
   bool get isVisitor => _preferences.getBool(_kIsVisitor) ?? false;
 
   bool get isFirstTimeOnDelegateScreen => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
+
+  bool get isFirstTimeOnRegionsScreen => _preferences.getBool(_kIsFirstTimeOnRegionsScreen) ?? true;
 
   List<String> get recoveryWords => _recoveryWords;
 
@@ -157,6 +160,10 @@ class _SettingsStorage {
 
   set isFirstTimeOnDelegateScreen(bool value) {
     _preferences.setBool(_kIsFirstTimeOnDelegateScreen, value);
+  }
+
+  set isFirstTimeOnRegionsScreen(bool value) {
+    _preferences.setBool(_kIsFirstTimeOnRegionsScreen, value);
   }
 
   set dateSinceRateAppPrompted(int? value) {
