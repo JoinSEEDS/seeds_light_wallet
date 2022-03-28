@@ -6,16 +6,16 @@ import 'package:seeds/screens/create_region_screens/choose_region_id/components/
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 
 class ValidateRegionIdStateMapper extends StateMapper {
-  CreateRegionState mapResultToState(CreateRegionState currentState, Result<RegionModel> result) {
+  CreateRegionState mapResultToState(CreateRegionState currentState, Result<RegionModel?> result) {
     if (result.isError) {
       return currentState.copyWith(
           pageState: PageState.success, pageCommand: ShowErrorMessage("Error with id validation"));
     } else {
       if (result.asValue?.value == null) {
-        return currentState.copyWith(regionIdAuthenticationState: AuthenticationState.valid);
+        return currentState.copyWith(regionIdAuthenticationState: RegionIdStatusIcon.valid);
       } else {
         return currentState.copyWith(
-            regionIdAuthenticationState: AuthenticationState.invalid,
+            regionIdAuthenticationState: RegionIdStatusIcon.invalid,
             regionIdErrorMessage: "Region Id is already taken, please provide a new one");
       }
     }

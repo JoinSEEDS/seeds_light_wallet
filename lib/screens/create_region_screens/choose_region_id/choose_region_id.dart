@@ -64,11 +64,13 @@ class ChooseRegionId extends StatelessWidget {
                     ],
                   ),
                   Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FlatButtonLong(
-                          enabled: state.regionIdAuthenticationState == AuthenticationState.valid,
-                          title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
-                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
+                    alignment: Alignment.bottomCenter,
+                    child: FlatButtonLong(
+                      enabled: state.regionIdAuthenticationState == RegionIdStatusIcon.valid,
+                      title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
+                      onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
+                    ),
+                  )
                 ],
               ),
             ),

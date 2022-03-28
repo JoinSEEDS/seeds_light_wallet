@@ -37,7 +37,7 @@ class RegionRepository extends HttpRepository with EosRepository {
   }
 
   Future<Result<RegionModel>> getRegionById(String regionId) {
-    print('[http] get region');
+    print('[http] get region: $regionId');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 

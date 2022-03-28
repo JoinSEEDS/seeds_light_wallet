@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_colors.dart';
 
-enum AuthenticationState { loading, valid, invalid }
+enum RegionIdStatusIcon { loading, valid, invalid }
 
 class AuthenticationStatus extends StatelessWidget {
-  final AuthenticationState authenticationIdState;
+  final RegionIdStatusIcon authenticationIdState;
 
   const AuthenticationStatus({
     Key? key,
@@ -14,11 +14,11 @@ class AuthenticationStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (authenticationIdState) {
-      case AuthenticationState.loading:
+      case RegionIdStatusIcon.loading:
         return const CircularProgressIndicator(color: AppColors.green1);
-      case AuthenticationState.valid:
+      case RegionIdStatusIcon.valid:
         return const Icon(Icons.check, size: 70, color: AppColors.green1);
-      case AuthenticationState.invalid:
+      case RegionIdStatusIcon.invalid:
         return const Icon(Icons.block_flipped, size: 70, color: AppColors.red1);
     }
   }

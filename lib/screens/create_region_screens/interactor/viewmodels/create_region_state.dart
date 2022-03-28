@@ -17,7 +17,7 @@ class CreateRegionState extends Equatable {
   final String regionId;
   final String? regionIdErrorMessage;
   final Place? currentPlace;
-  final AuthenticationState regionIdAuthenticationState;
+  final RegionIdStatusIcon regionIdAuthenticationState;
 
   const CreateRegionState({
     required this.pageState,
@@ -71,7 +71,7 @@ class CreateRegionState extends Equatable {
     String? regionId,
     String? regionIdErrorMessage,
     Place? currentPlace,
-    AuthenticationState? regionIdAuthenticationState,
+    RegionIdStatusIcon? regionIdAuthenticationState,
   }) =>
       CreateRegionState(
         pageState: pageState ?? this.pageState,
@@ -103,7 +103,7 @@ class CreateRegionState extends Equatable {
       isUploadImageNextButtonEnable: false,
       pictureBoxState: PictureBoxState.pickImage,
       regionId: "",
-      regionIdAuthenticationState: AuthenticationState.loading,
+      regionIdAuthenticationState: RegionIdStatusIcon.loading,
     );
   }
 }
