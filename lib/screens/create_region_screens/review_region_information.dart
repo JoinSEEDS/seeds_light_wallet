@@ -5,7 +5,7 @@ import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
-import 'package:seeds/screens/create_region_screens/review_region_information/components/review_region_header.dart';
+import 'package:seeds/screens/create_region_screens/components/review_region_header.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ReviewRegion extends StatelessWidget {
