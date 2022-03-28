@@ -11,7 +11,7 @@ class PasscodeCreatedDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-      singleLargeButtonTitle: context.loc.verificationPasscodeDialogButtonTitle,
+      singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
       children: [
         Text(context.loc.verificationPasscodeDialogTitle, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),

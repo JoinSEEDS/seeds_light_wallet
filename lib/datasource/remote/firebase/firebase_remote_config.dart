@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/firebase_eos_servers.dart';
 
-const String _activeEOSEndpointKey = 'eos_enpoints';
+const String _activeEOSEndpointKey = 'eos_endpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
@@ -11,7 +11,8 @@ const String _featureFlagImportAccount = 'feature_flag_import_account';
 const String _featureFlagExportRecoveryPhrase = 'feature_flag_export_recovery_phrase';
 const String _featureFlagDelegate = 'feature_flag_delegate';
 const String _featureFlagClaimUnplantedSeeds = 'feature_flag_unplant_claim_seeds';
-const String _feauterFlagP2P = 'feature_flag_p2p';
+const String _featureFlagP2P = 'feature_flag_p2p';
+const String _featureFlagRegions = 'feature_flag_regions_enabled';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -52,7 +53,8 @@ class _FirebaseRemoteConfigService {
     _featureFlagExportRecoveryPhrase: false,
     _featureFlagDelegate: false,
     _featureFlagClaimUnplantedSeeds: false,
-    _feauterFlagP2P: false,
+    _featureFlagP2P: false,
+    _featureFlagRegions: false,
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
@@ -89,7 +91,8 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagExportRecoveryPhraseEnabled => _remoteConfig.getBool(_featureFlagExportRecoveryPhrase);
   bool get featureFlagDelegateEnabled => _remoteConfig.getBool(_featureFlagDelegate);
   bool get featureFlagClaimUnplantedSeedsEnabled => _remoteConfig.getBool(_featureFlagClaimUnplantedSeeds);
-  bool get featureFlagP2PEnabled => _remoteConfig.getBool(_feauterFlagP2P);
+  bool get featureFlagP2PEnabled => _remoteConfig.getBool(_featureFlagP2P);
+  bool get featureFlagRegionsEnabled => _remoteConfig.getBool(_featureFlagRegions);
 
   String get hyphaEndPoint => testnetMode
       ? unitTestMode
@@ -115,7 +118,7 @@ class _FirebaseRemoteConfigService {
               : _testnetEosEndpoints
           : _remoteConfig.getString(_activeEOSEndpointKey))
       .firstWhere((FirebaseEosServer element) => element.isDefault!,
-          orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
+          orElse: () => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey)).first);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.

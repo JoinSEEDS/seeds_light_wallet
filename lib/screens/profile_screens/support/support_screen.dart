@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/profile_screens/support/support.i18n.dart';
 import 'package:seeds/screens/profile_screens/support/interactor/viewmodels/support_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,7 +18,7 @@ class SupportScreen extends StatelessWidget {
       create: (_) => SupportBloc()..add(const LoadSupportData()),
       child: BlocBuilder<SupportBloc, SupportState>(builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text('Support'.i18n)),
+          appBar: AppBar(title: Text(context.loc.supportTitle)),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -74,12 +74,12 @@ class SupportScreen extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 80.0),
                                   child: Text(
-                                    'If you have any questions or concerns, Please find our'.i18n,
+                                    context.loc.supportDiscordChannelPart1,
                                     style: Theme.of(context).textTheme.buttonLowEmphasis,
                                   ),
                                 ),
                                 Text(
-                                  'Seeds Light Wallet',
+                                  context.loc.supportDiscordChannelPart2,
                                   style: Theme.of(context).textTheme.headline8.copyWith(color: AppColors.canopy),
                                 ),
                                 const SizedBox(height: 8.0),
@@ -87,14 +87,14 @@ class SupportScreen extends StatelessWidget {
                                   text: TextSpan(
                                     style: Theme.of(context).textTheme.buttonLowEmphasis,
                                     children: <TextSpan>[
-                                      TextSpan(text: 'Channel in'.i18n),
+                                      TextSpan(text: context.loc.supportDiscordChannelPart3),
                                       TextSpan(
-                                          text: ' Discord ',
+                                          text: context.loc.supportDiscordChannelPart4,
                                           style: Theme.of(context)
                                               .textTheme
                                               .buttonLowEmphasis
                                               .copyWith(color: AppColors.canopy)),
-                                      TextSpan(text: 'here.'.i18n),
+                                      TextSpan(text: context.loc.supportDiscordChannelPart5),
                                     ],
                                   ),
                                 )
@@ -114,10 +114,10 @@ class SupportScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   MaterialButton(
                     onPressed: () => Share.share(
-                        "${state.appName}, ${state.version}(${state.buildNumber}), ${state.firebaseInstallationId}"),
+                        "${state.appName}, ${state.version} (${state.buildNumber}), ${state.firebaseInstallationId}"),
                     color: AppColors.green1,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                    child: const Text("Tap to share"),
+                    child: Text(context.loc.supportTapToShare),
                   ),
                 ],
               ),

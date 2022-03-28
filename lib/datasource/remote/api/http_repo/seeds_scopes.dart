@@ -10,11 +10,11 @@ const String _accountRules = 'rules.seeds';
 const String _accountSettgs = 'settgs.seeds';
 const String _historySeeds = 'histry.seeds';
 const String _accountOrgs = 'orgs.seeds';
+const String _accountRegion = 'region.seeds';
 const String _accountdelphioracle = 'delphioracle';
 const String _voiceScopeAlliance = "alliance";
 const String _voiceScopeCampaign = "funds.seeds"; // Note: campaign voice scope is contract scope
 const String _voiceScopeMilestone = "milestone"; // Note: campaign voice scope is contract scope
-
 
 enum SeedsCode {
   accountAccounts,
@@ -27,6 +27,7 @@ enum SeedsCode {
   accountToken,
   accountRules,
   accountSettgs,
+  accountRegion,
   historySeeds,
   accountOrgs,
   accountdelphioracle,
@@ -58,6 +59,8 @@ extension SeedsCodeExtension on SeedsCode {
         return _accountRules;
       case SeedsCode.accountSettgs:
         return _accountSettgs;
+      case SeedsCode.accountRegion:
+        return _accountRegion;
       case SeedsCode.historySeeds:
         return _historySeeds;
       case SeedsCode.accountOrgs:

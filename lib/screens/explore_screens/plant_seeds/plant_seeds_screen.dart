@@ -11,12 +11,13 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
+import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_page_command.dart';
+import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_errors.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class PlantSeedsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Plant'.i18n)),
+        appBar: AppBar(title: Text(context.loc.plantSeedsAppBarTitle)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -43,8 +44,8 @@ class PlantSeedsScreen extends StatelessWidget {
                 },
               );
             }
-            if (pageCommand is ShowErrorMessage) {
-              eventBus.fire(ShowSnackBar(pageCommand.message));
+            if (pageCommand is ShowError) {
+              eventBus.fire(ShowSnackBar(pageCommand.error.localizedDescription(context)));
             }
           },
           builder: (context, PlantSeedsState state) {
@@ -52,7 +53,7 @@ class PlantSeedsScreen extends StatelessWidget {
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.failure:
-                return const FullPageErrorIndicator();
+                return FullPageErrorIndicator(errorMessage: state.error?.localizedDescription(context));
               case PageState.success:
                 return SafeArea(
                   minimum: const EdgeInsets.all(horizontalEdgePadding),
@@ -64,7 +65,7 @@ class PlantSeedsScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               const SizedBox(height: 16),
-                              Text('Plant amount'.i18n, style: Theme.of(context).textTheme.headline6),
+                              Text(context.loc.plantSeedsPlantAmount, style: Theme.of(context).textTheme.headline6),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0),
@@ -74,16 +75,16 @@ class PlantSeedsScreen extends StatelessWidget {
                                 autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 24),
-                              AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
+                              AlertInputValue(context.loc.plantSeedsNotEnoughBalanceAlert, isVisible: state.showAlert),
                               const SizedBox(height: 24),
                               BalanceRow(
-                                label: 'Available Balance'.i18n,
+                                label: context.loc.plantSeedsAvailableBalance,
                                 fiatAmount: state.availableBalanceFiat,
                                 tokenAmount: state.availableBalance,
                               ),
                               const DividerJungle(height: 24),
                               BalanceRow(
-                                label: 'Planted Balance'.i18n,
+                                label: context.loc.plantSeedsPlantedBalance,
                                 fiatAmount: state.plantedBalanceFiat,
                                 tokenAmount: state.plantedBalance,
                               ),
@@ -94,7 +95,7 @@ class PlantSeedsScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: FlatButtonLong(
-                          title: 'Plant Seeds'.i18n,
+                          title: context.loc.plantSeedsPlantButtonTitle,
                           enabled: state.isPlantSeedsButtonEnabled,
                           onPressed: () =>
                               BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
