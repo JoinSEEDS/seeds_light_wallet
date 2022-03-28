@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/images/explore/red_exclamation_circle.dart';
+import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 
 class CreateRegionConfirmationDialog extends StatelessWidget {
   const CreateRegionConfirmationDialog({Key? key}) : super(key: key);
@@ -17,7 +19,10 @@ class CreateRegionConfirmationDialog extends StatelessWidget {
         icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
         leftButtonTitle: "Cancel",
         rightButtonTitle: "Yes I'm sure",
-        onRightButtonPressed: () {},
+        onRightButtonPressed: () {
+          BlocProvider.of<CreateRegionBloc>(context).add(const OnConfirmCreateRegionTapped());
+          Navigator.of(context).pop();
+        },
         children: [
           const SizedBox(height: 10.0),
           Text("Create Region Confirmation", style: Theme.of(context).textTheme.headline6),

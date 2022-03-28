@@ -26,7 +26,8 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     on<OnRegionIdChange>(_onRegionIdChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
-    on<OnCreateRegionTapped>(_onCreateRegionTapped);
+    on<OnConfirmCreateRegionTapped>(_onConfirmCreateRegionTapped);
+    on<OnPublishRegionTapped>(_onPublishRegionTapped);
     on<ClearCreateRegionPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -93,7 +94,14 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
         pageState: PageState.success, createRegionsScreens: CreateRegionScreen.reviewRegion, imageUrl: state.imageUrl));
   }
 
-  Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<CreateRegionState> emit) async {}
+  Future<void> _onConfirmCreateRegionTapped(OnConfirmCreateRegionTapped event, Emitter<CreateRegionState> emit) async {
+    // TODO(gguij004): Next pr will add usecase and mapper for create region.
+    emit(state.copyWith(pageState: PageState.loading));
+  }
+
+  void _onPublishRegionTapped(OnPublishRegionTapped event, Emitter<CreateRegionState> emit) {
+    emit(state.copyWith(pageCommand: ShowCreateRegionConfirmation()));
+  }
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionState> emit) {
     switch (state.createRegionsScreens) {
