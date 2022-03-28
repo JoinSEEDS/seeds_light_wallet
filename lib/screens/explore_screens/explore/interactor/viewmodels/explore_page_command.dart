@@ -7,3 +7,7 @@ class NavigateToBuySeeds extends PageCommand {
 class ShowUserFlagInformation extends PageCommand {
   ShowUserFlagInformation();
 }
+
+class ShowIntroduceRegions extends PageCommand {
+  ShowIntroduceRegions();
+}
