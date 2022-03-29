@@ -26,9 +26,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnSelectDateChanged>(_onSelectDateChange);
-    on<OnSelectDateTapped>(_onSelectDateTapped);
     on<OnSelectTimeChanged>(_onSelectTimeChange);
-    on<OnSelectTimeTapped>(_onSelectTimeTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -45,19 +43,15 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   }
 
   void _onSelectDateChange(OnSelectDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeDateStateMapper().mapResultToState(state, event.selectedDate));
-  }
-
-  void _onSelectDateTapped(OnSelectDateTapped event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(pageCommand: ShowPickDate()));
+    if (event.selectedDate != null) {
+      emit(ChangeDateStateMapper().mapResultToState(state, event.selectedDate!));
+    }
   }
 
   void _onSelectTimeChange(OnSelectTimeChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeTimeStateMapper().mapResultToState(state, event.selectedTime));
-  }
-
-  void _onSelectTimeTapped(OnSelectTimeTapped event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(pageCommand: ShowPickTime()));
+    if (event.selectedTime != null) {
+      emit(ChangeTimeStateMapper().mapResultToState(state, event.selectedTime!));
+    }
   }
 
   Future<void> _onPickImage(OnPickImage event, Emitter<CreateRegionEventState> emit) async {

@@ -29,7 +29,7 @@ class DateTimeWidgetRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             children: [
-              const SizedBox(width: 10),
+              const SizedBox(width: 20),
               icon,
               const SizedBox(width: 20),
               if (timeInfo.isNotEmpty)
