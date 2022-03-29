@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_date_state_mapper.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_time_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 
@@ -22,7 +25,10 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnRegionEventDescriptionChange>(_onRegionEventDescriptionChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
-    on<OnSelectDateChanged>(_onSelectDateTapped);
+    on<OnSelectDateChanged>(_onSelectDateChange);
+    on<OnSelectDateTapped>(_onSelectDateTapped);
+    on<OnSelectTimeChanged>(_onSelectTimeChange);
+    on<OnSelectTimeTapped>(_onSelectTimeTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -38,8 +44,20 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     emit(state.copyWith(eventDescription: event.eventDescription));
   }
 
-  void _onSelectDateTapped(OnSelectDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(eventDateTime: event.newDateTime));
+  void _onSelectDateChange(OnSelectDateChanged event, Emitter<CreateRegionEventState> emit) {
+    emit(ChangeDateStateMapper().mapResultToState(state, event.selectedDate));
+  }
+
+  void _onSelectDateTapped(OnSelectDateTapped event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(pageCommand: ShowPickDate()));
+  }
+
+  void _onSelectTimeChange(OnSelectTimeChanged event, Emitter<CreateRegionEventState> emit) {
+    emit(ChangeTimeStateMapper().mapResultToState(state, event.selectedTime));
+  }
+
+  void _onSelectTimeTapped(OnSelectTimeTapped event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(pageCommand: ShowPickTime()));
   }
 
   Future<void> _onPickImage(OnPickImage event, Emitter<CreateRegionEventState> emit) async {

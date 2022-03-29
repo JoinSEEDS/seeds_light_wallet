@@ -19,7 +19,9 @@ class CreateRegionEventState extends Equatable {
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
-  final DateTime? eventDateTime;
+  final DateTime? eventDateAndTime;
+  final DateTime? eventDate;
+  final TimeOfDay? eventTime;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -31,7 +33,9 @@ class CreateRegionEventState extends Equatable {
     this.file,
     required this.pictureBoxState,
     this.imageUrl,
-    this.eventDateTime,
+    this.eventDateAndTime,
+    this.eventDate,
+    this.eventTime,
   });
 
   @override
@@ -45,7 +49,9 @@ class CreateRegionEventState extends Equatable {
         file,
         pictureBoxState,
         imageUrl,
-        eventDateTime,
+        eventDateAndTime,
+        eventDate,
+        eventTime,
       ];
 
   CreateRegionEventState copyWith({
@@ -58,7 +64,9 @@ class CreateRegionEventState extends Equatable {
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
-    DateTime? eventDateTime,
+    DateTime? eventDateAndTime,
+    DateTime? eventDate,
+    TimeOfDay? eventTime,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -70,7 +78,9 @@ class CreateRegionEventState extends Equatable {
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl,
-        eventDateTime: eventDateTime ?? this.eventDateTime,
+        eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
+        eventDate: eventDate ?? this.eventDate,
+        eventTime: eventTime ?? this.eventTime,
       );
 
   factory CreateRegionEventState.initial() {
