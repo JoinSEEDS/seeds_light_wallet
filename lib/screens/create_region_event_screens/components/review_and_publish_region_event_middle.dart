@@ -19,7 +19,7 @@ class ReviewAndPublishRegionEventMiddle extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: Text(DateFormat.yMMMMEEEEd().format(state.eventDate!))),
+                  Expanded(child: Text(DateFormat.yMMMMEEEEd().format(state.eventDateAndTime!))),
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -34,7 +34,7 @@ class ReviewAndPublishRegionEventMiddle extends StatelessWidget {
                         const Icon(Icons.access_time, color: AppColors.green1),
                         const SizedBox(width: 6),
                         Text(
-                          DateFormat.jm().format(state.eventDate!),
+                          DateFormat.jm().format(state.eventDateAndTime!),
                           style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
                         ),
                       ],
