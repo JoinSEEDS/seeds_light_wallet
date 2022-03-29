@@ -15,8 +15,9 @@ class CreateRegionState extends Equatable {
   final String? imageUrl;
   final PictureBoxState pictureBoxState;
   final String regionId;
-  final bool isRegionIdNextButtonEnable;
+  final String? regionIdErrorMessage;
   final Place? currentPlace;
+  final RegionIdStatusIcon regionIdAuthenticationState;
 
   const CreateRegionState({
     required this.pageState,
@@ -30,9 +31,10 @@ class CreateRegionState extends Equatable {
     required this.isUploadImageNextButtonEnable,
     this.imageUrl,
     required this.pictureBoxState,
-    required this.isRegionIdNextButtonEnable,
     required this.regionId,
+    this.regionIdErrorMessage,
     this.currentPlace,
+    required this.regionIdAuthenticationState,
   });
 
   @override
@@ -48,9 +50,10 @@ class CreateRegionState extends Equatable {
         isUploadImageNextButtonEnable,
         imageUrl,
         pictureBoxState,
-        isRegionIdNextButtonEnable,
         regionId,
+        regionIdErrorMessage,
         currentPlace,
+        regionIdAuthenticationState,
       ];
 
   CreateRegionState copyWith({
@@ -65,9 +68,10 @@ class CreateRegionState extends Equatable {
     bool? isUploadImageNextButtonEnable,
     String? imageUrl,
     PictureBoxState? pictureBoxState,
-    bool? isRegionIdNextButtonEnable,
     String? regionId,
+    String? regionIdErrorMessage,
     Place? currentPlace,
+    RegionIdStatusIcon? regionIdAuthenticationState,
   }) =>
       CreateRegionState(
         pageState: pageState ?? this.pageState,
@@ -82,9 +86,10 @@ class CreateRegionState extends Equatable {
         isUploadImageNextButtonEnable: isUploadImageNextButtonEnable ?? this.isUploadImageNextButtonEnable,
         imageUrl: imageUrl,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
-        isRegionIdNextButtonEnable: isRegionIdNextButtonEnable ?? this.isRegionIdNextButtonEnable,
         regionId: regionId ?? this.regionId,
+        regionIdErrorMessage: regionIdErrorMessage,
         currentPlace: currentPlace ?? this.currentPlace,
+        regionIdAuthenticationState: regionIdAuthenticationState ?? this.regionIdAuthenticationState,
       );
 
   factory CreateRegionState.initial() {
@@ -97,8 +102,8 @@ class CreateRegionState extends Equatable {
       isRegionDescriptionNextButtonEnable: false,
       isUploadImageNextButtonEnable: false,
       pictureBoxState: PictureBoxState.pickImage,
-      isRegionIdNextButtonEnable: false,
       regionId: "",
+      regionIdAuthenticationState: RegionIdStatusIcon.loading,
     );
   }
 }
