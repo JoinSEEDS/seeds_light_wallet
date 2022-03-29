@@ -5,3 +5,5 @@ class OnRegionCreated extends PageCommand {}
 class ReturnToJoinRegion extends PageCommand {}
 
 class ShowCreateRegionConfirmation extends PageCommand {}
+
+class ValidateGeneratedRegionId extends PageCommand {}
