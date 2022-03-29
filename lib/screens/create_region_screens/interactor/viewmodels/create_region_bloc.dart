@@ -9,9 +9,11 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
 import 'package:seeds/screens/create_region_screens/components/authentication_status.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/save_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/validate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/validate_region_id_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
@@ -42,10 +44,10 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onRegionNameChange(OnRegionNameChange event, Emitter<CreateRegionState> emit) {
     if (event.regionName.isEmpty) {
-      emit(state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: false));
+      emit(state.copyWith(regionName: event.regionName));
     } else {
       emit(
-        state.copyWith(regionName: event.regionName, isRegionNameNextButtonEnable: true),
+        state.copyWith(regionName: event.regionName),
       );
     }
   }
@@ -60,10 +62,10 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
     if (event.regionDescription.isEmpty) {
-      emit(state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: false));
+      emit(state.copyWith(regionDescription: event.regionDescription));
     } else {
       emit(
-        state.copyWith(regionDescription: event.regionDescription, isRegionDescriptionNextButtonEnable: true),
+        state.copyWith(regionDescription: event.regionDescription),
       );
     }
   }
@@ -83,23 +85,21 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   Future<void> _onPickImage(OnPickImage event, Emitter<CreateRegionState> emit) async {
-    emit(state.copyWith(pictureBoxState: PictureBoxState.loading, imageUrl: state.imageUrl));
+    emit(state.copyWith(pictureBoxState: PictureBoxState.loading));
     final result = await PickImageUseCase().run();
     emit(PickImageStateMapper().mapResultToState(state, result));
   }
 
   Future<void> _onPickImageNextTapped(OnPickImageNextTapped event, Emitter<CreateRegionState> emit) async {
-    emit(state.copyWith(imageUrl: state.imageUrl));
-
-    // TODO(gguij004): need to wait for region ID screen to be completed before using this usecases.
-    // if (state.imageUrl == null) {
-    //   final Result<String> urlResult = await SaveImageUseCase()
-    //       .run(SaveImageUseCaseInput(file: state.file!, pathPrefix: PathPrefix.regionImage, creatorId: "TODO"));
-    //   emit(SaveImageStateMapper().mapResultToState(state, urlResult));
-    // }
-
-    emit(state.copyWith(
-        pageState: PageState.success, createRegionsScreens: CreateRegionScreen.reviewRegion, imageUrl: state.imageUrl));
+    emit(state.copyWith(isNextButtonLoading: true));
+    if (state.createImageUrl) {
+      final Result<String> urlResult = await SaveImageUseCase()
+          .run(SaveImageUseCaseInput(file: state.file!, pathPrefix: PathPrefix.regionImage, creatorId: state.regionId));
+      emit(SaveImageStateMapper().mapResultToState(state, urlResult));
+    } else {
+      emit(state.copyWith(
+          createRegionsScreens: CreateRegionScreen.reviewRegion, isNextButtonLoading: false));
+    }
   }
 
   Future<void> _onConfirmCreateRegionTapped(OnConfirmCreateRegionTapped event, Emitter<CreateRegionState> emit) async {
