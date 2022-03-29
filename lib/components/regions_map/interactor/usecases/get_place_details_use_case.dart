@@ -1,5 +1,5 @@
-import 'package:google_maps_webservice/places.dart';
-import 'package:seeds/datasource/remote/search_places_service.dart';
+import 'package:seeds/datasource/remote/api/google_places_repository.dart';
+import 'package:seeds/datasource/remote/model/google_places_models/place_details_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 
 class GetPlaceDetailsUseCase extends InputUseCase<PlacesDetailsResponse, _Input> {
@@ -7,7 +7,7 @@ class GetPlaceDetailsUseCase extends InputUseCase<PlacesDetailsResponse, _Input>
 
   @override
   Future<Result<PlacesDetailsResponse>> run(_Input input) async {
-    return SearchPlacesService().getPlaceDetails(input.placeId);
+    return GoogleMapsPlacesRepository().getDetailsByPlaceId(input.placeId);
   }
 }
 
