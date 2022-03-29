@@ -10,41 +10,50 @@ class AddRegionEventName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateRegionEventBloc, CreateRegionEventState>(builder: (context, state) {
-      return WillPopScope(
+    return BlocBuilder<CreateRegionEventBloc, CreateRegionEventState>(
+      builder: (context, state) {
+        return WillPopScope(
           onWillPop: () async {
             BlocProvider.of<CreateRegionEventBloc>(context).add(const OnBackPressed());
             return false;
           },
           child: Scaffold(
-              appBar: AppBar(
-                  leading: BackButton(
-                      onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnBackPressed())),
-                  title: const Text("Create Event")),
-              body: SafeArea(
-                  minimum: const EdgeInsets.all(horizontalEdgePadding),
-                  child: Stack(children: [
-                    Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        TextFormFieldCustom(
-                          initialValue: state.eventName,
-                          maxLength: 36,
-                          autofocus: true,
-                          labelText: "Event Name",
-                          onChanged: (text) {
-                            BlocProvider.of<CreateRegionEventBloc>(context).add(OnRegionEventNameChange(text));
-                          },
-                        ),
-                      ],
+            appBar: AppBar(
+                leading: BackButton(
+                    onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnBackPressed())),
+                title: const Text("Create Event")),
+            body: SafeArea(
+              minimum: const EdgeInsets.all(horizontalEdgePadding),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      TextFormFieldCustom(
+                        initialValue: state.eventName,
+                        maxLength: 36,
+                        autofocus: true,
+                        labelText: "Event Name",
+                        onChanged: (text) {
+                          BlocProvider.of<CreateRegionEventBloc>(context).add(OnRegionEventNameChange(text));
+                        },
+                      ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FlatButtonLong(
+                      enabled: state.eventName.isNotEmpty,
+                      title: "Next (2/4)",
+                      onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()),
                     ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                            enabled: state.eventName.isNotEmpty,
-                            title: "Next (2/4)",
-                            onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped())))
-                  ]))));
-    });
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
