@@ -5,6 +5,8 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_analytics_service.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -90,6 +92,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } else {
       emit(state.copyWith(pageState: PageState.initial));
     }
+    await FirebaseAnalyticsService().setUserId(settingsStorage.accountName);
   }
 
   void _shouldShowNotificationBadge(ShouldShowNotificationBadge event, Emitter<AppState> emit) {
@@ -99,12 +102,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  void _bottomBarTapped(BottomBarTapped event, Emitter<AppState> emit) {
+  Future<void> _bottomBarTapped(BottomBarTapped event, Emitter<AppState> emit) async {
     emit(state.copyWith(
       index: event.index,
       pageCommand: BottomBarNavigateToIndex(event.index),
       showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
     ));
+    await FirebaseAnalyticsService().sendEvent('BottomBarTapped', {'index': event.index});
   }
 
   void _shouldShowGuardianRecoveryAlert(ShouldShowGuardianRecoveryAlert event, Emitter<AppState> emit) {
