@@ -22,6 +22,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnRegionEventDescriptionChange>(_onRegionEventDescriptionChange);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
+    on<OnSelectDateChanged>(_onSelectDateTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -35,6 +36,10 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
 
   void _onRegionEventDescriptionChange(OnRegionEventDescriptionChange event, Emitter<CreateRegionEventState> emit) {
     emit(state.copyWith(eventDescription: event.eventDescription));
+  }
+
+  void _onSelectDateTapped(OnSelectDateChanged event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(eventDateTime: event.newDateTime));
   }
 
   Future<void> _onPickImage(OnPickImage event, Emitter<CreateRegionEventState> emit) async {
@@ -68,6 +73,9 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.addDescription));
         break;
       case CreateRegionEventScreen.addDescription:
+        emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.choseDataAndTime));
+        break;
+      case CreateRegionEventScreen.choseDataAndTime:
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.selectBackgroundImage));
         break;
       case CreateRegionEventScreen.selectBackgroundImage:
@@ -89,8 +97,11 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
       case CreateRegionEventScreen.addDescription:
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.displayName));
         break;
-      case CreateRegionEventScreen.selectBackgroundImage:
+      case CreateRegionEventScreen.choseDataAndTime:
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.addDescription));
+        break;
+      case CreateRegionEventScreen.selectBackgroundImage:
+        emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.choseDataAndTime));
         break;
       case CreateRegionEventScreen.reviewAndPublish:
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.selectBackgroundImage));

@@ -6,6 +6,7 @@ enum CreateRegionEventScreen {
   addDescription,
   selectBackgroundImage,
   reviewAndPublish,
+  choseDataAndTime,
 }
 
 class CreateRegionEventState extends Equatable {
@@ -18,6 +19,7 @@ class CreateRegionEventState extends Equatable {
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
+  final DateTime? eventDateTime;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -29,6 +31,7 @@ class CreateRegionEventState extends Equatable {
     this.file,
     required this.pictureBoxState,
     this.imageUrl,
+    this.eventDateTime,
   });
 
   @override
@@ -42,6 +45,7 @@ class CreateRegionEventState extends Equatable {
         file,
         pictureBoxState,
         imageUrl,
+        eventDateTime,
       ];
 
   CreateRegionEventState copyWith({
@@ -54,6 +58,7 @@ class CreateRegionEventState extends Equatable {
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
+    DateTime? eventDateTime,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -65,6 +70,7 @@ class CreateRegionEventState extends Equatable {
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl,
+        eventDateTime: eventDateTime ?? this.eventDateTime,
       );
 
   factory CreateRegionEventState.initial() {
