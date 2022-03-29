@@ -2,7 +2,7 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/create_region_screens/choose_region_id/components/authentication_status.dart';
+import 'package:seeds/screens/create_region_screens/components/authentication_status.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 
 class ValidateRegionIdStateMapper extends StateMapper {

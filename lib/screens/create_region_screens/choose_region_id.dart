@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/create_region_screens/choose_region_id/components/authentication_status.dart';
+import 'package:seeds/screens/create_region_screens/components/authentication_status.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
