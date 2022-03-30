@@ -61,7 +61,6 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
-  freezed_annotation: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -69,8 +68,6 @@ dev_dependencies:
   test: any
   mockito: ^5.0.7
   lint: ^1.7.2
-  build_runner: ^2.1.8
-  freezed: ^1.1.0
 
 flutter_icons:
   android: "app_icon"
