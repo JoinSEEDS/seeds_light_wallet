@@ -18,9 +18,7 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
   EditNameBloc(ProfileModel profileModel) : super(EditNameState.initial(profileModel)) {
     on<OnNameChanged>(_onNameChange);
     on<SubmitName>(_submitName);
-    on<ClearPageCommand>(
-      (event, emit) => emit(state.copyWith()),
-    );
+    on<ClearPageCommand>((event, emit) => emit(state.copyWith()));
   }
 
   Future<void> _submitName(SubmitName event, Emitter<EditNameState> emit) async {
@@ -35,7 +33,7 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
     emit(state.copyWith(name: event.name));
     if (event.name.length > nameMaxChars) {
       emit(state.copyWith(errorMessage: "Max length is $nameMaxChars characters"));
-    } else if(event.name.isEmpty) {
+    } else if (event.name.isEmpty) {
       emit(state.copyWith(errorMessage: "Name cannot be empty"));
     }
   }
