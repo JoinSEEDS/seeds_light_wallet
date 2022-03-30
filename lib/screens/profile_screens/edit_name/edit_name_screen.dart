@@ -32,8 +32,8 @@ class EditNameScreen extends StatelessWidget {
               Navigator.of(context).pop(state.name);
             } else if(pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
+              BlocProvider.of<EditNameBloc>(context).add(const ClearPageCommand());
             }
-            BlocProvider.of<EditNameBloc>(context).add(const ClearPageCommand());
           },
           builder: (context, state) {
             switch (state.pageState) {
