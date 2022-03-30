@@ -7,7 +7,7 @@ class CheckPrivateKeyUseCase {
       final EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
       return eosPublicKey.toString();
     } catch (e, s) {
-      print("Error EOSPrivateKey.fromString $e");
+      print("Error x EOSPrivateKey.fromString: $privateKey: $e");
       print(s);
       return null;
     }

@@ -42,7 +42,7 @@ class SwithAccountBottomSheet extends StatelessWidget {
                 listenWhen: (_, current) => current.pageState == PageState.failure,
                 listener: (context, state) {
                   Navigator.of(context).pop();
-                  eventBus.fire(ShowSnackBar(state.error?.localizedDescription(context) ?? ''));
+                  eventBus.fire(ShowSnackBar(state.error?.localizedKeyErrorDescription(context) ?? ''));
                 },
                 builder: (context, state) {
                   switch (state.pageState) {

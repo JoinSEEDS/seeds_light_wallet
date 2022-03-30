@@ -4,7 +4,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 enum ImportKeyError { invalidPrivateKey, noAccountsFound, unableToLoadAccount, noPublicKeyFound }
 
 extension LocalizedImportKeyError on ImportKeyError {
-  String localizedDescription(BuildContext context) {
+  String localizedKeyErrorDescription(BuildContext context) {
     switch (this) {
       case ImportKeyError.invalidPrivateKey:
         return context.loc.importKeyInvalidPrivateKeyError;

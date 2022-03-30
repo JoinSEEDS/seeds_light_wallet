@@ -30,7 +30,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
           case PageState.failure:
             return Center(
                 child: Text(
-              state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context),
+              state.error?.localizedKeyErrorDescription(context) ?? GlobalError.unknown.localizedDescription(context),
               style: Theme.of(context).textTheme.subtitle1Red2,
             ));
           case PageState.success:
