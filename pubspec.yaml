@@ -61,7 +61,6 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
-  google_maps_webservice: ^0.0.20-nullsafety.5
   freezed_annotation: ^1.1.0
 
 dev_dependencies:

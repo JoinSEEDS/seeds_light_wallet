@@ -2,7 +2,7 @@ part of 'search_places_bloc.dart';
 
 class SearchPlacesState extends Equatable {
   final PageState pageState;
-  final List<Prediction> predictions;
+  final List<PredictionModel> predictions;
   final bool showLinearIndicator;
   final Place? placeSelected;
 
@@ -23,7 +23,7 @@ class SearchPlacesState extends Equatable {
 
   SearchPlacesState copyWith({
     PageState? pageState,
-    List<Prediction>? predictions,
+    List<PredictionModel>? predictions,
     bool? showLinearIndicator,
     Place? placeSelected,
   }) {

@@ -85,9 +85,16 @@ class OnRegionNameNextTapped extends CreateRegionEvent {
   String toString() => 'OnRegionNameNextTapped';
 }
 
-class OnCreateRegionTapped extends CreateRegionEvent {
-  const OnCreateRegionTapped();
+class OnConfirmCreateRegionTapped extends CreateRegionEvent {
+  const OnConfirmCreateRegionTapped();
 
   @override
   String toString() => 'onCreateRegionTapped';
+}
+
+class OnPublishRegionTapped extends CreateRegionEvent {
+  const OnPublishRegionTapped();
+
+  @override
+  String toString() => 'onPublishRegionTapped';
 }

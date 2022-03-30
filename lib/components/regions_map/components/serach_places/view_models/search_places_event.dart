@@ -20,7 +20,7 @@ class OnQueryTextChange extends SearchPlacesEvent {
 }
 
 class OnPredictionSelected extends SearchPlacesEvent {
-  final Prediction prediction;
+  final PredictionModel prediction;
 
   const OnPredictionSelected(this.prediction);
 

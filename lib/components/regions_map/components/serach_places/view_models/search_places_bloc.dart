@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_place_details_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_places_autocomplete_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_user_location_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
+import 'package:seeds/datasource/remote/model/google_places_models/place_details_model.dart';
+import 'package:seeds/datasource/remote/model/google_places_models/prediction_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 part 'search_places_event.dart';
@@ -58,19 +59,17 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
   }
 
   Future<void> _onPredictionSelected(OnPredictionSelected event, Emitter<SearchPlacesState> emit) async {
-    if (event.prediction.placeId != null) {
-      final result = await GetPlaceDetailsUseCase().run(GetPlaceDetailsUseCase.input(event.prediction.placeId!));
-      if (result.isError) {
-        emit(state.copyWith(pageState: PageState.failure));
-      } else {
-        final PlacesDetailsResponse details = result.asValue!.value;
-        emit(state.copyWith(
-            placeSelected: Place(
-          placeText: event.prediction.description ?? '',
-          lng: details.result.geometry?.location.lng ?? 0,
-          lat: details.result.geometry?.location.lat ?? 0,
-        )));
-      }
+    final result = await GetPlaceDetailsUseCase().run(GetPlaceDetailsUseCase.input(event.prediction.placeId));
+    if (result.isError) {
+      emit(state.copyWith(pageState: PageState.failure));
+    } else {
+      final PlacesDetailsResponse details = result.asValue!.value;
+      emit(state.copyWith(
+          placeSelected: Place(
+        placeText: event.prediction.description,
+        lng: details.result.geometry.location.lng,
+        lat: details.result.geometry.location.lat,
+      )));
     }
   }
 }

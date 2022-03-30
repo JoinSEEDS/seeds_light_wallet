@@ -118,7 +118,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
                                 },
                                 leading: const Icon(Icons.location_on),
                                 title: Text(
-                                  i.description ?? '',
+                                  i.description,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
