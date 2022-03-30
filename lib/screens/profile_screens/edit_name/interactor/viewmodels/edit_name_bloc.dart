@@ -35,6 +35,8 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
     emit(state.copyWith(name: event.name));
     if (event.name.length > nameMaxChars) {
       emit(state.copyWith(errorMessage: "Max length is $nameMaxChars characters"));
+    } else if(event.name.isEmpty) {
+      emit(state.copyWith(errorMessage: "Name cannot be empty"));
     }
   }
 }
