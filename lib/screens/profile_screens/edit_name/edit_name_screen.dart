@@ -5,11 +5,9 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
-import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class EditNameScreen extends StatelessWidget {
@@ -26,14 +24,15 @@ class EditNameScreen extends StatelessWidget {
         child: BlocConsumer<EditNameBloc, EditNameState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            final pageCommand = state.pageCommand;
-
-            if (pageCommand is EditNameSuccess) {
-              Navigator.of(context).pop(state.name);
-            } else if(pageCommand is ShowErrorMessage) {
-              eventBus.fire(ShowSnackBar(pageCommand.message));
-              BlocProvider.of<EditNameBloc>(context).add(const EditNameEvent.clearPageCommand());
-            }
+            state.pageCommand?.when(
+              navigateToAccountPage: () {
+                Navigator.of(context).pop(state.name);
+              },
+              showErrorMessage: (errorMessage) {
+                eventBus.fire(ShowSnackBar(errorMessage));
+                BlocProvider.of<EditNameBloc>(context).add(const EditNameEvent.clearPageCommand());
+              },
+            );
           },
           builder: (context, state) {
             switch (state.pageState) {

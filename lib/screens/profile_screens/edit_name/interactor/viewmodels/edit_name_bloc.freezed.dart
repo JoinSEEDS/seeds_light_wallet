@@ -483,3 +483,335 @@ class _$_ClearPageCommand
 abstract class _ClearPageCommand implements EditNameEvent {
   const factory _ClearPageCommand() = _$_ClearPageCommand;
 }
+
+/// @nodoc
+class _$PageCommandTearOff {
+  const _$PageCommandTearOff();
+
+  _PageCommand navigateToAccountPage() {
+    return const _PageCommand();
+  }
+
+  _ShowErrorMessage showErrorMessage(String errorMessage) {
+    return _ShowErrorMessage(
+      errorMessage,
+    );
+  }
+}
+
+/// @nodoc
+const $PageCommand = _$PageCommandTearOff();
+
+/// @nodoc
+mixin _$PageCommand {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() navigateToAccountPage,
+    required TResult Function(String errorMessage) showErrorMessage,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PageCommand value) navigateToAccountPage,
+    required TResult Function(_ShowErrorMessage value) showErrorMessage,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PageCommandCopyWith<$Res> {
+  factory $PageCommandCopyWith(
+          PageCommand value, $Res Function(PageCommand) then) =
+      _$PageCommandCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$PageCommandCopyWithImpl<$Res> implements $PageCommandCopyWith<$Res> {
+  _$PageCommandCopyWithImpl(this._value, this._then);
+
+  final PageCommand _value;
+  // ignore: unused_field
+  final $Res Function(PageCommand) _then;
+}
+
+/// @nodoc
+abstract class _$PageCommandCopyWith<$Res> {
+  factory _$PageCommandCopyWith(
+          _PageCommand value, $Res Function(_PageCommand) then) =
+      __$PageCommandCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PageCommandCopyWithImpl<$Res> extends _$PageCommandCopyWithImpl<$Res>
+    implements _$PageCommandCopyWith<$Res> {
+  __$PageCommandCopyWithImpl(
+      _PageCommand _value, $Res Function(_PageCommand) _then)
+      : super(_value, (v) => _then(v as _PageCommand));
+
+  @override
+  _PageCommand get _value => super._value as _PageCommand;
+}
+
+/// @nodoc
+
+class _$_PageCommand with DiagnosticableTreeMixin implements _PageCommand {
+  const _$_PageCommand();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PageCommand.navigateToAccountPage()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'PageCommand.navigateToAccountPage'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _PageCommand);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() navigateToAccountPage,
+    required TResult Function(String errorMessage) showErrorMessage,
+  }) {
+    return navigateToAccountPage();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+  }) {
+    return navigateToAccountPage?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+    required TResult orElse(),
+  }) {
+    if (navigateToAccountPage != null) {
+      return navigateToAccountPage();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PageCommand value) navigateToAccountPage,
+    required TResult Function(_ShowErrorMessage value) showErrorMessage,
+  }) {
+    return navigateToAccountPage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+  }) {
+    return navigateToAccountPage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+    required TResult orElse(),
+  }) {
+    if (navigateToAccountPage != null) {
+      return navigateToAccountPage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PageCommand implements PageCommand {
+  const factory _PageCommand() = _$_PageCommand;
+}
+
+/// @nodoc
+abstract class _$ShowErrorMessageCopyWith<$Res> {
+  factory _$ShowErrorMessageCopyWith(
+          _ShowErrorMessage value, $Res Function(_ShowErrorMessage) then) =
+      __$ShowErrorMessageCopyWithImpl<$Res>;
+  $Res call({String errorMessage});
+}
+
+/// @nodoc
+class __$ShowErrorMessageCopyWithImpl<$Res>
+    extends _$PageCommandCopyWithImpl<$Res>
+    implements _$ShowErrorMessageCopyWith<$Res> {
+  __$ShowErrorMessageCopyWithImpl(
+      _ShowErrorMessage _value, $Res Function(_ShowErrorMessage) _then)
+      : super(_value, (v) => _then(v as _ShowErrorMessage));
+
+  @override
+  _ShowErrorMessage get _value => super._value as _ShowErrorMessage;
+
+  @override
+  $Res call({
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_ShowErrorMessage(
+      errorMessage == freezed
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ShowErrorMessage
+    with DiagnosticableTreeMixin
+    implements _ShowErrorMessage {
+  const _$_ShowErrorMessage(this.errorMessage);
+
+  @override
+  final String errorMessage;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PageCommand.showErrorMessage(errorMessage: $errorMessage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'PageCommand.showErrorMessage'))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ShowErrorMessage &&
+            const DeepCollectionEquality()
+                .equals(other.errorMessage, errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(errorMessage));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ShowErrorMessageCopyWith<_ShowErrorMessage> get copyWith =>
+      __$ShowErrorMessageCopyWithImpl<_ShowErrorMessage>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() navigateToAccountPage,
+    required TResult Function(String errorMessage) showErrorMessage,
+  }) {
+    return showErrorMessage(errorMessage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+  }) {
+    return showErrorMessage?.call(errorMessage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? navigateToAccountPage,
+    TResult Function(String errorMessage)? showErrorMessage,
+    required TResult orElse(),
+  }) {
+    if (showErrorMessage != null) {
+      return showErrorMessage(errorMessage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PageCommand value) navigateToAccountPage,
+    required TResult Function(_ShowErrorMessage value) showErrorMessage,
+  }) {
+    return showErrorMessage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+  }) {
+    return showErrorMessage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PageCommand value)? navigateToAccountPage,
+    TResult Function(_ShowErrorMessage value)? showErrorMessage,
+    required TResult orElse(),
+  }) {
+    if (showErrorMessage != null) {
+      return showErrorMessage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ShowErrorMessage implements PageCommand {
+  const factory _ShowErrorMessage(String errorMessage) = _$_ShowErrorMessage;
+
+  String get errorMessage;
+  @JsonKey(ignore: true)
+  _$ShowErrorMessageCopyWith<_ShowErrorMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
