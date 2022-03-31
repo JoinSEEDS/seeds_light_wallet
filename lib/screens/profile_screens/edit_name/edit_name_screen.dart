@@ -32,7 +32,7 @@ class EditNameScreen extends StatelessWidget {
               Navigator.of(context).pop(state.name);
             } else if(pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
-              BlocProvider.of<EditNameBloc>(context).add(const ClearPageCommand());
+              BlocProvider.of<EditNameBloc>(context).add(const EditNameEvent.clearPageCommand());
             }
           },
           builder: (context, state) {
@@ -49,10 +49,10 @@ class EditNameScreen extends StatelessWidget {
                           initialValue: state.name,
                           labelText: context.loc.editNameLabel,
                           onFieldSubmitted: (_) {
-                            BlocProvider.of<EditNameBloc>(context).add(const SubmitName());
+                            BlocProvider.of<EditNameBloc>(context).add(const EditNameEvent.submitName());
                           },
                           onChanged: (String value) {
-                            BlocProvider.of<EditNameBloc>(context).add(OnNameChanged(name: value));
+                            BlocProvider.of<EditNameBloc>(context).add(EditNameEvent.onNameChanged(value));
                           },
                           errorText: state.errorMessage,
                         ),
@@ -62,7 +62,7 @@ class EditNameScreen extends StatelessWidget {
                           enabled: state.isSubmitEnabled,
                           title: context.loc.editNameSaveButtonTitle,
                           onPressed: () {
-                            BlocProvider.of<EditNameBloc>(context).add(const SubmitName());
+                            BlocProvider.of<EditNameBloc>(context).add(const EditNameEvent.submitName());
                           },
                         )
                       ],
