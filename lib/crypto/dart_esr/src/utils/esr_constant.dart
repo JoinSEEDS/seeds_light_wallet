@@ -3,18 +3,24 @@
 import 'dart:convert';
 
 import 'package:seeds/crypto/dart_esr/src/models/authorization.dart';
-import 'package:seeds/crypto/dart_esr/src/signing_request_abi.dart' as abis;
+import 'package:seeds/crypto/dart_esr/src/signing_request_abi.dart' as signing_request_abis;
+import 'package:seeds/crypto/dart_esr/src/signing_request_abi_v3.dart' as signing_request_v3_abis;
 import 'package:seeds/crypto/eosdart/eosdart.dart' as eosDart;
 
 enum ChainName { RESERVED, EOS, TELOS, EOS_JUNGLE2, KYLIN, WORBLI, BOS, MEETONE, INSIGHTS, BEOS, WAX, PROTON, FIO }
 
 class ESRConstants {
   static const int ProtocolVersion = 2;
+  static const int ProtocolVersion3 = 3;
 
-  static eosDart.Abi signingRequestAbi = eosDart.Abi.fromJson(json.decode(abis.signingRequestAbi));
+  static eosDart.Abi signingRequestAbi(int version) => eosDart.Abi.fromJson(
+        json.decode(
+          version < 3 ? signing_request_abis.signingRequestAbi : signing_request_v3_abis.signingRequestAbiV3,
+        ),
+      );
 
-  static Map<String?, eosDart.Type> signingRequestAbiType =
-      eosDart.getTypesFromAbi(eosDart.createInitialTypes(), signingRequestAbi);
+  static Map<String?, eosDart.Type> signingRequestAbiType(int version) =>
+      eosDart.getTypesFromAbi(eosDart.createInitialTypes(), signingRequestAbi(version));
 
   static const RequestFlagsNone = 0;
   static const RequestFlagsBroadcast = 1 << 0;
