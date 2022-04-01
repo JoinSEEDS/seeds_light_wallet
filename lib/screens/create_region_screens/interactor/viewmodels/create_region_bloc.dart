@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
+import 'package:seeds/datasource/remote/firebase/regions/create_region_use_case.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -15,7 +16,6 @@ import 'package:seeds/screens/create_region_screens/interactor/mappers/create_re
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/validate_region_id_state_mapper.dart';
-import 'package:seeds/screens/create_region_screens/interactor/usecases/create_region_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/usecases/validate_region_id_usecase.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
@@ -114,7 +114,8 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
         description: state.regionDescription,
         latitude: state.currentPlace!.lng,
         longitude: state.currentPlace!.lat,
-        regionAddress: state.currentPlace!.placeText));
+        regionAddress: state.currentPlace!.placeText,
+        imageUrl: state.imageUrl!));
     emit(CreateRegionStateMapper().mapResultToState(state, result));
   }
 
