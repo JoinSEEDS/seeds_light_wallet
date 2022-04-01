@@ -5,21 +5,19 @@ import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regio
 import 'package:seeds/datasource/remote/model/firebase_models/region_message_model.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/regions_main/interactor/usecases/join_region_use_case.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/join_region_use_case.dart';
 
 part 'region_event.dart';
 
 part 'region_state.dart';
 
 class RegionBloc extends Bloc<RegionEvent, RegionState> {
-  final String regionAccount;
-
-  RegionBloc(this.regionAccount, bool isBroweView) : super(RegionState.initial(isBroweView)) {
+  RegionBloc(RegionModel? region) : super(RegionState.initial(region)) {
     on<OnJoinRegionButtonPressed>(_onJoinRegionButtonPressed);
   }
 
   Stream<List<RegionMessageModel>> get regionMessages =>
-      FirebaseDatabaseRegionsRepository().getMessagesForRegion(regionAccount);
+      FirebaseDatabaseRegionsRepository().getMessagesForRegion(state.region!.id);
 
   Future<void> _onJoinRegionButtonPressed(OnJoinRegionButtonPressed event, Emitter<RegionState> emit) async {
     // lauch confirm dialog after confirm execute this code below
