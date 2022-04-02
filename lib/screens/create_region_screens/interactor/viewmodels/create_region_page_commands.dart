@@ -7,3 +7,6 @@ class ReturnToJoinRegion extends PageCommand {}
 class ShowCreateRegionConfirmation extends PageCommand {}
 
 class ValidateGeneratedRegionId extends PageCommand {}
+
+class RemoveAuthenticationScreen extends PageCommand {}
+
