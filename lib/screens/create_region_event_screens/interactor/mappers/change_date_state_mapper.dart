@@ -8,7 +8,12 @@ class ChangeDateStateMapper extends StateMapper {
     //If time is already selected, create a new DateTime with the current date
     if (currentState.eventTime != null) {
       selectedDate = DateTime(
-          eventDate.year, eventDate.month, eventDate.day, currentState.eventTime!.hour, currentState.eventTime!.minute);
+        eventDate.year,
+        eventDate.month,
+        eventDate.day,
+        currentState.eventTime!.hour,
+        currentState.eventTime!.minute,
+      );
     } else {
       selectedDate = eventDate;
     }

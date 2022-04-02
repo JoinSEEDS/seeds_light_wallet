@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/create_region_event_screens/components/date_time_widget_row.dart';
+import 'package:seeds/screens/create_region_event_screens/components/date_time_row.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
 
 class ChoseEventDateAndTime extends StatelessWidget {
@@ -30,7 +30,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                   Column(
                     children: [
                       const SizedBox(height: 20),
-                      DateTimeWidgetRow(
+                      DateTimeRow(
                         label: "Select Event Date",
                         icon: const Icon(Icons.calendar_today_outlined),
                         onWidgetTapped: () async {
@@ -47,7 +47,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                             state.eventDate != null ? DateFormat.yMMMMEEEEd().format(state.eventDateAndTime!) : "",
                       ),
                       const SizedBox(height: 30),
-                      DateTimeWidgetRow(
+                      DateTimeRow(
                         label: "Select Event Time",
                         icon: const Icon(Icons.access_time),
                         onWidgetTapped: () async {

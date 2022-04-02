@@ -3,13 +3,13 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class DateTimeWidgetRow extends StatelessWidget {
+class DateTimeRow extends StatelessWidget {
   final VoidCallback? onWidgetTapped;
   final String label;
   final String timeInfo;
   final Widget icon;
 
-  const DateTimeWidgetRow({
+  const DateTimeRow({
     Key? key,
     required this.label,
     required this.timeInfo,
