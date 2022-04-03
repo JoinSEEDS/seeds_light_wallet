@@ -30,10 +30,11 @@ class RegionState extends Equatable {
     );
   }
 
-  factory RegionState.initial(bool isBrowseView) {
+  factory RegionState.initial(RegionModel? region) {
     return RegionState(
       pageState: PageState.initial,
-      isBrowseView: isBrowseView,
+      isBrowseView: region != null,
+      region: region,
     );
   }
 }
