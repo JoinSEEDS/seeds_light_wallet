@@ -62,6 +62,24 @@ class OnPickImage extends CreateRegionEventEvents {
   String toString() => 'OnPickImage';
 }
 
+class OnSelectDateChanged extends CreateRegionEventEvents {
+  final DateTime? selectedDate;
+
+  const OnSelectDateChanged(this.selectedDate);
+
+  @override
+  String toString() => 'onSelectDateChanged{newDateTime: $selectedDate}';
+}
+
+class OnSelectTimeChanged extends CreateRegionEventEvents {
+  final TimeOfDay? selectedTime;
+
+  const OnSelectTimeChanged(this.selectedTime);
+
+  @override
+  String toString() => 'onSelectDateChanged{newDateTime: $selectedTime}';
+}
+
 class OnPickImageNextTapped extends CreateRegionEventEvents {
   const OnPickImageNextTapped();
 

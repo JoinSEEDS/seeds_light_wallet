@@ -51,7 +51,7 @@ class AddRegionEventImage extends StatelessWidget {
                   minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: FlatButtonLong(
                       enabled: state.file != null,
-                      title: "Next (4/4)",
+                      title: "Next (5/5)",
                       onPressed: () =>
                           BlocProvider.of<CreateRegionEventBloc>(context).add(const OnPickImageNextTapped()))),
               body: SafeArea(

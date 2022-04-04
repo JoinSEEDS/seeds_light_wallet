@@ -44,7 +44,7 @@ class AddRegionEventName extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
                       enabled: state.eventName.isNotEmpty,
-                      title: "Next (2/4)",
+                      title: "Next (2/5)",
                       onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()),
                     ),
                   )
