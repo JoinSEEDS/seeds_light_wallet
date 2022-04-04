@@ -7,34 +7,32 @@ class CreateRegionState extends Equatable {
   final PageCommand? pageCommand;
   final CreateRegionScreen createRegionsScreens;
   final String regionName;
-  final bool isRegionNameNextButtonEnable;
   final String regionDescription;
-  final bool isRegionDescriptionNextButtonEnable;
   final File? file;
-  final bool isUploadImageNextButtonEnable;
   final String? imageUrl;
   final PictureBoxState pictureBoxState;
+  final bool isNextButtonLoading;
   final String regionId;
   final String? regionIdErrorMessage;
   final Place? currentPlace;
   final RegionIdStatusIcon regionIdAuthenticationState;
+  final bool createImageUrl;
 
   const CreateRegionState({
     required this.pageState,
     this.pageCommand,
     required this.createRegionsScreens,
     required this.regionName,
-    required this.isRegionNameNextButtonEnable,
     required this.regionDescription,
-    required this.isRegionDescriptionNextButtonEnable,
     this.file,
-    required this.isUploadImageNextButtonEnable,
     this.imageUrl,
     required this.pictureBoxState,
     required this.regionId,
     this.regionIdErrorMessage,
     this.currentPlace,
     required this.regionIdAuthenticationState,
+    required this.isNextButtonLoading,
+    required this.createImageUrl,
   });
 
   @override
@@ -43,17 +41,16 @@ class CreateRegionState extends Equatable {
         pageCommand,
         createRegionsScreens,
         regionName,
-        isRegionNameNextButtonEnable,
         regionDescription,
-        isRegionDescriptionNextButtonEnable,
         file,
-        isUploadImageNextButtonEnable,
-        imageUrl,
+    imageUrl,
         pictureBoxState,
         regionId,
         regionIdErrorMessage,
         currentPlace,
         regionIdAuthenticationState,
+        isNextButtonLoading,
+        createImageUrl
       ];
 
   CreateRegionState copyWith({
@@ -61,35 +58,32 @@ class CreateRegionState extends Equatable {
     PageCommand? pageCommand,
     CreateRegionScreen? createRegionsScreens,
     String? regionName,
-    bool? isRegionNameNextButtonEnable,
     String? regionDescription,
-    bool? isRegionDescriptionNextButtonEnable,
     File? file,
-    bool? isUploadImageNextButtonEnable,
     String? imageUrl,
     PictureBoxState? pictureBoxState,
     String? regionId,
     String? regionIdErrorMessage,
     Place? currentPlace,
     RegionIdStatusIcon? regionIdAuthenticationState,
+    bool? isNextButtonLoading,
+    bool? createImageUrl,
   }) =>
       CreateRegionState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
         createRegionsScreens: createRegionsScreens ?? this.createRegionsScreens,
         regionName: regionName ?? this.regionName,
-        isRegionNameNextButtonEnable: isRegionNameNextButtonEnable ?? this.isRegionNameNextButtonEnable,
         regionDescription: regionDescription ?? this.regionDescription,
-        isRegionDescriptionNextButtonEnable:
-            isRegionDescriptionNextButtonEnable ?? this.isRegionDescriptionNextButtonEnable,
         file: file ?? this.file,
-        isUploadImageNextButtonEnable: isUploadImageNextButtonEnable ?? this.isUploadImageNextButtonEnable,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl ?? this.imageUrl,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         regionId: regionId ?? this.regionId,
         regionIdErrorMessage: regionIdErrorMessage,
         currentPlace: currentPlace ?? this.currentPlace,
         regionIdAuthenticationState: regionIdAuthenticationState ?? this.regionIdAuthenticationState,
+        isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
+        createImageUrl: createImageUrl ?? this.createImageUrl,
       );
 
   factory CreateRegionState.initial() {
@@ -97,13 +91,12 @@ class CreateRegionState extends Equatable {
       pageState: PageState.success,
       createRegionsScreens: CreateRegionScreen.selectRegion,
       regionName: "",
-      isRegionNameNextButtonEnable: false,
       regionDescription: "",
-      isRegionDescriptionNextButtonEnable: false,
-      isUploadImageNextButtonEnable: false,
       pictureBoxState: PictureBoxState.pickImage,
       regionId: "",
       regionIdAuthenticationState: RegionIdStatusIcon.loading,
+      isNextButtonLoading: false,
+      createImageUrl: false,
     );
   }
 }
