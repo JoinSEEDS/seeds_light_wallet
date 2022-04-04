@@ -18,7 +18,7 @@ class PickRegionEventLocation extends StatelessWidget {
               minimum: const EdgeInsets.all(16),
               child: FlatButtonLong(
                   enabled: state.currentPlace != null,
-                  title: "${context.loc.createRegionSelectRegionButtonTitle} (1/4)",
+                  title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)",
                   onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()))),
           body: SafeArea(
             minimum: const EdgeInsets.all(16),

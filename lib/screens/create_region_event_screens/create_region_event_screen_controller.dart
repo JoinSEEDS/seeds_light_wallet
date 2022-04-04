@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_description.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_image.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_name.dart';
+import 'package:seeds/screens/create_region_event_screens/chose_event_date_and_time.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
 import 'package:seeds/screens/create_region_event_screens/pick_region_event_location.dart';
 import 'package:seeds/screens/create_region_event_screens/review_and_publish_region_event.dart';
@@ -26,6 +27,8 @@ class CreateRegionEventScreenController extends StatelessWidget {
               return const AddRegionEventName();
             case CreateRegionEventScreen.addDescription:
               return const AddRegionEventDescription();
+            case CreateRegionEventScreen.choseDataAndTime:
+              return const ChoseEventDateAndTime();
             case CreateRegionEventScreen.selectBackgroundImage:
               return const AddRegionEventImage();
             case CreateRegionEventScreen.reviewAndPublish:
