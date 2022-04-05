@@ -8,4 +8,6 @@ class ShowCreateRegionConfirmation extends PageCommand {}
 
 class ValidateGeneratedRegionId extends PageCommand {}
 
+class RemoveAuthenticationScreen extends PageCommand {}
+
 class NavigateToNewRegion extends PageCommand {}

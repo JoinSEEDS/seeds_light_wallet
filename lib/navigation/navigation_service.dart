@@ -21,6 +21,7 @@ import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/join_region_screen.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/region_screen.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
@@ -42,7 +43,6 @@ import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_sc
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/screens/regions_main/region_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';

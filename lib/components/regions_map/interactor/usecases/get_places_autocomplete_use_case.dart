@@ -1,6 +1,8 @@
-import 'package:google_maps_webservice/places.dart';
-import 'package:seeds/datasource/remote/search_places_service.dart';
+import 'package:seeds/datasource/remote/api/google_places_repository.dart';
+import 'package:seeds/datasource/remote/model/google_places_models/place_details_model.dart';
+import 'package:seeds/datasource/remote/model/google_places_models/prediction_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/utils/uuid.dart';
 
 class GetPlacesAutocompleteUseCase extends InputUseCase<PlacesAutocompleteResponse, _Input> {
   static _Input input(
@@ -32,9 +34,9 @@ class GetPlacesAutocompleteUseCase extends InputUseCase<PlacesAutocompleteRespon
 
   @override
   Future<Result<PlacesAutocompleteResponse>> run(_Input input) async {
-    return SearchPlacesService().getPlacesAutocomplete(
+    return GoogleMapsPlacesRepository().autocomplete(
       input.input,
-      sessionToken: input.sessionToken,
+      sessionToken: Uuid().generateV4(),
       offset: input.offset,
       origin: input.origin,
       location: input.location,

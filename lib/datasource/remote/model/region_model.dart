@@ -30,6 +30,10 @@ class RegionModel {
 
   double distanceTo(double lat, double lng) => GeoFirePoint(latitude, longitude).kmDistance(lat: lat, lng: lng);
 
+  String get readableMembersCount {
+    return membersCount > 1000 ? '${membersCount.toStringAsFixed(1)} K' : membersCount.toString();
+  }
+
   factory RegionModel.fromJson(Map<String, dynamic> json) {
     // name id;
     // name founder;

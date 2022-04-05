@@ -11,6 +11,7 @@ abstract class HttpRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
   String v2historyURL = remoteConfigurations.defaultV2EndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
+  String mapsApiKey = 'AIzaSyB3Ghs8i_Lw55vmSyh5mxLA9cGcWuc1A54';
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 
