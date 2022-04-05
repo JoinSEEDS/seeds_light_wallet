@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_bottom_sheet.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class RegionMainAppBar extends StatelessWidget {
@@ -12,7 +13,14 @@ class RegionMainAppBar extends StatelessWidget {
     return BlocBuilder<RegionBloc, RegionState>(
       builder: (context, state) {
         return SliverAppBar(
-          expandedHeight: 200.0,
+          actions: [
+            if (!state.isBrowseView)
+              IconButton(
+                icon: const Icon(Icons.more_horiz),
+                onPressed: () => const RegionBottomSheet().show(context),
+              )
+          ],
+          expandedHeight: 220.0,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -76,14 +84,17 @@ class RegionMainAppBar extends StatelessWidget {
                 Positioned(
                   right: 22,
                   bottom: 30,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 30),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: AppColors.green3),
-                      borderRadius: BorderRadius.circular(25.0),
+                  child: InkWell(
+                    onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnJoinRegionButtonPressed()),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 30),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: AppColors.green3),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      child: Center(child: Text('Join', style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis)),
                     ),
-                    child: Center(child: Text('Join', style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis)),
                   ),
                 ),
             ],

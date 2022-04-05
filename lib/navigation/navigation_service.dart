@@ -216,4 +216,8 @@ class NavigationService {
   Future<dynamic> pushAndRemoveAll(String routeName, [Object? arguments]) async {
     return appNavigatorKey.currentState?.pushNamedAndRemoveUntil(routeName, (route) => false);
   }
+
+  Future<dynamic> pushAndRemoveUntil({required String route, required String from, Object? arguments}) async {
+    return appNavigatorKey.currentState?.pushNamedAndRemoveUntil(route, ModalRoute.withName(from));
+  }
 }
