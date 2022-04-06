@@ -17,7 +17,7 @@ class RegionResultTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: ListTile(
-        onTap: () => NavigationService.of(context).navigateTo(Routes.region, region.id),
+        onTap: () => NavigationService.of(context).navigateTo(Routes.region, region),
         tileColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         leading:
