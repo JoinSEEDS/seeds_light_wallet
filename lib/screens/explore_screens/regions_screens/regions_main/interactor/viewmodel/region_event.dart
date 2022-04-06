@@ -7,9 +7,20 @@ abstract class RegionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class OnRegionMounted extends RegionEvent {
+  const OnRegionMounted();
+  @override
+  String toString() => 'OnRegionMounted';
+}
+
 class OnJoinRegionButtonPressed extends RegionEvent {
-  final String regionId;
-  const OnJoinRegionButtonPressed(this.regionId);
+  const OnJoinRegionButtonPressed();
   @override
   String toString() => 'OnJoinRegionButtonPressed';
+}
+
+class OnLeaveRegionButtonPressed extends RegionEvent {
+  const OnLeaveRegionButtonPressed();
+  @override
+  String toString() => 'OnLeaveRegionButtonPressed';
 }

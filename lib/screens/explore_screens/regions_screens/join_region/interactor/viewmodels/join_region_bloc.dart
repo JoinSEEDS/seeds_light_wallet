@@ -5,11 +5,11 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_region_use_case.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/mappers/set_regions_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/mappers/update_regions_results_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_firebase_regions_use_case.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_region_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/get_regions_use_case.dart';
 
 part 'join_region_event.dart';
