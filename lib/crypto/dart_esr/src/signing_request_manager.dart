@@ -11,9 +11,9 @@ import 'package:seeds/crypto/dart_esr/src/utils/base64u.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart' as eosDart;
 
 class SigningRequestManager {
-  static eosDart.Type? type = ESRConstants.signingRequestAbiType['signing_request'];
-  static eosDart.Type? idType = ESRConstants.signingRequestAbiType['identity'];
-  static eosDart.Type? transactionType = ESRConstants.signingRequestAbiType['transaction'];
+  static eosDart.Type? type(int version) => ESRConstants.signingRequestAbiType(version)['signing_request'];
+  static eosDart.Type? idType(int version) => ESRConstants.signingRequestAbiType(version)['identity'];
+  static eosDart.Type? transactionType(int version) => ESRConstants.signingRequestAbiType(version)['transaction'];
 
   int version;
   SigningRequest data;
@@ -203,8 +203,8 @@ class SigningRequestManager {
   static SigningRequestManager fromData(Uint8List data, {required SigningRequestEncodingOptions options}) {
     final header = data.first;
     final version = header & ~(1 << 7);
-    if (version != ESRConstants.ProtocolVersion) {
-      throw 'Unsupported protocol version';
+    if (!(version == ESRConstants.ProtocolVersion || version == ESRConstants.ProtocolVersion3)) {
+      throw 'Unsupported protocol version: $version';
     }
     Uint8List? array = data.sublist(1);
     if ((header & (1 << 7)) != 0) {
@@ -219,11 +219,11 @@ class SigningRequestManager {
 
     final buf = eosDart.SerialBuffer(array!);
 
-    final signingRequest = SigningRequest.fromBinary(type!, buf);
+    final signingRequest = SigningRequest.fromBinary(type(version)!, buf);
 
     RequestSignature? signature;
     if (buf.haveReadData()) {
-      signature = RequestSignature.fromBinary(ESRConstants.signingRequestAbiType['request_signature']!, buf);
+      signature = RequestSignature.fromBinary(ESRConstants.signingRequestAbiType(version)['request_signature']!, buf);
     }
 
     return SigningRequestManager(version, signingRequest, textEncoder as TextEncoder?, textDecoder as TextDecoder?,
@@ -314,7 +314,7 @@ class SigningRequestManager {
 
   /// Get the request data without header or signature. */
   Uint8List getData() {
-    return data.toBinary(SigningRequestManager.type!);
+    return data.toBinary(SigningRequestManager.type(version)!);
   }
 
   /// Get signature data, returns an empty array if request is not signed. */
@@ -323,7 +323,7 @@ class SigningRequestManager {
       return Uint8List(0);
     }
     final buffer = eosDart.SerialBuffer(Uint8List(0));
-    final type = ESRConstants.signingRequestAbiType['request_signature']!;
+    final type = ESRConstants.signingRequestAbiType(version)['request_signature']!;
     type.serialize!(buffer, signature);
     return buffer.asUint8List();
   }
@@ -362,7 +362,7 @@ class SigningRequestManager {
     return getRawActions().map((rawAction) {
       eosDart.Abi? contractAbi;
       if (SigningRequestUtils.isIdentity(rawAction)) {
-        contractAbi = ESRConstants.signingRequestAbi;
+        contractAbi = ESRConstants.signingRequestAbi(version);
       } else {
         contractAbi = abis[rawAction.account];
       }
@@ -383,7 +383,7 @@ class SigningRequestManager {
         }
       };
 
-      final action = SigningRequestUtils.deserializeAction(contract, rawAction.account!, rawAction.name,
+      final action = SigningRequestUtils.deserializeAction(version, contract, rawAction.account!, rawAction.name,
           rawAction.authorization, rawAction.data, textEncoder, textDecoder);
 
       if (signer != null) {
@@ -440,7 +440,7 @@ class SigningRequestManager {
       SigningRequestUtils.serializeAction(action, abi: contractAbi);
     }
 
-    final serializedTransaction = transaction.toBinary(SigningRequestManager.transactionType!);
+    final serializedTransaction = transaction.toBinary(SigningRequestManager.transactionType(version)!);
 
     return ResolvedSigningRequest(this, signer, transaction, serializedTransaction);
   }
@@ -489,7 +489,7 @@ class SigningRequestManager {
 
           final identity = Identity()..authorization = auth;
 
-          data = eosDart.arrayToHex(identity.toBinary(SigningRequestManager.idType!));
+          data = eosDart.arrayToHex(identity.toBinary(SigningRequestManager.idType(version)!));
           authorization = [auth];
         }
         return [
@@ -717,7 +717,12 @@ class SigningRequestUtils {
         actions, (dynamic action) => SigningRequestUtils.serializeAction(action, abiProvider: abiProvider));
   }
 
-  static Future<void> serializeAction(Action? action, {eosDart.Abi? abi, AbiProvider? abiProvider}) async {
+  static Future<void> serializeAction(
+    Action? action, {
+    eosDart.Abi? abi,
+    AbiProvider? abiProvider,
+    int version = 2,
+  }) async {
     if (action?.data is String) {
       return;
     }
@@ -725,7 +730,7 @@ class SigningRequestUtils {
     if (abi != null) {
       contractAbi = abi;
     } else if (SigningRequestUtils.isIdentity(action)) {
-      contractAbi = ESRConstants.signingRequestAbi;
+      contractAbi = ESRConstants.signingRequestAbi(version);
     } else if (abiProvider != null) {
       contractAbi = await abiProvider.getAbi(action?.account);
     }
@@ -733,12 +738,13 @@ class SigningRequestUtils {
       throw 'Missing abi provider';
     }
     final contract = SigningRequestUtils.getContract(contractAbi);
-    EOSSerializeUtils.serializeActions(contract, action);
+    EOSSerializeUtils.serializeActions(version, contract, action);
   }
 
-  static Action deserializeAction(eosDart.Contract contract, String account, String? name,
+  static Action deserializeAction(int version, eosDart.Contract contract, String account, String? name,
       List<Authorization?>? authorization, dynamic data, TextEncoder? textEncoder, TextDecoder? textDecoder) {
-    return EOSSerializeUtils.deserializeAction(contract, account, name, authorization, data, textEncoder, textDecoder);
+    return EOSSerializeUtils.deserializeAction(
+        version, contract, account, name, authorization, data, textEncoder, textDecoder);
   }
 
   /// chainId : int | String | ChainName

@@ -178,7 +178,7 @@ void main() {
       expect(jsonActions.last["data"]['quantity'], "11.0000 SEEDS");
     });
 
-    test('login signing', () async {
+    test('Signing request V2', () async {
       final esr =
           'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg';
 
@@ -191,6 +191,26 @@ void main() {
       final action = request.actions.first;
 
       expect(action.name, 'identity');
+      expect(action.authorization?.first?.actor, 'illumination');
+      expect(action.authorization?.first?.permission, 'active');
+    });
+
+    test('idenity request V3', () async {
+      // actual hypha v3 login
+      final esr =
+          'esr:gz2NP08CMRyG78C_iV_A7bcJhuu13BWQY8FFDRBjIOpGerUXmmvaS3sJiR_AGAcHV-POB2B2d3JxMG5-E5GB9cn7Po_nVz3P-_IPZM-rJLOyLFw3DHmKmOYzY5GSOg8jzNhdhjtBlsYsiNudVpASzAOS4vgkipuCCVrZ-p9--Btbdfdn__nhtbG8Whz_fr8UT8vuJ3_U-aKf7BweRe-9N7-_bgzXCRShDpxaM3fCTizTrjC2XOEmojAy91IpFlKEoTZiXOrSuFkCF7oUClYALsdwCwRPCZ2269AvCiVuRDqQZdjCFBFEKNQG55PRsAFK5gLOBM9NHa6FddLokFAUw5hlzMrNYdtxU4i9VJncIWn-AA';
+
+      final request = SeedsESR(uri: esr);
+
+      await request.resolve(account: "illumination");
+
+      print("identity action: ${request.actions.first.toJson()}");
+
+      final action = request.actions.first;
+
+      expect(action.name, 'identity');
+      expect(action.authorization?.first?.actor, 'illumination');
+      expect(action.authorization?.first?.permission, 'active');
     });
   });
 }
