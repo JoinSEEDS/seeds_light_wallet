@@ -16,7 +16,7 @@ class SigningRequestManager {
   static eosDart.Type? transactionType(int version) => ESRConstants.signingRequestAbiType(version)['transaction'];
 
   int version;
-  SigningRequest data;
+  SigningRequest signingRequest;
   TextEncoder? textEncoder;
   TextDecoder? textDecoder;
   ZlibProvider? zlib;
@@ -27,12 +27,12 @@ class SigningRequestManager {
     * Create a new signing request.
     * Normally not used directly, see the `create` and `from` class methods.
     */
-  SigningRequestManager(this.version, this.data, this.textEncoder, this.textDecoder,
+  SigningRequestManager(this.version, this.signingRequest, this.textEncoder, this.textDecoder,
       {this.zlib, this.abiProvider, this.signature}) {
-    if (data.flags & ESRConstants.RequestFlagsBroadcast != 0 && data.req!.first is Identity) {
+    if (signingRequest.flags & ESRConstants.RequestFlagsBroadcast != 0 && signingRequest.req!.first is Identity) {
       throw 'Invalid request (identity request cannot be broadcast)';
     }
-    if (data.flags & ESRConstants.RequestFlagsBroadcast == 0 && data.callback!.isEmpty) {
+    if (signingRequest.flags & ESRConstants.RequestFlagsBroadcast == 0 && signingRequest.callback!.isEmpty) {
       throw 'Invalid request (nothing to do, no broadcast or callback set)';
     }
   }
@@ -260,11 +260,11 @@ class SigningRequestManager {
   /// @param url Where the callback should be sent.
   /// @param background Whether the callback should be sent in the background.
   void setCallback(String url, bool background) {
-    data.callback = url;
+    signingRequest.callback = url;
     if (background) {
-      data.flags |= ESRConstants.RequestFlagsBackground;
+      signingRequest.flags |= ESRConstants.RequestFlagsBackground;
     } else {
-      data.flags &= ~ESRConstants.RequestFlagsBackground;
+      signingRequest.flags &= ~ESRConstants.RequestFlagsBackground;
     }
   }
 
@@ -272,9 +272,9 @@ class SigningRequestManager {
   /// @param broadcast Whether the transaction should be broadcast by receiver.
   void setBroadcast(bool broadcast) {
     if (broadcast) {
-      data.flags |= ESRConstants.RequestFlagsBroadcast;
+      signingRequest.flags |= ESRConstants.RequestFlagsBroadcast;
     } else {
-      data.flags &= ~ESRConstants.RequestFlagsBroadcast;
+      signingRequest.flags &= ~ESRConstants.RequestFlagsBroadcast;
     }
   }
 
@@ -314,7 +314,7 @@ class SigningRequestManager {
 
   /// Get the request data without header or signature. */
   Uint8List getData() {
-    return data.toBinary(SigningRequestManager.type(version)!);
+    return signingRequest.toBinary(SigningRequestManager.type(version)!);
   }
 
   /// Get signature data, returns an empty array if request is not signed. */
@@ -448,7 +448,7 @@ class SigningRequestManager {
   /// Get the id of the chain where this request is valid.
   /// @returns The 32-byte chain id as hex encoded string.
   String? getChainId() {
-    final id = data.chainId!;
+    final id = signingRequest.chainId!;
     switch (id[0]) {
       case 'chain_id':
         return id[1];
@@ -465,7 +465,7 @@ class SigningRequestManager {
 
   /// Return the actions in this request with action data encoded. */
   List<Action> getRawActions() {
-    final req = data.req!;
+    final req = signingRequest.req!;
     switch (req[0]) {
       case 'action':
         return [Action.fromJson(Map<String, dynamic>.from(req[1]))];
@@ -513,7 +513,7 @@ class SigningRequestManager {
 
   /// Unresolved transaction. */
   Transaction getRawTransaction() {
-    final req = data.req!;
+    final req = signingRequest.req!;
     switch (req[0]) {
       case 'transaction':
         return req[1];
@@ -538,7 +538,7 @@ class SigningRequestManager {
 
   /// Whether the request is an identity request. */
   bool isIdentity() {
-    return data.req![0] == 'identity';
+    return signingRequest.req![0] == 'identity';
   }
 
   /// Whether the request should be broadcast by signer. */
@@ -546,16 +546,16 @@ class SigningRequestManager {
     if (isIdentity()) {
       return false;
     }
-    return (data.flags & ESRConstants.RequestFlagsBroadcast) != 0;
+    return (signingRequest.flags & ESRConstants.RequestFlagsBroadcast) != 0;
   }
 
   /// Present if the request is an identity request and requests a specific account.
   /// @note This returns `nil` unless a specific identity has been requested,
   ///       use `isIdentity` to check id requests.
   String? getIdentity() {
-    if (data.req![0] == 'identity') {
+    if (signingRequest.req![0] == 'identity') {
       try {
-        final req1 = data.req![1] as Identity;
+        final req1 = signingRequest.req![1] as Identity;
         if (req1.authorization != null) {
           final actor = req1.authorization!.actor;
           return actor == ESRConstants.PlaceholderName ? null : actor;
@@ -571,9 +571,9 @@ class SigningRequestManager {
   /// @note This returns `nil` unless a specific permission has been requested,
   ///       use `isIdentity` to check id requests.
   String? getIdentityPermission() {
-    if (data.req![0] == 'identity') {
+    if (signingRequest.req![0] == 'identity') {
       try {
-        final req1 = data.req![1] as Identity;
+        final req1 = signingRequest.req![1] as Identity;
         if (req1.authorization != null) {
           final permission = req1.authorization!.permission;
           return permission == ESRConstants.PlaceholderName ? null : permission;
@@ -588,7 +588,7 @@ class SigningRequestManager {
   /// Get raw info dict */
   Map<String?, Uint8List> getRawInfo() {
     final rv = <String?, Uint8List>{};
-    for (final element in data.info) {
+    for (final element in signingRequest.info) {
       rv[element.key] = eosDart.hexToUint8List(element.value!);
     }
     return rv;
@@ -624,11 +624,11 @@ class SigningRequestManager {
       ..key = key
       ..value = eosDart.arrayToHex(encodedValue);
 
-    final index = data.info.indexWhere((element) => element.key == key);
+    final index = signingRequest.info.indexWhere((element) => element.key == key);
     if (index >= 0) {
-      data.info[index] = infoPair;
+      signingRequest.info[index] = infoPair;
     } else {
-      data.info.add(infoPair);
+      signingRequest.info.add(infoPair);
     }
   }
 
@@ -638,7 +638,7 @@ class SigningRequestManager {
     if (this.signature != null) {
       signature = RequestSignature.clone(this.signature!.signer, this.signature!.signature);
     }
-    final data = this.data.toJson();
+    final data = this.signingRequest.toJson();
 
     return SigningRequestManager(version, SigningRequest.fromJson(data), textEncoder, textDecoder,
         zlib: zlib, abiProvider: abiProvider, signature: signature);

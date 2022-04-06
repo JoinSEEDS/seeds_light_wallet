@@ -206,6 +206,9 @@ void main() {
 
       print("identity action: ${request.actions.first.toJson()}");
 
+      print("callback: ${request.manager.signingRequest.callback}");
+      print("SR: ${request.manager.signingRequest}");
+
       final action = request.actions.first;
 
       expect(action.name, 'identity');
