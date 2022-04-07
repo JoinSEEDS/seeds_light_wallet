@@ -1,3 +1,6 @@
+import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+
 abstract class PageCommand {}
 
 /// Command to inform the UI to show an ERROR message
@@ -30,4 +33,8 @@ class NavigateToRouteWithArguments<T> extends PageCommand {
     required this.route,
     required this.arguments,
   });
+}
+
+class NavigateToSendConfirmation extends NavigateToRouteWithArguments {
+  NavigateToSendConfirmation(SendConfirmationArguments args) : super(route: Routes.sendConfirmation, arguments: args);
 }

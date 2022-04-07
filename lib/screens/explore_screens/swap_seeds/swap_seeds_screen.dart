@@ -11,7 +11,6 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/interactor/viewmodels/swap_seeds_bloc.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SwapSeedsScreen extends StatefulWidget {
@@ -43,8 +42,8 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
             listener: (context, state) async {
               final pageCommand = state.pageCommand;
               if (pageCommand is NavigateToRouteWithArguments) {
-                final TransactionResult? result = await NavigationService.of(context)
-                    .navigateTo(pageCommand.route, SendConfirmationArguments(transaction: pageCommand.arguments));
+                final TransactionResult? result =
+                    await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
                 if (result != null) {
                   await _webViewController.runJavascript(
                       "setResponseCallbackLW({status: '${result.status.name}', message:'${result.message}'})");

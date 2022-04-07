@@ -45,7 +45,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
 
   Future<void> _onSendTransaction(OnSendTransactionButtonPressed event, Emitter<SendConfirmationState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result result = await SendTransactionUseCase().run(state.transaction);
+    final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
     final bool shouldShowInAppReview = await inAppReview.isAvailable();
     emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
   }

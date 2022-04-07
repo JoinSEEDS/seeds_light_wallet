@@ -9,6 +9,8 @@ class SeedsESR {
 
   late List<Action> actions;
 
+  String? get callback => manager.data.callback;
+
   SeedsESR({String? uri}) {
     manager = TelosSigningManager.from(uri);
   }
@@ -27,7 +29,7 @@ class SeedsESR {
     final EOSTransaction eosTransaction = EOSTransaction.fromActionsList(actions);
     if (eosTransaction.isValid) {
       print("processResolvedRequest: Success QR");
-      return ValueResult(ScanQrCodeResultData(transaction: eosTransaction));
+      return ValueResult(ScanQrCodeResultData(transaction: eosTransaction, esr: this));
     } else {
       print("processResolvedRequest: ESR transaction invalid ${actions.length} $actions");
       return ErrorResult("Unable to process this request");
