@@ -638,7 +638,7 @@ class SigningRequestManager {
     if (this.signature != null) {
       signature = RequestSignature.clone(this.signature!.signer, this.signature!.signature);
     }
-    final data = this.signingRequest.toJson();
+    final data = signingRequest.toJson();
 
     return SigningRequestManager(version, SigningRequest.fromJson(data), textEncoder, textDecoder,
         zlib: zlib, abiProvider: abiProvider, signature: signature);
