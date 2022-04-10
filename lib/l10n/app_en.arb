@@ -473,5 +473,19 @@
   "introducingRegionsDialogDescription7": "Select",
   "@introducingRegionsDialogDescription7": {},
   "introducingRegionsDialogDescription8": "to begin browsing regions near you.",
-  "@introducingRegionsDialogDescription8": {}
+  "@introducingRegionsDialogDescription8": {},
+  "regionMainMembersTitle": "{members,plural, =1{{membersFormatted} Member} other{{membersFormatted} Members}}",
+  "@regionMainMembersTitle": { "placeholders": { "members": {}, "membersFormatted": { "type": "String" } } },
+  "regionMainJoinTitle": "Join",
+  "@regionMainJopinTitle": {},
+  "joinRegionConfirmDialogTitle": "Join this region?",
+  "@joinRegionConfirmDialogTitle": {},
+  "joinRegionConfirmDialogDescription": "Making a decision to join this region is an important choice! Please make sure you are ready and willing to be an active contributor to your region.",
+  "@joinRegionConfirmDialogDescription": {},
+  "leaveRegionConfirmDialogTitle": "Are you sure?",
+  "@leaveRegionConfirmDialogTitle": {},
+  "leaveRegionConfirmDialogDescription": "You are about to leave the region. Please make sure you're ready to leave!",
+  "@leaveRegionConfirmDialogDescription": {},
+  "regionBottomSheetLeaveRegionTitle": "Leave Region",
+  "@regionBottomSheetLeaveRegionTitle": {}
 }

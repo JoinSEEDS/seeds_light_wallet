@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/generic_region_dialog.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class RegionBottomSheet extends StatelessWidget {
   const RegionBottomSheet({Key? key}) : super(key: key);
@@ -32,11 +34,19 @@ class RegionBottomSheet extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pop();
-              BlocProvider.of<RegionBloc>(context).add(const OnLeaveRegionButtonPressed());
+              GenericRegionDialog(
+                      title: context.loc.leaveRegionConfirmDialogTitle,
+                      description: context.loc.leaveRegionConfirmDialogDescription)
+                  .show(context)
+                  .then((isConfirmed) {
+                if (isConfirmed ?? false) {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<RegionBloc>(context).add(const OnLeaveRegionButtonPressed());
+                }
+              });
             },
             leading: const Icon(Icons.logout),
-            title: const Text('Leave Region'),
+            title: Text(context.loc.regionBottomSheetLeaveRegionTitle),
           )
         ],
       ),
