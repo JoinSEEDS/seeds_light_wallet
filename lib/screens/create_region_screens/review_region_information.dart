@@ -33,7 +33,11 @@ class ReviewRegion extends StatelessWidget {
               );
             },
           );
+        } else if (pageCommand is NavigateToNewRegion) {
+          // TODO(gguij004): if succes creating region will add here navigation for the new region.
+
         }
+        BlocProvider.of<CreateRegionBloc>(context).add(const ClearCreateRegionPageCommand());
       },
       builder: (context, state) {
         switch (state.pageState) {

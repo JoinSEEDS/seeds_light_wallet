@@ -5,12 +5,15 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
+import 'package:seeds/datasource/remote/firebase/regions/create_region_use_case.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
 import 'package:seeds/screens/create_region_screens/components/authentication_status.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/create_region_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/save_image_state_mapper.dart';
@@ -103,8 +106,17 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   Future<void> _onConfirmCreateRegionTapped(OnConfirmCreateRegionTapped event, Emitter<CreateRegionState> emit) async {
-    // TODO(gguij004): Next pr will add usecase and mapper for create region.
     emit(state.copyWith(pageState: PageState.loading));
+
+    final Result<TransactionResponse> result = await CreateRegionUseCase().run(CreateRegionUseCase.input(
+        regionAccount: state.regionId,
+        title: state.regionName,
+        description: state.regionDescription,
+        latitude: state.currentPlace!.lng,
+        longitude: state.currentPlace!.lat,
+        regionAddress: state.currentPlace!.placeText,
+        imageUrl: state.imageUrl!));
+    emit(CreateRegionStateMapper().mapResultToState(state, result));
   }
 
   void _onPublishRegionTapped(OnPublishRegionTapped event, Emitter<CreateRegionState> emit) {
