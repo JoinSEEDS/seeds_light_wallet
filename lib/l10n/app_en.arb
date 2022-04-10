@@ -487,5 +487,7 @@
   "leaveRegionConfirmDialogDescription": "You are about to leave the region. Please make sure you're ready to leave!",
   "@leaveRegionConfirmDialogDescription": {},
   "regionBottomSheetLeaveRegionTitle": "Leave Region",
-  "@regionBottomSheetLeaveRegionTitle": {}
+  "@regionBottomSheetLeaveRegionTitle": {},
+  "genericRegionConfirmImSureButton": "Yes I'm sure.",
+  "@genericRegionConfirmImSureButton": {}
 }

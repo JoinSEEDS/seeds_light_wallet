@@ -9,7 +9,6 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_main_app_bar.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/tab_about.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/tab_events.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/tab_messages.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class RegionScreen extends StatelessWidget {
@@ -37,26 +36,20 @@ class RegionScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return DefaultTabController(
-                  length: 3,
+                  length: 2,
                   child: NestedScrollView(
                     headerSliverBuilder: (context, isInnerBoxScrolled) {
                       return [
                         const RegionMainAppBar(),
                         SliverPersistentHeader(
                           delegate: _SliverAppBarDelegate(
-                            const TabBar(
-                              tabs: [
-                                Tab(text: "Chat"),
-                                Tab(text: "Events"),
-                                Tab(text: "About"),
-                              ],
-                            ),
+                            const TabBar(tabs: [Tab(text: "Events"), Tab(text: "About")]),
                           ),
                           pinned: true,
                         ),
                       ];
                     },
-                    body: const SafeArea(child: TabBarView(children: [MessagesTab(), EventsTab(), AboutTab()])),
+                    body: const SafeArea(child: TabBarView(children: [EventsTab(), AboutTab()])),
                   ),
                 );
               default:
