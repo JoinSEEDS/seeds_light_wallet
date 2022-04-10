@@ -322,5 +322,6 @@
   "@joinRegionConfirmDialogDescription": {},
   "@leaveRegionConfirmDialogTitle": {},
   "@leaveRegionConfirmDialogDescription": {},
-  "@regionBottomSheetLeaveRegionTitle": {}
+  "@regionBottomSheetLeaveRegionTitle": {},
+  "@genericRegionConfirmImSureButton": {}
 }

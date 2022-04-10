@@ -11,6 +11,7 @@ import 'package:seeds/domain-shared/shared_use_cases/get_region_use_case.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/usecases/leave_region_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/mappers/set_region_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/get_firebase_region_by_id_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/get_region_by_id_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/join_region_use_case.dart';
 
@@ -41,10 +42,13 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
           // User has not joined a Region (unexpected case) go back to join regions.
           emit(state.copyWith(pageCommand: NavigateToRoute(Routes.joinRegion)));
         } else {
-          // User has joined a Region not sure waht to do here where fetch all the region data.
+          // User has joined a Region fetch chan region and firebase region.
           final RegionMemberModel member = result.asValue!.value!;
-          final regionResult = await GetRegionByIdUseCase().run(member.region);
-          emit(SetRegionStateMapper().mapResultToState(state, regionResult));
+          final results = await Future.wait([
+            GetRegionByIdUseCase().run(member.region),
+            GetFirebaseRegionByIdUseCase().run(member.region),
+          ]);
+          emit(SetRegionStateMapper().mapResultToState(state, results));
         }
       }
     } else {

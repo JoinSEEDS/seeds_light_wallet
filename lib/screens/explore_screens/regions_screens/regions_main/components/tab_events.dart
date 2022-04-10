@@ -5,7 +5,6 @@ class EventsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(gguij002): implement build
-    throw UnimplementedError();
+    return Container();
   }
 }

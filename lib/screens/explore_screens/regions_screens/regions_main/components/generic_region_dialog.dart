@@ -18,7 +18,7 @@ class GenericRegionDialog extends StatelessWidget {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       leftButtonTitle: context.loc.genericCancelButtonTitle,
-      rightButtonTitle: "Yes I'm sure.",
+      rightButtonTitle: context.loc.genericRegionConfirmImSureButton,
       onRightButtonPressed: () => Navigator.of(context).pop(true),
       children: [
         Text(title, style: Theme.of(context).textTheme.headline6),

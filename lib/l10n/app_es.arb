@@ -465,5 +465,7 @@
   "leaveRegionConfirmDialogDescription": "Está a punto de abandonar la región. ¡Asegúrate de estar listo para dejarla!",
   "@leaveRegionConfirmDialogDescription": {},
   "regionBottomSheetLeaveRegionTitle": "Abandonar la región",
-  "@regionBottomSheetLeaveRegionTitle": {}
+  "@regionBottomSheetLeaveRegionTitle": {},
+  "genericRegionConfirmImSureButton": "Si, estoy seguro",
+  "@genericRegionConfirmImSureButton": {}
 }
