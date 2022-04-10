@@ -214,9 +214,6 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
-  // Grab One region By Id from firebase.
-  // DONE
-
   Future<Result<String>> sendMessageToRegion(String regionAccount, String creatorAccount, String message) {
     final data = {
       regionAccountKey: regionAccount,
