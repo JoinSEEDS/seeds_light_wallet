@@ -25,25 +25,26 @@ class TransactionActionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(action.actionName.inCaps, style: Theme.of(context).textTheme.headline7),
-                  Text(action.accountName, style: Theme.of(context).textTheme.subtitle2),
+                  Text(action.name?.inCaps ?? "", style: Theme.of(context).textTheme.headline7),
+                  Text(action.account ?? "", style: Theme.of(context).textTheme.subtitle2),
                 ],
               ),
               const Divider(color: AppColors.grey1),
               Column(
                 children: [
-                  for (final i in action.data.entries)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(i.key.inCaps, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
-                          const SizedBox(width: 4),
-                          Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
-                        ],
+                  if (action.dataMap != null)
+                    for (final i in action.dataMap!.entries)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(i.key.inCaps, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                            const SizedBox(width: 4),
+                            Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
+                          ],
+                        ),
                       ),
-                    ),
                 ],
               )
             ],
