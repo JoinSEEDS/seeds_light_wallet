@@ -9,7 +9,7 @@ class SendTransactionRepository extends EosRepository {
     required String accountName,
   }) async {
     print("send transaction");
-    final actions = eosTransaction.actions;
+    final actions = eosTransaction.actions.map((e) => e.toEosAction).toList();
 
     for (final action in actions) {
       if (action.authorization == null || action.authorization == []) {
