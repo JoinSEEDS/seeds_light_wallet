@@ -20,9 +20,11 @@ const locationIdKey = "locationId";
 
 // Events
 const eventNameKey = "eventName";
+const eventDescriptionKey = "eventDescription";
 const eventLocationKey = "eventLocation";
 const eventImageKey = "eventImage";
-const eventTimeKey = "eventTime";
+const eventStartTimeKey = "eventStartTime";
+const eventEndTimeKey = "eventEndTime";
 const eventUsersKey = "eventUsers";
 
 // messages
@@ -121,20 +123,24 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
 
   Future<Result<String>> createRegionEvent({
     required String eventName,
+    required String eventDescription,
     required String regionAccount,
     required String creatorAccount,
     required double latitude,
     required double longitude,
     required String eventImage,
-    required DateTime eventTime,
+    required DateTime eventStartTime,
+    required DateTime eventEndTime,
   }) async {
     final data = {
       regionAccountKey: regionAccount,
       eventNameKey: eventName,
+      eventDescriptionKey: eventDescription,
       creatorAccountKey: creatorAccount,
       eventLocationKey: _geo.point(latitude: latitude, longitude: longitude).data,
       eventImageKey: eventImage,
-      eventTimeKey: eventTime,
+      eventStartTimeKey: eventStartTime,
+      eventEndTimeKey: eventEndTime,
       dateCreatedKey: FieldValue.serverTimestamp(),
     };
 
@@ -150,13 +156,19 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   Future<Result<String>> editRegionEvent(
     String eventId,
     String? eventName,
+    String? eventDescription,
     String? eventLocation,
     String? eventImage,
-    DateTime? eventTime,
+    DateTime? eventStartTime,
+    DateTime? eventEndTime,
   ) async {
     final data = {};
     if (eventName != null) {
       data.putIfAbsent(eventNameKey, () => eventName);
+    }
+
+    if (eventDescription != null) {
+      data.putIfAbsent(eventDescriptionKey, () => eventDescription);
     }
 
     if (eventLocation != null) {
@@ -167,8 +179,12 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
       data.putIfAbsent(eventImageKey, () => eventImage);
     }
 
-    if (eventTime != null) {
-      data.putIfAbsent(eventTimeKey, () => eventTime);
+    if (eventStartTime != null) {
+      data.putIfAbsent(eventStartTimeKey, () => eventStartTime);
+    }
+
+    if (eventEndTime != null) {
+      data.putIfAbsent(eventEndTimeKey, () => eventEndTime);
     }
 
     return regionEventCollection
@@ -180,10 +196,12 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
-  Future<Stream<Iterable<RegionEventModel>>> getEventsForRegion(String regionAccount) async {
+  Stream<List<RegionEventModel>> getEventsForRegion(String regionAccount) {
     return regionEventCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
-        (QuerySnapshot event) =>
-            event.docs.map((QueryDocumentSnapshot event) => RegionEventModel.mapToRegionEventModel(event)));
+        (QuerySnapshot event) => event.docs
+            .map((QueryDocumentSnapshot event) =>
+                RegionEventModel.mapToRegionEventModel(event as QueryDocumentSnapshot<Map<String, dynamic>>))
+            .toList());
   }
 
   Future<Result<String>> joinEvent(String eventId, String joiningUser) {
