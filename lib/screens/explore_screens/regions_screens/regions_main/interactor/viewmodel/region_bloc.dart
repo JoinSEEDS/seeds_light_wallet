@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
