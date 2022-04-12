@@ -82,7 +82,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
           regionIdAuthenticationState: RegionIdStatusIcon.invalid,
           regionIdErrorMessage: "Region Id cannot be empty"));
     } else {
-      final Result<RegionModel?> result = await ValidateRegionIdUseCase().run("${state.regionId}$regionIdExtension");
+      final Result<RegionModel?> result = await ValidateRegionIdUseCase().run("${state.regionId}$regionIdSuffix");
       emit(ValidateRegionIdStateMapper().mapResultToState(state, result));
       emit(state.copyWith(regionId: event.regionId));
     }
@@ -109,7 +109,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     emit(state.copyWith(pageState: PageState.loading));
 
     final Result<TransactionResponse> result = await CreateRegionUseCase().run(CreateRegionUseCase.input(
-        regionAccount: "${state.regionId}$regionIdExtension",
+        regionAccount: "${state.regionId}$regionIdSuffix",
         title: state.regionName,
         description: state.regionDescription,
         latitude: state.currentPlace!.lng,
