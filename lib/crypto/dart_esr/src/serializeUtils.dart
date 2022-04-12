@@ -7,8 +7,8 @@ import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 class EOSSerializeUtils {
   /// serialize actions in a transaction
-  // ignore: always_declare_return_types, type_annotate_public_apis
-  static serializeActions(version, eos.Contract contract, esr.Action? action) async {
+
+  static Future<void> serializeActions(int version, eos.Contract contract, esr.Action? action) async {
     if (action!.account!.isEmpty && action.name == 'identity' && action.data is esr.Identity) {
       action.data =
           // ignore: cast_nullable_to_non_nullable
