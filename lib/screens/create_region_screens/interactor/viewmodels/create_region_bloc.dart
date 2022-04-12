@@ -8,6 +8,7 @@ import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/datasource/remote/firebase/regions/create_region_use_case.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -81,7 +82,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
           regionIdAuthenticationState: RegionIdStatusIcon.invalid,
           regionIdErrorMessage: "Region Id cannot be empty"));
     } else {
-      final Result<RegionModel?> result = await ValidateRegionIdUseCase().run(event.regionId);
+      final Result<RegionModel?> result = await ValidateRegionIdUseCase().run("${state.regionId}$regionIdExtension");
       emit(ValidateRegionIdStateMapper().mapResultToState(state, result));
       emit(state.copyWith(regionId: event.regionId));
     }
@@ -100,8 +101,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
           .run(SaveImageUseCaseInput(file: state.file!, pathPrefix: PathPrefix.regionImage, creatorId: state.regionId));
       emit(SaveImageStateMapper().mapResultToState(state, urlResult));
     } else {
-      emit(state.copyWith(
-          createRegionsScreens: CreateRegionScreen.reviewRegion, isNextButtonLoading: false));
+      emit(state.copyWith(createRegionsScreens: CreateRegionScreen.reviewRegion, isNextButtonLoading: false));
     }
   }
 
@@ -109,7 +109,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     emit(state.copyWith(pageState: PageState.loading));
 
     final Result<TransactionResponse> result = await CreateRegionUseCase().run(CreateRegionUseCase.input(
-        regionAccount: state.regionId,
+        regionAccount: "${state.regionId}$regionIdExtension",
         title: state.regionName,
         description: state.regionDescription,
         latitude: state.currentPlace!.lng,
