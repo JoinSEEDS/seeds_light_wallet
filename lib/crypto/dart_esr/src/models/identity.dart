@@ -11,6 +11,10 @@ class Identity {
   @JsonKey(name: 'permission')
   Authorization? authorization;
 
+  /// Note: scope key only exists in V3 of the specification. V2 and below don't have this key.
+  @JsonKey(name: 'scope')
+  String? scope;
+
   Identity();
 
   factory Identity.fromJson(Map<String, dynamic> json) => _$IdentityFromJson(json);

@@ -451,5 +451,21 @@
   "introducingRegionsDialogDescription7": "Seleccione",
   "@introducingRegionsDialogDescription7": {},
   "introducingRegionsDialogDescription8": "para comenzar a buscar regiones cerca de usted.",
-  "@introducingRegionsDialogDescription8": {}
+  "@introducingRegionsDialogDescription8": {},
+  "regionMainMembersTitle": "{members,plural, =1{{membersFormatted} miembro} other{{membersFormatted} miembros}}",
+  "@regionMainMembersTitle": { "placeholders": { "members": {}, "membersFormatted": { "type": "String" } } },
+  "regionMainJoinTitle": "Unirse",
+  "@regionMainJopinTitle": {},
+  "joinRegionConfirmDialogTitle": "¿Unirse a esta región?",
+  "@joinRegionConfirmDialogTitle": {},
+  "joinRegionConfirmDialogDescription": "¡Tomar la decisión de unirte a esta región es una elección importante! Asegúrese de estar listo y dispuesto a ser un colaborador activo en su región.",
+  "@joinRegionConfirmDialogDescription": {},
+  "leaveRegionConfirmDialogTitle": "¿Estas seguro?",
+  "@leaveRegionConfirmDialogTitle": {},
+  "leaveRegionConfirmDialogDescription": "Está a punto de abandonar la región. ¡Asegúrate de estar listo para dejarla!",
+  "@leaveRegionConfirmDialogDescription": {},
+  "regionBottomSheetLeaveRegionTitle": "Abandonar la región",
+  "@regionBottomSheetLeaveRegionTitle": {},
+  "genericRegionConfirmImSureButton": "Si, estoy seguro",
+  "@genericRegionConfirmImSureButton": {}
 }
