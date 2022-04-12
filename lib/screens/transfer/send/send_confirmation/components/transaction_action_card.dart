@@ -32,8 +32,8 @@ class TransactionActionCard extends StatelessWidget {
               const Divider(color: AppColors.grey1),
               Column(
                 children: [
-                  if (action.dataMap != null)
-                    for (final i in action.dataMap!.entries)
+                  if (action.data != null)
+                    for (final i in action.data!.entries)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2.0),
                         child: Row(

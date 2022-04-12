@@ -51,7 +51,7 @@ class TransactionModel extends Equatable {
   static TransactionModel? fromTransaction(GenericTransactionModel genericModel) {
     if (genericModel.transaction.isTransfer) {
       final action = genericModel.transaction.actions.first;
-      final data = action.data as Map<String, dynamic>?;
+      final data = action.data;
       final String? from = data?['from'];
       final String? to = data?['to'];
       final String? quantity = data?['quantity'];
