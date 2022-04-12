@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/create_region_screens/components/create_region_confirmation_dialog.dart';
 import 'package:seeds/screens/create_region_screens/components/review_region_header.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
@@ -33,9 +35,8 @@ class ReviewRegion extends StatelessWidget {
               );
             },
           );
-        } else if (pageCommand is NavigateToNewRegion) {
-          // TODO(gguij004): if succes creating region will add here navigation for the new region.
-
+        } else if (pageCommand is NavigateToRoute) {
+          NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
         }
         BlocProvider.of<CreateRegionBloc>(context).add(const ClearCreateRegionPageCommand());
       },

@@ -2,8 +2,8 @@ import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
-import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 class CreateRegionStateMapper extends StateMapper {
   CreateRegionState mapResultToState(CreateRegionState currentState, Result<TransactionResponse> result) {
@@ -15,7 +15,7 @@ class CreateRegionStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         createRegionsScreens: CreateRegionScreen.reviewRegion,
-        pageCommand: NavigateToNewRegion(),
+        pageCommand: NavigateToRoute(Routes.region),
       );
     }
   }
