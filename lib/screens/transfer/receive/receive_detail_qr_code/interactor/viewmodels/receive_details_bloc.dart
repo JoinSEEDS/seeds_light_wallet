@@ -12,10 +12,10 @@ import 'package:seeds/datasource/remote/model/firebase_models/push_notification_
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_user_profile_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/load_transactions_use_case.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/components/receive_paid_success_dialog.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
-import 'package:seeds/screens/wallet/interactor/usecases/get_user_account.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 part 'receive_details_event.dart';
@@ -61,7 +61,7 @@ class ReceiveDetailsBloc extends Bloc<ReceiveDetailsEvent, ReceiveDetailsState> 
       });
       if (receivePaymentTransaction != null) {
         eventBus.fire(OnNewTransactionEventBus(receivePaymentTransaction)); // update wallet screen values
-        final result = await GetUserAccountUseCase().run(receivePaymentTransaction.from);
+        final result = await GetUserProfileUseCase().run(receivePaymentTransaction.from);
         if (result.isError) {
           emit(state.copyWith()); // Error fetching do nothing
         } else {

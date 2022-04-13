@@ -56,7 +56,10 @@ class ProfileAvatar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
         alignment: Alignment.center,
-        child: Text(shortName, style: Theme.of(context).textTheme.subtitle1HighEmphasis),
+        child: Text(
+          shortName,
+          style: size > 30 ? Theme.of(context).textTheme.subtitle1HighEmphasis : Theme.of(context).textTheme.subtitle3,
+        ),
       );
     }
   }
