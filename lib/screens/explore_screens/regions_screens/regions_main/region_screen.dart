@@ -6,9 +6,9 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_about.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_events.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_main_app_bar.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/tab_about.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/tab_events.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class RegionScreen extends StatelessWidget {
@@ -49,7 +49,7 @@ class RegionScreen extends StatelessWidget {
                         ),
                       ];
                     },
-                    body: const SafeArea(child: TabBarView(children: [EventsTab(), AboutTab()])),
+                    body: const SafeArea(child: TabBarView(children: [RegionEvents(), RegionAbout()])),
                   ),
                 );
               default:

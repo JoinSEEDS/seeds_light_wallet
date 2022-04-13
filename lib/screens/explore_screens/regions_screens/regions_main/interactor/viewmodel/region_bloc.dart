@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
+import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_message_model.dart';
 import 'package:seeds/datasource/remote/model/region_member_model.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
@@ -20,14 +21,17 @@ part 'region_event.dart';
 part 'region_state.dart';
 
 class RegionBloc extends Bloc<RegionEvent, RegionState> {
+  final FirebaseDatabaseRegionsRepository _firebaseRepository = FirebaseDatabaseRegionsRepository();
+
   RegionBloc(RegionModel? region) : super(RegionState.initial(region)) {
     on<OnRegionMounted>(_onRegionMounted);
     on<OnJoinRegionButtonPressed>(_onJoinRegionButtonPressed);
     on<OnLeaveRegionButtonPressed>(_onLeaveRegionButtonPressed);
   }
 
-  Stream<List<RegionMessageModel>> get regionMessages =>
-      FirebaseDatabaseRegionsRepository().getMessagesForRegion(state.region!.id);
+  Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
+
+  Stream<List<RegionEventModel>> get regionEvents => _firebaseRepository.getEventsForRegion(state.region!.id);
 
   Future<void> _onRegionMounted(OnRegionMounted event, Emitter<RegionState> emit) async {
     if (state.region == null) {
