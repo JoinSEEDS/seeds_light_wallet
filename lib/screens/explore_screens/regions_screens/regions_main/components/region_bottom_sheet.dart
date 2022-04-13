@@ -33,6 +33,16 @@ class RegionBottomSheet extends StatelessWidget {
             ),
           ),
           ListTile(
+            onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionImageButtonPressed()),
+            leading: const Icon(Icons.add_photo_alternate_outlined),
+            title: const Text("Edit Region Image"),
+          ),
+          ListTile(
+            onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionDescriptionButtonPressed()),
+            leading: const Icon(Icons.edit),
+            title: const Text("Edit Description"),
+          ),
+          ListTile(
             onTap: () {
               GenericRegionDialog(
                       title: context.loc.leaveRegionConfirmDialogTitle,
