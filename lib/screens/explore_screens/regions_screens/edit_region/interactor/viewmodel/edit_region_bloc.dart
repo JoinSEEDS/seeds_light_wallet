@@ -15,13 +15,7 @@ class EditRegionBloc extends Bloc<EditRegionEvent, EditRegionState> {
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<EditRegionState> emit) {
-    if (event.regionDescription.isEmpty) {
-      emit(state.copyWith(newRegionDescription: event.regionDescription));
-    } else {
-      emit(
-        state.copyWith(newRegionDescription: event.regionDescription),
-      );
-    }
+    emit(state.copyWith(newRegionDescription: event.regionDescription));
   }
 
   Future<void> _onEditRegionSaveChangesTapped(
