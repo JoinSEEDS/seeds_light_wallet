@@ -29,6 +29,17 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<OnLeaveRegionButtonPressed>(_onLeaveRegionButtonPressed);
     on<OnEditRegionImageButtonPressed>(_onEditRegionImageButtonPressed);
     on<OnEditRegionDescriptionButtonPressed>(_onEditRegionDescriptionButtonPressed);
+    on<ClearRegionPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
+
+  void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {
+    emit(state.copyWith(
+        pageCommand: NavigateToRouteWithArguments(
+      route: Routes.editRegionDescription,
+      arguments: state.region,
+    )));
   }
 
   Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
@@ -74,10 +85,6 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
       emit(state.copyWith(pageCommand: NavigateToRoute(Routes.region)));
     }
   }
-
-  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
-
-  void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {}
 
   Future<void> _onLeaveRegionButtonPressed(OnLeaveRegionButtonPressed event, Emitter<RegionState> emit) async {
     // lauch confirm dialog after confirm execute this code below
