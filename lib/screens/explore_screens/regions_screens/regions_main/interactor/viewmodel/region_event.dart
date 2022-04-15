@@ -48,3 +48,10 @@ class OnAddEventButtonPressed extends RegionEvent {
   @override
   String toString() => 'OnAddEventButtonPressed';
 }
+
+class ClearRegionPageCommand extends RegionEvent {
+  const ClearRegionPageCommand();
+
+  @override
+  String toString() => 'ClearRegionPageCommand';
+}

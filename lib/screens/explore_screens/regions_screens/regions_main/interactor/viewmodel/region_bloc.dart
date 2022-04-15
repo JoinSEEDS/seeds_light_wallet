@@ -30,6 +30,17 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<OnEditRegionImageButtonPressed>(_onEditRegionImageButtonPressed);
     on<OnEditRegionDescriptionButtonPressed>(_onEditRegionDescriptionButtonPressed);
     on<OnAddEventButtonPressed>(_onAddEventButtonPressed);
+    on<ClearRegionPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
+
+  void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {
+    emit(state.copyWith(
+        pageCommand: NavigateToRouteWithArguments(
+      route: Routes.editRegionDescription,
+      arguments: state.region,
+    )));
   }
 
   void _onAddEventButtonPressed(OnAddEventButtonPressed event, Emitter<RegionState> emit) {}
@@ -77,10 +88,6 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
       emit(state.copyWith(pageCommand: NavigateToRoute(Routes.region)));
     }
   }
-
-  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
-
-  void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {}
 
   Future<void> _onLeaveRegionButtonPressed(OnLeaveRegionButtonPressed event, Emitter<RegionState> emit) async {
     // lauch confirm dialog after confirm execute this code below
