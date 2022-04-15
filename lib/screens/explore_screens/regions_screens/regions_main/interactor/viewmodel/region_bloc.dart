@@ -29,7 +29,10 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<OnLeaveRegionButtonPressed>(_onLeaveRegionButtonPressed);
     on<OnEditRegionImageButtonPressed>(_onEditRegionImageButtonPressed);
     on<OnEditRegionDescriptionButtonPressed>(_onEditRegionDescriptionButtonPressed);
+    on<OnAddEventButtonPressed>(_onAddEventButtonPressed);
   }
+
+  void _onAddEventButtonPressed(OnAddEventButtonPressed event, Emitter<RegionState> emit) {}
 
   Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
 
