@@ -26,7 +26,10 @@ class RegionScreen extends StatelessWidget {
             final command = state.pageCommand;
             if (command is NavigateToRoute) {
               NavigationService.of(context).pushAndRemoveUntil(route: command.route, from: Routes.app);
+            } else if (command is NavigateToRouteWithArguments) {
+              NavigationService.of(context).navigateTo(command.route, command.arguments);
             }
+            BlocProvider.of<RegionBloc>(context).add(const ClearRegionPageCommand());
           },
           builder: (context, state) {
             switch (state.pageState) {

@@ -1,27 +1,33 @@
 part of 'edit_region_bloc.dart';
 
 class EditRegionState extends Equatable {
-  final String regionDescription;
+  final String newRegionDescription;
+  final RegionModel region;
 
   const EditRegionState({
-    required this.regionDescription,
+    required this.newRegionDescription,
+    required this.region,
   });
 
   @override
   List<Object?> get props => [
-        regionDescription,
+        newRegionDescription,
+        region,
       ];
 
   EditRegionState copyWith({
-    String? regionDescription,
+    String? newRegionDescription,
+    RegionModel? region,
   }) =>
       EditRegionState(
-        regionDescription: regionDescription ?? this.regionDescription,
+        newRegionDescription: newRegionDescription ?? this.newRegionDescription,
+        region: region ?? this.region,
       );
 
-  factory EditRegionState.initial() {
-    return const EditRegionState(
-      regionDescription: "",
+  factory EditRegionState.initial(RegionModel region) {
+    return EditRegionState(
+      newRegionDescription: "",
+      region: region,
     );
   }
 }

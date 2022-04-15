@@ -20,7 +20,7 @@ class OnRegionDescriptionChange extends EditRegionEvent {
   const OnRegionDescriptionChange(this.regionDescription);
 
   @override
-  String toString() => ' {regionDescription: $regionDescription}';
+  String toString() => 'OnRegionDescriptionChange {regionDescription: $regionDescription}';
 }
 
 class OnEditRegionSaveChangesTapped extends EditRegionEvent {
