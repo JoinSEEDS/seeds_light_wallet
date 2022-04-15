@@ -9,18 +9,35 @@ abstract class RegionEvent extends Equatable {
 
 class OnRegionMounted extends RegionEvent {
   const OnRegionMounted();
+
   @override
   String toString() => 'OnRegionMounted';
 }
 
 class OnJoinRegionButtonPressed extends RegionEvent {
   const OnJoinRegionButtonPressed();
+
   @override
   String toString() => 'OnJoinRegionButtonPressed';
 }
 
+class OnEditRegionImageButtonPressed extends RegionEvent {
+  const OnEditRegionImageButtonPressed();
+
+  @override
+  String toString() => 'OnEditRegionImageButtonPressed';
+}
+
+class OnEditRegionDescriptionButtonPressed extends RegionEvent {
+  const OnEditRegionDescriptionButtonPressed();
+
+  @override
+  String toString() => 'OnEditRegionDescriptionButtonPressed';
+}
+
 class OnLeaveRegionButtonPressed extends RegionEvent {
   const OnLeaveRegionButtonPressed();
+
   @override
   String toString() => 'OnLeaveRegionButtonPressed';
 }

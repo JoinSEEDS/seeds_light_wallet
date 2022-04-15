@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/generic_region_dialog.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_bottom_sheet.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 
 class RegionMainAppBar extends StatelessWidget {
   const RegionMainAppBar({Key? key}) : super(key: key);
@@ -74,7 +76,10 @@ class RegionMainAppBar extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline7LowEmphasis,
                     ),
                     Text(
-                      '${state.region?.readableMembersCount ?? 0} Members',
+                      context.loc.regionMainMembersTitle(
+                        state.region?.membersCount ?? 0,
+                        '${state.region?.readableMembersCount ?? 0}',
+                      ),
                       style: Theme.of(context).textTheme.buttonWhiteL,
                     ),
                   ],
@@ -85,7 +90,16 @@ class RegionMainAppBar extends StatelessWidget {
                   right: 22,
                   bottom: 30,
                   child: InkWell(
-                    onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnJoinRegionButtonPressed()),
+                    onTap: () {
+                      GenericRegionDialog(
+                        title: context.loc.joinRegionConfirmDialogTitle,
+                        description: context.loc.joinRegionConfirmDialogDescription,
+                      ).show(context).then((isConfirmed) {
+                        if (isConfirmed ?? false) {
+                          BlocProvider.of<RegionBloc>(context).add(const OnJoinRegionButtonPressed());
+                        }
+                      });
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 30),
                       decoration: BoxDecoration(
@@ -93,7 +107,11 @@ class RegionMainAppBar extends StatelessWidget {
                         border: Border.all(color: AppColors.green3),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      child: Center(child: Text('Join', style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis)),
+                      child: Center(
+                          child: Text(
+                        context.loc.regionMainJoinTitle,
+                        style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
+                      )),
                     ),
                   ),
                 ),

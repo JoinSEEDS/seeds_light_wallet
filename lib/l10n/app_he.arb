@@ -315,5 +315,13 @@
   "@introducingRegionsDialogDescription5": {},
   "@introducingRegionsDialogDescription6": {},
   "@introducingRegionsDialogDescription7": {},
-  "@introducingRegionsDialogDescription8": {}
+  "@introducingRegionsDialogDescription8": {},
+  "@regionMainMembersTitle": { "placeholders": { "members": {}, "membersFormatted": { "type": "String" } } },
+  "@regionMainJopinTitle": {},
+  "@joinRegionConfirmDialogTitle": {},
+  "@joinRegionConfirmDialogDescription": {},
+  "@leaveRegionConfirmDialogTitle": {},
+  "@leaveRegionConfirmDialogDescription": {},
+  "@regionBottomSheetLeaveRegionTitle": {},
+  "@genericRegionConfirmImSureButton": {}
 }
