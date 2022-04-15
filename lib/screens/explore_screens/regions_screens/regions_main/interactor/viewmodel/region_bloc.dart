@@ -27,9 +27,12 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<OnRegionMounted>(_onRegionMounted);
     on<OnJoinRegionButtonPressed>(_onJoinRegionButtonPressed);
     on<OnLeaveRegionButtonPressed>(_onLeaveRegionButtonPressed);
+    on<OnEditRegionImageButtonPressed>(_onEditRegionImageButtonPressed);
     on<OnEditRegionDescriptionButtonPressed>(_onEditRegionDescriptionButtonPressed);
     on<ClearRegionPageCommand>((_, emit) => emit(state.copyWith()));
   }
+
+  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
 
   void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {
     emit(state.copyWith(
