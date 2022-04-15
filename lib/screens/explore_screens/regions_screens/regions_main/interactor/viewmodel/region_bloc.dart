@@ -1,8 +1,5 @@
-import 'dart:html';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
@@ -30,8 +27,6 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<OnRegionMounted>(_onRegionMounted);
     on<OnJoinRegionButtonPressed>(_onJoinRegionButtonPressed);
     on<OnLeaveRegionButtonPressed>(_onLeaveRegionButtonPressed);
-    on<OnEditRegionImageButtonPressed>(_onEditRegionImageButtonPressed);
-    on<OnEditRegionDescriptionButtonPressed>(_onEditRegionDescriptionButtonPressed);
   }
 
   Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
@@ -77,10 +72,6 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
       emit(state.copyWith(pageCommand: NavigateToRoute(Routes.region)));
     }
   }
-
-  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
-
-  void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {}
 
   Future<void> _onLeaveRegionButtonPressed(OnLeaveRegionButtonPressed event, Emitter<RegionState> emit) async {
     // lauch confirm dialog after confirm execute this code below
