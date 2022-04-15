@@ -14,6 +14,12 @@ import 'package:seeds/utils/placemark_extension.dart';
 part 'regions_map_event.dart';
 part 'regions_map_state.dart';
 
+/// This is de default coordinates when user deny location permissions
+///
+/// first element is longitude and second latitude
+/// This coordinates belongs to an area nerby Mexico city.
+const defaultLocation = [-99.085092, 19.461416];
+
 class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
   RegionsMapBloc() : super(RegionsMapState.initial()) {
     on<SetInitialValues>(_setInitialValues);
@@ -48,7 +54,16 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
     } else {
       final result = await GetUserLocationUseCase().run();
       if (result.isError) {
-        emit(state.copyWith(pageState: PageState.failure));
+        // User deny location permissions set default location: Mexico city coords
+        // and hide current location button.
+        emit(state.copyWith(newPlace: state.newPlace.copyWith(lng: defaultLocation.first, lat: defaultLocation.last)));
+        final place = await placemarkFromCoordinates(state.newPlace.lat, state.newPlace.lng);
+        emit(state.copyWith(
+          pageCommand: MoveCamera(),
+          pageState: PageState.success,
+          newPlace: state.newPlace.copyWith(placeText: place.first.toPlaceText),
+          isUserLocationEnabled: false,
+        ));
       } else {
         final position = result.asValue!.value;
         emit(state.copyWith(newPlace: state.newPlace.copyWith(lng: position.longitude, lat: position.latitude)));
@@ -57,6 +72,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
           pageCommand: MoveCamera(),
           pageState: PageState.success,
           newPlace: state.newPlace.copyWith(placeText: place.first.toPlaceText),
+          isUserLocationEnabled: true,
         ));
       }
     }
