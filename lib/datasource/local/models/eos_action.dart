@@ -10,7 +10,7 @@ class EOSAction {
 
   bool get isValid => account != null && name != null && account!.isNotEmpty && name!.isNotEmpty;
 
-  EOSAction() : super();
+  EOSAction();
 
   factory EOSAction.fromESRAction(esr.Action action) {
     final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
