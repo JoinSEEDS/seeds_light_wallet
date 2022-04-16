@@ -11,12 +11,12 @@ class InitialValidationStateMapper extends StateMapper {
     } else {
       final BalanceModel balance = result.asValue!.value;
       final eosAction = currentState.transaction.actions.first;
-      final amountRequested = (eosAction.data['quantity'] as String).split(' ').first;
+      final amountRequested = (eosAction.data?['quantity'] as String).split(' ').first;
       final hasEnoughBalance = (balance.quantity - double.parse(amountRequested)) >= 0;
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);
       } else {
-        final tokenRequested = (eosAction.data['quantity'] as String).split(' ').last;
+        final tokenRequested = (eosAction.data?['quantity'] as String).split(' ').last;
         return currentState.copyWith(
           pageState: PageState.success,
           pageCommand: ShowInvalidTransactionReason('You do not have enough $tokenRequested'),

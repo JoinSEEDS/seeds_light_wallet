@@ -32,7 +32,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     // for now it only validates a transfer
     if (state.isTransfer) {
       final esoAction = state.transaction.actions.first;
-      final symbol = (esoAction.data['quantity'] as String).split(' ').last;
+      final symbol = (esoAction.data?['quantity'] as String).split(' ').last;
       final targetToken = TokenModel.allTokens.singleWhereOrNull((i) => i.symbol == symbol);
       if (targetToken != null) {
         final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
