@@ -14,10 +14,13 @@ class FullPageErrorIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Expanded(
-        child: Center(
-          child: Text(
-            errorMessage ?? GlobalError.unknown.localizedDescription(context),
-            style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Text(
+              errorMessage ?? GlobalError.unknown.localizedDescription(context),
+              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
+            ),
           ),
         ),
       ),

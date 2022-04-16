@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,7 +76,9 @@ class SendConfirmationScreen extends StatelessWidget {
                     case PageState.loading:
                       return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
                     case PageState.failure:
-                      return const FullPageErrorIndicator();
+                      return FullPageErrorIndicator(
+                        errorMessage: "Error Sending Transaction \n\n${state.errorMessage?.userErrorMessage}",
+                      );
                     case PageState.success:
                       return SafeArea(
                         minimum: const EdgeInsets.all(horizontalEdgePadding),
@@ -124,5 +128,16 @@ class SendConfirmationScreen extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+extension EosErrorParser on String {
+  String get userErrorMessage {
+    try {
+      return jsonDecode(this)["error"]["details"][0]["message"];
+    } catch (error) {
+      print("Error decoding error message $this $error");
+      return this;
+    }
   }
 }
