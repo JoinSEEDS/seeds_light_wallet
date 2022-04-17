@@ -42,6 +42,13 @@ class OnLeaveRegionButtonPressed extends RegionEvent {
   String toString() => 'OnLeaveRegionButtonPressed';
 }
 
+class OnAddEventButtonPressed extends RegionEvent {
+  const OnAddEventButtonPressed();
+
+  @override
+  String toString() => 'OnAddEventButtonPressed';
+}
+
 class ClearRegionPageCommand extends RegionEvent {
   const ClearRegionPageCommand();
 
