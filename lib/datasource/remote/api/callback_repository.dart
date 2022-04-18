@@ -22,7 +22,8 @@ class CallbackRepository extends HttpRepository {
   }
 
   String fillTemplate(String callbackURL, String transactionId) {
-    // https://myapp.com/wallet?tx={{tx}}&included_in={{bn}}
+    /// See spec
+    /// https://github.com/eosio-eps/EEPs/blob/master/EEPS/eep-7.md#4-issuing-callbacks
     return callbackURL.replaceAll("{{tx}}", transactionId);
   }
 }
