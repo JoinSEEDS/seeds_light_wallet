@@ -16,7 +16,7 @@ class SendConfirmationState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     required this.transaction,
-    required this.callback,
+    this.callback,
     required this.transactionResult,
     required this.invalidTransaction,
   });
@@ -55,7 +55,6 @@ class SendConfirmationState extends Equatable {
     return SendConfirmationState(
       pageState: PageState.initial,
       transaction: arguments.transaction,
-      callback: null,
       transactionResult: const TransactionResult(),
       invalidTransaction: InvalidTransaction.none,
     );

@@ -5,7 +5,7 @@ class SendConfirmationArguments {
   final EOSTransaction transaction;
   final String? callback;
 
-  const SendConfirmationArguments({required this.transaction, required this.callback});
+  const SendConfirmationArguments({required this.transaction, this.callback});
 
   factory SendConfirmationArguments.from(ScanQrCodeResultData data) =>
       SendConfirmationArguments(transaction: data.transaction, callback: data.esr.callback);
