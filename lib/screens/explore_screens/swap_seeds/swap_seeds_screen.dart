@@ -41,7 +41,7 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) async {
               final pageCommand = state.pageCommand;
-              if (pageCommand is NavigateToRouteWithArguments) {
+              if (pageCommand is NavigateToSendConfirmation) {
                 final TransactionResult? result =
                     await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
                 if (result != null) {
