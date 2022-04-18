@@ -9,7 +9,7 @@ class SeedsESR {
 
   late List<Action> actions;
 
-  String? get callback => manager.data.callback;
+  String? get callback => manager.signingRequest.callback;
 
   SeedsESR({String? uri}) {
     manager = TelosSigningManager.from(uri);
