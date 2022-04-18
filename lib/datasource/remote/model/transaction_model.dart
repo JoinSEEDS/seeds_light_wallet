@@ -52,10 +52,10 @@ class TransactionModel extends Equatable {
     if (genericModel.transaction.isTransfer) {
       final action = genericModel.transaction.actions.first;
       final data = action.data;
-      final String? from = data['from'];
-      final String? to = data['to'];
-      final String? quantity = data['quantity'];
-      final String memo = data['memo'] ?? "";
+      final String? from = data?['from'];
+      final String? to = data?['to'];
+      final String? quantity = data?['quantity'];
+      final String memo = data?['memo'] ?? "";
       if (from != null && to != null && quantity != null) {
         return TransactionModel(
           from: from,

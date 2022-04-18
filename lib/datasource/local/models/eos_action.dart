@@ -1,21 +1,34 @@
-import 'package:equatable/equatable.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 /// Simple EOS Action data container
-class EOSAction extends Equatable {
-  final String accountName;
-  final String actionName;
-  final Map<String, dynamic> data;
+class EOSAction {
+  String? account;
+  String? name;
+  List<eos.Authorization?>? authorization;
+  Map<String, dynamic>? data;
 
-  bool get isValid => accountName.isNotEmpty && actionName.isNotEmpty;
+  bool get isValid => account != null && name != null && account!.isNotEmpty && name!.isNotEmpty;
 
-  const EOSAction({required this.accountName, required this.actionName, required this.data});
+  EOSAction();
 
   factory EOSAction.fromESRAction(esr.Action action) {
     final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
-    return EOSAction(accountName: action.account!, actionName: action.name!, data: data);
+    final List<eos.Authorization>? auth = action.authorization
+        ?.map((e) => eos.Authorization()
+          ..actor = e?.actor
+          ..permission = e?.permission)
+        .toList();
+    return EOSAction()
+      ..account = action.account
+      ..name = action.name
+      ..data = data
+      ..authorization = auth;
   }
 
-  @override
-  List<Object?> get props => [accountName, actionName, data];
+  eos.Action get toEosAction => eos.Action()
+    ..account = account
+    ..name = name
+    ..data = data
+    ..authorization = authorization;
 }

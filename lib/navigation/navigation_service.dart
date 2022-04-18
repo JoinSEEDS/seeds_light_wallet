@@ -20,6 +20,7 @@ import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/join_region_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/region_screen.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
@@ -102,6 +103,7 @@ class Routes {
   static const contribution = 'contribution';
   static const contributionDetail = 'contributionDetail';
   static const region = 'region';
+  static const editRegionDescription = 'editRegionDescription';
 }
 
 class NavigationService {
@@ -155,6 +157,7 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
     Routes.region: (_) => const RegionScreen(),
+    Routes.editRegionDescription: (_) => const EditRegionDescription(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too

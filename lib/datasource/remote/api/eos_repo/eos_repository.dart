@@ -65,7 +65,7 @@ abstract class EosRepository {
       final map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
-      print('ErrorResult: response[transaction_id] is null');
+      print('ErrorResult: $response');
       return ErrorResult(EosError(response['processed']['error_code']));
     }
   }

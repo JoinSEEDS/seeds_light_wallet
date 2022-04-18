@@ -8,21 +8,16 @@ class SendTransactionRepository extends EosRepository {
     required EOSTransaction eosTransaction,
     required String accountName,
   }) async {
-    final actions = eosTransaction.actions
-        .map(
-          (e) => Action()
-            ..account = e.accountName
-            ..name = e.actionName
-            ..data = e.data,
-        )
-        .toList();
+    final actions = eosTransaction.actions.map((e) => e.toEosAction).toList();
 
     for (final action in actions) {
-      action.authorization = [
-        Authorization()
-          ..actor = accountName
-          ..permission = permissionActive
-      ];
+      if (action.authorization == null || action.authorization == []) {
+        action.authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permissionActive
+        ];
+      }
     }
     final transaction = buildFreeTransaction(actions, accountName);
 

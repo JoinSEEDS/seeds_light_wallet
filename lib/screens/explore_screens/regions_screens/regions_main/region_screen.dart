@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -20,13 +21,22 @@ class RegionScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => RegionBloc(region)..add(const OnRegionMounted()),
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.green1,
+          onPressed: () {},
+          child: const Icon(Icons.add, color: AppColors.white),
+        ),
         body: BlocConsumer<RegionBloc, RegionState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final command = state.pageCommand;
             if (command is NavigateToRoute) {
               NavigationService.of(context).pushAndRemoveUntil(route: command.route, from: Routes.app);
+            } else if (command is NavigateToRouteWithArguments) {
+              NavigationService.of(context).navigateTo(command.route, command.arguments);
             }
+            BlocProvider.of<RegionBloc>(context).add(const ClearRegionPageCommand());
           },
           builder: (context, state) {
             switch (state.pageState) {

@@ -7,6 +7,7 @@ class RegionsMapState extends Equatable {
   final Place newPlace;
   final bool isCameraMoving;
   final bool isSearchingPlace;
+  final bool isUserLocationEnabled;
 
   const RegionsMapState({
     this.pageCommand,
@@ -15,6 +16,7 @@ class RegionsMapState extends Equatable {
     required this.newPlace,
     required this.isCameraMoving,
     required this.isSearchingPlace,
+    required this.isUserLocationEnabled,
   });
 
   @override
@@ -25,6 +27,7 @@ class RegionsMapState extends Equatable {
         newPlace,
         isCameraMoving,
         isSearchingPlace,
+        isUserLocationEnabled,
       ];
 
   RegionsMapState copyWith({
@@ -34,6 +37,7 @@ class RegionsMapState extends Equatable {
     Place? newPlace,
     bool? isCameraMoving,
     bool? isSearchingPlace,
+    bool? isUserLocationEnabled,
   }) {
     return RegionsMapState(
       pageCommand: pageCommand,
@@ -42,6 +46,7 @@ class RegionsMapState extends Equatable {
       initialPlace: initialPlace ?? this.initialPlace,
       newPlace: newPlace ?? this.newPlace,
       isSearchingPlace: isSearchingPlace ?? this.isSearchingPlace,
+      isUserLocationEnabled: isUserLocationEnabled ?? this.isUserLocationEnabled,
     );
   }
 
@@ -58,6 +63,7 @@ class RegionsMapState extends Equatable {
       newPlace: Place(lat: 0, lng: 0, placeText: ''),
       isCameraMoving: false,
       isSearchingPlace: false,
+      isUserLocationEnabled: true,
     );
   }
 }

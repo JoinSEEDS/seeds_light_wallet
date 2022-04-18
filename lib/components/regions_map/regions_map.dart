@@ -95,7 +95,6 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                               Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
                             },
                             mapToolbarEnabled: false,
-                            myLocationEnabled: true,
                             myLocationButtonEnabled: false,
                             zoomControlsEnabled: false,
                             onMapCreated: (controller) => _mapController = controller,
@@ -121,17 +120,18 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
                                   : SvgPicture.asset('assets/images/explore/marker_location.svg'),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(18.0),
-                              child: IconButton(
-                                color: Colors.transparent,
-                                onPressed: () => _regionsMapBloc.add(const MoveToCurrentLocation()),
-                                icon: const Icon(Icons.my_location, size: 38.0, color: AppColors.darkGreen2),
+                          if (state.isUserLocationEnabled)
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: IconButton(
+                                  color: Colors.transparent,
+                                  onPressed: () => _regionsMapBloc.add(const MoveToCurrentLocation()),
+                                  icon: const Icon(Icons.my_location, size: 38.0, color: AppColors.darkGreen2),
+                                ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),
