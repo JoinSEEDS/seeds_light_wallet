@@ -21,10 +21,6 @@ abstract class InputUseCase<T, I> extends _BaseUseCase {
   Future<Result<T>> run(I input);
 }
 
-abstract class InputListUseCase<T, I> extends _BaseUseCase {
-  Future<List<Result<T>>> run(I input);
-}
-
 abstract class NoInputUseCase<T> extends _BaseUseCase<T> {
   Future<Result<T>> run();
 }
