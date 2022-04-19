@@ -22,6 +22,8 @@ class CreateRegionEventState extends Equatable {
   final DateTime? eventDateAndTime;
   final DateTime? eventDate;
   final TimeOfDay? eventTime;
+  final bool isNextButtonLoading;
+  final bool createImageUrl;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -36,6 +38,8 @@ class CreateRegionEventState extends Equatable {
     this.eventDateAndTime,
     this.eventDate,
     this.eventTime,
+    required this.isNextButtonLoading,
+    required this.createImageUrl,
   });
 
   @override
@@ -52,6 +56,8 @@ class CreateRegionEventState extends Equatable {
         eventDateAndTime,
         eventDate,
         eventTime,
+        isNextButtonLoading,
+        createImageUrl,
       ];
 
   CreateRegionEventState copyWith({
@@ -67,6 +73,8 @@ class CreateRegionEventState extends Equatable {
     DateTime? eventDateAndTime,
     DateTime? eventDate,
     TimeOfDay? eventTime,
+    bool? isNextButtonLoading,
+    bool? createImageUrl,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -81,6 +89,8 @@ class CreateRegionEventState extends Equatable {
         eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
         eventDate: eventDate ?? this.eventDate,
         eventTime: eventTime ?? this.eventTime,
+        isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
+        createImageUrl: createImageUrl ?? this.createImageUrl,
       );
 
   factory CreateRegionEventState.initial() {
@@ -90,6 +100,8 @@ class CreateRegionEventState extends Equatable {
       eventDescription: "",
       eventName: "",
       pictureBoxState: PictureBoxState.pickImage,
+      isNextButtonLoading: false,
+      createImageUrl: false,
     );
   }
 }
