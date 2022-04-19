@@ -5,38 +5,25 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 
 class CallbackRepository extends HttpRepository {
-  Future<Result<String>> callback(String _callbackUrl, String transactionId) {
-    print("[http] issue callback");
+  Future<Result<bool>> callback(String _callbackUrl, String transactionId) {
+    print("[http] issue callback $_callbackUrl");
 
     final callbackUrl = fillTemplate(_callbackUrl, transactionId);
-
-    String urlString = "";
-    String params = "";
-    try {
-      final initialURI = Uri.parse(callbackUrl);
-      if (initialURI.hasQuery) {
-        urlString = "$callbackUrl&tx_id=$transactionId";
-      } else {
-        urlString = "$callbackUrl?tx_id=$transactionId";
-      }
-    } catch (err) {
-      print("invalid callback URL");
-    }
-
-    final uri = Uri.parse(urlString);
-    params = jsonEncode(uri.queryParameters);
+    final uri = Uri.parse(callbackUrl);
+    final params = jsonEncode(uri.queryParameters);
+    final postURI = Uri(scheme: uri.scheme, host: uri.host, path: uri.path);
 
     return http
-        .post(uri, headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<String>(response, (dynamic body) {
-              print("body $body");
-              return "";
+        .post(postURI, headers: headers, body: params)
+        .then((http.Response response) => mapHttpResponse<bool>(response, (dynamic body) {
+              return true;
             }))
         .catchError((error) => mapHttpError(error));
   }
 
   String fillTemplate(String callbackURL, String transactionId) {
-    // https://myapp.com/wallet?tx={{tx}}&included_in={{bn}}
+    /// See spec
+    /// https://github.com/eosio-eps/EEPs/blob/master/EEPS/eep-7.md#4-issuing-callbacks
     return callbackURL.replaceAll("{{tx}}", transactionId);
   }
 }

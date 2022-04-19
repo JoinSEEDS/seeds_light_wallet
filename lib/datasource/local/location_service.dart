@@ -16,6 +16,9 @@ class LocationService {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.deniedForever) {
+          // deniedForever:	Permission to access the device's location is permenantly denied. 
+          // When requesting permissions the permission dialog will not been shown 
+          // until the user updates the permission in the App settings.
           return Result.error('Permissions are denied forever, handle appropriately.');
         }
 

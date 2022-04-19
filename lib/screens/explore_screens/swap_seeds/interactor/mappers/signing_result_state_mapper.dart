@@ -6,11 +6,11 @@ import 'package:seeds/screens/explore_screens/swap_seeds/interactor/viewmodels/s
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 class SigningResultStateMapper extends StateMapper {
-  SwapSeedsState mapResultToState(SwapSeedsState currentState, Result result) {
+  SwapSeedsState mapResultToState(SwapSeedsState currentState, Result<ScanQrCodeResultData> result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure);
     } else {
-      final scanQrCodeResult = result.asValue!.value as ScanQrCodeResultData;
+      final scanQrCodeResult = result.asValue!.value;
       return currentState.copyWith(
         pageCommand: NavigateToSendConfirmation(
           SendConfirmationArguments.from(scanQrCodeResult),

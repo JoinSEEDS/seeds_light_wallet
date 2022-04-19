@@ -32,8 +32,7 @@ class SendTransactionUseCase {
           profiles = await getProfileData(toAccount: transferModel.to, fromAccount: fromAccount);
         }
         if (callback != null) {
-          final res = await CallbackRepository().callback(callback, transactionId);
-          print("res $res");
+          await CallbackRepository().callback(callback, transactionId);
         }
         return ValueResult(SendTransactionResponse(transactionModel: transactionModel, profiles: profiles));
       }
