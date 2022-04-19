@@ -23,6 +23,7 @@ class CreateRegionEventState extends Equatable {
   final DateTime? eventDate;
   final TimeOfDay? eventTime;
   final RegionModel region;
+  final bool isPublishEventButtonLoading;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -38,6 +39,7 @@ class CreateRegionEventState extends Equatable {
     this.eventDate,
     this.eventTime,
     required this.region,
+    required this.isPublishEventButtonLoading,
   });
 
   @override
@@ -55,6 +57,7 @@ class CreateRegionEventState extends Equatable {
         eventDate,
         eventTime,
         region,
+        isPublishEventButtonLoading,
       ];
 
   CreateRegionEventState copyWith({
@@ -71,6 +74,7 @@ class CreateRegionEventState extends Equatable {
     DateTime? eventDate,
     TimeOfDay? eventTime,
     RegionModel? region,
+    bool? isPublishEventButtonLoading,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -86,6 +90,7 @@ class CreateRegionEventState extends Equatable {
         eventDate: eventDate ?? this.eventDate,
         eventTime: eventTime ?? this.eventTime,
         region: region ?? this.region,
+        isPublishEventButtonLoading: isPublishEventButtonLoading ?? this.isPublishEventButtonLoading,
       );
 
   factory CreateRegionEventState.initial(RegionModel region) {
@@ -96,6 +101,7 @@ class CreateRegionEventState extends Equatable {
       eventName: "",
       pictureBoxState: PictureBoxState.pickImage,
       region: region,
+      isPublishEventButtonLoading: false,
     );
   }
 }

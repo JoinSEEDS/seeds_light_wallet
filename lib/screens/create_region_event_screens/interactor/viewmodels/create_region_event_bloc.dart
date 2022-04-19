@@ -82,7 +82,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   }
 
   Future<void> _onPublishEventTapped(OnPublishEventTapped event, Emitter<CreateRegionEventState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading));
+    emit(state.copyWith(isPublishEventButtonLoading: true));
 
     final Result<String> result = await CreateRegionEventUseCase().run(CreateRegionEventInput(
       eventName: state.eventName,

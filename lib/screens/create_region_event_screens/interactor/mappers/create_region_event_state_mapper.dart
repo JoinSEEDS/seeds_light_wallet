@@ -7,7 +7,7 @@ class CreateRegionEventStateMapper extends StateMapper {
   CreateRegionEventState mapResultToState(CreateRegionEventState currentState, Result<String> result) {
     if (result.isError) {
       return currentState.copyWith(
-          pageCommand: ShowErrorMessage("Error Creating Region Event"));
+          isPublishEventButtonLoading: false, pageCommand: ShowErrorMessage("Error Creating Region Event"));
     } else {
       return currentState.copyWith(
         pageCommand: NavigateToRoute(Routes.region),
