@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_date_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_time_state_mapper.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/mappers/create_region_event_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/pick_image_state_mapper.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/usecases/create_region_event_use_case.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 
 part 'create_region_event_events.dart';
@@ -17,7 +21,7 @@ part 'create_region_event_events.dart';
 part 'create_region_event_state.dart';
 
 class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEventState> {
-  CreateRegionEventBloc() : super(CreateRegionEventState.initial()) {
+  CreateRegionEventBloc(RegionModel region) : super(CreateRegionEventState.initial(region)) {
     on<OnNextTapped>(_onNextTapped);
     on<OnBackPressed>(_onBackPressed);
     on<OnUpdateMapLocation>(_onUpdateMapLocations);
@@ -77,7 +81,21 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
         imageUrl: state.imageUrl));
   }
 
-  Future<void> _onPublishEventTapped(OnPublishEventTapped event, Emitter<CreateRegionEventState> emit) async {}
+  Future<void> _onPublishEventTapped(OnPublishEventTapped event, Emitter<CreateRegionEventState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+
+    final Result<String> result = await CreateRegionEventUseCase().run(CreateRegionEventInput(
+      eventName: state.eventName,
+      eventDescription: state.eventDescription,
+      regionAccount: state.region.id,
+      latitude: state.currentPlace!.lat,
+      longitude: state.currentPlace!.lng,
+      eventImage: state.imageUrl!,
+      eventStartTime: state.eventDateAndTime!,
+      eventEndTime: state.eventDateAndTime!,
+    ));
+    emit(CreateRegionEventStateMapper().mapResultToState(state, result));
+  }
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionEventState> emit) {
     switch (state.createRegionEventScreen) {
