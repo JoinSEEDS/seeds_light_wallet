@@ -2,6 +2,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/interactor/mappers/edit_region_description_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/interactor/usecases/edit_region_description_use_case.dart';
 
 part 'edit_region_events.dart';
 
@@ -19,5 +24,17 @@ class EditRegionBloc extends Bloc<EditRegionEvent, EditRegionState> {
   }
 
   Future<void> _onEditRegionSaveChangesTapped(
-      OnEditRegionSaveChangesTapped event, Emitter<EditRegionState> emit) async {}
+      OnEditRegionSaveChangesTapped event, Emitter<EditRegionState> emit) async {
+    emit(state.copyWith(isSaveChangesButtonLoading: true));
+
+    final Result<TransactionResponse> result =
+        await EditRegionDescriptionUseCase().run(EditRegionDescriptionUseCase.input(
+      regionAccount: state.region.id,
+      title: state.region.title,
+      description: state.newRegionDescription,
+      latitude: state.region.latitude,
+      longitude: state.region.longitude,
+    ));
+    emit(EditRegionDescriptionStateMapper().mapResultToState(state, result));
+  }
 }
