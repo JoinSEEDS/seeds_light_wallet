@@ -9,8 +9,8 @@ class RegionEventModel {
   final String eventDescription;
   final GeoPoint eventLocation;
   final String eventImage;
-  final DateTime eventStartTime;
-  final DateTime eventEndTime;
+  final Timestamp eventStartTime;
+  final Timestamp eventEndTime;
   final Timestamp createdTime;
   final List<String> users;
 
