@@ -59,7 +59,7 @@ class RegionScreen extends StatelessWidget {
                         ),
                       ];
                     },
-                    body: const SafeArea(child: TabBarView(children: [RegionEvents(), RegionAbout()])),
+                    body: const TabBarView(children: [RegionEvents(), RegionAbout()]),
                   ),
                 );
               default:

@@ -323,5 +323,6 @@
   "@leaveRegionConfirmDialogTitle": {},
   "@leaveRegionConfirmDialogDescription": {},
   "@regionBottomSheetLeaveRegionTitle": {},
-  "@genericRegionConfirmImSureButton": {}
+  "@genericRegionConfirmImSureButton": {},
+  "@regionEventCardJoinedTitle": {}
 }
