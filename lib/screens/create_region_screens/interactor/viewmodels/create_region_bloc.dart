@@ -47,13 +47,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onRegionNameChange(OnRegionNameChange event, Emitter<CreateRegionState> emit) {
-    if (event.regionName.isEmpty) {
-      emit(state.copyWith(regionName: event.regionName));
-    } else {
-      emit(
-        state.copyWith(regionName: event.regionName),
-      );
-    }
+    emit(state.copyWith(regionName: event.regionName));
   }
 
   void _onRegionNameNextTapped(OnRegionNameNextTapped event, Emitter<CreateRegionState> emit) {
@@ -65,13 +59,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
-    if (event.regionDescription.isEmpty) {
-      emit(state.copyWith(regionDescription: event.regionDescription));
-    } else {
-      emit(
-        state.copyWith(regionDescription: event.regionDescription),
-      );
-    }
+    state.copyWith(regionDescription: event.regionDescription);
   }
 
   Future<void> _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) async {

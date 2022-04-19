@@ -738,7 +738,7 @@ class SigningRequestUtils {
       throw 'Missing abi provider';
     }
     final contract = SigningRequestUtils.getContract(contractAbi);
-    EOSSerializeUtils.serializeActions(version, contract, action);
+    await EOSSerializeUtils.serializeActions(version, contract, action);
   }
 
   static Action deserializeAction(int version, eosDart.Contract contract, String account, String? name,
