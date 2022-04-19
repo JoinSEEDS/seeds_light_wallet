@@ -21,7 +21,8 @@ class CreateRegionEventState extends Equatable {
   final String? imageUrl;
   final DateTime? eventDateAndTime;
   final DateTime? eventDate;
-  final TimeOfDay? eventTime;
+  final TimeOfDay? eventStartTime;
+  final TimeOfDay? eventEndTime;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -35,7 +36,8 @@ class CreateRegionEventState extends Equatable {
     this.imageUrl,
     this.eventDateAndTime,
     this.eventDate,
-    this.eventTime,
+    this.eventStartTime,
+    this.eventEndTime,
   });
 
   @override
@@ -51,23 +53,24 @@ class CreateRegionEventState extends Equatable {
         imageUrl,
         eventDateAndTime,
         eventDate,
-        eventTime,
+        eventStartTime,
+        eventEndTime,
       ];
 
-  CreateRegionEventState copyWith({
-    PageState? pageState,
-    PageCommand? pageCommand,
-    CreateRegionEventScreen? createRegionEventScreen,
-    String? eventDescription,
-    String? eventName,
-    Place? currentPlace,
-    File? file,
-    PictureBoxState? pictureBoxState,
-    String? imageUrl,
-    DateTime? eventDateAndTime,
-    DateTime? eventDate,
-    TimeOfDay? eventTime,
-  }) =>
+  CreateRegionEventState copyWith(
+          {PageState? pageState,
+          PageCommand? pageCommand,
+          CreateRegionEventScreen? createRegionEventScreen,
+          String? eventDescription,
+          String? eventName,
+          Place? currentPlace,
+          File? file,
+          PictureBoxState? pictureBoxState,
+          String? imageUrl,
+          DateTime? eventDateAndTime,
+          DateTime? eventDate,
+          TimeOfDay? eventStartTime,
+          TimeOfDay? eventEndTime}) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
@@ -80,7 +83,8 @@ class CreateRegionEventState extends Equatable {
         imageUrl: imageUrl,
         eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
         eventDate: eventDate ?? this.eventDate,
-        eventTime: eventTime ?? this.eventTime,
+        eventStartTime: eventStartTime ?? this.eventStartTime,
+        eventEndTime: eventEndTime ?? this.eventEndTime,
       );
 
   factory CreateRegionEventState.initial() {
