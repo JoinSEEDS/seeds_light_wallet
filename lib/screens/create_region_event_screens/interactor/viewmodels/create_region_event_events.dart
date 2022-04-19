@@ -86,3 +86,10 @@ class OnPickImageNextTapped extends CreateRegionEventEvents {
   @override
   String toString() => 'OnPickImageNextTapped';
 }
+
+class OnPublishEventTapped extends CreateRegionEventEvents {
+  const OnPublishEventTapped();
+
+  @override
+  String toString() => 'OnPublishEventTapped';
+}

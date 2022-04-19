@@ -43,7 +43,9 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     )));
   }
 
-  void _onAddEventButtonPressed(OnAddEventButtonPressed event, Emitter<RegionState> emit) {}
+  void _onAddEventButtonPressed(OnAddEventButtonPressed event, Emitter<RegionState> emit) {
+    emit(state.copyWith(pageCommand: NavigateToRoute(Routes.createRegionEvent)));
+  }
 
   Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
 

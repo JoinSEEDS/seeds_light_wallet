@@ -27,6 +27,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnSelectDateChanged>(_onSelectDateChange);
     on<OnSelectTimeChanged>(_onSelectTimeChange);
+    on<OnPublishEventTapped>(_onPublishEventTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -75,6 +76,8 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
         createRegionEventScreen: CreateRegionEventScreen.reviewAndPublish,
         imageUrl: state.imageUrl));
   }
+
+  Future<void> _onPublishEventTapped(OnPublishEventTapped event, Emitter<CreateRegionEventState> emit) async {}
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionEventState> emit) {
     switch (state.createRegionEventScreen) {
