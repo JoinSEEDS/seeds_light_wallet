@@ -23,7 +23,8 @@ part 'send_enter_data_event.dart';
 part 'send_enter_data_state.dart';
 
 class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
-  SendEnterDataBloc(ProfileModel memberModel, RatesState rates) : super(SendEnterDataState.initial(memberModel, rates)) {
+  SendEnterDataBloc(ProfileModel memberModel, RatesState rates)
+      : super(SendEnterDataState.initial(memberModel, rates)) {
     on<InitSendDataArguments>(_initSendDataArguments);
     on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
     on<OnAmountChange>(_onAmountChange);
@@ -70,6 +71,7 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
           'memo': state.memo,
         },
       ),
+      null,
     );
     final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
     emit(SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview));
