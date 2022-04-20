@@ -57,6 +57,7 @@ class SendConfirmationState extends Equatable {
       transaction: arguments.transaction,
       transactionResult: const TransactionResult(),
       invalidTransaction: InvalidTransaction.none,
+      callback: arguments.callback,
     );
   }
 }
