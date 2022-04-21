@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_event_card/interactor/viewmodels/region_event_card_bloc.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/stacked_avatars.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -21,6 +22,7 @@ class RegionEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: InkWell(
+          onTap: () => NavigationService.of(context).navigateTo(Routes.regionEventDetails, event),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
             decoration: BoxDecoration(
