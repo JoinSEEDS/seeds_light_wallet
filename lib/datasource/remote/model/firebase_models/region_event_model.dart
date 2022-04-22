@@ -36,6 +36,8 @@ class RegionEventModel {
 
   String get formattedEndTime => DateFormat.jm().format(DateTime.parse(eventEndTime.toDate().toString()));
 
+  String get formattedCreatedTime => DateFormat.yMMMMEEEEd().format(DateTime.parse(createdTime.toDate().toString()));
+
   factory RegionEventModel.mapToRegionEventModel(QueryDocumentSnapshot<Map<String, dynamic>> event) {
     final users = List<String>.from(event.getOrDefault(eventUsersKey, []));
     return RegionEventModel(
