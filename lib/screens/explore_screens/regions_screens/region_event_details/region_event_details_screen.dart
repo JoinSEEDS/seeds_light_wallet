@@ -6,7 +6,9 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/components/region_event_detail_bottom_sheet.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/viewmodels/region_event_details_bloc.dart';
@@ -20,7 +22,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
     final RegionEventModel event = ModalRoute.of(context)!.settings.arguments! as RegionEventModel;
     final double width = MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (_) => RegionEventDetailsBloc(),
+      create: (_) => RegionEventDetailsBloc(event),
       child: BlocConsumer<RegionEventDetailsBloc, RegionEventDetailsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -39,6 +41,8 @@ class RegionEventDetailsScreen extends StatelessWidget {
                     value: BlocProvider.of<RegionEventDetailsBloc>(context),
                     child: const RegionEventDetailBottomSheet()),
               );
+            } else if (command is NavigateToRouteWithArguments) {
+              NavigationService.of(context).navigateTo(command.route, command.arguments);
             }
           },
           builder: (context, state) {
