@@ -104,7 +104,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
       final result = await GetPlacesFromCoordinatesUseCase()
           .run(GetPlacesFromCoordinatesUseCase.input(lat: event.pickedLat, lng: event.pickedLong));
       if (result.isError) {
-        emit(state.copyWith(pageState: PageState.failure));
+        // No address information found for supplied coordinates.
       } else {
         final placemarks = result.asValue!.value;
         emit(state.copyWith(

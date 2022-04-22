@@ -5,6 +5,7 @@ class SendConfirmationState extends Equatable {
   final TransactionPageCommand? pageCommand;
   final String? errorMessage;
   final EOSTransaction transaction;
+  final String? callback;
   final TransactionResult transactionResult;
   final InvalidTransaction invalidTransaction;
 
@@ -15,6 +16,7 @@ class SendConfirmationState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     required this.transaction,
+    this.callback,
     required this.transactionResult,
     required this.invalidTransaction,
   });
@@ -34,6 +36,7 @@ class SendConfirmationState extends Equatable {
     TransactionPageCommand? pageCommand,
     String? errorMessage,
     EOSTransaction? transaction,
+    String? callback,
     TransactionResult? transactionResult,
     InvalidTransaction? invalidTransaction,
   }) {
@@ -42,6 +45,7 @@ class SendConfirmationState extends Equatable {
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       transaction: transaction ?? this.transaction,
+      callback: callback ?? this.callback,
       transactionResult: transactionResult ?? this.transactionResult,
       invalidTransaction: invalidTransaction ?? this.invalidTransaction,
     );
@@ -53,6 +57,7 @@ class SendConfirmationState extends Equatable {
       transaction: arguments.transaction,
       transactionResult: const TransactionResult(),
       invalidTransaction: InvalidTransaction.none,
+      callback: arguments.callback,
     );
   }
 }

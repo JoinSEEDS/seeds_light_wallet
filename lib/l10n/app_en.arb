@@ -489,5 +489,7 @@
   "regionBottomSheetLeaveRegionTitle": "Leave Region",
   "@regionBottomSheetLeaveRegionTitle": {},
   "genericRegionConfirmImSureButton": "Yes I'm sure.",
-  "@genericRegionConfirmImSureButton": {}
+  "@genericRegionConfirmImSureButton": {},
+  "regionEventCardJoinedTitle": "joined",
+  "@regionEventCardJoinedTitle": {}
 }

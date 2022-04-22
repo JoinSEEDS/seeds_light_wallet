@@ -22,6 +22,7 @@ import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_scre
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/join_region_screen.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/region_event_details_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/region_screen.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/swap_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
@@ -103,6 +104,7 @@ class Routes {
   static const contribution = 'contribution';
   static const contributionDetail = 'contributionDetail';
   static const region = 'region';
+  static const regionEventDetails = 'regionEventDetials';
   static const editRegionDescription = 'editRegionDescription';
 }
 
@@ -157,6 +159,7 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
     Routes.region: (_) => const RegionScreen(),
+    Routes.regionEventDetails: (_) => const RegionEventDetailsScreen(),
     Routes.editRegionDescription: (_) => const EditRegionDescription(),
   };
 

@@ -50,6 +50,7 @@ class AddRegionEventImage extends StatelessWidget {
               bottomNavigationBar: SafeArea(
                   minimum: const EdgeInsets.all(horizontalEdgePadding),
                   child: FlatButtonLong(
+                      isLoading: state.isNextButtonLoading,
                       enabled: state.file != null,
                       title: "Next (5/5)",
                       onPressed: () =>

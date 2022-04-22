@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/esr_callback_repository.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/send_eos_transaction_repository.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
@@ -12,7 +13,7 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(EOSTransaction transaction) {
+  Future<Result> run(EOSTransaction transaction, String? callback) {
     return _sendTransactionRepository
         .sendTransaction(eosTransaction: transaction, accountName: fromAccount)
         .then((Result value) async {
@@ -29,6 +30,9 @@ class SendTransactionUseCase {
         List<Result> profiles = [];
         if (transferModel != null) {
           profiles = await getProfileData(toAccount: transferModel.to, fromAccount: fromAccount);
+        }
+        if (callback != null) {
+          await ESRCallbackRepository().callback(callback, transactionId);
         }
         return ValueResult(SendTransactionResponse(transactionModel: transactionModel, profiles: profiles));
       }

@@ -22,6 +22,10 @@ class CreateRegionEventState extends Equatable {
   final DateTime? eventDateAndTime;
   final DateTime? eventDate;
   final TimeOfDay? eventTime;
+  final bool isNextButtonLoading;
+  final bool createImageUrl;
+  final TimeOfDay? eventStartTime;
+  final TimeOfDay? eventEndTime;
   final RegionModel region;
   final bool isPublishEventButtonLoading;
 
@@ -38,6 +42,10 @@ class CreateRegionEventState extends Equatable {
     this.eventDateAndTime,
     this.eventDate,
     this.eventTime,
+    required this.isNextButtonLoading,
+    required this.createImageUrl,
+    this.eventStartTime,
+    this.eventEndTime,
     required this.region,
     required this.isPublishEventButtonLoading,
   });
@@ -56,6 +64,10 @@ class CreateRegionEventState extends Equatable {
         eventDateAndTime,
         eventDate,
         eventTime,
+        isNextButtonLoading,
+        createImageUrl,
+        eventStartTime,
+        eventEndTime,
         region,
         isPublishEventButtonLoading,
       ];
@@ -73,6 +85,10 @@ class CreateRegionEventState extends Equatable {
     DateTime? eventDateAndTime,
     DateTime? eventDate,
     TimeOfDay? eventTime,
+    bool? isNextButtonLoading,
+    bool? createImageUrl,
+    TimeOfDay? eventStartTime,
+    TimeOfDay? eventEndTime,
     RegionModel? region,
     bool? isPublishEventButtonLoading,
   }) =>
@@ -89,6 +105,10 @@ class CreateRegionEventState extends Equatable {
         eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
         eventDate: eventDate ?? this.eventDate,
         eventTime: eventTime ?? this.eventTime,
+        isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
+        createImageUrl: createImageUrl ?? this.createImageUrl,
+        eventStartTime: eventStartTime ?? this.eventStartTime,
+        eventEndTime: eventEndTime ?? this.eventEndTime,
         region: region ?? this.region,
         isPublishEventButtonLoading: isPublishEventButtonLoading ?? this.isPublishEventButtonLoading,
       );
@@ -100,6 +120,8 @@ class CreateRegionEventState extends Equatable {
       eventDescription: "",
       eventName: "",
       pictureBoxState: PictureBoxState.pickImage,
+      isNextButtonLoading: false,
+      createImageUrl: false,
       region: region,
       isPublishEventButtonLoading: false,
     );
