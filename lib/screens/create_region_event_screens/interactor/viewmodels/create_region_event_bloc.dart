@@ -30,6 +30,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnSelectDateChanged>(_onSelectDateChange);
     on<OnSelectTimeChanged>(_onSelectTimeChange);
+    on<OnEndTimeChanged>(_onEndTimeChanged);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -48,6 +49,12 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   void _onSelectDateChange(OnSelectDateChanged event, Emitter<CreateRegionEventState> emit) {
     if (event.selectedDate != null) {
       emit(ChangeDateStateMapper().mapResultToState(state, event.selectedDate!));
+    }
+  }
+
+  void _onEndTimeChanged(OnEndTimeChanged event, Emitter<CreateRegionEventState> emit) {
+    if (event.selectedTime != null) {
+      emit(state.copyWith(eventEndTime: event.selectedTime));
     }
   }
 

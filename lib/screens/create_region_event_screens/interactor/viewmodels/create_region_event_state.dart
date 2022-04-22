@@ -24,6 +24,8 @@ class CreateRegionEventState extends Equatable {
   final TimeOfDay? eventTime;
   final bool isNextButtonLoading;
   final bool createImageUrl;
+  final TimeOfDay? eventStartTime;
+  final TimeOfDay? eventEndTime;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -40,6 +42,8 @@ class CreateRegionEventState extends Equatable {
     this.eventTime,
     required this.isNextButtonLoading,
     required this.createImageUrl,
+    this.eventStartTime,
+    this.eventEndTime,
   });
 
   @override
@@ -58,6 +62,8 @@ class CreateRegionEventState extends Equatable {
         eventTime,
         isNextButtonLoading,
         createImageUrl,
+        eventStartTime,
+        eventEndTime,
       ];
 
   CreateRegionEventState copyWith({
@@ -75,6 +81,8 @@ class CreateRegionEventState extends Equatable {
     TimeOfDay? eventTime,
     bool? isNextButtonLoading,
     bool? createImageUrl,
+    TimeOfDay? eventStartTime,
+    TimeOfDay? eventEndTime,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -91,6 +99,8 @@ class CreateRegionEventState extends Equatable {
         eventTime: eventTime ?? this.eventTime,
         isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
         createImageUrl: createImageUrl ?? this.createImageUrl,
+        eventStartTime: eventStartTime ?? this.eventStartTime,
+        eventEndTime: eventEndTime ?? this.eventEndTime,
       );
 
   factory CreateRegionEventState.initial() {

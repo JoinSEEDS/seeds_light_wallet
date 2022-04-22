@@ -16,7 +16,7 @@ class ChangeTimeStateMapper extends StateMapper {
 
     return currentState.copyWith(
       eventDateAndTime: selectedTimeFormat,
-      eventTime: eventTime,
+      eventStartTime: eventTime,
     );
   }
 }

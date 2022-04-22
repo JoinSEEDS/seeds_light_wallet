@@ -7,7 +7,6 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
 import 'package:seeds/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
 import 'package:seeds/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
@@ -144,7 +143,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
-    final args = SendConfirmationArguments(transaction: event.esr.transaction);
-    emit(state.copyWith(pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args)));
+    final args = SendConfirmationArguments.from(event.esr);
+    emit(state.copyWith(pageCommand: NavigateToSendConfirmation(args)));
   }
 }
