@@ -48,7 +48,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       DateTimeRow(
-                        label: "Select Event Time",
+                        label: "Select Event Start Time",
                         icon: const Icon(Icons.access_time),
                         onWidgetTapped: () async {
                           final TimeOfDay? picked = await showTimePicker(
@@ -58,14 +58,30 @@ class ChoseEventDateAndTime extends StatelessWidget {
                           // ignore: use_build_context_synchronously
                           BlocProvider.of<CreateRegionEventBloc>(context).add(OnSelectTimeChanged(picked));
                         },
-                        timeInfo: state.eventTime != null ? DateFormat.jm().format(state.eventDateAndTime!) : "",
+                        timeInfo: state.eventStartTime != null
+                            ? "${DateFormat.jm().format(state.eventDateAndTime!)} - Starts"
+                            : "",
+                      ),
+                      const SizedBox(height: 30),
+                      DateTimeRow(
+                        label: "Select Event End Time",
+                        icon: const Icon(Icons.access_time),
+                        onWidgetTapped: () async {
+                          final TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: const TimeOfDay(hour: 00, minute: 00),
+                          );
+                          // ignore: use_build_context_synchronously
+                          BlocProvider.of<CreateRegionEventBloc>(context).add(OnEndTimeChanged(picked));
+                        },
+                        timeInfo: state.eventEndTime != null ? "${state.eventEndTime!.format(context)} - Ends" : "",
                       ),
                     ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
-                      enabled: state.eventDate != null && state.eventTime != null,
+                      enabled: state.eventDate != null && state.eventStartTime != null && state.eventEndTime != null,
                       title: "Next (4/5)",
                       onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()),
                     ),
