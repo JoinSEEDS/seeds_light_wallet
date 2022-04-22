@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
+import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_date_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_time_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/pick_image_state_mapper.dart';
+import 'package:seeds/screens/create_region_event_screens/interactor/mappers/save_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 
 part 'create_region_event_events.dart';
@@ -68,19 +71,16 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   }
 
   Future<void> _onPickImageNextTapped(OnPickImageNextTapped event, Emitter<CreateRegionEventState> emit) async {
-    emit(state.copyWith(imageUrl: state.imageUrl));
+    emit(state.copyWith(isNextButtonLoading: true));
+    if (state.createImageUrl) {
+      final Result<String> urlResult = await SaveImageUseCase().run(SaveImageUseCaseInput(
+          file: state.file!, pathPrefix: PathPrefix.regionEventImage, creatorId: state.eventName));
 
-    // TODO(gguij004): need to wait for region ID screen to be completed before using this usecases.
-    // if (state.imageUrl == null) {
-    //   final Result<String> urlResult = await SaveImageUseCase()
-    //       .run(SaveImageUseCaseInput(file: state.file!, pathPrefix: PathPrefix.regionImage, creatorId: "TODO"));
-    //   emit(SaveImageStateMapper().mapResultToState(state, urlResult));
-    // }
-
-    emit(state.copyWith(
-        pageState: PageState.success,
-        createRegionEventScreen: CreateRegionEventScreen.reviewAndPublish,
-        imageUrl: state.imageUrl));
+      emit(SaveImageStateMapper().mapResultToState(state, urlResult));
+    } else {
+      emit(state.copyWith(
+          createRegionEventScreen: CreateRegionEventScreen.reviewAndPublish, isNextButtonLoading: false));
+    }
   }
 
   void _onNextTapped(OnNextTapped event, Emitter<CreateRegionEventState> emit) {
