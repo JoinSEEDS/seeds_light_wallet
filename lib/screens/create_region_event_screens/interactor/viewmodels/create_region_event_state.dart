@@ -101,7 +101,7 @@ class CreateRegionEventState extends Equatable {
         currentPlace: currentPlace ?? this.currentPlace,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl ?? this.imageUrl,
         eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
         eventDate: eventDate ?? this.eventDate,
         eventTime: eventTime ?? this.eventTime,

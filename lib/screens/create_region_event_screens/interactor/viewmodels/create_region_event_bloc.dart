@@ -78,7 +78,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     emit(state.copyWith(isNextButtonLoading: true));
     if (state.createImageUrl) {
       final Result<String> urlResult = await SaveImageUseCase().run(SaveImageUseCaseInput(
-          file: state.file!, pathPrefix: PathPrefix.regionEventImage, creatorId: state.eventName));
+          file: state.file!, pathPrefix: PathPrefix.regionEventImage, creatorId: state.region.id));
 
       emit(SaveImageStateMapper().mapResultToState(state, urlResult));
     } else {

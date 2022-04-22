@@ -42,6 +42,7 @@ class ReviewAndPublishRegionEvent extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FlatButtonLong(
+                          isLoading: state.isPublishEventButtonLoading,
                           title: "Publish",
                           onPressed: () =>
                               BlocProvider.of<CreateRegionEventBloc>(context).add(const OnPublishEventTapped())),
