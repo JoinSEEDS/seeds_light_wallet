@@ -9,9 +9,7 @@ class CreateRegionEventStateMapper extends StateMapper {
       return currentState.copyWith(
           isPublishEventButtonLoading: false, pageCommand: ShowErrorMessage("Error Creating Region Event"));
     } else {
-      return currentState.copyWith(
-        pageCommand: NavigateToRoute(Routes.region),
-      );
+      return currentState.copyWith(pageCommand: NavigateToRoute(Routes.region));
     }
   }
 }
