@@ -153,8 +153,8 @@ class ProposalDetailsMiddle extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle3LightGreen6,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
-                              if (await launcher.canLaunch(state.proposals[state.currentIndex].url)) {
-                                await launcher.launch(state.proposals[state.currentIndex].url);
+                              if (await launcher.canLaunchUrl(Uri.parse(state.proposals[state.currentIndex].url))) {
+                                await launcher.launchUrl(Uri.parse(state.proposals[state.currentIndex].url));
                               } else {
                                 // TODO(Raul): listener snack
                                 // print("Couldn't open this url".i18n);
