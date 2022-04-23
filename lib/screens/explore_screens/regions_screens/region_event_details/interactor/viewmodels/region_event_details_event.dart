@@ -20,3 +20,45 @@ class ClearRegionEventPageCommand extends RegionEventDetailsEvent {
   @override
   String toString() => 'ClearRegionEventPageCommand';
 }
+
+class OnEditRegionEventButtonTapped extends RegionEventDetailsEvent {
+  const OnEditRegionEventButtonTapped();
+
+  @override
+  String toString() => 'OnEditRegionEventButtonTapped';
+}
+
+class OnEditEventImageTapped extends RegionEventDetailsEvent {
+  const OnEditEventImageTapped();
+
+  @override
+  String toString() => 'OnEditEventImageTapped';
+}
+
+class OnEditEventNameAndDescriptionTapped extends RegionEventDetailsEvent {
+  const OnEditEventNameAndDescriptionTapped();
+
+  @override
+  String toString() => 'OnEditEventNameAndDescriptionTapped';
+}
+
+class OnEditEventDateAndTimeTapped extends RegionEventDetailsEvent {
+  const OnEditEventDateAndTimeTapped();
+
+  @override
+  String toString() => 'OnEditEventDateAndTimeTapped';
+}
+
+class OnEditEventLocationTapped extends RegionEventDetailsEvent {
+  const OnEditEventLocationTapped();
+
+  @override
+  String toString() => 'OnEditEventLocationTapped';
+}
+
+class OnDeleteEventTapped extends RegionEventDetailsEvent {
+  const OnDeleteEventTapped();
+
+  @override
+  String toString() => 'OnDeleteEventTapped';
+}
