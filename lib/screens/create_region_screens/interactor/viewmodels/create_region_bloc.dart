@@ -59,7 +59,7 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
-    state.copyWith(regionDescription: event.regionDescription);
+    emit(state.copyWith(regionDescription: event.regionDescription));
   }
 
   Future<void> _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) async {
@@ -100,8 +100,8 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
         regionAccount: "${state.regionId}$regionIdSuffix",
         title: state.regionName,
         description: state.regionDescription,
-        latitude: state.currentPlace!.lng,
-        longitude: state.currentPlace!.lat,
+        latitude: state.currentPlace!.lat,
+        longitude: state.currentPlace!.lng,
         regionAddress: state.currentPlace!.placeText,
         imageUrl: state.imageUrl!));
     emit(CreateRegionStateMapper().mapResultToState(state, result));
