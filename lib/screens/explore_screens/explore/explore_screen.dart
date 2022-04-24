@@ -99,7 +99,7 @@ class ExploreScreen extends StatelessWidget {
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
           } else if (pageCommand is NavigateToBuySeeds) {
-            launch('$urlBuySeeds${settingsStorage.accountName}', forceSafariVC: false);
+            launchUrl(Uri.parse('$urlBuySeeds${settingsStorage.accountName}'));
           } else if (pageCommand is ShowUserFlagInformation) {
             showDialog<void>(
               context: context,
