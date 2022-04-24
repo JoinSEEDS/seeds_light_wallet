@@ -14,6 +14,20 @@ class OnRegionMapsLinkTapped extends RegionEventDetailsEvent {
   String toString() => 'OnRegionMapsLinkTapped';
 }
 
+class OnJoinRegionEventButtonPressed extends RegionEventDetailsEvent {
+  const OnJoinRegionEventButtonPressed();
+
+  @override
+  String toString() => 'OnJoinRegionEventButtonPressed';
+}
+
+class OnLeaveRegionEventButtonPressed extends RegionEventDetailsEvent {
+  const OnLeaveRegionEventButtonPressed();
+
+  @override
+  String toString() => 'OnLeaveRegionEventButtonPressed';
+}
+
 class ClearRegionEventPageCommand extends RegionEventDetailsEvent {
   const ClearRegionEventPageCommand();
 

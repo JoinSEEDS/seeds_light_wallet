@@ -26,6 +26,8 @@ class CreateRegionEventState extends Equatable {
   final bool createImageUrl;
   final TimeOfDay? eventStartTime;
   final TimeOfDay? eventEndTime;
+  final RegionModel region;
+  final bool isPublishEventButtonLoading;
 
   const CreateRegionEventState({
     required this.pageState,
@@ -44,6 +46,8 @@ class CreateRegionEventState extends Equatable {
     required this.createImageUrl,
     this.eventStartTime,
     this.eventEndTime,
+    required this.region,
+    required this.isPublishEventButtonLoading,
   });
 
   @override
@@ -64,6 +68,8 @@ class CreateRegionEventState extends Equatable {
         createImageUrl,
         eventStartTime,
         eventEndTime,
+        region,
+        isPublishEventButtonLoading,
       ];
 
   CreateRegionEventState copyWith({
@@ -83,6 +89,8 @@ class CreateRegionEventState extends Equatable {
     bool? createImageUrl,
     TimeOfDay? eventStartTime,
     TimeOfDay? eventEndTime,
+    RegionModel? region,
+    bool? isPublishEventButtonLoading,
   }) =>
       CreateRegionEventState(
         pageState: pageState ?? this.pageState,
@@ -93,7 +101,7 @@ class CreateRegionEventState extends Equatable {
         currentPlace: currentPlace ?? this.currentPlace,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl ?? this.imageUrl,
         eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
         eventDate: eventDate ?? this.eventDate,
         eventTime: eventTime ?? this.eventTime,
@@ -101,10 +109,12 @@ class CreateRegionEventState extends Equatable {
         createImageUrl: createImageUrl ?? this.createImageUrl,
         eventStartTime: eventStartTime ?? this.eventStartTime,
         eventEndTime: eventEndTime ?? this.eventEndTime,
+        region: region ?? this.region,
+        isPublishEventButtonLoading: isPublishEventButtonLoading ?? this.isPublishEventButtonLoading,
       );
 
-  factory CreateRegionEventState.initial() {
-    return const CreateRegionEventState(
+  factory CreateRegionEventState.initial(RegionModel region) {
+    return CreateRegionEventState(
       pageState: PageState.success,
       createRegionEventScreen: CreateRegionEventScreen.selectLocation,
       eventDescription: "",
@@ -112,6 +122,8 @@ class CreateRegionEventState extends Equatable {
       pictureBoxState: PictureBoxState.pickImage,
       isNextButtonLoading: false,
       createImageUrl: false,
+      region: region,
+      isPublishEventButtonLoading: false,
     );
   }
 }

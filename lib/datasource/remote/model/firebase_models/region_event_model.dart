@@ -4,6 +4,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_repository.da
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
 
 class RegionEventModel {
+  final String id;
   final String regionAccount;
   final String creatorAccount;
   final String eventName;
@@ -16,6 +17,7 @@ class RegionEventModel {
   final List<String> users;
 
   RegionEventModel({
+    required this.id,
     required this.regionAccount,
     required this.creatorAccount,
     required this.eventName,
@@ -41,6 +43,7 @@ class RegionEventModel {
   factory RegionEventModel.mapToRegionEventModel(QueryDocumentSnapshot<Map<String, dynamic>> event) {
     final users = List<String>.from(event.getOrDefault(eventUsersKey, []));
     return RegionEventModel(
+      id: event.id,
       regionAccount: event[regionAccountKey],
       creatorAccount: event[creatorAccountKey],
       eventName: event[eventNameKey],

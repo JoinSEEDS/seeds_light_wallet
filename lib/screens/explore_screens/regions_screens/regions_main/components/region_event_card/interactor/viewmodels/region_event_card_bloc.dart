@@ -20,3 +20,5 @@ class RegionEventCardBloc extends Bloc<RegionEventCardEvent, RegionEventCardStat
     }
   }
 }
+
+// TODO(RAUL): We need update these card avatars when a user join or leave.

@@ -20,32 +20,32 @@ class RegionScreen extends StatelessWidget {
     final region = ModalRoute.of(context)!.settings.arguments as RegionModel?;
     return BlocProvider(
       create: (_) => RegionBloc(region)..add(const OnRegionMounted()),
-      child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.green1,
-          onPressed: () {},
-          child: const Icon(Icons.add, color: AppColors.white),
-        ),
-        body: BlocConsumer<RegionBloc, RegionState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
-            final command = state.pageCommand;
-            if (command is NavigateToRoute) {
-              NavigationService.of(context).pushAndRemoveUntil(route: command.route, from: Routes.app);
-            } else if (command is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(command.route, command.arguments);
-            }
-            BlocProvider.of<RegionBloc>(context).add(const ClearRegionPageCommand());
-          },
-          builder: (context, state) {
-            switch (state.pageState) {
-              case PageState.loading:
-                return const FullPageLoadingIndicator();
-              case PageState.failure:
-                return const FullPageErrorIndicator();
-              case PageState.success:
-                return DefaultTabController(
+      child: BlocConsumer<RegionBloc, RegionState>(
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          final command = state.pageCommand;
+          if (command is NavigateToRoute) {
+            NavigationService.of(context).pushAndRemoveUntil(route: command.route, from: Routes.app);
+          } else if (command is NavigateToRouteWithArguments) {
+            NavigationService.of(context).navigateTo(command.route, command.arguments);
+          }
+          BlocProvider.of<RegionBloc>(context).add(const ClearRegionPageCommand());
+        },
+        builder: (context, state) {
+          switch (state.pageState) {
+            case PageState.loading:
+              return const FullPageLoadingIndicator();
+            case PageState.failure:
+              return const FullPageErrorIndicator();
+            case PageState.success:
+              return Scaffold(
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: FloatingActionButton(
+                  backgroundColor: AppColors.green1,
+                  onPressed: () => BlocProvider.of<RegionBloc>(context)..add(const OnAddEventButtonPressed()),
+                  child: const Icon(Icons.add, color: AppColors.white),
+                ),
+                body: DefaultTabController(
                   length: 2,
                   child: NestedScrollView(
                     headerSliverBuilder: (context, isInnerBoxScrolled) {
@@ -61,12 +61,12 @@ class RegionScreen extends StatelessWidget {
                     },
                     body: const TabBarView(children: [RegionEvents(), RegionAbout()]),
                   ),
-                );
-              default:
-                return const SizedBox.shrink();
-            }
-          },
-        ),
+                ),
+              );
+            default:
+              return const SizedBox.shrink();
+          }
+        },
       ),
     );
   }
