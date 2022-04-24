@@ -7,8 +7,8 @@ import 'package:seeds/datasource/remote/model/firebase_models/region_event_model
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
