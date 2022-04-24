@@ -23,7 +23,6 @@ class RegionMainAppBar extends StatelessWidget {
               )
           ],
           expandedHeight: 220.0,
-          pinned: true,
           flexibleSpace: FlexibleSpaceBar(
               background: Stack(
             fit: StackFit.expand,
