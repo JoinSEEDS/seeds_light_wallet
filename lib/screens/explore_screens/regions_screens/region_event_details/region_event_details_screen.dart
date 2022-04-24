@@ -11,6 +11,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/components/region_event_detail_bottom_sheet.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/viewmodels/region_event_details_bloc.dart';
@@ -42,6 +43,8 @@ class RegionEventDetailsScreen extends StatelessWidget {
               builder: (_) => BlocProvider.value(
                   value: BlocProvider.of<RegionEventDetailsBloc>(context), child: const RegionEventDetailBottomSheet()),
             );
+          } else if (command is NavigateToRouteWithArguments) {
+            NavigationService.of(context).navigateTo(command.route, command.arguments);
           } else if (command is ShowErrorMessage) {
             eventBus.fire(const ShowSnackBar('Operation fail try again.'));
           }

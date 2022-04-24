@@ -17,18 +17,20 @@ class RegionEventDetailsState extends Equatable {
   List<Object?> get props => [
         pageCommand,
         pageState,
+        event,
         isUserJoined,
       ];
 
   RegionEventDetailsState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
+    RegionEventModel? event,
     bool? isUserJoined,
   }) {
     return RegionEventDetailsState(
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
-      event: event,
+      event: event ?? this.event,
       isUserJoined: isUserJoined ?? this.isUserJoined,
     );
   }
