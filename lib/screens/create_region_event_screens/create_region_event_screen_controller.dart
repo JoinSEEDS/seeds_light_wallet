@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_description.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_image.dart';
 import 'package:seeds/screens/create_region_event_screens/add_region_event_name.dart';
@@ -13,11 +18,22 @@ class CreateRegionEventScreenController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final region = ModalRoute.of(context)!.settings.arguments as RegionModel?;
     return BlocProvider(
-      create: (_) => CreateRegionEventBloc(),
+      create: (_) => CreateRegionEventBloc(region!),
       child: BlocConsumer<CreateRegionEventBloc, CreateRegionEventState>(
         listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {},
+        listener: (context, state) {
+          final pageCommand = state.pageCommand;
+
+          if (pageCommand is NavigateToRoute) {
+            NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
+          } else if (pageCommand is ShowErrorMessage) {
+            eventBus.fire(ShowSnackBar(pageCommand.message));
+          }
+
+          BlocProvider.of<CreateRegionEventBloc>(context).add(const ClearCreateRegionEventPageCommand());
+        },
         builder: (_, state) {
           final CreateRegionEventScreen createRegionEventScreen = state.createRegionEventScreen;
           switch (createRegionEventScreen) {
