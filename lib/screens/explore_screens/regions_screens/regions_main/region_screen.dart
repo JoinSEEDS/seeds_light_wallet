@@ -35,9 +35,9 @@ class RegionScreen extends StatelessWidget {
         builder: (context, state) {
           switch (state.pageState) {
             case PageState.loading:
-              return const FullPageLoadingIndicator();
+              return const Scaffold(body: FullPageLoadingIndicator());
             case PageState.failure:
-              return const FullPageErrorIndicator();
+              return const Scaffold(body: FullPageErrorIndicator());
             case PageState.success:
               return Scaffold(
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

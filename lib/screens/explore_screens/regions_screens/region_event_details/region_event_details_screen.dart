@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -25,7 +26,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
     final RegionEventModel event = ModalRoute.of(context)!.settings.arguments! as RegionEventModel;
     final double width = MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (_) => RegionEventDetailsBloc(event),
+      create: (_) => RegionEventDetailsBloc(event)..add(const OnRegionEventDetailsMounted()),
       child: BlocConsumer<RegionEventDetailsBloc, RegionEventDetailsState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -50,149 +51,157 @@ class RegionEventDetailsScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return Scaffold(
-            body: ListView(
-              children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(defaultCardBorderRadius),
-                      bottomRight: Radius.circular(defaultCardBorderRadius),
-                    ),
-                  ),
-                  height: width * 0.8,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      FittedBox(
-                        clipBehavior: Clip.hardEdge,
-                        fit: BoxFit.cover,
-                        child: CachedNetworkImage(
-                          imageUrl: event.eventImage,
-                          errorWidget: (_, __, ___) => const SizedBox.shrink(),
+          switch (state.pageState) {
+            case PageState.loading:
+              return const Scaffold(body: FullPageLoadingIndicator());
+            case PageState.failure:
+            case PageState.success:
+              return Scaffold(
+                body: ListView(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(defaultCardBorderRadius),
+                          bottomRight: Radius.circular(defaultCardBorderRadius),
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          height: 80,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.black54, Colors.transparent],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        child: AppBar(
-                          backgroundColor: Colors.transparent,
-                          actions: [
-                            IconButton(
-                                icon: const Icon(Icons.more_horiz),
-                                onPressed: () => BlocProvider.of<RegionEventDetailsBloc>(context)
-                                    .add(const OnEditRegionEventButtonTapped()))
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      height: width * 0.8,
+                      child: Stack(
+                        fit: StackFit.expand,
                         children: [
-                          Text(
-                            event.formattedCreatedTime,
-                            style: Theme.of(context).textTheme.subtitle2LowEmphasis,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11.0),
-                              border: Border.all(color: AppColors.green3),
+                          FittedBox(
+                            clipBehavior: Clip.hardEdge,
+                            fit: BoxFit.cover,
+                            child: CachedNetworkImage(
+                              imageUrl: event.eventImage,
+                              errorWidget: (_, __, ___) => const SizedBox.shrink(),
                             ),
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.access_time, size: 14, color: AppColors.green3),
-                                const SizedBox(width: 4.0),
-                                Text(
-                                  '${event.formattedStartTime} - ${event.formattedEndTime}',
-                                  style: Theme.of(context).textTheme.subtitle3Green,
+                          ),
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              height: 80,
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.black54, Colors.transparent],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
                                 ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            right: 0,
+                            child: AppBar(
+                              backgroundColor: Colors.transparent,
+                              actions: [
+                                IconButton(
+                                    icon: const Icon(Icons.more_horiz),
+                                    onPressed: () => BlocProvider.of<RegionEventDetailsBloc>(context)
+                                        .add(const OnEditRegionEventButtonTapped()))
                               ],
                             ),
                           ),
                         ],
                       ),
-                      Row(children: [Text(event.eventName, style: Theme.of(context).textTheme.headline7)]),
-                    ],
-                  ),
-                ),
-                const DividerJungle(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-                  child: Column(
-                    children: [
-                      Row(children: [Text('Details', style: Theme.of(context).textTheme.headline7)]),
-                      const SizedBox(height: 16.0),
-                      Row(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                      child: Column(
                         children: [
-                          const Icon(Icons.location_on_outlined),
-                          const SizedBox(width: 11.0),
-                          Flexible(
-                            child: InkWell(
-                              onTap: () =>
-                                  BlocProvider.of<RegionEventDetailsBloc>(context).add(const OnRegionMapsLinkTapped()),
-                              child: Text(
-                                'https://www.google.com/maps/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
-                                style: Theme.of(context).textTheme.subtitle3,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                event.formattedCreatedTime,
+                                style: Theme.of(context).textTheme.subtitle2LowEmphasis,
                               ),
-                            ),
-                          )
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11.0),
+                                  border: Border.all(color: AppColors.green3),
+                                ),
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.access_time, size: 14, color: AppColors.green3),
+                                    const SizedBox(width: 4.0),
+                                    Text(
+                                      '${event.formattedStartTime} - ${event.formattedEndTime}',
+                                      style: Theme.of(context).textTheme.subtitle3Green,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(children: [Text(event.eventName, style: Theme.of(context).textTheme.headline7)]),
                         ],
                       ),
-                      const SizedBox(height: 16.0),
-                      Row(
+                    ),
+                    const DividerJungle(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                      child: Column(
                         children: [
-                          Flexible(
-                            child: Text(
-                              event.eventDescription,
-                              style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                            ),
-                          )
+                          Row(children: [Text('Details', style: Theme.of(context).textTheme.headline7)]),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              const Icon(Icons.location_on_outlined),
+                              const SizedBox(width: 11.0),
+                              Flexible(
+                                child: InkWell(
+                                  onTap: () => BlocProvider.of<RegionEventDetailsBloc>(context)
+                                      .add(const OnRegionMapsLinkTapped()),
+                                  child: Text(
+                                    'https://www.google.com/maps/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
+                                    style: Theme.of(context).textTheme.subtitle3,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  event.eventDescription,
+                                  style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                bottomNavigationBar: SafeArea(
+                  minimum: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                  child: FlatButtonLong(
+                    isLoading: state.pageState == PageState.loading,
+                    title: state.isUserJoined ? "Leave event" : "I'm Attending!",
+                    onPressed: () {
+                      BlocProvider.of<RegionEventDetailsBloc>(context).add(
+                        state.isUserJoined
+                            ? const OnLeaveRegionEventButtonPressed()
+                            : const OnJoinRegionEventButtonPressed(),
+                      );
+                    },
                   ),
                 ),
-              ],
-            ),
-            bottomNavigationBar: SafeArea(
-              minimum: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-              child: FlatButtonLong(
-                isLoading: state.pageState == PageState.loading,
-                title: state.isUserJoined ? "Leave event" : "I'm Attending!",
-                onPressed: () {
-                  BlocProvider.of<RegionEventDetailsBloc>(context).add(
-                    state.isUserJoined
-                        ? const OnLeaveRegionEventButtonPressed()
-                        : const OnJoinRegionEventButtonPressed(),
-                  );
-                },
-              ),
-            ),
-          );
+              );
+            default:
+              return const SizedBox.shrink();
+          }
         },
       ),
     );

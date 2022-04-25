@@ -7,6 +7,13 @@ abstract class RegionEventDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class OnRegionEventDetailsMounted extends RegionEventDetailsEvent {
+  const OnRegionEventDetailsMounted();
+
+  @override
+  String toString() => 'OnRegionEventDetailsMounted';
+}
+
 class OnRegionMapsLinkTapped extends RegionEventDetailsEvent {
   const OnRegionMapsLinkTapped();
 
