@@ -26,7 +26,7 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     on<OnEditEventNameAndDescriptionTapped>(_onEditEventNameAndDescriptionTapped);
     on<OnEditEventDateAndTimeTapped>((_, emit) => emit(state.copyWith()));
     on<OnEditEventLocationTapped>((_, emit) => emit(state.copyWith()));
-    on<OnDeleteEventTapped>((_, emit) => emit(state.copyWith()));
+    on<OnDeleteEventTapped>(_onDeleteEventTapped);
     on<ClearRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -79,5 +79,11 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     } else {
       emit(state.copyWith(isJoinLeaveButtonLoading: false, isUserJoined: false));
     }
+  }
+
+  void _onDeleteEventTapped(OnDeleteEventTapped event, Emitter<RegionEventDetailsState> emit) {
+   // need some type of loading
+
+    
   }
 }
