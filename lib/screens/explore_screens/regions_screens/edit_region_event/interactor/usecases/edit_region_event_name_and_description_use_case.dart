@@ -7,15 +7,10 @@ class EditRegionEventNameAndDescriptionEventUseCase extends InputUseCase<String,
 
   @override
   Future<Result<String>> run(CreateRegionEventInput input) async {
-
     final Result<String> editRegionEventResult = await _firebaseDatabaseRegionsRepository.editRegionEvent(
       eventId: input.event.id,
       eventName: input.eventName,
       eventDescription: input.eventDescription,
-        eventLocation: input.event.eventLocation,
-       eventImage:input.event.eventImage,
-         eventStartTime: input.event.eventStartTime,
-         eventEndTime:input.event.eventEndTime
     );
 
     return editRegionEventResult;
