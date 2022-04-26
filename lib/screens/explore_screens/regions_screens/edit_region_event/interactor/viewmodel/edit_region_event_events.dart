@@ -13,3 +13,30 @@ class ClearEditRegionEventPageCommand extends EditRegionEventEvents {
   @override
   String toString() => 'ClearEditRegionEventPageCommand';
 }
+
+class OnSelectDateChanged extends EditRegionEventEvents {
+  final DateTime? selectedDate;
+
+  const OnSelectDateChanged(this.selectedDate);
+
+  @override
+  String toString() => 'onSelectDateChanged{newDateTime: $selectedDate}';
+}
+
+class OnStartTimeChanged extends EditRegionEventEvents {
+  final TimeOfDay? selectedTime;
+
+  const OnStartTimeChanged(this.selectedTime);
+
+  @override
+  String toString() => 'onSelectDateChanged{selectedTime: $selectedTime}';
+}
+
+class OnEndTimeChanged extends EditRegionEventEvents {
+  final TimeOfDay? selectedTime;
+
+  const OnEndTimeChanged(this.selectedTime);
+
+  @override
+  String toString() => 'OnEndTimeChanged{selectedTime: $selectedTime}';
+}
