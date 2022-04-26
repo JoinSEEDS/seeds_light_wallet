@@ -48,7 +48,7 @@ class ChooseRegionId extends StatelessWidget {
                           child: Container(
                               width: 60,
                               height: 60,
-                              child: AuthenticationStatus(authenticationIdState: state.regionIdAuthenticationState))),
+                              child: AuthenticationStatus(authenticationIdState: state.regionIdValidationStatus))),
                       const SizedBox(height: 10),
                       TextFormFieldCustom(
                           errorText: state.regionIdErrorMessage,
@@ -66,7 +66,7 @@ class ChooseRegionId extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
-                      enabled: state.regionIdAuthenticationState == RegionIdStatusIcon.valid,
+                      enabled: state.regionIdValidationStatus == RegionIdStatusIcon.valid,
                       title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
                       onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
                     ),

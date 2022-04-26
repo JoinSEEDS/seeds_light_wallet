@@ -8,25 +8,23 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
   final RegionRepository _regionRepository = RegionRepository();
   final FirebaseDatabaseRegionsRepository _firebaseRegionsRepository = FirebaseDatabaseRegionsRepository();
 
-  static _Input input({
-    required String regionAccount,
-    required String title,
-    required String description,
-    required double latitude,
-    required double longitude,
-    required String imageUrl,
-    required String regionAddress
-  }) =>
+  static _Input input(
+          {required String regionAccount,
+          required String title,
+          required String description,
+          required double latitude,
+          required double longitude,
+          required String imageUrl,
+          required String regionAddress}) =>
       _Input(
-        userAccount: settingsStorage.accountName,
-        regionAccount: regionAccount,
-        title: title,
-        description: description,
-        latitude: latitude,
-        longitude: longitude,
-        imageUrl: imageUrl,
-        regionAddress: regionAddress
-      );
+          userAccount: settingsStorage.accountName,
+          regionAccount: regionAccount,
+          title: title,
+          description: description,
+          latitude: latitude,
+          longitude: longitude,
+          imageUrl: imageUrl,
+          regionAddress: regionAddress);
 
   @override
   Future<Result<TransactionResponse>> run(_Input input) async {
@@ -42,14 +40,13 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
     if (firebaseResult.isValue) {
       /// Save to chain
       final Result<TransactionResponse> createRegionResult = await _regionRepository.create(
-        userAccount: input.userAccount,
-        regionAccount: input.regionAccount,
-        title: input.title,
-        description: input.description,
-        latitude: input.latitude,
-        longitude: input.longitude,
-        regionAddress: input.regionAddress
-      );
+          userAccount: input.userAccount,
+          regionAccount: input.regionAccount,
+          title: input.title,
+          description: input.description,
+          latitude: input.latitude,
+          longitude: input.longitude,
+          regionAddress: input.regionAddress);
 
       if (createRegionResult.isValue) {
         /// Happy Path, Region is fully created.
@@ -76,7 +73,7 @@ class _Input {
   final double longitude;
   final String regionAddress;
 
-  _Input({
+  const _Input({
     required this.userAccount,
     required this.regionAccount,
     required this.title,

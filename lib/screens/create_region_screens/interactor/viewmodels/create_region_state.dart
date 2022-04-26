@@ -15,7 +15,7 @@ class CreateRegionState extends Equatable {
   final String regionId;
   final String? regionIdErrorMessage;
   final Place? currentPlace;
-  final RegionIdStatusIcon regionIdAuthenticationState;
+  final RegionIdStatusIcon regionIdValidationStatus;
   final bool createImageUrl;
 
   const CreateRegionState({
@@ -30,7 +30,7 @@ class CreateRegionState extends Equatable {
     required this.regionId,
     this.regionIdErrorMessage,
     this.currentPlace,
-    required this.regionIdAuthenticationState,
+    required this.regionIdValidationStatus,
     required this.isNextButtonLoading,
     required this.createImageUrl,
   });
@@ -43,12 +43,12 @@ class CreateRegionState extends Equatable {
         regionName,
         regionDescription,
         file,
-    imageUrl,
+        imageUrl,
         pictureBoxState,
         regionId,
         regionIdErrorMessage,
         currentPlace,
-        regionIdAuthenticationState,
+        regionIdValidationStatus,
         isNextButtonLoading,
         createImageUrl
       ];
@@ -65,7 +65,7 @@ class CreateRegionState extends Equatable {
     String? regionId,
     String? regionIdErrorMessage,
     Place? currentPlace,
-    RegionIdStatusIcon? regionIdAuthenticationState,
+    RegionIdStatusIcon? regionIdValidationStatus,
     bool? isNextButtonLoading,
     bool? createImageUrl,
   }) =>
@@ -81,7 +81,7 @@ class CreateRegionState extends Equatable {
         regionId: regionId ?? this.regionId,
         regionIdErrorMessage: regionIdErrorMessage,
         currentPlace: currentPlace ?? this.currentPlace,
-        regionIdAuthenticationState: regionIdAuthenticationState ?? this.regionIdAuthenticationState,
+        regionIdValidationStatus: regionIdValidationStatus ?? this.regionIdValidationStatus,
         isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
         createImageUrl: createImageUrl ?? this.createImageUrl,
       );
@@ -94,7 +94,7 @@ class CreateRegionState extends Equatable {
       regionDescription: "",
       pictureBoxState: PictureBoxState.pickImage,
       regionId: "",
-      regionIdAuthenticationState: RegionIdStatusIcon.loading,
+      regionIdValidationStatus: RegionIdStatusIcon.loading,
       isNextButtonLoading: false,
       createImageUrl: false,
     );
