@@ -491,5 +491,13 @@
   "genericRegionConfirmImSureButton": "Yes I'm sure.",
   "@genericRegionConfirmImSureButton": {},
   "regionEventCardJoinedTitle": "joined",
-  "@regionEventCardJoinedTitle": {}
+  "@regionEventCardJoinedTitle": {},
+  "proposalCategoryAlliance": "Alliance",
+  "@proposalCategoryAlliance": {},
+  "proposalCategoryCampaign": "Campaign",
+  "@proposalCategoryCampaign": {},
+  "proposalCategoryMilestone": "Milestone",
+  "@proposalCategoryMilestone": {},
+  "proposalCategoryReferendum": "Referendum",
+  "@proposalCategoryReferendum": {}
 }
