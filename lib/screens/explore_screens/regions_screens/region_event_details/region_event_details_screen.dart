@@ -46,6 +46,8 @@ class RegionEventDetailsScreen extends StatelessWidget {
             );
           } else if (command is NavigateToRouteWithArguments) {
             NavigationService.of(context).navigateTo(command.route, command.arguments);
+          } else if (command is NavigateToRoute) {
+            NavigationService.of(context).navigateTo(command.route);
           } else if (command is ShowErrorMessage) {
             eventBus.fire(const ShowSnackBar('Operation fail try again.'));
           }
