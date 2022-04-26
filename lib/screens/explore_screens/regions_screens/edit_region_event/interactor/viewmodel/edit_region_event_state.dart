@@ -6,13 +6,16 @@ class EditRegionEventState extends Equatable {
   final RegionEventModel event;
   final bool isSaveChangesButtonLoading;
   final PageCommand? pageCommand;
+  final Place? newPlace;
 
-  const EditRegionEventState(
-      {required this.newRegionEventDescription,
-      required this.newRegionEventName,
-      required this.event,
-      required this.isSaveChangesButtonLoading,
-      this.pageCommand});
+  const EditRegionEventState({
+    required this.newRegionEventDescription,
+    required this.newRegionEventName,
+    required this.event,
+    required this.isSaveChangesButtonLoading,
+    this.pageCommand,
+    this.newPlace,
+  });
 
   @override
   List<Object?> get props => [
@@ -21,6 +24,7 @@ class EditRegionEventState extends Equatable {
         event,
         isSaveChangesButtonLoading,
         pageCommand,
+        newPlace,
       ];
 
   EditRegionEventState copyWith({
@@ -29,6 +33,7 @@ class EditRegionEventState extends Equatable {
     RegionEventModel? event,
     bool? isSaveChangesButtonLoading,
     PageCommand? pageCommand,
+    Place? newPlace,
   }) =>
       EditRegionEventState(
         newRegionEventDescription: newRegionEventDescription ?? this.newRegionEventDescription,
@@ -36,6 +41,7 @@ class EditRegionEventState extends Equatable {
         event: event ?? this.event,
         isSaveChangesButtonLoading: isSaveChangesButtonLoading ?? this.isSaveChangesButtonLoading,
         pageCommand: pageCommand,
+        newPlace: newPlace ?? this.newPlace,
       );
 
   factory EditRegionEventState.initial(RegionEventModel event) {
