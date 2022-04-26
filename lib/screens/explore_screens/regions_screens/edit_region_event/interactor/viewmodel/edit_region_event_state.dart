@@ -5,6 +5,9 @@ class EditRegionEventState extends Equatable {
   final String newRegionEventName;
   final RegionEventModel event;
   final bool isSaveChangesButtonLoading;
+  final bool isSaveChangesButtonEnable;
+  final bool isNewNameNotEmpty;
+  final bool isNewDescriptionNotEmpty;
   final PageCommand? pageCommand;
 
   const EditRegionEventState(
@@ -12,6 +15,9 @@ class EditRegionEventState extends Equatable {
       required this.newRegionEventName,
       required this.event,
       required this.isSaveChangesButtonLoading,
+      required this.isSaveChangesButtonEnable,
+      required this.isNewNameNotEmpty,
+      required this.isNewDescriptionNotEmpty,
       this.pageCommand});
 
   @override
@@ -20,6 +26,9 @@ class EditRegionEventState extends Equatable {
         newRegionEventName,
         event,
         isSaveChangesButtonLoading,
+        isSaveChangesButtonEnable,
+        isNewNameNotEmpty,
+        isNewDescriptionNotEmpty,
         pageCommand,
       ];
 
@@ -28,6 +37,9 @@ class EditRegionEventState extends Equatable {
     String? newRegionEventName,
     RegionEventModel? event,
     bool? isSaveChangesButtonLoading,
+    bool? isSaveChangesButtonEnable,
+    bool? isNewNameNotEmpty,
+    bool? isNewDescriptionNotEmpty,
     PageCommand? pageCommand,
   }) =>
       EditRegionEventState(
@@ -35,6 +47,9 @@ class EditRegionEventState extends Equatable {
         newRegionEventName: newRegionEventName ?? this.newRegionEventName,
         event: event ?? this.event,
         isSaveChangesButtonLoading: isSaveChangesButtonLoading ?? this.isSaveChangesButtonLoading,
+        isSaveChangesButtonEnable: isSaveChangesButtonEnable ?? this.isSaveChangesButtonEnable,
+        isNewNameNotEmpty: isNewNameNotEmpty ?? this.isNewNameNotEmpty,
+        isNewDescriptionNotEmpty: isNewDescriptionNotEmpty ?? this.isNewDescriptionNotEmpty,
         pageCommand: pageCommand,
       );
 
@@ -44,6 +59,9 @@ class EditRegionEventState extends Equatable {
       newRegionEventName: "",
       event: event,
       isSaveChangesButtonLoading: false,
+      isSaveChangesButtonEnable: false,
+      isNewDescriptionNotEmpty: true,
+      isNewNameNotEmpty: true,
     );
   }
 }

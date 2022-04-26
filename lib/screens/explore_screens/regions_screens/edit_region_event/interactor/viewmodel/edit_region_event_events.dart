@@ -13,3 +13,28 @@ class ClearEditRegionEventPageCommand extends EditRegionEventEvents {
   @override
   String toString() => 'ClearEditRegionEventPageCommand';
 }
+
+class OnEventNameChange extends EditRegionEventEvents {
+  final String eventName;
+
+  const OnEventNameChange(this.eventName);
+
+  @override
+  String toString() => 'OnEventNameChange {eventName: $eventName}';
+}
+
+class OnEventDescriptionChange extends EditRegionEventEvents {
+  final String eventDescription;
+
+  const OnEventDescriptionChange(this.eventDescription);
+
+  @override
+  String toString() => 'OnEventDescriptionChange {eventDescription: $eventDescription}';
+}
+
+class OnSaveChangesTapped extends EditRegionEventEvents {
+  const OnSaveChangesTapped();
+
+  @override
+  String toString() => 'OnSaveChangesTapped';
+}

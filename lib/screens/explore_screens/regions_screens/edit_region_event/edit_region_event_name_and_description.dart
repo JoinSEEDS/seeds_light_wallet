@@ -47,7 +47,7 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
                           autofocus: true,
                           labelText: "Event Name",
                           onChanged: (text) {
-                            // TODO(gguij004): next pr
+                            BlocProvider.of<EditRegionEventBloc>(context).add(OnEventNameChange(text));
                           },
                         ),
                         TextFormFieldCustom(
@@ -56,7 +56,7 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
                           maxLines: 14,
                           labelText: context.loc.createRegionAddDescriptionInputFormTitle,
                           onChanged: (text) {
-                            // TODO(gguij004): next pr
+                            BlocProvider.of<EditRegionEventBloc>(context).add(OnEventDescriptionChange(text));
                           },
                         ),
                       ],
@@ -65,9 +65,15 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
-                        isLoading: state.isSaveChangesButtonLoading, title: "Save Changes", onPressed: () => {}
-                        // TODO(gguij004): next pr
-                        ),
+                       enabled: state.isSaveChangesButtonEnable
+                           &&
+                           state.isNewNameNotEmpty
+                           &&
+                           state.isNewDescriptionNotEmpty,
+                        isLoading: state.isSaveChangesButtonLoading,
+                        title: "Save Changes",
+                        onPressed: () =>
+                            BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveChangesTapped())),
                   ),
                 ],
               ),
