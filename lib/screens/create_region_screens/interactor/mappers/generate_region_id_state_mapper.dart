@@ -4,15 +4,18 @@ import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 class GenerateRegionIdStateMapper extends StateMapper {
+  /// Generate a suggested Region Id for the user based on the Region name entered.
+  ///
+  /// This will remove any special characters and spaces.
   CreateRegionState mapResultToState(CreateRegionState currentState) {
-    //Generate a suggested Region Id for the user based on the Region name they entered
-    String suggestedRegionId = currentState.regionName.toLowerCase().trim().split('').map((character) {
-      // ignore: unnecessary_raw_strings
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
+    String suggestedRegionId = currentState.regionName
+        .toLowerCase()
+        .trim()
+        .split('')
+        .map((char) => RegExp('[a-z]|1|2|3|4|5').allMatches(char).isNotEmpty ? char : '')
+        .join();
 
-      return legalChar ? character : '';
-    }).join();
-
+    // Max length for Region id is 8.
     if (suggestedRegionId.length > 8) {
       suggestedRegionId = suggestedRegionId.substring(0, 8);
     }
