@@ -203,6 +203,12 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
             .toList());
   }
 
+  Stream<RegionEventModel> getEventRegion(String regionId) {
+    return regionEventCollection.where('id', isEqualTo: regionId).snapshots().asyncMap((QuerySnapshot event) {
+      return RegionEventModel.mapToRegionEventModel(event as QueryDocumentSnapshot<Map<String, dynamic>>);
+    });
+  }
+
   Future<Result<String>> joinEvent(String eventId, String joiningUser) {
     final data = {
       eventUsersKey: FieldValue.arrayUnion([joiningUser]),

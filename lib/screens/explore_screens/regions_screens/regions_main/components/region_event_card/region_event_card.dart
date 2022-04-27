@@ -18,7 +18,7 @@ class RegionEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RegionEventCardBloc()..add(OnLoadRegionEventMembers(event.users)),
+      create: (_) => RegionEventCardBloc(event)..add(OnLoadRegionEventMembers(event.users)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: InkWell(
