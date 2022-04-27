@@ -89,6 +89,9 @@ class ExploreScreen extends StatelessWidget {
     if (!remoteConfigurations.featureFlagP2PEnabled) {
       exploreItems.removeWhere((i) => i.title == context.loc.explorerSwapItemTitle);
     }
+    if (!remoteConfigurations.featureFlagRegionsEnabled) {
+      exploreItems.removeWhere((i) => i.title == context.loc.explorerRegionsItemTitle);
+    }
     return BlocProvider(
       create: (_) => ExploreBloc(),
       child: BlocConsumer<ExploreBloc, ExploreState>(
