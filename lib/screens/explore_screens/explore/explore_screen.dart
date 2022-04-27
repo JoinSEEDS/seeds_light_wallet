@@ -83,15 +83,13 @@ class ExploreScreen extends StatelessWidget {
         onTapEvent: const OnBuySeedsCardTapped(),
       ),
     ];
-/*     if (!remoteConfigurations.featureFlagRegionsEnabled) {
-      exploreItems.removeWhere((i) => i.title == context.loc.explorerRegionsItemTitle);
-    } */
-    if (!remoteConfigurations.featureFlagP2PEnabled) {
-      exploreItems.removeWhere((i) => i.title == context.loc.explorerSwapItemTitle);
-    }
     if (!remoteConfigurations.featureFlagRegionsEnabled) {
       exploreItems.removeWhere((i) => i.title == context.loc.explorerRegionsItemTitle);
     }
+    if (!remoteConfigurations.featureFlagP2PEnabled) {
+      exploreItems.removeWhere((i) => i.title == context.loc.explorerSwapItemTitle);
+    }
+
     return BlocProvider(
       create: (_) => ExploreBloc(),
       child: BlocConsumer<ExploreBloc, ExploreState>(
