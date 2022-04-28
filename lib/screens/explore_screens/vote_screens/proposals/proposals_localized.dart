@@ -16,3 +16,15 @@ extension LocalizedProposalCategory on ProposalCategory {
     }
   }
 }
+
+extension LocalizedProposalViewModel on ProposalViewModel {
+  String localizedStatus(BuildContext context) {
+    if (status == "passed") {
+      return context.loc.proposalStatusPassed;
+    } else if (status == "rejected") {
+      return context.loc.proposalStatusRejected;
+    } else {
+      return status;
+    }
+  }
+}

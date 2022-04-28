@@ -499,5 +499,36 @@
   "proposalCategoryMilestone": "Milestone",
   "@proposalCategoryMilestone": {},
   "proposalCategoryReferendum": "Referendum",
-  "@proposalCategoryReferendum": {}
+  "@proposalCategoryReferendum": {},
+  "proposalVotesInFavourPercent": "In favour: {inFavourPercent}",
+  "@proposalVotesInFavourPercent": {
+    "placeholders": {
+      "inFavourPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalVotesTotal": "Votes: {votesTotal}",
+  "@proposalVotesTotal": {
+    "placeholders": {
+      "votesTotal": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "proposalVotesAgainstPercent": "Against: {againstPercent}",
+  "@proposalVotesAgainstPercent": {
+    "placeholders": {
+      "againstPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalStatusPassed": "passed",
+  "@proposalStatusPassed": {},
+  "proposalStatusRejected": "rejected",
+  "@proposalStatusRejected": {}
 }

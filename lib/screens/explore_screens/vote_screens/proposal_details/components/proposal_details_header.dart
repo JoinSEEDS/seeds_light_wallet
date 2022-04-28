@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/images/vote/category_label.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_localized_category.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_localized.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class ProposalDetailsHeader extends StatelessWidget {
