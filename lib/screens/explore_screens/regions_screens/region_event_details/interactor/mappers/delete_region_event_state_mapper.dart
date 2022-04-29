@@ -8,7 +8,7 @@ class DeleteRegionEventStateMapper extends StateMapper {
   RegionEventDetailsState mapResultToState(RegionEventDetailsState currentState, Result<String> result) {
     if (result.isError) {
       return currentState.copyWith(
-          pageState: PageState.success, pageCommand: ShowErrorMessage("Error Editing Region Event"));
+          pageState: PageState.success, pageCommand: ShowErrorMessage("Error Deleting Region Event"));
     } else {
       return currentState.copyWith(pageCommand: NavigateToRoute(Routes.region));
     }
