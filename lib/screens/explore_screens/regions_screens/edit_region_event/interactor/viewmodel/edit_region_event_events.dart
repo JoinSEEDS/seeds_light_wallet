@@ -14,6 +14,15 @@ class ClearEditRegionEventPageCommand extends EditRegionEventEvents {
   String toString() => 'ClearEditRegionEventPageCommand';
 }
 
+class OnUpdateMapLocation extends EditRegionEventEvents {
+  final Place place;
+
+  const OnUpdateMapLocation(this.place);
+
+  @override
+  String toString() => 'OnUpdateMapLocation { Place: $place}';
+}
+
 class OnSelectDateChanged extends EditRegionEventEvents {
   final DateTime? selectedDate;
 
