@@ -1,46 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/regions_map/components/serach_places/view_models/search_places_bloc.dart';
-import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
+import 'package:seeds/components/regions_map/components/serach_places/interactor/view_models/search_places_bloc.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/regions_map_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
-class SearchPlaces extends StatefulWidget {
-  final ValueSetter<Place> onPlaceSelected;
-
-  const SearchPlaces({Key? key, required this.onPlaceSelected}) : super(key: key);
-
-  @override
-  _SearchPlacesState createState() => _SearchPlacesState();
-}
-
-class _SearchPlacesState extends State<SearchPlaces> {
-  late SearchPlacesBloc _searchPlacesBloc;
-  final TextEditingController queryController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _searchPlacesBloc = SearchPlacesBloc();
-    queryController.addListener(() => _searchPlacesBloc.add(OnQueryTextChange(queryController.text)));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    queryController.dispose();
-  }
+class SearchPlaces extends StatelessWidget {
+  const SearchPlaces({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => _searchPlacesBloc,
+      create: (_) => SearchPlacesBloc(BlocProvider.of<RegionsMapBloc>(context).state.regions),
       child: MultiBlocListener(
         listeners: [
           BlocListener<SearchPlacesBloc, SearchPlacesState>(
             listenWhen: (_, current) => current.placeSelected != null,
-            listener: (_, state) => widget.onPlaceSelected(state.placeSelected!),
+            listener: (_, state) {
+              BlocProvider.of<RegionsMapBloc>(context).add(OnPlaceResultSelected(state.placeSelected!));
+            },
           ),
         ],
         child: ListView(
@@ -52,28 +30,29 @@ class _SearchPlacesState extends State<SearchPlaces> {
                 children: [
                   const SizedBox(width: 16.0),
                   Expanded(
-                    child: TextField(
-                      controller: queryController,
-                      autofocus: true,
-                      style: Theme.of(context).textTheme.buttonWhiteL,
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        hintStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                      ),
-                    ),
+                    child: Builder(builder: (context) {
+                      return TextField(
+                        autofocus: true,
+                        style: Theme.of(context).textTheme.buttonWhiteL,
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          BlocProvider.of<SearchPlacesBloc>(context).add(OnQueryTextChange(value));
+                        },
+                      );
+                    }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
-                      onTap: () {
-                        BlocProvider.of<RegionsMapBloc>(context).add(const ToggleSearchBar());
-                        queryController.clear();
-                      },
+                      onTap: () => BlocProvider.of<RegionsMapBloc>(context).add(const ToggleSearchBar()),
                       child: const Icon(Icons.close),
                     ),
                   ),
@@ -114,7 +93,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
                               ListTile(
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
-                                  _searchPlacesBloc.add(OnPredictionSelected(i));
+                                  BlocProvider.of<SearchPlacesBloc>(context).add(OnPredictionSelected(i));
                                 },
                                 leading: const Icon(Icons.location_on),
                                 title: Text(

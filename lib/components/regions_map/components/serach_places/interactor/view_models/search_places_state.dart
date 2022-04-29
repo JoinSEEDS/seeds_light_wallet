@@ -5,12 +5,14 @@ class SearchPlacesState extends Equatable {
   final List<PredictionModel> predictions;
   final bool showLinearIndicator;
   final Place? placeSelected;
+  final List<RegionModel> regions;
 
   const SearchPlacesState({
     required this.pageState,
     required this.predictions,
     required this.showLinearIndicator,
     this.placeSelected,
+    required this.regions,
   });
 
   @override
@@ -32,10 +34,16 @@ class SearchPlacesState extends Equatable {
       predictions: predictions ?? this.predictions,
       showLinearIndicator: showLinearIndicator ?? this.showLinearIndicator,
       placeSelected: placeSelected ?? this.placeSelected,
+      regions: regions,
     );
   }
 
-  factory SearchPlacesState.initial() {
-    return const SearchPlacesState(pageState: PageState.initial, predictions: [], showLinearIndicator: false);
+  factory SearchPlacesState.initial(List<RegionModel> regions) {
+    return SearchPlacesState(
+      pageState: PageState.initial,
+      predictions: [],
+      showLinearIndicator: false,
+      regions: regions,
+    );
   }
 }

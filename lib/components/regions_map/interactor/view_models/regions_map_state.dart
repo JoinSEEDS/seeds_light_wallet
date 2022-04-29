@@ -4,6 +4,7 @@ class RegionsMapState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
   final Place? initialPlace;
+  final List<RegionModel> regions;
   final Place newPlace;
   final bool isCameraMoving;
   final bool isSearchingPlace;
@@ -13,6 +14,7 @@ class RegionsMapState extends Equatable {
     this.pageCommand,
     required this.pageState,
     this.initialPlace,
+    required this.regions,
     required this.newPlace,
     required this.isCameraMoving,
     required this.isSearchingPlace,
@@ -44,23 +46,25 @@ class RegionsMapState extends Equatable {
       pageState: pageState ?? this.pageState,
       isCameraMoving: isCameraMoving ?? this.isCameraMoving,
       initialPlace: initialPlace ?? this.initialPlace,
+      regions: regions,
       newPlace: newPlace ?? this.newPlace,
       isSearchingPlace: isSearchingPlace ?? this.isSearchingPlace,
       isUserLocationEnabled: isUserLocationEnabled ?? this.isUserLocationEnabled,
     );
   }
 
-  factory RegionsMapState.initial() {
+  factory RegionsMapState.initial(List<RegionModel>? regions) {
     // When we use this map to edit a Region we can get and set intial values
     // from that region
     // final initial = const Place(lat: 0, lng: 0, placeText: '');
-    return const RegionsMapState(
+    return RegionsMapState(
       pageState: PageState.initial,
+      regions: regions ?? [],
       // initialPlace: initial,
       // copy and modify by a small value to fire the listner
       // (To avoid the cam move so much from the initial position)
       // newPlace: Place(lng: initial.lng - 0.00000000000001, lat: initial.lat - 0.00000000000001, placeText: ''),
-      newPlace: Place(lat: 0, lng: 0, placeText: ''),
+      newPlace: const Place(lat: 0, lng: 0, placeText: ''),
       isCameraMoving: false,
       isSearchingPlace: false,
       isUserLocationEnabled: true,

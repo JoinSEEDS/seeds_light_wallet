@@ -7,6 +7,7 @@ import 'package:seeds/components/regions_map/interactor/usecases/get_places_from
 import 'package:seeds/components/regions_map/interactor/usecases/get_user_location_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/page_commands.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/utils/placemark_extension.dart';
@@ -21,7 +22,7 @@ part 'regions_map_state.dart';
 const defaultLocation = [-99.085092, 19.461416];
 
 class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
-  RegionsMapBloc() : super(RegionsMapState.initial()) {
+  RegionsMapBloc(List<RegionModel>? regions) : super(RegionsMapState.initial(regions)) {
     on<SetInitialValues>(_setInitialValues);
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>((_, emit) => emit(state.copyWith(isCameraMoving: true)));
