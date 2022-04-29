@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/images/explore/regions.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class CreateNewRegionDialog extends StatelessWidget {
@@ -17,7 +19,9 @@ class CreateNewRegionDialog extends StatelessWidget {
       child: CustomDialog(
         leftButtonTitle: context.loc.createRegionDialogLeftButtonTitle,
         rightButtonTitle: context.loc.createRegionSelectRegionButtonTitle,
-        onRightButtonPressed: () {},
+        onRightButtonPressed: () {
+          BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionTapped());
+        },
         children: [
           Text(context.loc.createRegionDialogTitle, style: Theme.of(context).textTheme.headline6),
           const SizedBox(height: 30.0),
