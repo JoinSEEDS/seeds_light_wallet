@@ -10,6 +10,9 @@ class EditRegionEventState extends Equatable {
   final DateTime? newEventDateAndTime;
   final TimeOfDay? newEventStartTime;
   final TimeOfDay? newEventEndTime;
+  final String eventDateAndTimeInfo;
+  final String endTimeInfo;
+  final String startTimeInfo;
 
   const EditRegionEventState({
     required this.newRegionEventDescription,
@@ -21,6 +24,9 @@ class EditRegionEventState extends Equatable {
     this.newEventDateAndTime,
     this.newEventStartTime,
     this.newEventEndTime,
+    required this.endTimeInfo,
+    required this.startTimeInfo,
+    required this.eventDateAndTimeInfo,
   });
 
   @override
@@ -34,6 +40,9 @@ class EditRegionEventState extends Equatable {
         newEventDateAndTime,
         newEventStartTime,
         newEventEndTime,
+        endTimeInfo,
+        startTimeInfo,
+        eventDateAndTimeInfo,
       ];
 
   EditRegionEventState copyWith({
@@ -46,6 +55,9 @@ class EditRegionEventState extends Equatable {
     DateTime? newEventDateAndTime,
     TimeOfDay? newEventStartTime,
     TimeOfDay? newEventEndTime,
+    String? endTimeInfo,
+    String? startTimeInfo,
+    String? eventDateAndTimeInfo,
   }) =>
       EditRegionEventState(
         newRegionEventDescription: newRegionEventDescription ?? this.newRegionEventDescription,
@@ -57,6 +69,9 @@ class EditRegionEventState extends Equatable {
         newEventDateAndTime: newEventDateAndTime ?? this.newEventDateAndTime,
         newEventStartTime: newEventStartTime ?? this.newEventStartTime,
         newEventEndTime: newEventEndTime ?? this.newEventEndTime,
+        endTimeInfo: endTimeInfo ?? this.endTimeInfo,
+        startTimeInfo: startTimeInfo ?? this.startTimeInfo,
+        eventDateAndTimeInfo: eventDateAndTimeInfo ?? this.eventDateAndTimeInfo,
       );
 
   factory EditRegionEventState.initial(RegionEventModel event) {
@@ -65,6 +80,9 @@ class EditRegionEventState extends Equatable {
       newRegionEventName: "",
       event: event,
       isSaveChangesButtonLoading: false,
+      eventDateAndTimeInfo: event.formattedCreatedTime,
+      endTimeInfo: "${event.formattedEndTime} - Ends",
+      startTimeInfo: "${event.formattedStartTime} - Starts",
     );
   }
 }
