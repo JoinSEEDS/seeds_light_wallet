@@ -6,6 +6,13 @@ class EditRegionEventState extends Equatable {
   final RegionEventModel event;
   final bool isSaveChangesButtonLoading;
   final PageCommand? pageCommand;
+  final Place? newPlace;
+  final DateTime? newEventDateAndTime;
+  final TimeOfDay? newEventStartTime;
+  final TimeOfDay? newEventEndTime;
+  final String eventDateAndTimeInfo;
+  final String endTimeInfo;
+  final String startTimeInfo;
   final File? file;
   final PictureBoxState pictureBoxState;
 
@@ -15,6 +22,13 @@ class EditRegionEventState extends Equatable {
     required this.event,
     required this.isSaveChangesButtonLoading,
     this.pageCommand,
+    this.newPlace,
+    this.newEventDateAndTime,
+    this.newEventStartTime,
+    this.newEventEndTime,
+    required this.endTimeInfo,
+    required this.startTimeInfo,
+    required this.eventDateAndTimeInfo,
     this.file,
     required this.pictureBoxState,
   });
@@ -26,6 +40,13 @@ class EditRegionEventState extends Equatable {
         event,
         isSaveChangesButtonLoading,
         pageCommand,
+        newPlace,
+        newEventDateAndTime,
+        newEventStartTime,
+        newEventEndTime,
+        endTimeInfo,
+        startTimeInfo,
+        eventDateAndTimeInfo,
         file,
         pictureBoxState,
       ];
@@ -36,6 +57,13 @@ class EditRegionEventState extends Equatable {
     RegionEventModel? event,
     bool? isSaveChangesButtonLoading,
     PageCommand? pageCommand,
+    Place? newPlace,
+    DateTime? newEventDateAndTime,
+    TimeOfDay? newEventStartTime,
+    TimeOfDay? newEventEndTime,
+    String? endTimeInfo,
+    String? startTimeInfo,
+    String? eventDateAndTimeInfo,
     File? file,
     PictureBoxState? pictureBoxState,
   }) =>
@@ -45,6 +73,13 @@ class EditRegionEventState extends Equatable {
         event: event ?? this.event,
         isSaveChangesButtonLoading: isSaveChangesButtonLoading ?? this.isSaveChangesButtonLoading,
         pageCommand: pageCommand,
+        newPlace: newPlace ?? this.newPlace,
+        newEventDateAndTime: newEventDateAndTime ?? this.newEventDateAndTime,
+        newEventStartTime: newEventStartTime ?? this.newEventStartTime,
+        newEventEndTime: newEventEndTime ?? this.newEventEndTime,
+        endTimeInfo: endTimeInfo ?? this.endTimeInfo,
+        startTimeInfo: startTimeInfo ?? this.startTimeInfo,
+        eventDateAndTimeInfo: eventDateAndTimeInfo ?? this.eventDateAndTimeInfo,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
       );
@@ -55,6 +90,9 @@ class EditRegionEventState extends Equatable {
       newRegionEventName: "",
       event: event,
       isSaveChangesButtonLoading: false,
+      eventDateAndTimeInfo: event.formattedCreatedTime,
+      endTimeInfo: "${event.formattedEndTime} - Ends",
+      startTimeInfo: "${event.formattedStartTime} - Starts",
       pictureBoxState: PictureBoxState.pickImage,
     );
   }

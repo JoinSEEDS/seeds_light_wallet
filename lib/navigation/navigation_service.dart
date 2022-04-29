@@ -22,7 +22,9 @@ import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_scre
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_image.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_location.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_name_and_description.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_time_and_date.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/join_region_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/region_event_details_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/region_screen.dart';
@@ -109,6 +111,8 @@ class Routes {
   static const regionEventDetails = 'regionEventDetials';
   static const editRegionDescription = 'editRegionDescription';
   static const editRegionEventNameAndDescription = 'editRegionEventNameAndDescription';
+  static const editRegionEventLocation = 'editRegionEventLocation';
+  static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
   static const editRegionEventImage = 'editRegionEventImage';
 }
 
@@ -166,6 +170,8 @@ class NavigationService {
     Routes.regionEventDetails: (_) => const RegionEventDetailsScreen(),
     Routes.editRegionDescription: (_) => const EditRegionDescription(),
     Routes.editRegionEventNameAndDescription: (_) => const EditRegionEventNameAndDescription(),
+    Routes.editRegionEventLocation: (_) => const EditRegionEventLocation(),
+    Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),
     Routes.editRegionEventImage: (_) => const EditRegionEventImage(),
   };
 

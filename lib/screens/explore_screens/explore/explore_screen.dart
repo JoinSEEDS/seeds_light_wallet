@@ -83,9 +83,9 @@ class ExploreScreen extends StatelessWidget {
         onTapEvent: const OnBuySeedsCardTapped(),
       ),
     ];
-/*     if (!remoteConfigurations.featureFlagRegionsEnabled) {
+    if (!remoteConfigurations.featureFlagRegionsEnabled) {
       exploreItems.removeWhere((i) => i.title == context.loc.explorerRegionsItemTitle);
-    } */
+    }
     if (!remoteConfigurations.featureFlagP2PEnabled) {
       exploreItems.removeWhere((i) => i.title == context.loc.explorerSwapItemTitle);
     }

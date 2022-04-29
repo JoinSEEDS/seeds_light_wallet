@@ -9,13 +9,37 @@ abstract class JoinRegionEvent extends Equatable {
 
 class OnLoadRegions extends JoinRegionEvent {
   const OnLoadRegions();
+
   @override
   String toString() => 'OnLoadRegions';
 }
 
 class OnUpdateMapLocation extends JoinRegionEvent {
   final Place place;
+
   const OnUpdateMapLocation(this.place);
+
   @override
   String toString() => 'OnUpdateMapLocation';
+}
+
+class OnCreateRegionTapped extends JoinRegionEvent {
+  const OnCreateRegionTapped();
+
+  @override
+  String toString() => 'OnCreateRegionTapped';
+}
+
+class OnCreateRegionNextTapped extends JoinRegionEvent {
+  const OnCreateRegionNextTapped();
+
+  @override
+  String toString() => 'OnCreateRegionNextTapped';
+}
+
+class ClearJoinRegionPageCommand extends JoinRegionEvent {
+  const ClearJoinRegionPageCommand();
+
+  @override
+  String toString() => 'ClearJoinRegionPageCommand';
 }
