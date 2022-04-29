@@ -10,7 +10,7 @@ class CreateRegionBalanceResultStateMapper extends StateMapper {
       return currentState.copyWith(
           isCreateRegionButtonLoading: false, pageCommand: ShowErrorMessage("Error Loading Balance"));
     } else {
-      if (result.asValue!.value.quantity > 1000) {
+      if (result.asValue!.value.quantity >= 1000) {
         return currentState.copyWith(isCreateRegionButtonLoading: false, pageCommand: ShowCreateRegionInfo());
       } else {
         return currentState.copyWith(isCreateRegionButtonLoading: false, pageCommand: ShowNotEnoughSeedsDialog());
