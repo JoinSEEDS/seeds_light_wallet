@@ -7,11 +7,16 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/regions_map/regions_map.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/create_new_region_dialog.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/not_enough_seeds_dialog.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/region_result_tile.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_page_command.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class JoinRegionScreen extends StatelessWidget {
@@ -34,6 +39,27 @@ class JoinRegionScreen extends StatelessWidget {
             final command = state.pageCommand;
             if (command is NavigateToRoute) {
               NavigationService.of(context).navigateTo(command.route, null, true);
+            } else if (command is ShowCreateRegionInfo) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<JoinRegionBloc>(context),
+                    child: const CreateNewRegionDialog(),
+                  );
+                },
+              );
+            } else if (command is ShowNotEnoughSeedsDialog) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return const NotEnoughSeedsDialog();
+                },
+              );
+            } else if (command is ShowErrorMessage) {
+              eventBus.fire(ShowSnackBar(command.message));
             }
           },
           builder: (context, state) {
@@ -84,9 +110,9 @@ class JoinRegionScreen extends StatelessWidget {
                           ),
                         const SizedBox(height: 20.0),
                         FlatButtonLong(
-                          title: context.loc.joinRegionCreateDescription2,
-                          onPressed: () => NavigationService.of(context).navigateTo(Routes.createRegion),
-                        ),
+                            isLoading: state.isCreateRegionButtonLoading,
+                            title: context.loc.joinRegionCreateDescription2,
+                            onPressed: () => BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionTapped()))
                       ],
                     ),
                   ),

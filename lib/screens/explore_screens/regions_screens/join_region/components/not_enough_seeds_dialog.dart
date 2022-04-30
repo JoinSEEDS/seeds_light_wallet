@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotEnoughSeedsDialog extends StatelessWidget {
   const NotEnoughSeedsDialog({Key? key}) : super(key: key);
@@ -17,7 +20,7 @@ class NotEnoughSeedsDialog extends StatelessWidget {
         icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
         leftButtonTitle: context.loc.createRegionNotEnoughSeedsDialogLeftButtonTitle,
         rightButtonTitle: context.loc.createRegionNotEnoughSeedsDialogRightButtonTitle,
-        onRightButtonPressed: () {},
+        onRightButtonPressed: () => launchUrl(Uri.parse('$urlBuySeeds${settingsStorage.accountName}')),
         children: [
           const SizedBox(height: 10.0),
           Text(context.loc.createRegionNotEnoughSeedsDialogTitle, style: Theme.of(context).textTheme.headline6),

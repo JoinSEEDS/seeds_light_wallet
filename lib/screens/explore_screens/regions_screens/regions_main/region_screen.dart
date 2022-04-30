@@ -6,6 +6,7 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_about.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_events.dart';
@@ -34,9 +35,9 @@ class RegionScreen extends StatelessWidget {
         builder: (context, state) {
           switch (state.pageState) {
             case PageState.loading:
-              return const FullPageLoadingIndicator();
+              return const Scaffold(body: FullPageLoadingIndicator());
             case PageState.failure:
-              return const FullPageErrorIndicator();
+              return const Scaffold(body: FullPageErrorIndicator());
             case PageState.success:
               return Scaffold(
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -47,19 +48,16 @@ class RegionScreen extends StatelessWidget {
                 ),
                 body: DefaultTabController(
                   length: 2,
-                  child: NestedScrollView(
-                    headerSliverBuilder: (context, isInnerBoxScrolled) {
-                      return [
-                        const RegionMainAppBar(),
-                        SliverPersistentHeader(
-                          delegate: _SliverAppBarDelegate(
-                            const TabBar(tabs: [Tab(text: "Events"), Tab(text: "About")]),
-                          ),
-                          pinned: true,
-                        ),
-                      ];
-                    },
-                    body: const TabBarView(children: [RegionEvents(), RegionAbout()]),
+                  child: SafeArea(
+                    child: NestedScrollView(
+                      headerSliverBuilder: (context, isInnerBoxScrolled) {
+                        return [
+                          const RegionMainAppBar(),
+                          const SliverPersistentHeader(delegate: _SliverAppBarDelegate(), pinned: true),
+                        ];
+                      },
+                      body: const TabBarView(children: [RegionEvents(), RegionAbout()]),
+                    ),
                   ),
                 ),
               );
@@ -73,19 +71,17 @@ class RegionScreen extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
-
-  final TabBar _tabBar;
+  const _SliverAppBarDelegate();
 
   @override
-  double get minExtent => _tabBar.preferredSize.height;
+  double get minExtent => tabHeight;
 
   @override
-  double get maxExtent => _tabBar.preferredSize.height;
+  double get maxExtent => tabHeight;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(child: _tabBar);
+    return Container(color: AppColors.primary, child: const TabBar(tabs: [Tab(text: "Events"), Tab(text: "About")]));
   }
 
   @override

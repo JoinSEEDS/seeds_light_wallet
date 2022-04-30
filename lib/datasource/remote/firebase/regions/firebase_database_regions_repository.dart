@@ -16,7 +16,6 @@ const dateCreatedKey = "dateCreated";
 const _dateUpdatedKey = "dateUpdated";
 const pointKey = "point";
 const geoPointKey = "geopoint";
-const locationIdKey = "locationId";
 
 // Events
 const eventNameKey = "eventName";
@@ -101,22 +100,22 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .within(center: center, radius: radius, field: pointKey)
         .asyncMap((List<DocumentSnapshot> event) => event
             // ignore: cast_nullable_to_non_nullable
-            .map((DocumentSnapshot document) => FirebaseRegion.fromMap(document.data() as Map<String, dynamic>))
+            .map((DocumentSnapshot document) => FirebaseRegion.fromDocumentSnapshot(document))
             .toList())
         .firstWhere((i) => true);
   }
 
   Future<Stream<List<FirebaseRegion>>> getAllRegions() async {
     return regionCollection.snapshots().map((QuerySnapshot<Map<String, dynamic>> event) =>
-        event.docs.map((e) => FirebaseRegion.fromMap(e.data())).toList());
+        event.docs.map((region) => FirebaseRegion.fromQueryDocumentSnapshot(region)).toList());
   }
 
   Future<Result<FirebaseRegion>> getRegionById(String regionId) async {
     return regionCollection
         .doc(regionId)
         .get()
-        .then((DocumentSnapshot<Map<String, dynamic>> value) => mapFirebaseResponse<FirebaseRegion>(() {
-              return FirebaseRegion.fromMap(value.data()!);
+        .then((DocumentSnapshot<Map<String, dynamic>> document) => mapFirebaseResponse<FirebaseRegion>(() {
+              return FirebaseRegion.fromDocumentSnapshot(document);
             }))
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
@@ -196,12 +195,28 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
+  Future<Result<String>> deleteRegionEvent({required String eventId}) async {
+    return regionEventCollection
+        .doc(eventId)
+        .delete()
+        .then((value) => mapFirebaseResponse<String>(() {
+              return eventId;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
+  }
+
   Stream<List<RegionEventModel>> getEventsForRegion(String regionAccount) {
     return regionEventCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
         (QuerySnapshot event) => event.docs
             .map((QueryDocumentSnapshot event) =>
                 RegionEventModel.mapToRegionEventModel(event as QueryDocumentSnapshot<Map<String, dynamic>>))
             .toList());
+  }
+
+  Stream<RegionEventModel> getEventRegion(String regionId) {
+    return regionEventCollection.where('id', isEqualTo: regionId).snapshots().asyncMap((QuerySnapshot event) {
+      return RegionEventModel.mapToRegionEventModel(event as QueryDocumentSnapshot<Map<String, dynamic>>);
+    });
   }
 
   Future<Result<String>> joinEvent(String eventId, String joiningUser) {

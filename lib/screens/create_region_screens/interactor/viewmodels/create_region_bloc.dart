@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/select_picture_box/interactor/usecases/pick_image_usecase.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
@@ -12,18 +14,18 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_region_by_id_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
 import 'package:seeds/screens/create_region_screens/components/authentication_status.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/create_region_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/generate_region_id_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/pick_image_state_mapper.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/region_id_availability_state_mapper.dart';
 import 'package:seeds/screens/create_region_screens/interactor/mappers/save_image_state_mapper.dart';
-import 'package:seeds/screens/create_region_screens/interactor/mappers/validate_region_id_state_mapper.dart';
-import 'package:seeds/screens/create_region_screens/interactor/usecases/validate_region_id_usecase.dart';
+import 'package:seeds/screens/create_region_screens/interactor/mappers/validate_region_Id.dart';
 import 'package:seeds/screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 
 part 'create_region_events.dart';
-
 part 'create_region_state.dart';
 
 class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
@@ -34,12 +36,19 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     on<OnRegionNameChange>(_onRegionNameChange);
     on<OnRegionNameNextTapped>(_onRegionNameNextTapped);
     on<OnRegionDescriptionChange>(_onOnRegionDescriptionChange);
-    on<OnRegionIdChange>(_onRegionIdChange);
+    on<OnRegionIdChange>(_onRegionIdChange, transformer: _transformEvents);
     on<OnPickImage>(_onPickImage);
     on<OnPickImageNextTapped>(_onPickImageNextTapped);
     on<OnConfirmCreateRegionTapped>(_onConfirmCreateRegionTapped);
     on<OnPublishRegionTapped>(_onPublishRegionTapped);
     on<ClearCreateRegionPageCommand>((_, emit) => emit(state.copyWith()));
+  }
+
+  /// Debounce to avoid making search network calls each time the user types (RegionId chain validation)
+  /// switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
+  Stream<OnRegionIdChange> _transformEvents(
+      Stream<OnRegionIdChange> events, Stream<OnRegionIdChange> Function(OnRegionIdChange) transitionFn) {
+    return events.debounceTime(const Duration(milliseconds: 300)).switchMap(transitionFn);
   }
 
   void _onUpdateMapLocations(OnUpdateMapLocation event, Emitter<CreateRegionState> emit) {
@@ -59,19 +68,21 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
   }
 
   void _onOnRegionDescriptionChange(OnRegionDescriptionChange event, Emitter<CreateRegionState> emit) {
-    state.copyWith(regionDescription: event.regionDescription);
+    emit(state.copyWith(regionDescription: event.regionDescription));
   }
 
   Future<void> _onRegionIdChange(OnRegionIdChange event, Emitter<CreateRegionState> emit) async {
-    emit(state.copyWith(regionIdAuthenticationState: RegionIdStatusIcon.loading));
-    if (event.regionId.isEmpty) {
+    emit(state.copyWith(regionIdValidationStatus: RegionIdStatusIcon.loading));
+    final String? error = ValidateRegionIdMapper().hasError(event.regionId);
+    if (error != null) {
       emit(state.copyWith(
-          regionId: event.regionId,
-          regionIdAuthenticationState: RegionIdStatusIcon.invalid,
-          regionIdErrorMessage: "Region Id cannot be empty"));
+        regionId: event.regionId,
+        regionIdValidationStatus: RegionIdStatusIcon.invalid,
+        regionIdErrorMessage: error,
+      ));
     } else {
-      final Result<RegionModel?> result = await ValidateRegionIdUseCase().run("${state.regionId}$regionIdSuffix");
-      emit(ValidateRegionIdStateMapper().mapResultToState(state, result));
+      final Result<RegionModel?> result = await GetRegionByIdUseCase().run("${state.regionId}$regionIdSuffix");
+      emit(RegionIdAvailabilityStateMapper().mapResultToState(state, result));
       emit(state.copyWith(regionId: event.regionId));
     }
   }
@@ -100,8 +111,8 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
         regionAccount: "${state.regionId}$regionIdSuffix",
         title: state.regionName,
         description: state.regionDescription,
-        latitude: state.currentPlace!.lng,
-        longitude: state.currentPlace!.lat,
+        latitude: state.currentPlace!.lat,
+        longitude: state.currentPlace!.lng,
         regionAddress: state.currentPlace!.placeText,
         imageUrl: state.imageUrl!));
     emit(CreateRegionStateMapper().mapResultToState(state, result));
