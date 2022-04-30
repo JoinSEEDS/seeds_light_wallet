@@ -1,22 +1,25 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:seeds/components/regions_map/interactor/usecases/get_place_details_use_case.dart';
-import 'package:seeds/components/regions_map/interactor/usecases/get_places_autocomplete_use_case.dart';
+import 'package:seeds/components/regions_map/components/serach_places/interactor/mappers/predictions_state_mapper.dart';
+import 'package:seeds/components/regions_map/components/serach_places/interactor/usecases/get_place_details_use_case.dart';
+import 'package:seeds/components/regions_map/components/serach_places/interactor/usecases/get_places_autocomplete_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_user_location_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/model/google_places_models/place_details_model.dart';
 import 'package:seeds/datasource/remote/model/google_places_models/prediction_model.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 part 'search_places_event.dart';
 part 'search_places_state.dart';
 
 class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
-  SearchPlacesBloc() : super(SearchPlacesState.initial()) {
+  SearchPlacesBloc(List<RegionModel> regions) : super(SearchPlacesState.initial(regions)) {
     on<OnQueryTextChange>(_onQueryTextChange, transformer: _transformEvents);
     on<OnPredictionSelected>(_onPredictionSelected);
   }
@@ -31,6 +34,18 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
   Future<void> _onQueryTextChange(OnQueryTextChange event, Emitter<SearchPlacesState> emit) async {
     if (event.query.isNotEmpty) {
       emit(state.copyWith(pageState: PageState.success, showLinearIndicator: true));
+
+      final List<PredictionModel> regionMatches = [];
+      // If regions not empty search them by matches and aggregates
+      if (state.regions.isNotEmpty) {
+        for (final i in state.regions) {
+          if (i.title.contains(event.query)) {
+            regionMatches.add(PredictionModel(placeId: i.id, description: i.title));
+          } else if (i.id.contains(event.query)) {
+            regionMatches.add(PredictionModel(placeId: i.id, description: i.id));
+          }
+        }
+      }
       final result = await GetUserLocationUseCase().run();
       if (result.isError) {
         emit(state.copyWith(pageState: PageState.failure));
@@ -42,16 +57,7 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
           language: 'en',
         ));
 
-        if (res.isError) {
-          emit(state.copyWith(pageState: PageState.failure, showLinearIndicator: false));
-        } else {
-          final PlacesAutocompleteResponse response = res.asValue!.value;
-          emit(state.copyWith(
-            pageState: PageState.success,
-            showLinearIndicator: false,
-            predictions: response.predictions,
-          ));
-        }
+        emit(PredictionsStateMapper().mapResultToState(state, res, regionMatches));
       }
     } else {
       emit(state.copyWith(predictions: []));
@@ -59,17 +65,32 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
   }
 
   Future<void> _onPredictionSelected(OnPredictionSelected event, Emitter<SearchPlacesState> emit) async {
-    final result = await GetPlaceDetailsUseCase().run(GetPlaceDetailsUseCase.input(event.prediction.placeId));
-    if (result.isError) {
-      emit(state.copyWith(pageState: PageState.failure));
-    } else {
-      final PlacesDetailsResponse details = result.asValue!.value;
-      emit(state.copyWith(
-          placeSelected: Place(
-        placeText: event.prediction.description,
-        lng: details.result.geometry.location.lng,
-        lat: details.result.geometry.location.lat,
-      )));
+    bool isRegionSelected = false;
+    if (state.regions.isNotEmpty) {
+      final selected = state.regions.singleWhereOrNull((i) => i.id == event.prediction.placeId);
+      if (selected != null) {
+        emit(state.copyWith(
+            placeSelected: Place(
+          placeText: selected.title,
+          lng: selected.longitude,
+          lat: selected.latitude,
+        )));
+        isRegionSelected = true;
+      }
+    }
+    if (!isRegionSelected) {
+      final result = await GetPlaceDetailsUseCase().run(GetPlaceDetailsUseCase.input(event.prediction.placeId));
+      if (result.isError) {
+        emit(state.copyWith(pageState: PageState.failure));
+      } else {
+        final PlacesDetailsResponse details = result.asValue!.value;
+        emit(state.copyWith(
+            placeSelected: Place(
+          placeText: event.prediction.description,
+          lng: details.result.geometry.location.lng,
+          lat: details.result.geometry.location.lat,
+        )));
+      }
     }
   }
 }

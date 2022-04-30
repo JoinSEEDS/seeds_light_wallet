@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
@@ -78,13 +77,7 @@ class JoinRegionScreen extends StatelessWidget {
                         const SizedBox(height: 20.0),
                         Expanded(
                             child: RegionsMap(
-                          markers: state.regions
-                              .map((i) => Marker(
-                                    markerId: MarkerId(i.id),
-                                    position: LatLng(i.latitude, i.longitude),
-                                    infoWindow: InfoWindow(title: i.title),
-                                  ))
-                              .toList(),
+                          regions: state.regions,
                           onPlaceChanged: (place) {
                             BlocProvider.of<JoinRegionBloc>(context).add(OnUpdateMapLocation(place));
                           },
