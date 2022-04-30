@@ -7,6 +7,8 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_region_use_case.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/mappers/delete_region_event_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/usecases/delete_region_event_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/usecases/join_region_event_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/usecases/leave_region_event_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/region_event_details/interactor/viewmodels/page_commands.dart';
@@ -26,7 +28,7 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     on<OnEditEventNameAndDescriptionTapped>(_onEditEventNameAndDescriptionTapped);
     on<OnEditEventDateAndTimeTapped>(_onEditEventDateAndTimeTapped);
     on<OnEditEventLocationTapped>(_onEditEventLocationTapped);
-    on<OnDeleteEventTapped>((_, emit) => emit(state.copyWith()));
+    on<OnDeleteEventTapped>(_onDeleteEventTapped);
     on<ClearRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
@@ -94,5 +96,11 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     } else {
       emit(state.copyWith(isJoinLeaveButtonLoading: false, isUserJoined: false));
     }
+  }
+
+  Future<void> _onDeleteEventTapped(OnDeleteEventTapped event, Emitter<RegionEventDetailsState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final result = await DeleteRegionEventUseCase().run(state.event);
+    emit(DeleteRegionEventStateMapper().mapResultToState(state, result));
   }
 }

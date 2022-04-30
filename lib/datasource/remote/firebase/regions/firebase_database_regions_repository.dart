@@ -195,6 +195,16 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
+  Future<Result<String>> deleteRegionEvent({required String eventId}) async {
+    return regionEventCollection
+        .doc(eventId)
+        .delete()
+        .then((value) => mapFirebaseResponse<String>(() {
+              return eventId;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
+  }
+
   Stream<List<RegionEventModel>> getEventsForRegion(String regionAccount) {
     return regionEventCollection.where(regionAccountKey, isEqualTo: regionAccount).snapshots().asyncMap(
         (QuerySnapshot event) => event.docs
