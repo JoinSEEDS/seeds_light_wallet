@@ -14,6 +14,13 @@ class ClearEditRegionEventPageCommand extends EditRegionEventEvents {
   String toString() => 'ClearEditRegionEventPageCommand';
 }
 
+class OnPickImage extends EditRegionEventEvents {
+  const OnPickImage();
+
+  @override
+  String toString() => 'OnPickImage';
+}
+
 class OnUpdateMapLocation extends EditRegionEventEvents {
   final Place place;
 

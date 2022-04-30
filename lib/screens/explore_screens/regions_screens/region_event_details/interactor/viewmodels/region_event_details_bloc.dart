@@ -22,7 +22,7 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     on<OnJoinRegionEventButtonPressed>(_onJoinRegionEventButtonPressed);
     on<OnLeaveRegionEventButtonPressed>(_onLeaveRegionEventButtonPressed);
     on<OnEditRegionEventButtonTapped>((_, emit) => emit(state.copyWith(pageCommand: ShowEditRegionEventButtons())));
-    on<OnEditEventImageTapped>((_, emit) => emit(state.copyWith()));
+    on<OnEditEventImageTapped>(_onEditEventImageTapped);
     on<OnEditEventNameAndDescriptionTapped>(_onEditEventNameAndDescriptionTapped);
     on<OnEditEventDateAndTimeTapped>(_onEditEventDateAndTimeTapped);
     on<OnEditEventLocationTapped>(_onEditEventLocationTapped);
@@ -51,6 +51,11 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
     emit(state.copyWith(
         pageCommand:
             NavigateToRouteWithArguments(route: Routes.editRegionEventNameAndDescription, arguments: state.event)));
+  }
+
+  void _onEditEventImageTapped(OnEditEventImageTapped event, Emitter<RegionEventDetailsState> emit) {
+    emit(state.copyWith(
+        pageCommand: NavigateToRouteWithArguments(route: Routes.editRegionEventImage, arguments: state.event)));
   }
 
   void _onEditEventDateAndTimeTapped(OnEditEventDateAndTimeTapped event, Emitter<RegionEventDetailsState> emit) {

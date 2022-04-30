@@ -13,6 +13,8 @@ class EditRegionEventState extends Equatable {
   final String eventDateAndTimeInfo;
   final String endTimeInfo;
   final String startTimeInfo;
+  final File? file;
+  final PictureBoxState pictureBoxState;
 
   const EditRegionEventState({
     required this.newRegionEventDescription,
@@ -27,6 +29,8 @@ class EditRegionEventState extends Equatable {
     required this.endTimeInfo,
     required this.startTimeInfo,
     required this.eventDateAndTimeInfo,
+    this.file,
+    required this.pictureBoxState,
   });
 
   @override
@@ -43,6 +47,8 @@ class EditRegionEventState extends Equatable {
         endTimeInfo,
         startTimeInfo,
         eventDateAndTimeInfo,
+        file,
+        pictureBoxState,
       ];
 
   EditRegionEventState copyWith({
@@ -58,6 +64,8 @@ class EditRegionEventState extends Equatable {
     String? endTimeInfo,
     String? startTimeInfo,
     String? eventDateAndTimeInfo,
+    File? file,
+    PictureBoxState? pictureBoxState,
   }) =>
       EditRegionEventState(
         newRegionEventDescription: newRegionEventDescription ?? this.newRegionEventDescription,
@@ -72,6 +80,8 @@ class EditRegionEventState extends Equatable {
         endTimeInfo: endTimeInfo ?? this.endTimeInfo,
         startTimeInfo: startTimeInfo ?? this.startTimeInfo,
         eventDateAndTimeInfo: eventDateAndTimeInfo ?? this.eventDateAndTimeInfo,
+        file: file ?? this.file,
+        pictureBoxState: pictureBoxState ?? this.pictureBoxState,
       );
 
   factory EditRegionEventState.initial(RegionEventModel event) {
@@ -83,6 +93,7 @@ class EditRegionEventState extends Equatable {
       eventDateAndTimeInfo: event.formattedCreatedTime,
       endTimeInfo: "${event.formattedEndTime} - Ends",
       startTimeInfo: "${event.formattedStartTime} - Starts",
+      pictureBoxState: PictureBoxState.pickImage,
     );
   }
 }

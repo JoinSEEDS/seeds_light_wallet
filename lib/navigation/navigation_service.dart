@@ -21,6 +21,7 @@ import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_image.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_location.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_name_and_description.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_time_and_date.dart';
@@ -112,6 +113,7 @@ class Routes {
   static const editRegionEventNameAndDescription = 'editRegionEventNameAndDescription';
   static const editRegionEventLocation = 'editRegionEventLocation';
   static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
+  static const editRegionEventImage = 'editRegionEventImage';
 }
 
 class NavigationService {
@@ -170,6 +172,7 @@ class NavigationService {
     Routes.editRegionEventNameAndDescription: (_) => const EditRegionEventNameAndDescription(),
     Routes.editRegionEventLocation: (_) => const EditRegionEventLocation(),
     Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),
+    Routes.editRegionEventImage: (_) => const EditRegionEventImage(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too
