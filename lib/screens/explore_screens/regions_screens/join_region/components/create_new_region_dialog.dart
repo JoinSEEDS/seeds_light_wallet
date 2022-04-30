@@ -20,7 +20,7 @@ class CreateNewRegionDialog extends StatelessWidget {
         leftButtonTitle: context.loc.createRegionDialogLeftButtonTitle,
         rightButtonTitle: context.loc.createRegionSelectRegionButtonTitle,
         onRightButtonPressed: () {
-          BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionTapped());
+          BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionNextTapped());
         },
         children: [
           Text(context.loc.createRegionDialogTitle, style: Theme.of(context).textTheme.headline6),
