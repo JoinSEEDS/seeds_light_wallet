@@ -17,25 +17,25 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final event = ModalRoute.of(context)!.settings.arguments as RegionEventModel?;
-    return BlocProvider(
-      create: (_) => EditRegionEventBloc(event!),
-      child: BlocConsumer<EditRegionEventBloc, EditRegionEventState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {
-          final pageCommand = state.pageCommand;
+    return Scaffold(
+      appBar: AppBar(title: const Text("Edit Region Event")),
+      body: BlocProvider(
+        create: (_) => EditRegionEventBloc(event!),
+        child: BlocConsumer<EditRegionEventBloc, EditRegionEventState>(
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (context, state) {
+            final pageCommand = state.pageCommand;
 
-          if (pageCommand is NavigateToRoute) {
-            NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
-          } else if (pageCommand is ShowErrorMessage) {
-            eventBus.fire(ShowSnackBar(pageCommand.message));
-          }
+            if (pageCommand is NavigateToRoute) {
+              NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
+            } else if (pageCommand is ShowErrorMessage) {
+              eventBus.fire(ShowSnackBar(pageCommand.message));
+            }
 
-          BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(title: const Text("Edit Region Event")),
-            body: SafeArea(
+            BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
+          },
+          builder: (context, state) {
+            return SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Stack(
                 children: [
@@ -65,11 +65,7 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
-                       enabled: state.isSaveChangesButtonEnable
-                           &&
-                           state.isNewNameNotEmpty
-                           &&
-                           state.isNewDescriptionNotEmpty,
+                        enabled: state.isSaveChangesButtonEnable,
                         isLoading: state.isSaveChangesButtonLoading,
                         title: "Save Changes",
                         onPressed: () =>
@@ -77,9 +73,9 @@ class EditRegionEventNameAndDescription extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

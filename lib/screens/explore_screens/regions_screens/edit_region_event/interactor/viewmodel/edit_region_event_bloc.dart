@@ -71,7 +71,7 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
   void _onEventNameChange(OnEventNameChange event, Emitter<EditRegionEventState> emit) {
     emit(state.copyWith(
         newRegionEventName: event.eventName,
-        isSaveChangesButtonEnable: true,
+        isSaveChangesButtonEnable: event.eventName.isNotEmpty && state.isNewDescriptionNotEmpty,
         isNewNameNotEmpty: event.eventName.isNotEmpty));
   }
 
@@ -79,7 +79,7 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
     emit(state.copyWith(
       newRegionEventDescription: event.eventDescription,
       isNewDescriptionNotEmpty: event.eventDescription.isNotEmpty,
-      isSaveChangesButtonEnable: true,
+      isSaveChangesButtonEnable: event.eventDescription.isNotEmpty && state.isNewNameNotEmpty,
     ));
   }
 
