@@ -7,7 +7,7 @@ class CreateRegionEventUseCase extends InputUseCase<String, CreateRegionEventInp
 
   @override
   Future<Result<String>> run(CreateRegionEventInput input) async {
-    final Result<String> editRegionResult = await _firebaseDatabaseRegionsRepository.createRegionEvent(
+    final Result<String> createRegionEventResult = await _firebaseDatabaseRegionsRepository.createRegionEvent(
       eventName: input.eventName,
       eventDescription: input.eventDescription,
       regionAccount: input.regionAccount,
@@ -19,7 +19,7 @@ class CreateRegionEventUseCase extends InputUseCase<String, CreateRegionEventInp
       eventEndTime: input.eventStartTime,
     );
 
-    return editRegionResult;
+    return createRegionEventResult;
   }
 }
 

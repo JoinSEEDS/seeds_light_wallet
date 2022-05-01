@@ -152,16 +152,16 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
-  Future<Result<String>> editRegionEvent(
-    String eventId,
+  Future<Result<String>> editRegionEvent({
+    required String eventId,
     String? eventName,
     String? eventDescription,
     String? eventLocation,
     String? eventImage,
-    DateTime? eventStartTime,
-    DateTime? eventEndTime,
-  ) async {
-    final data = {};
+    Timestamp? eventStartTime,
+    Timestamp? eventEndTime,
+  }) async {
+    final Map<String, dynamic> data = {};
     if (eventName != null) {
       data.putIfAbsent(eventNameKey, () => eventName);
     }

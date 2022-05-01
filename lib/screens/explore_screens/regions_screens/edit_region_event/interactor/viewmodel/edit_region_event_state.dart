@@ -5,6 +5,9 @@ class EditRegionEventState extends Equatable {
   final String newRegionEventName;
   final RegionEventModel event;
   final bool isSaveChangesButtonLoading;
+  final bool isSaveChangesButtonEnable;
+  final bool isNewNameNotEmpty;
+  final bool isNewDescriptionNotEmpty;
   final PageCommand? pageCommand;
   final Place? newPlace;
   final DateTime? newEventDateAndTime;
@@ -31,6 +34,9 @@ class EditRegionEventState extends Equatable {
     required this.eventDateAndTimeInfo,
     this.file,
     required this.pictureBoxState,
+    required this.isSaveChangesButtonEnable,
+    required this.isNewNameNotEmpty,
+    required this.isNewDescriptionNotEmpty,
   });
 
   @override
@@ -39,6 +45,9 @@ class EditRegionEventState extends Equatable {
         newRegionEventName,
         event,
         isSaveChangesButtonLoading,
+        isSaveChangesButtonEnable,
+        isNewNameNotEmpty,
+        isNewDescriptionNotEmpty,
         pageCommand,
         newPlace,
         newEventDateAndTime,
@@ -56,6 +65,9 @@ class EditRegionEventState extends Equatable {
     String? newRegionEventName,
     RegionEventModel? event,
     bool? isSaveChangesButtonLoading,
+    bool? isSaveChangesButtonEnable,
+    bool? isNewNameNotEmpty,
+    bool? isNewDescriptionNotEmpty,
     PageCommand? pageCommand,
     Place? newPlace,
     DateTime? newEventDateAndTime,
@@ -72,6 +84,9 @@ class EditRegionEventState extends Equatable {
         newRegionEventName: newRegionEventName ?? this.newRegionEventName,
         event: event ?? this.event,
         isSaveChangesButtonLoading: isSaveChangesButtonLoading ?? this.isSaveChangesButtonLoading,
+        isSaveChangesButtonEnable: isSaveChangesButtonEnable ?? this.isSaveChangesButtonEnable,
+        isNewNameNotEmpty: isNewNameNotEmpty ?? this.isNewNameNotEmpty,
+        isNewDescriptionNotEmpty: isNewDescriptionNotEmpty ?? this.isNewDescriptionNotEmpty,
         pageCommand: pageCommand,
         newPlace: newPlace ?? this.newPlace,
         newEventDateAndTime: newEventDateAndTime ?? this.newEventDateAndTime,
@@ -94,6 +109,9 @@ class EditRegionEventState extends Equatable {
       endTimeInfo: "${event.formattedEndTime} - Ends",
       startTimeInfo: "${event.formattedStartTime} - Starts",
       pictureBoxState: PictureBoxState.pickImage,
+      isSaveChangesButtonEnable: false,
+      isNewDescriptionNotEmpty: true,
+      isNewNameNotEmpty: true,
     );
   }
 }
