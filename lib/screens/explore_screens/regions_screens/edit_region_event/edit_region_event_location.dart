@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/components/regions_map/regions_map.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
@@ -47,6 +48,11 @@ class EditRegionEventLocation extends StatelessWidget {
                     const SizedBox(height: 20),
                     Expanded(
                       child: RegionsMap(
+                        initialPlace: Place(
+                          lat: state.event.eventLocation.latitude,
+                          lng: state.event.eventLocation.longitude,
+                          placeText: state.event.eventName,
+                        ),
                         onPlaceChanged: (place) {
                           BlocProvider.of<EditRegionEventBloc>(context).add(OnUpdateMapLocation(place));
                         },

@@ -53,18 +53,17 @@ class RegionsMapState extends Equatable {
     );
   }
 
-  factory RegionsMapState.initial(List<RegionModel>? regions) {
-    // When we use this map to edit a Region we can get and set intial values
-    // from that region
-    // final initial = const Place(lat: 0, lng: 0, placeText: '');
+  factory RegionsMapState.initial(List<RegionModel>? regions, Place? initial) {
+    // Copy and modify by a small value to fire the listner
+    // (To avoid the cam move so much from the initial position)
+    final Place? initialPlace = initial != null
+        ? Place(lng: initial.lng - 0.00000000000001, lat: initial.lat - 0.00000000000001, placeText: '')
+        : null;
     return RegionsMapState(
       pageState: PageState.initial,
       regions: regions ?? [],
-      // initialPlace: initial,
-      // copy and modify by a small value to fire the listner
-      // (To avoid the cam move so much from the initial position)
-      // newPlace: Place(lng: initial.lng - 0.00000000000001, lat: initial.lat - 0.00000000000001, placeText: ''),
-      newPlace: const Place(lat: 0, lng: 0, placeText: ''),
+      initialPlace: initialPlace,
+      newPlace: initial ?? const Place(lat: 0, lng: 0, placeText: ''),
       isCameraMoving: false,
       isSearchingPlace: false,
       isUserLocationEnabled: true,
