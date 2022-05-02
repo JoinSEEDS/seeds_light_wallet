@@ -17,8 +17,15 @@ class RegionsMap extends StatefulWidget {
   final ValueSetter<Place>? onPlaceChanged;
   final Widget? bottomWidget;
   final List<RegionModel>? regions;
+  final Place? initialPlace;
 
-  const RegionsMap({Key? key, this.onPlaceChanged, this.bottomWidget, this.regions}) : super(key: key);
+  const RegionsMap({
+    Key? key,
+    this.onPlaceChanged,
+    this.bottomWidget,
+    this.regions,
+    this.initialPlace,
+  }) : super(key: key);
 
   @override
   _RegionsMapState createState() => _RegionsMapState();
@@ -32,7 +39,7 @@ class _RegionsMapState extends State<RegionsMap> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    _regionsMapBloc = RegionsMapBloc(widget.regions)..add(const SetInitialValues());
+    _regionsMapBloc = RegionsMapBloc(widget.regions, widget.initialPlace)..add(const SetInitialValues());
     super.initState();
   }
 

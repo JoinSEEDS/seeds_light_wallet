@@ -22,7 +22,7 @@ part 'regions_map_state.dart';
 const defaultLocation = [-99.085092, 19.461416];
 
 class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
-  RegionsMapBloc(List<RegionModel>? regions) : super(RegionsMapState.initial(regions)) {
+  RegionsMapBloc(List<RegionModel>? regions, Place? initial) : super(RegionsMapState.initial(regions, initial)) {
     on<SetInitialValues>(_setInitialValues);
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>((_, emit) => emit(state.copyWith(isCameraMoving: true)));
