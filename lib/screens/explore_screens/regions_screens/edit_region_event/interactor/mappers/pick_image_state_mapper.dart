@@ -6,16 +6,18 @@ import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
 
 class PickImageStateMapper extends StateMapper {
-  EditRegionEventState mapResultToState( EditRegionEventState currentState, Result<File> result) {
+  EditRegionEventState mapResultToState(EditRegionEventState currentState, Result<File> result) {
     if (result.isError) {
       return currentState.copyWith(
           pictureBoxState: currentState.file != null ? PictureBoxState.imagePicked : PictureBoxState.pickImage,
           pageCommand: ShowErrorMessage("Error on selecting image"));
     } else {
       return currentState.copyWith(
-          file: result.asValue!.value,
-          pageCommand: RemoveAuthenticationScreen(),
-          pictureBoxState: PictureBoxState.imagePicked);
+        file: result.asValue!.value,
+        pageCommand: RemoveAuthenticationScreen(),
+        pictureBoxState: PictureBoxState.imagePicked,
+        isSaveChangesButtonEnable: true,
+      );
     }
   }
 }

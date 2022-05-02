@@ -9,8 +9,10 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_page_commands.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class EditRegionEventImage extends StatelessWidget {
@@ -28,14 +30,16 @@ class EditRegionEventImage extends StatelessWidget {
           if (state.pageCommand != null) {
             final pageCommand = state.pageCommand;
 
-            if (pageCommand is ShowErrorMessage) {
-              eventBus.fire(ShowSnackBar(pageCommand.message));
-            }
-
             //need  a page command for this screen
             if (pageCommand is RemoveAuthenticationScreen) {
               // This pop remove the authentication screen
               Navigator.of(context).pop();
+            } else if (pageCommand is ShowErrorMessage) {
+              eventBus.fire(ShowSnackBar(pageCommand.message));
+            } else if (pageCommand is NavigateToRoute) {
+              NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
+            } else if (pageCommand is EditEventImage) {
+              BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveChangesTapped());
             }
 
             BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
@@ -48,10 +52,9 @@ class EditRegionEventImage extends StatelessWidget {
                 minimum: const EdgeInsets.all(horizontalEdgePadding),
                 child: FlatButtonLong(
                     isLoading: state.isSaveChangesButtonLoading,
-                    enabled: state.file != null,
-                    // TODO(gguij004): next pr
+                    enabled: state.isSaveChangesButtonEnable,
                     title: "Save Image",
-                    onPressed: () {})),
+                    onPressed: () => BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveImageNextTapped()))),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(

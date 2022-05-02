@@ -190,7 +190,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
         .doc(eventId)
         .set(data, SetOptions(merge: true))
         .then((value) => mapFirebaseResponse<String>(() {
-              return eventName;
+              return eventId;
             }))
         .onError((error, stackTrace) => mapFirebaseError(error));
   }

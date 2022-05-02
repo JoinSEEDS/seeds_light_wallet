@@ -81,3 +81,10 @@ class OnSaveChangesTapped extends EditRegionEventEvents {
   @override
   String toString() => 'OnSaveChangesTapped';
 }
+
+class OnSaveImageNextTapped extends EditRegionEventEvents {
+  const OnSaveImageNextTapped();
+
+  @override
+  String toString() => 'OnSaveImageNextTapped';
+}
