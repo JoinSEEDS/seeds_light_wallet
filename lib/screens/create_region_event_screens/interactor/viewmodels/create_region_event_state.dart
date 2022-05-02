@@ -19,13 +19,10 @@ class CreateRegionEventState extends Equatable {
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
-  final DateTime? eventDateAndTime;
-  final DateTime? eventDate;
-  final TimeOfDay? eventTime;
+  final DateTime? eventStartTime;
+  final DateTime? eventEndTime;
   final bool isNextButtonLoading;
   final bool createImageUrl;
-  final TimeOfDay? eventStartTime;
-  final TimeOfDay? eventEndTime;
   final RegionModel region;
   final bool isPublishEventButtonLoading;
 
@@ -39,13 +36,10 @@ class CreateRegionEventState extends Equatable {
     this.file,
     required this.pictureBoxState,
     this.imageUrl,
-    this.eventDateAndTime,
-    this.eventDate,
-    this.eventTime,
-    required this.isNextButtonLoading,
-    required this.createImageUrl,
     this.eventStartTime,
     this.eventEndTime,
+    required this.isNextButtonLoading,
+    required this.createImageUrl,
     required this.region,
     required this.isPublishEventButtonLoading,
   });
@@ -61,16 +55,15 @@ class CreateRegionEventState extends Equatable {
         file,
         pictureBoxState,
         imageUrl,
-        eventDateAndTime,
-        eventDate,
-        eventTime,
-        isNextButtonLoading,
-        createImageUrl,
         eventStartTime,
         eventEndTime,
+        isNextButtonLoading,
+        createImageUrl,
         region,
         isPublishEventButtonLoading,
       ];
+
+  bool get isDateTimeNextButtonEnabled => eventStartTime != null && eventEndTime != null;
 
   CreateRegionEventState copyWith({
     PageState? pageState,
@@ -82,13 +75,10 @@ class CreateRegionEventState extends Equatable {
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
-    DateTime? eventDateAndTime,
-    DateTime? eventDate,
-    TimeOfDay? eventTime,
+    DateTime? eventStartTime,
+    DateTime? eventEndTime,
     bool? isNextButtonLoading,
     bool? createImageUrl,
-    TimeOfDay? eventStartTime,
-    TimeOfDay? eventEndTime,
     RegionModel? region,
     bool? isPublishEventButtonLoading,
   }) =>
@@ -102,13 +92,10 @@ class CreateRegionEventState extends Equatable {
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl ?? this.imageUrl,
-        eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
-        eventDate: eventDate ?? this.eventDate,
-        eventTime: eventTime ?? this.eventTime,
-        isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
-        createImageUrl: createImageUrl ?? this.createImageUrl,
         eventStartTime: eventStartTime ?? this.eventStartTime,
         eventEndTime: eventEndTime ?? this.eventEndTime,
+        isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,
+        createImageUrl: createImageUrl ?? this.createImageUrl,
         region: region ?? this.region,
         isPublishEventButtonLoading: isPublishEventButtonLoading ?? this.isPublishEventButtonLoading,
       );
