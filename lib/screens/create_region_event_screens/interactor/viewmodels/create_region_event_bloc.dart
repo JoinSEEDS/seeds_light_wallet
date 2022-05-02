@@ -96,6 +96,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
       regionAccount: state.region.id,
       latitude: state.currentPlace!.lat,
       longitude: state.currentPlace!.lng,
+      eventAddress: state.currentPlace!.placeText,
       eventImage: state.imageUrl!,
       eventStartTime: state.eventDateAndTime!,
       eventEndTime: state.eventDateAndTime!,

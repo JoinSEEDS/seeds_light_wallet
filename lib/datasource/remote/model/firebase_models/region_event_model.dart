@@ -10,6 +10,7 @@ class RegionEventModel {
   final String eventName;
   final String eventDescription;
   final GeoPoint eventLocation;
+  final String eventAddress;
   final String eventImage;
   final Timestamp eventStartTime;
   final Timestamp eventEndTime;
@@ -23,11 +24,13 @@ class RegionEventModel {
     required this.eventName,
     required this.eventDescription,
     required this.eventLocation,
+    required this.eventAddress,
     required this.eventImage,
     required this.eventStartTime,
     required this.eventEndTime,
     required this.users,
     required this.createdTime,
+
   });
 
   String get readableMembersCount {
@@ -49,6 +52,7 @@ class RegionEventModel {
       eventName: event[eventNameKey],
       eventDescription: event[eventDescriptionKey],
       eventLocation: event[eventLocationKey][geoPointKey],
+      eventAddress: event[eventAddressKey],
       eventImage: event[eventImageKey],
       eventStartTime: event[eventStartTimeKey],
       eventEndTime: event[eventEndTimeKey],

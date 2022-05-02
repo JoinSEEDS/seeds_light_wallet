@@ -7,6 +7,7 @@ import 'package:seeds/datasource/remote/model/firebase_models/region_event_model
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
 
 class EditRegionEventLocation extends StatelessWidget {
@@ -25,6 +26,8 @@ class EditRegionEventLocation extends StatelessWidget {
 
             if (pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
+            } else if (pageCommand is NavigateToRoute) {
+              NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
             }
 
             BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
@@ -35,10 +38,10 @@ class EditRegionEventLocation extends StatelessWidget {
               bottomNavigationBar: SafeArea(
                   minimum: const EdgeInsets.all(16),
                   child: FlatButtonLong(
-                      enabled: state.newPlace != null,
+                      isLoading: state.isSaveChangesButtonLoading,
+                      enabled: state.isSaveChangesButtonEnable,
                       title: "Save Changes",
-                      // TODO(gguij004): next pr
-                      onPressed: () {})),
+                      onPressed: () => BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveChangesTapped()))),
               body: SafeArea(
                 minimum: const EdgeInsets.all(16),
                 child: Column(
