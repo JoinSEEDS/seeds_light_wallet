@@ -544,5 +544,27 @@
   "proposalVoteCycleIsInProgressTimeRemainingMinutes": "mins",
   "@proposalVoteCycleIsInProgressTimeRemainingMinutes": {},
   "proposalVoteCycleIsInProgressTimeRemainingSeconds": "sec",
-  "@proposalVoteCycleIsInProgressTimeRemainingSeconds": {}
+  "@proposalVoteCycleIsInProgressTimeRemainingSeconds": {},
+  "proposalAmountVotedPositive": "+{amountVotedPositive} voted",
+  "@proposalAmountVotedPositive": {
+    "placeholders": {
+      "amountVotedPositive": {
+        "type": "int",
+        "example": "+1"
+      }
+    }
+  },
+  "proposalAmountVotedZeroOrNegative": "{amountVotedZeroOrNegative} voted",
+  "@proposalAmountVotedZeroOrNegative": {
+    "placeholders": {
+      "amountVotedZeroOrNegative": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },  
+  "proposal": "",
+  "@": {},
+  "proposal": "",
+  "@": {}
 }
