@@ -530,5 +530,19 @@
   "proposalStatusPassed": "passed",
   "@proposalStatusPassed": {},
   "proposalStatusRejected": "rejected",
-  "@proposalStatusRejected": {}
+  "@proposalStatusRejected": {},
+  "proposalVoteCycleEndedStatusMessage": "New cycle starts soon",
+  "@proposalVoteCycleEndedStatusMessage": {},
+  "proposalVoteCycleIsInProgressStatusMessage": "Voting cycle ends in",
+  "@proposalVoteCycleIsInProgressStatusMessage": {},
+  "proposalVoteCycleEndedTimeRemaining": "Waiting for next cycle",
+  "@proposalVoteCycleEndedTimeRemaining": {},
+  "proposalVoteCycleIsInProgressTimeRemainingDays": "days",
+  "@proposalVoteCycleIsInProgressTimeRemainingDays": {},
+  "proposalVoteCycleIsInProgressTimeRemainingHours": "hrs",
+  "@proposalVoteCycleIsInProgressTimeRemainingHours": {},
+  "proposalVoteCycleIsInProgressTimeRemainingMinutes": "mins",
+  "@proposalVoteCycleIsInProgressTimeRemainingMinutes": {},
+  "proposalVoteCycleIsInProgressTimeRemainingSeconds": "sec",
+  "@proposalVoteCycleIsInProgressTimeRemainingSeconds": {}
 }
