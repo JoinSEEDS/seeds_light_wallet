@@ -563,8 +563,6 @@
       }
     }
   },  
-  "proposal": "",
-  "@": {},
-  "proposal": "",
-  "@": {}
+  "proposalsUnableToLoadError": "Error loading proposals",
+  "@proposalsUnableToLoadError": {}
 }
