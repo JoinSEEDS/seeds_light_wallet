@@ -40,7 +40,7 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                       DateTimeRow(
                           label: "Select Event Date",
                           icon: const Icon(Icons.calendar_today_outlined),
-                          onWidgetTapped: () async {
+                          onTap: () async {
                             final DateTime? selected = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
@@ -55,7 +55,7 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                       DateTimeRow(
                         label: "Select Event Start Time",
                         icon: const Icon(Icons.access_time),
-                        onWidgetTapped: () async {
+                        onTap: () async {
                           final TimeOfDay? picked = await showTimePicker(
                             context: context,
                             initialTime: const TimeOfDay(hour: 00, minute: 00),
@@ -69,7 +69,7 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                       DateTimeRow(
                           label: "Select Event End Time",
                           icon: const Icon(Icons.access_time),
-                          onWidgetTapped: () async {
+                          onTap: () async {
                             final TimeOfDay? picked = await showTimePicker(
                               context: context,
                               initialTime: const TimeOfDay(hour: 00, minute: 00),

@@ -16,7 +16,7 @@ class CreateRegionEventUseCase extends InputUseCase<String, CreateRegionEventInp
       longitude: input.longitude,
       eventImage: input.eventImage,
       eventStartTime: input.eventStartTime,
-      eventEndTime: input.eventStartTime,
+      eventEndTime: input.eventEndTime,
     );
 
     return createRegionEventResult;

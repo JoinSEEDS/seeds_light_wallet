@@ -65,7 +65,7 @@ class AddRegionEventImage extends StatelessWidget {
                       title: context.loc.createRegionAddBackGroundImageBoxTitle,
                       onTap: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnPickImage())),
                   const SizedBox(height: 10),
-                  if (state.file != null)
+                  if (state.file != null && !state.isNextButtonLoading)
                     Center(
                       child: MaterialButton(
                           color: AppColors.green1,
