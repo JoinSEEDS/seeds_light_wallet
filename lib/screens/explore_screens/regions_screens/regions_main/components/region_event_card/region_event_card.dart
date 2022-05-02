@@ -31,7 +31,7 @@ class RegionEventCard extends StatelessWidget {
                 decoration: state.isEventPassEndDate
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(color: AppColors.grey1),
+                        border: Border.all(color: AppColors.red),
                       )
                     : BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
@@ -60,7 +60,7 @@ class RegionEventCard extends StatelessWidget {
                               left: 0,
                               child: CustomPaint(
                                 size: const Size(100, 40),
-                                painter: const CategoryLabel(color: Colors.black),
+                                painter: const CategoryLabel(color: Colors.red),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                                   child: Text(
