@@ -4,7 +4,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class DateTimeRow extends StatelessWidget {
-  final VoidCallback? onWidgetTapped;
+  final VoidCallback? onTap;
   final String label;
   final String timeInfo;
   final Widget icon;
@@ -13,7 +13,7 @@ class DateTimeRow extends StatelessWidget {
     Key? key,
     required this.label,
     required this.timeInfo,
-    required this.onWidgetTapped,
+    required this.onTap,
     required this.icon,
   }) : super(key: key);
 
@@ -24,7 +24,7 @@ class DateTimeRow extends StatelessWidget {
       color: AppColors.darkGreen3,
       child: InkWell(
         borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-        onTap: onWidgetTapped,
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(

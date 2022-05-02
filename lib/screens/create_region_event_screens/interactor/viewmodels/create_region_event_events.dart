@@ -52,7 +52,7 @@ class OnRegionEventDescriptionChange extends CreateRegionEventEvents {
   const OnRegionEventDescriptionChange(this.eventDescription);
 
   @override
-  String toString() => 'OnRegionEventDescriptionChange {eventDescription: $eventDescription}';
+  String toString() => 'OnRegionEventDescriptionChange { eventDescription: $eventDescription}';
 }
 
 class OnPickImage extends CreateRegionEventEvents {
@@ -62,31 +62,68 @@ class OnPickImage extends CreateRegionEventEvents {
   String toString() => 'OnPickImage';
 }
 
-class OnSelectDateChanged extends CreateRegionEventEvents {
-  final DateTime? selectedDate;
-
-  const OnSelectDateChanged(this.selectedDate);
+class OnSelectStartDateButtonTapped extends CreateRegionEventEvents {
+  const OnSelectStartDateButtonTapped();
 
   @override
-  String toString() => 'onSelectDateChanged{newDateTime: $selectedDate}';
+  String toString() => 'OnSelectDateButtonTapped';
 }
 
-class OnSelectTimeChanged extends CreateRegionEventEvents {
-  final TimeOfDay? selectedTime;
-
-  const OnSelectTimeChanged(this.selectedTime);
+class OnSelectEndDateButtonTapped extends CreateRegionEventEvents {
+  const OnSelectEndDateButtonTapped();
 
   @override
-  String toString() => 'onSelectDateChanged{selectedTime: $selectedTime}';
+  String toString() => 'OnSelectEndDateButtonTapped';
+}
+
+class OnStartDateChanged extends CreateRegionEventEvents {
+  final DateTime selectedDate;
+
+  const OnStartDateChanged(this.selectedDate);
+
+  @override
+  String toString() => 'onStartDateChanged { selectedDate: $selectedDate}';
+}
+
+class OnEndDateChanged extends CreateRegionEventEvents {
+  final DateTime selectedDate;
+
+  const OnEndDateChanged(this.selectedDate);
+
+  @override
+  String toString() => 'onEndDateChanged { selectedDate: $selectedDate}';
+}
+
+class OnSelectStartTimeButtonTapped extends CreateRegionEventEvents {
+  const OnSelectStartTimeButtonTapped();
+
+  @override
+  String toString() => 'OnSelectStartTimeButtonTapped';
+}
+
+class OnSelectEndTimeButtonTapped extends CreateRegionEventEvents {
+  const OnSelectEndTimeButtonTapped();
+
+  @override
+  String toString() => 'OnSelectEndTimeButtonTapped';
+}
+
+class OnStartTimeChanged extends CreateRegionEventEvents {
+  final TimeOfDay selectedTime;
+
+  const OnStartTimeChanged(this.selectedTime);
+
+  @override
+  String toString() => 'OnStartTimeChanged { selectedTime: $selectedTime}';
 }
 
 class OnEndTimeChanged extends CreateRegionEventEvents {
-  final TimeOfDay? selectedTime;
+  final TimeOfDay selectedTime;
 
   const OnEndTimeChanged(this.selectedTime);
 
   @override
-  String toString() => 'OnEndTimeChanged{selectedTime: $selectedTime}';
+  String toString() => 'OnEndTimeChanged { selectedTime: $selectedTime}';
 }
 
 class OnPickImageNextTapped extends CreateRegionEventEvents {
