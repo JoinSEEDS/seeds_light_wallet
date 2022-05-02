@@ -1,8 +1,8 @@
 part of 'edit_region_event_bloc.dart';
 
 class EditRegionEventState extends Equatable {
-  final String newRegionEventDescription;
-  final String newRegionEventName;
+  final String? newRegionEventDescription;
+  final String? newRegionEventName;
   final RegionEventModel event;
   final bool isSaveChangesButtonLoading;
   final bool isSaveChangesButtonEnable;
@@ -18,10 +18,11 @@ class EditRegionEventState extends Equatable {
   final String startTimeInfo;
   final File? file;
   final PictureBoxState pictureBoxState;
+  final String? imageUrl;
 
   const EditRegionEventState({
-    required this.newRegionEventDescription,
-    required this.newRegionEventName,
+    this.newRegionEventDescription,
+    this.newRegionEventName,
     required this.event,
     required this.isSaveChangesButtonLoading,
     this.pageCommand,
@@ -37,6 +38,7 @@ class EditRegionEventState extends Equatable {
     required this.isSaveChangesButtonEnable,
     required this.isNewNameNotEmpty,
     required this.isNewDescriptionNotEmpty,
+    this.imageUrl,
   });
 
   @override
@@ -58,6 +60,7 @@ class EditRegionEventState extends Equatable {
         eventDateAndTimeInfo,
         file,
         pictureBoxState,
+        imageUrl,
       ];
 
   EditRegionEventState copyWith({
@@ -78,6 +81,7 @@ class EditRegionEventState extends Equatable {
     String? eventDateAndTimeInfo,
     File? file,
     PictureBoxState? pictureBoxState,
+    String? imageUrl,
   }) =>
       EditRegionEventState(
         newRegionEventDescription: newRegionEventDescription ?? this.newRegionEventDescription,
@@ -97,12 +101,11 @@ class EditRegionEventState extends Equatable {
         eventDateAndTimeInfo: eventDateAndTimeInfo ?? this.eventDateAndTimeInfo,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
+        imageUrl: imageUrl ?? this.imageUrl,
       );
 
   factory EditRegionEventState.initial(RegionEventModel event) {
     return EditRegionEventState(
-      newRegionEventDescription: "",
-      newRegionEventName: "",
       event: event,
       isSaveChangesButtonLoading: false,
       eventDateAndTimeInfo: event.formattedCreatedTime,
