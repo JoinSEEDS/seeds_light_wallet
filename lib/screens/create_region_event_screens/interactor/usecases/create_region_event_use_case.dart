@@ -14,6 +14,7 @@ class CreateRegionEventUseCase extends InputUseCase<String, CreateRegionEventInp
       creatorAccount: settingsStorage.accountName,
       latitude: input.latitude,
       longitude: input.longitude,
+      eventAddress: input.eventAddress,
       eventImage: input.eventImage,
       eventStartTime: input.eventStartTime,
       eventEndTime: input.eventEndTime,
@@ -29,6 +30,7 @@ class CreateRegionEventInput {
   final String regionAccount;
   final double latitude;
   final double longitude;
+  final String eventAddress;
   final String eventImage;
   final DateTime eventStartTime;
   final DateTime eventEndTime;
@@ -39,6 +41,7 @@ class CreateRegionEventInput {
     required this.regionAccount,
     required this.latitude,
     required this.longitude,
+    required this.eventAddress,
     required this.eventImage,
     required this.eventStartTime,
     required this.eventEndTime,

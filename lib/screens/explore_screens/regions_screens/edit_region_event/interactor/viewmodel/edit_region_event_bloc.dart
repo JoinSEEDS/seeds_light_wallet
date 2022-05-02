@@ -10,6 +10,7 @@ import 'package:seeds/datasource/remote/model/firebase_models/region_event_model
 import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/edit_event_location_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/edit_region_event_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/save_image_url_state_mapper.dart';
@@ -77,7 +78,7 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
   }
 
   void _onUpdateMapLocations(OnUpdateMapLocation event, Emitter<EditRegionEventState> emit) {
-    emit(state.copyWith(newPlace: event.place));
+    emit(EditEventLocationStateMapper().mapResultToState(state, event.place));
   }
 
   void _onEventNameChange(OnEventNameChange event, Emitter<EditRegionEventState> emit) {
@@ -103,6 +104,7 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
       eventDescription: state.newRegionEventDescription,
       event: state.event,
       imageUrl: state.imageUrl,
+      newPlace: state.newPlace,
     ));
     emit(EditRegionEventStateMapper().mapResultToState(state, result));
   }

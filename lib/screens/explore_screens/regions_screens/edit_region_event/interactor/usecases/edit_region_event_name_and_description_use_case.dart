@@ -1,3 +1,4 @@
+import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/firebase/regions/firebase_database_regions_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
@@ -12,6 +13,7 @@ class EditRegionEventEventUseCase extends InputUseCase<String, EditRegionEventIn
       eventName: input.eventName,
       eventDescription: input.eventDescription,
       eventImage: input.imageUrl,
+      place: input.newPlace,
     );
 
     return editRegionEventResult;
@@ -22,12 +24,14 @@ class EditRegionEventInput {
   final String? eventName;
   final String? eventDescription;
   final String? imageUrl;
+  final Place? newPlace;
   final RegionEventModel event;
 
   EditRegionEventInput({
     this.eventName,
     this.eventDescription,
     this.imageUrl,
+    this.newPlace,
     required this.event,
   });
 }

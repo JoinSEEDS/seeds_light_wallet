@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/firebase_region_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
@@ -17,10 +18,11 @@ const _dateUpdatedKey = "dateUpdated";
 const pointKey = "point";
 const geoPointKey = "geopoint";
 
-// Events
+// Events keys
 const eventNameKey = "eventName";
 const eventDescriptionKey = "eventDescription";
 const eventLocationKey = "eventLocation";
+const eventAddressKey = "eventAddress";
 const eventImageKey = "eventImage";
 const eventStartTimeKey = "eventStartTime";
 const eventEndTimeKey = "eventEndTime";
@@ -127,6 +129,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     required String creatorAccount,
     required double latitude,
     required double longitude,
+    required String eventAddress,
     required String eventImage,
     required DateTime eventStartTime,
     required DateTime eventEndTime,
@@ -137,6 +140,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
       eventDescriptionKey: eventDescription,
       creatorAccountKey: creatorAccount,
       eventLocationKey: _geo.point(latitude: latitude, longitude: longitude).data,
+      eventAddressKey: eventAddress,
       eventImageKey: eventImage,
       eventStartTimeKey: eventStartTime,
       eventEndTimeKey: eventEndTime,
@@ -156,7 +160,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     required String eventId,
     String? eventName,
     String? eventDescription,
-    String? eventLocation,
+    Place? place,
     String? eventImage,
     Timestamp? eventStartTime,
     Timestamp? eventEndTime,
@@ -170,8 +174,9 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
       data.putIfAbsent(eventDescriptionKey, () => eventDescription);
     }
 
-    if (eventLocation != null) {
-      data.putIfAbsent(eventLocationKey, () => eventLocation);
+    if (place != null) {
+      data.putIfAbsent(eventLocationKey, () => _geo.point(latitude: place.lat, longitude: place.lng).data);
+      data.putIfAbsent(eventAddressKey, () => place.placeText);
     }
 
     if (eventImage != null) {

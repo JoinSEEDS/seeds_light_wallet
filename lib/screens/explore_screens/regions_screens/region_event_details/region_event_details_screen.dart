@@ -151,12 +151,15 @@ class RegionEventDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(children: [Text('Details', style: Theme.of(context).textTheme.headline7)]),
+                          Text('Details', style: Theme.of(context).textTheme.headline7),
+                          const SizedBox(height: 10.0),
+                          Text(event.eventAddress, style:  Theme.of(context).textTheme.subtitle2),
                           const SizedBox(height: 16.0),
                           Row(
                             children: [
-                              const Icon(Icons.location_on_outlined),
+                              const Icon(Icons.location_on_outlined, color: AppColors.green3),
                               const SizedBox(width: 11.0),
                               Flexible(
                                 child: InkWell(
@@ -164,7 +167,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
                                       .add(const OnRegionMapsLinkTapped()),
                                   child: Text(
                                     'https://www.google.com/maps/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
-                                    style: Theme.of(context).textTheme.subtitle3,
+                                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen,
                                   ),
                                 ),
                               )
