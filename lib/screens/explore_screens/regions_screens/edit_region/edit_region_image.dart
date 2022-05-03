@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
+import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
@@ -10,20 +10,20 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_page_commands.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/interactor/viewmodel/edit_region_bloc.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/interactor/viewmodel/edit_region_page_commads.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class EditRegionEventImage extends StatelessWidget {
-  const EditRegionEventImage({Key? key}) : super(key: key);
+class EditRegionImage extends StatelessWidget {
+  const EditRegionImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final event = ModalRoute.of(context)!.settings.arguments as RegionEventModel?;
+    final region = ModalRoute.of(context)!.settings.arguments as RegionModel?;
 
     return BlocProvider(
-      create: (_) => EditRegionEventBloc(event!),
-      child: BlocConsumer<EditRegionEventBloc, EditRegionEventState>(
+      create: (_) => EditRegionBloc(region!),
+      child: BlocConsumer<EditRegionBloc, EditRegionState>(
         listenWhen: (previous, current) => current.pageCommand != null,
         listener: (context, state) {
           if (state.pageCommand != null) {
@@ -37,23 +37,22 @@ class EditRegionEventImage extends StatelessWidget {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is NavigateToRoute) {
               NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
-            } else if (pageCommand is EditEventImage) {
-              BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveChangesTapped());
             }
 
-            BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
+            BlocProvider.of<EditRegionBloc>(context).add(const ClearEditRegionPageCommand());
           }
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: const Text("Edit Event")),
+            appBar: AppBar(title: const Text("Edit Region")),
             bottomNavigationBar: SafeArea(
                 minimum: const EdgeInsets.all(horizontalEdgePadding),
                 child: FlatButtonLong(
                     isLoading: state.isSaveChangesButtonLoading,
                     enabled: state.isSaveChangesButtonEnable,
                     title: "Save Image",
-                    onPressed: () => BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveImageNextTapped()))),
+                    // TODO(gguij004): next pr
+                    onPressed: () => {})),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
@@ -64,7 +63,7 @@ class EditRegionEventImage extends StatelessWidget {
                       pictureBoxState: state.pictureBoxState,
                       backgroundImage: state.file,
                       title: context.loc.createRegionAddBackGroundImageBoxTitle,
-                      onTap: () => BlocProvider.of<EditRegionEventBloc>(context).add(const OnPickImage())),
+                      onTap: () => BlocProvider.of<EditRegionBloc>(context).add(const OnPickImage())),
                   const SizedBox(height: 10),
                   if (state.file != null)
                     Center(
@@ -72,7 +71,7 @@ class EditRegionEventImage extends StatelessWidget {
                           color: AppColors.green1,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                           child: const Text("Replace Image"),
-                          onPressed: () => BlocProvider.of<EditRegionEventBloc>(context).add(const OnPickImage())),
+                          onPressed: () => BlocProvider.of<EditRegionBloc>(context).add(const OnPickImage())),
                     )
                   else
                     const SizedBox.shrink(),

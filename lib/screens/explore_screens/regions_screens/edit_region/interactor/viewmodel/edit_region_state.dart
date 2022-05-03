@@ -3,41 +3,59 @@ part of 'edit_region_bloc.dart';
 class EditRegionState extends Equatable {
   final String newRegionDescription;
   final RegionModel region;
+  final bool isSaveChangesButtonEnable;
   final bool isSaveChangesButtonLoading;
   final PageCommand? pageCommand;
+  final File? file;
+  final PictureBoxState pictureBoxState;
 
-  const EditRegionState(
-      {required this.newRegionDescription,
-      required this.region,
-      required this.isSaveChangesButtonLoading,
-      this.pageCommand});
+  const EditRegionState({
+    required this.newRegionDescription,
+    required this.region,
+    required this.isSaveChangesButtonEnable,
+    required this.isSaveChangesButtonLoading,
+    this.pageCommand,
+    this.file,
+    required this.pictureBoxState,
+  });
 
   @override
   List<Object?> get props => [
         newRegionDescription,
         region,
+        isSaveChangesButtonEnable,
         isSaveChangesButtonLoading,
         pageCommand,
+        file,
+        pictureBoxState,
       ];
 
   EditRegionState copyWith({
     String? newRegionDescription,
     RegionModel? region,
+    bool? isSaveChangesButtonEnable,
     bool? isSaveChangesButtonLoading,
     PageCommand? pageCommand,
+    File? file,
+    PictureBoxState? pictureBoxState,
   }) =>
       EditRegionState(
         newRegionDescription: newRegionDescription ?? this.newRegionDescription,
         region: region ?? this.region,
+        isSaveChangesButtonEnable: isSaveChangesButtonEnable ?? this.isSaveChangesButtonEnable,
         isSaveChangesButtonLoading: isSaveChangesButtonLoading ?? this.isSaveChangesButtonLoading,
         pageCommand: pageCommand,
+        file: file ?? this.file,
+        pictureBoxState: pictureBoxState ?? this.pictureBoxState,
       );
 
   factory EditRegionState.initial(RegionModel region) {
     return EditRegionState(
       newRegionDescription: "",
       region: region,
+      isSaveChangesButtonEnable: false,
       isSaveChangesButtonLoading: false,
+      pictureBoxState: PictureBoxState.pickImage,
     );
   }
 }
