@@ -393,5 +393,78 @@
   "@leaveRegionConfirmDialogDescription": {},
   "@regionBottomSheetLeaveRegionTitle": {},
   "@genericRegionConfirmImSureButton": {},
-  "@regionEventCardJoinedTitle": {}
+  "@regionEventCardJoinedTitle": {},
+  "proposalCategoryAlliance": "Aliança",
+  "@proposalCategoryAlliance": {},
+  "proposalCategoryCampaign": "Campanha",
+  "@proposalCategoryCampaign": {},
+  "proposalCategoryMilestone": "Marco",
+  "@proposalCategoryMilestone": {},
+  "proposalCategoryReferendum": "Referendo",
+  "@proposalCategoryReferendum": {},
+  "proposalVotesInFavourPercent": "A favor: {inFavourPercent}",
+  "@proposalVotesInFavourPercent": {
+    "placeholders": {
+      "inFavourPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalVotesTotal": "Votos: {votesTotal}",
+  "@proposalVotesTotal": {
+    "placeholders": {
+      "votesTotal": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "proposalVotesAgainstPercent": "Contra: {againstPercent}",
+  "@proposalVotesAgainstPercent": {
+    "placeholders": {
+      "againstPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalStatusPassed": "aprovada",
+  "@proposalStatusPassed": {},
+  "proposalStatusRejected": "rejeitada",
+  "@proposalStatusRejected": {},
+  "proposalVoteCycleEndedStatusMessage": "Novo ciclo começa em breve",
+  "@proposalVoteCycleEndedStatusMessage": {},
+  "proposalVoteCycleIsInProgressStatusMessage": "Ciclo de votação termina em",
+  "@proposalVoteCycleIsInProgressStatusMessage": {},
+  "proposalVoteCycleEndedTimeRemaining": "Aguardando o próximo ciclo",
+  "@proposalVoteCycleEndedTimeRemaining": {},
+  "proposalVoteCycleIsInProgressTimeRemainingDays": "dias",
+  "@proposalVoteCycleIsInProgressTimeRemainingDays": {},
+  "proposalVoteCycleIsInProgressTimeRemainingHours": "hrs",
+  "@proposalVoteCycleIsInProgressTimeRemainingHours": {},
+  "proposalVoteCycleIsInProgressTimeRemainingMinutes": "mins",
+  "@proposalVoteCycleIsInProgressTimeRemainingMinutes": {},
+  "proposalVoteCycleIsInProgressTimeRemainingSeconds": "segs",
+  "@proposalVoteCycleIsInProgressTimeRemainingSeconds": {},
+  "proposalAmountVotedPositive": "+{amountVotedPositive} votos",
+  "@proposalAmountVotedPositive": {
+    "placeholders": {
+      "amountVotedPositive": {
+        "type": "int",
+        "example": "+1"
+      }
+    }
+  },
+  "proposalAmountVotedZeroOrNegative": "{amountVotedZeroOrNegative} votos",
+  "@proposalAmountVotedZeroOrNegative": {
+    "placeholders": {
+      "amountVotedZeroOrNegative": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },  
+  "proposalsUnableToLoadError": "Erro ao carregar propostas",
+  "@proposalsUnableToLoadError": {}
 }
