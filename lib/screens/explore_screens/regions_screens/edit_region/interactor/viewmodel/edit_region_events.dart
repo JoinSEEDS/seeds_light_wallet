@@ -50,4 +50,3 @@ class OnEditRegionImage extends EditRegionEvent {
   @override
   String toString() => 'OnEditRegionImage';
 }
-
