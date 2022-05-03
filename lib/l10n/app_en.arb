@@ -572,5 +572,21 @@
   "proposalDetailsConfirmVoteTitle": "Confirm your Vote",
   "@proposalDetailsConfirmVoteTitle": {},
   "proposalDetailsConfirmVoteDescription": "Your trust tokens cannot be reallocated afterwards so please be sure of your vote!",
-  "@proposalDetailsConfirmVoteDescription": {}
+  "@proposalDetailsConfirmVoteDescription": {},
+  "proposalDetailsInFavor1": "I'm",
+  "@proposalDetailsInFavor1": {},
+  "proposalDetailsInFavor2": " in favor ",
+  "@proposalDetailsInFavor2": {},
+  "proposalDetailsInFavor3": "of this proposal",
+  "@proposalDetailsInFavor3": {},
+  "proposalDetailsRefrain1": "I",
+  "@proposalDetailsRefrain1": {},
+  "proposalDetailsRefrain2": " refrain ",
+  "@proposalDetailsRefrain2": {},
+  "proposalDetailsRefrain3": "from voting",
+  "@proposalDetailsRefrain3": {},
+  "proposalDetailsAgainst2": " against ",
+  "@proposalDetailsAgainst2": {},
+  "proposalDetailsAgainst3": "this proposal",
+  "@proposalDetailsAgainst3": {}
 }
