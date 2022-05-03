@@ -57,7 +57,6 @@ class ReviewRegionHeader extends StatelessWidget {
                     state.currentPlace!.placeText,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const Text("0 Members")
                 ],
               ),
             ),
