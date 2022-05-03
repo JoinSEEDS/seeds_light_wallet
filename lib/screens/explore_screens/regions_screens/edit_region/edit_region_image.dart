@@ -37,6 +37,8 @@ class EditRegionImage extends StatelessWidget {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is NavigateToRoute) {
               NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
+            } else if (pageCommand is EditRegionImage) {
+              BlocProvider.of<EditRegionBloc>(context).add(const OnEditRegionImage());
             }
 
             BlocProvider.of<EditRegionBloc>(context).add(const ClearEditRegionPageCommand());
@@ -51,8 +53,8 @@ class EditRegionImage extends StatelessWidget {
                     isLoading: state.isSaveChangesButtonLoading,
                     enabled: state.isSaveChangesButtonEnable,
                     title: "Save Image",
-                    // TODO(gguij004): next pr
-                    onPressed: () => {})),
+                    onPressed: () =>
+                        BlocProvider.of<EditRegionBloc>(context).add(const OnEditRegionSaveChangesTapped()))),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(

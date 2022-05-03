@@ -21,6 +21,13 @@ class OnPickImage extends EditRegionEvent {
   String toString() => 'OnPickImage';
 }
 
+class OnSaveImageTapped extends EditRegionEvent {
+  const OnSaveImageTapped();
+
+  @override
+  String toString() => 'OnSaveImageTapped';
+}
+
 class OnRegionDescriptionChange extends EditRegionEvent {
   final String regionDescription;
 
@@ -36,3 +43,11 @@ class OnEditRegionSaveChangesTapped extends EditRegionEvent {
   @override
   String toString() => 'OnEditRegionSaveChangesTapped';
 }
+
+class OnEditRegionImage extends EditRegionEvent {
+  const OnEditRegionImage();
+
+  @override
+  String toString() => 'OnEditRegionImage';
+}
+
