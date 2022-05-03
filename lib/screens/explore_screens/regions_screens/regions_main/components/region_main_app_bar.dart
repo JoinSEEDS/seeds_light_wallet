@@ -19,7 +19,7 @@ class RegionMainAppBar extends StatelessWidget {
             if (!state.isBrowseView)
               IconButton(
                 icon: const Icon(Icons.more_horiz),
-                onPressed: () => const RegionBottomSheet().show(context),
+                onPressed: () => RegionBottomSheet(state.userType!).show(context),
               )
           ],
           expandedHeight: 220.0,
