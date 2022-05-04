@@ -491,5 +491,78 @@
   "genericRegionConfirmImSureButton": "Yes I'm sure.",
   "@genericRegionConfirmImSureButton": {},
   "regionEventCardJoinedTitle": "joined",
-  "@regionEventCardJoinedTitle": {}
+  "@regionEventCardJoinedTitle": {},
+  "proposalCategoryAlliance": "Alliance",
+  "@proposalCategoryAlliance": {},
+  "proposalCategoryCampaign": "Campaign",
+  "@proposalCategoryCampaign": {},
+  "proposalCategoryMilestone": "Milestone",
+  "@proposalCategoryMilestone": {},
+  "proposalCategoryReferendum": "Referendum",
+  "@proposalCategoryReferendum": {},
+  "proposalVotesInFavourPercent": "In favour: {inFavourPercent}",
+  "@proposalVotesInFavourPercent": {
+    "placeholders": {
+      "inFavourPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalVotesTotal": "Votes: {votesTotal}",
+  "@proposalVotesTotal": {
+    "placeholders": {
+      "votesTotal": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "proposalVotesAgainstPercent": "Against: {againstPercent}",
+  "@proposalVotesAgainstPercent": {
+    "placeholders": {
+      "againstPercent": {
+        "type": "String",
+        "example": "1 %"
+      }
+    }
+  },
+  "proposalStatusPassed": "passed",
+  "@proposalStatusPassed": {},
+  "proposalStatusRejected": "rejected",
+  "@proposalStatusRejected": {},
+  "proposalVoteCycleEndedStatusMessage": "New cycle starts soon",
+  "@proposalVoteCycleEndedStatusMessage": {},
+  "proposalVoteCycleIsInProgressStatusMessage": "Voting cycle ends in",
+  "@proposalVoteCycleIsInProgressStatusMessage": {},
+  "proposalVoteCycleEndedTimeRemaining": "Waiting for next cycle",
+  "@proposalVoteCycleEndedTimeRemaining": {},
+  "proposalVoteCycleIsInProgressTimeRemainingDays": "days",
+  "@proposalVoteCycleIsInProgressTimeRemainingDays": {},
+  "proposalVoteCycleIsInProgressTimeRemainingHours": "hrs",
+  "@proposalVoteCycleIsInProgressTimeRemainingHours": {},
+  "proposalVoteCycleIsInProgressTimeRemainingMinutes": "mins",
+  "@proposalVoteCycleIsInProgressTimeRemainingMinutes": {},
+  "proposalVoteCycleIsInProgressTimeRemainingSeconds": "sec",
+  "@proposalVoteCycleIsInProgressTimeRemainingSeconds": {},
+  "proposalAmountVotedPositive": "+{amountVotedPositive} voted",
+  "@proposalAmountVotedPositive": {
+    "placeholders": {
+      "amountVotedPositive": {
+        "type": "int",
+        "example": "+1"
+      }
+    }
+  },
+  "proposalAmountVotedZeroOrNegative": "{amountVotedZeroOrNegative} voted",
+  "@proposalAmountVotedZeroOrNegative": {
+    "placeholders": {
+      "amountVotedZeroOrNegative": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },  
+  "proposalsUnableToLoadError": "Error loading proposals",
+  "@proposalsUnableToLoadError": {}
 }

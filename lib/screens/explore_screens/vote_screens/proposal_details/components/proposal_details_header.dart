@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/images/vote/category_label.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_localized.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 class ProposalDetailsHeader extends StatelessWidget {
@@ -62,7 +62,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
-                      state.proposals[state.currentIndex].proposalCategory.name.i18n.inCaps,
+                      state.proposals[state.currentIndex].proposalCategory.localizedDescription(context).inCaps,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ),
