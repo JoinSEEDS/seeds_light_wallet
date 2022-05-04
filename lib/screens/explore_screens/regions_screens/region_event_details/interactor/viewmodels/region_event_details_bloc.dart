@@ -41,8 +41,9 @@ class RegionEventDetailsBloc extends Bloc<RegionEventDetailsEvent, RegionEventDe
       emit(state.copyWith(pageState: PageState.failure));
     } else {
       final RegionMemberModel? member = result.asValue?.value;
-      // If the member is null or if the id does not correspond to this region (very rare case)
-      // then it could not join the event (The join button is disabled.
+      // Check if the user is member of this region.
+      // If the member is null or if the id does not correspond to this region
+      // then he could not join the event (join button is disabled).
       final bool isBrowseView = member == null || member.region != state.event.regionAccount;
       emit(state.copyWith(pageState: PageState.success, isBrowseView: isBrowseView));
     }

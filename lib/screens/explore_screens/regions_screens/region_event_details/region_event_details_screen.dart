@@ -103,10 +103,11 @@ class RegionEventDetailsScreen extends StatelessWidget {
                             child: AppBar(
                               backgroundColor: Colors.transparent,
                               actions: [
-                                IconButton(
-                                    icon: const Icon(Icons.more_horiz),
-                                    onPressed: () => BlocProvider.of<RegionEventDetailsBloc>(context)
-                                        .add(const OnEditRegionEventButtonTapped()))
+                                if (state.isEventCreatorAccount)
+                                  IconButton(
+                                      icon: const Icon(Icons.more_horiz),
+                                      onPressed: () => BlocProvider.of<RegionEventDetailsBloc>(context)
+                                          .add(const OnEditRegionEventButtonTapped()))
                               ],
                             ),
                           ),
@@ -155,7 +156,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
                         children: [
                           Text('Details', style: Theme.of(context).textTheme.headline7),
                           const SizedBox(height: 10.0),
-                          Text(event.eventAddress, style:  Theme.of(context).textTheme.subtitle2),
+                          Text(event.eventAddress, style: Theme.of(context).textTheme.subtitle2),
                           const SizedBox(height: 16.0),
                           Row(
                             children: [
@@ -189,20 +190,22 @@ class RegionEventDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                bottomNavigationBar: SafeArea(
-                  minimum: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                  child: FlatButtonLong(
-                    isLoading: state.pageState == PageState.loading,
-                    title: state.isUserJoined ? "Leave event" : "I'm Attending!",
-                    onPressed: () {
-                      BlocProvider.of<RegionEventDetailsBloc>(context).add(
-                        state.isUserJoined
-                            ? const OnLeaveRegionEventButtonPressed()
-                            : const OnJoinRegionEventButtonPressed(),
-                      );
-                    },
-                  ),
-                ),
+                bottomNavigationBar: state.isBrowseView
+                    ? null
+                    : SafeArea(
+                        minimum: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                        child: FlatButtonLong(
+                          isLoading: state.pageState == PageState.loading,
+                          title: state.isUserJoined ? "Leave event" : "I'm Attending!",
+                          onPressed: () {
+                            BlocProvider.of<RegionEventDetailsBloc>(context).add(
+                              state.isUserJoined
+                                  ? const OnLeaveRegionEventButtonPressed()
+                                  : const OnJoinRegionEventButtonPressed(),
+                            );
+                          },
+                        ),
+                      ),
               );
             default:
               return const SizedBox.shrink();

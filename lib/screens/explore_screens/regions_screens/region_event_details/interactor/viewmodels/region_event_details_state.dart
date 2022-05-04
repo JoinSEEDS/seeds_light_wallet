@@ -27,6 +27,8 @@ class RegionEventDetailsState extends Equatable {
         isBrowseView,
       ];
 
+  bool get isEventCreatorAccount => settingsStorage.accountName == event.creatorAccount;
+
   RegionEventDetailsState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
