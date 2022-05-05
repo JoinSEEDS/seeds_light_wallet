@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/firebase_region_model.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -14,9 +15,20 @@ class SetRegionStateMapper extends StateMapper {
       final RegionModel? region = goodResults.whereType<RegionModel>().firstOrNull;
       final FirebaseRegion? firebaseRegion = goodResults.whereType<FirebaseRegion>().firstOrNull;
 
+      TypeOfUsers? typeOfUser;
+
+      if (region != null) {
+        if (settingsStorage.accountName == region.founder) {
+          typeOfUser = TypeOfUsers.admin;
+        } else {
+          typeOfUser = TypeOfUsers.member;
+        }
+      }
+
       return currentState.copyWith(
         pageState: PageState.success,
         isBrowseView: false,
+        userType: typeOfUser,
         region: firebaseRegion != null ? region?.addImageUrlToModel(firebaseRegion.imageUrl) : region,
       );
     }
