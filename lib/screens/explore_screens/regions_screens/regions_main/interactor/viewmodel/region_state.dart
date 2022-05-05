@@ -20,6 +20,8 @@ class RegionState extends Equatable {
   @override
   List<Object?> get props => [pageCommand, pageState, region, isBrowseView, userType];
 
+  bool get canCreateAnEvent => !isBrowseView || userType == TypeOfUsers.admin;
+
   RegionState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,

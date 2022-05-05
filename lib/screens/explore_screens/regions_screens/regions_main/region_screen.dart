@@ -40,12 +40,6 @@ class RegionScreen extends StatelessWidget {
               return const Scaffold(body: FullPageErrorIndicator());
             case PageState.success:
               return Scaffold(
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                floatingActionButton: FloatingActionButton(
-                  backgroundColor: AppColors.green1,
-                  onPressed: () => BlocProvider.of<RegionBloc>(context)..add(const OnAddEventButtonPressed()),
-                  child: const Icon(Icons.add, color: AppColors.white),
-                ),
                 body: DefaultTabController(
                   length: 2,
                   child: SafeArea(
