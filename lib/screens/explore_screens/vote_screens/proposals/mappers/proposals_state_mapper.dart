@@ -5,7 +5,7 @@ import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_errors.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_bloc.dart';
 
@@ -23,7 +23,7 @@ class ProposalsStateMapper extends StateMapper {
     bool isScroll = false,
   }) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error loading proposals'.i18n);
+      return currentState.copyWith(pageState: PageState.failure, error: ProposalsError.unableToLoad);
     } else {
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();

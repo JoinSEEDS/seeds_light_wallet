@@ -110,7 +110,11 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         final placemarks = result.asValue!.value;
         emit(state.copyWith(
           pageCommand: MoveCameraStop(),
-          newPlace: state.newPlace.copyWith(placeText: placemarks.first.toPlaceText),
+          newPlace: state.newPlace.copyWith(
+            lat: event.pickedLat,
+            lng: event.pickedLong,
+            placeText: placemarks.first.toPlaceText,
+          ),
           isCameraMoving: false,
         ));
       }

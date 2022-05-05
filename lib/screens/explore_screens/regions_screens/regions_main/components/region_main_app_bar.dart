@@ -19,7 +19,7 @@ class RegionMainAppBar extends StatelessWidget {
             if (!state.isBrowseView)
               IconButton(
                 icon: const Icon(Icons.more_horiz),
-                onPressed: () => const RegionBottomSheet().show(context),
+                onPressed: () => RegionBottomSheet(state.userType!).show(context),
               )
           ],
           expandedHeight: 220.0,
@@ -102,14 +102,14 @@ class RegionMainAppBar extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 30),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
+                        color: AppColors.primary,
                         border: Border.all(color: AppColors.green3),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       child: Center(
                           child: Text(
                         context.loc.regionMainJoinTitle,
-                        style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
+                        style: Theme.of(context).textTheme.subtitle2LowEmphasis,
                       )),
                     ),
                   ),

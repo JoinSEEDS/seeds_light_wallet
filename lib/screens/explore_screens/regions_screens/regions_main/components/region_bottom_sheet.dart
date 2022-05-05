@@ -6,7 +6,9 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/inter
 import 'package:seeds/utils/build_context_extension.dart';
 
 class RegionBottomSheet extends StatelessWidget {
-  const RegionBottomSheet({Key? key}) : super(key: key);
+  final TypeOfUsers userType;
+
+  const RegionBottomSheet(this.userType, {Key? key}) : super(key: key);
 
   void show(BuildContext context) {
     showModalBottomSheet(
@@ -32,34 +34,44 @@ class RegionBottomSheet extends StatelessWidget {
               child: const DividerJungle(thickness: 4, height: 4),
             ),
           ),
-          ListTile(
-            onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionImageButtonPressed()),
-            leading: const Icon(Icons.add_photo_alternate_outlined),
-            title: const Text("Edit Region Image"),
-          ),
-          ListTile(
-            onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionDescriptionButtonPressed()),
-            leading: const Icon(Icons.edit),
-            title: const Text("Edit Description"),
-          ),
-          ListTile(
-            onTap: () {
-              GenericRegionDialog(
-                      title: context.loc.leaveRegionConfirmDialogTitle,
-                      description: context.loc.leaveRegionConfirmDialogDescription)
-                  .show(context)
-                  .then((isConfirmed) {
-                if (isConfirmed ?? false) {
-                  Navigator.of(context).pop();
-                  BlocProvider.of<RegionBloc>(context).add(const OnLeaveRegionButtonPressed());
-                }
-              });
-            },
-            leading: const Icon(Icons.logout),
-            title: Text(context.loc.regionBottomSheetLeaveRegionTitle),
-          )
+          buttonSheetButtons(userType, context)
         ],
       ),
     );
+  }
+}
+
+Widget buttonSheetButtons(TypeOfUsers typeOfUsers, BuildContext context) {
+  switch (typeOfUsers) {
+    case TypeOfUsers.admin:
+      return Column(children: [
+        ListTile(
+          onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionImageButtonPressed()),
+          leading: const Icon(Icons.add_photo_alternate_outlined),
+          title: const Text("Edit Region Image"),
+        ),
+        ListTile(
+          onTap: () => BlocProvider.of<RegionBloc>(context).add(const OnEditRegionDescriptionButtonPressed()),
+          leading: const Icon(Icons.edit),
+          title: const Text("Edit Description"),
+        ),
+      ]);
+    case TypeOfUsers.member:
+      return ListTile(
+        onTap: () {
+          GenericRegionDialog(
+                  title: context.loc.leaveRegionConfirmDialogTitle,
+                  description: context.loc.leaveRegionConfirmDialogDescription)
+              .show(context)
+              .then((isConfirmed) {
+            if (isConfirmed ?? false) {
+              Navigator.of(context).pop();
+              BlocProvider.of<RegionBloc>(context).add(const OnLeaveRegionButtonPressed());
+            }
+          });
+        },
+        leading: const Icon(Icons.logout),
+        title: Text(context.loc.regionBottomSheetLeaveRegionTitle),
+      );
   }
 }
