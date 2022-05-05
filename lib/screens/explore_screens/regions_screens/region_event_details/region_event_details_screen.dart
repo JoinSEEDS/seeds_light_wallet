@@ -34,7 +34,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
           BlocProvider.of<RegionEventDetailsBloc>(context).add(const ClearRegionEventPageCommand());
           if (command is LaunchRegionMapsLocation) {
             launchUrl(Uri.parse(
-                'https://www.google.com/maps/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z'));
+                'https://www.google.com/maps/place/${event.eventLocation.latitude}+-${event.eventLocation.longitude.abs()}/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z'));
           } else if (command is ShowEditRegionEventButtons) {
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(
@@ -167,7 +167,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
                                   onTap: () => BlocProvider.of<RegionEventDetailsBloc>(context)
                                       .add(const OnRegionMapsLinkTapped()),
                                   child: Text(
-                                    'https://www.google.com/maps/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
+                                    'https://www.google.com/maps/place/${event.eventLocation.latitude}+-${event.eventLocation.longitude.abs()}/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
                                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen,
                                   ),
                                 ),
