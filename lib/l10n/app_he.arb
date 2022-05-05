@@ -415,5 +415,21 @@
   "supportDiscordChannelPart4": " הדיסקורד ",
   "@supportDiscordChannelPart4": {},
   "supportDiscordChannelPart3": "ארנק סידס לייט",
-  "@supportDiscordChannelPart3": {}
+  "@supportDiscordChannelPart3": {},
+  "supportDiscordChannelPart5": "כאן.",
+  "@supportDiscordChannelPart5": {},
+  "supportTapToShare": "הקש לשיתוף",
+  "@supportTapToShare": {},
+  "selectCurrencySearchHint": "חפש/י…",
+  "@selectCurrencySearchHint": {},
+  "editNameTitle": "ערכ/י שם",
+  "@editNameTitle": {},
+  "editNameLabel": "שם",
+  "@editNameLabel": {},
+  "editNameSaveButtonTitle": "שמר/י שינויים",
+  "@editNameSaveButtonTitle": {},
+  "editNameTooLongError": "בבקשה הכנס/י שם קצר יותר",
+  "@editNameTooLongError": {},
+  "selectCurrencyTitle": "בחר מטבע",
+  "@selectCurrencyTitle": {}
 }
