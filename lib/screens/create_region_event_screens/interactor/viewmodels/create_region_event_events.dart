@@ -139,3 +139,10 @@ class OnPublishEventTapped extends CreateRegionEventEvents {
   @override
   String toString() => 'OnPublishEventTapped';
 }
+
+class OnSelectDateNextTapped extends CreateRegionEventEvents {
+  const OnSelectDateNextTapped();
+
+  @override
+  String toString() => 'OnSelectDateNextTapped';
+}

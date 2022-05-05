@@ -19,8 +19,10 @@ class CreateRegionEventState extends Equatable {
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
-  final DateTime? eventStartTime;
-  final DateTime? eventEndTime;
+  final DateTime? eventStartDate;
+  final DateTime? eventEndDate;
+  final TimeOfDay? eventStartTime;
+  final TimeOfDay? eventEndTime;
   final bool isNextButtonLoading;
   final bool createImageUrl;
   final RegionModel region;
@@ -36,6 +38,8 @@ class CreateRegionEventState extends Equatable {
     this.file,
     required this.pictureBoxState,
     this.imageUrl,
+    this.eventStartDate,
+    this.eventEndDate,
     this.eventStartTime,
     this.eventEndTime,
     required this.isNextButtonLoading,
@@ -55,6 +59,8 @@ class CreateRegionEventState extends Equatable {
         file,
         pictureBoxState,
         imageUrl,
+        eventStartDate,
+        eventEndDate,
         eventStartTime,
         eventEndTime,
         isNextButtonLoading,
@@ -63,7 +69,8 @@ class CreateRegionEventState extends Equatable {
         isPublishEventButtonLoading,
       ];
 
-  bool get isDateTimeNextButtonEnabled => eventStartTime != null && eventEndTime != null;
+  bool get isDateTimeNextButtonEnabled =>
+      eventStartDate != null && eventEndDate != null && eventStartTime != null && eventEndTime != null;
 
   CreateRegionEventState copyWith({
     PageState? pageState,
@@ -75,8 +82,10 @@ class CreateRegionEventState extends Equatable {
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
-    DateTime? eventStartTime,
-    DateTime? eventEndTime,
+    DateTime? eventStartDate,
+    DateTime? eventEndDate,
+    TimeOfDay? eventStartTime,
+    TimeOfDay? eventEndTime,
     bool? isNextButtonLoading,
     bool? createImageUrl,
     RegionModel? region,
@@ -92,6 +101,8 @@ class CreateRegionEventState extends Equatable {
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl ?? this.imageUrl,
+        eventStartDate: eventStartDate ?? this.eventStartDate,
+        eventEndDate: eventEndDate ?? this.eventEndDate,
         eventStartTime: eventStartTime ?? this.eventStartTime,
         eventEndTime: eventEndTime ?? this.eventEndTime,
         isNextButtonLoading: isNextButtonLoading ?? this.isNextButtonLoading,

@@ -10,10 +10,6 @@ import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_image_use_case.dart';
-import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_end_date_state_mapper.dart';
-import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_end_time_state_mapper.dart';
-import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_start_date_state_mapper.dart';
-import 'package:seeds/screens/create_region_event_screens/interactor/mappers/change_start_time_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/create_region_event_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/mappers/save_image_state_mapper.dart';
@@ -41,6 +37,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
     on<OnStartTimeChanged>(_onStartTimeChanged);
     on<OnSelectEndTimeButtonTapped>((event, emit) => emit(state.copyWith(pageCommand: ShowEndTimePicker())));
     on<OnEndTimeChanged>(_onEndTimeChanged);
+    on<OnSelectDateNextTapped>(_onSelectDateNextTapped);
     on<OnPublishEventTapped>(_onPublishEventTapped);
     on<ClearCreateRegionEventPageCommand>((_, emit) => emit(state.copyWith()));
   }
@@ -58,19 +55,38 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   }
 
   void _onStartDateChanged(OnStartDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeStartDateStateMapper().mapResultToState(state, event.selectedDate));
+    emit(state.copyWith(eventStartDate: event.selectedDate));
   }
 
   void _onEndDateChanged(OnEndDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeEndDateStateMapper().mapResultToState(state, event.selectedDate));
+    emit(state.copyWith(eventEndDate: event.selectedDate));
   }
 
   void _onStartTimeChanged(OnStartTimeChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeStartTimeStateMapper().mapResultToState(state, event.selectedTime));
+    emit(state.copyWith(eventStartTime: event.selectedTime));
   }
 
   void _onEndTimeChanged(OnEndTimeChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(ChangeEndTimeStateMapper().mapResultToState(state, event.selectedTime));
+    emit(state.copyWith(eventEndTime: event.selectedTime));
+  }
+
+  void _onSelectDateNextTapped(OnSelectDateNextTapped event, Emitter<CreateRegionEventState> emit) {
+    emit(state.copyWith(
+        eventStartDate: DateTime(
+          state.eventStartDate!.year,
+          state.eventStartDate!.month,
+          state.eventStartDate!.day,
+          state.eventStartTime!.hour,
+          state.eventStartTime!.minute,
+        ),
+        eventEndDate: DateTime(
+          state.eventEndDate!.year,
+          state.eventEndDate!.month,
+          state.eventEndDate!.day,
+          state.eventEndTime!.hour,
+          state.eventEndTime!.minute,
+        ),
+        createRegionEventScreen: CreateRegionEventScreen.selectBackgroundImage));
   }
 
   Future<void> _onPickImage(OnPickImage event, Emitter<CreateRegionEventState> emit) async {
@@ -103,8 +119,8 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
       longitude: state.currentPlace!.lng,
       eventAddress: state.currentPlace!.placeText,
       eventImage: state.imageUrl!,
-      eventStartTime: state.eventStartTime!,
-      eventEndTime: state.eventEndTime!,
+      eventStartTime: state.eventStartDate!,
+      eventEndTime: state.eventEndDate!,
     ));
     emit(CreateRegionEventStateMapper().mapResultToState(state, result));
   }
@@ -121,11 +137,7 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.choseDataAndTime));
         break;
       case CreateRegionEventScreen.choseDataAndTime:
-        if (state.eventEndTime!.isBefore(state.eventStartTime!)) {
-          emit(state.copyWith(pageCommand: ShowWrongEndTime()));
-        } else {
-          emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.selectBackgroundImage));
-        }
+        emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.selectBackgroundImage));
         break;
       case CreateRegionEventScreen.selectBackgroundImage:
         emit(state.copyWith(createRegionEventScreen: CreateRegionEventScreen.reviewAndPublish));

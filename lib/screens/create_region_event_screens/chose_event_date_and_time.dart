@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/create_region_event_screens/components/date_time_row.dart';
 import 'package:seeds/screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
@@ -20,16 +21,28 @@ class ChoseEventDateAndTime extends StatelessWidget {
         final command = state.pageCommand;
         BlocProvider.of<CreateRegionEventBloc>(context).add(const ClearCreateRegionEventPageCommand());
         if (command is ShowStartTimePicker || command is ShowEndTimePicker) {
-          final initialTime = command is ShowStartTimePicker ? DateTime.now() : state.eventStartTime ?? DateTime.now();
-          showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(initialTime)).then((selected) {
+          final initialTime = state.eventEndTime ?? TimeOfDay.now();
+          showTimePicker(context: context, initialTime: initialTime).then((selected) {
             if (selected != null) {
               BlocProvider.of<CreateRegionEventBloc>(context).add(
                 command is ShowStartTimePicker ? OnStartTimeChanged(selected) : OnEndTimeChanged(selected),
               );
             }
           });
-        } else if (command is ShowStartDatePicker || command is ShowEndDatePicker) {
-          final initialDate = command is ShowStartDatePicker ? DateTime.now() : state.eventStartTime ?? DateTime.now();
+        } else if (command is ShowStartDatePicker) {
+          final endDate = state.eventEndDate ?? DateTime(2099);
+          showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: endDate,
+          ).then((selected) {
+            if (selected != null) {
+              BlocProvider.of<CreateRegionEventBloc>(context).add(OnStartDateChanged(selected));
+            }
+          });
+        } else if (command is ShowEndDatePicker) {
+          final initialDate = state.eventStartDate ?? DateTime.now();
           showDatePicker(
             context: context,
             initialDate: initialDate,
@@ -37,13 +50,11 @@ class ChoseEventDateAndTime extends StatelessWidget {
             lastDate: DateTime(2099),
           ).then((selected) {
             if (selected != null) {
-              BlocProvider.of<CreateRegionEventBloc>(context).add(
-                command is ShowStartDatePicker ? OnStartDateChanged(selected) : OnEndDateChanged(selected),
-              );
+              BlocProvider.of<CreateRegionEventBloc>(context).add(OnEndDateChanged(selected));
             }
           });
-        } else if (command is ShowWrongEndTime) {
-          eventBus.fire(const ShowSnackBar('End time must be after start time.'));
+        } else if (command is ShowErrorMessage) {
+          eventBus.fire(ShowSnackBar(command.message));
         }
       },
       builder: (context, state) {
@@ -70,10 +81,10 @@ class ChoseEventDateAndTime extends StatelessWidget {
                         label: "Select Event Start Date",
                         icon: const Icon(Icons.calendar_today_outlined),
                         onTap: () {
-                          BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectEndDateButtonTapped());
+                          BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectStartDateButtonTapped());
                         },
                         timeInfo:
-                            state.eventStartTime != null ? DateFormat.yMMMMEEEEd().format(state.eventStartTime!) : "",
+                            state.eventStartDate != null ? DateFormat.yMMMMEEEEd().format(state.eventStartDate!) : "",
                       ),
                       const SizedBox(height: 30),
                       DateTimeRow(
@@ -82,9 +93,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                         onTap: () {
                           BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectStartTimeButtonTapped());
                         },
-                        timeInfo: state.eventStartTime != null
-                            ? "${DateFormat.jm().format(state.eventStartTime!)} - Starts"
-                            : "",
+                        timeInfo: state.eventStartTime != null ? state.eventStartTime!.format(context) : "",
                       ),
                       const SizedBox(height: 30),
                       const Text('End Date & Time'),
@@ -95,7 +104,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                         onTap: () {
                           BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectEndDateButtonTapped());
                         },
-                        timeInfo: state.eventEndTime != null ? DateFormat.yMMMMEEEEd().format(state.eventEndTime!) : "",
+                        timeInfo: state.eventEndDate != null ? DateFormat.yMMMMEEEEd().format(state.eventEndDate!) : "",
                       ),
                       const SizedBox(height: 30),
                       DateTimeRow(
@@ -104,8 +113,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
                         onTap: () async {
                           BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectEndTimeButtonTapped());
                         },
-                        timeInfo:
-                            state.eventEndTime != null ? "${DateFormat.jm().format(state.eventEndTime!)} - Ends" : "",
+                        timeInfo: state.eventEndTime != null ? state.eventEndTime!.format(context) : "",
                       ),
                     ],
                   ),
