@@ -21,6 +21,7 @@ import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_image.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_image.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_location.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_name_and_description.dart';
@@ -110,6 +111,7 @@ class Routes {
   static const region = 'region';
   static const regionEventDetails = 'regionEventDetials';
   static const editRegionDescription = 'editRegionDescription';
+  static const editRegionImage = 'editRegionImage';
   static const editRegionEventNameAndDescription = 'editRegionEventNameAndDescription';
   static const editRegionEventLocation = 'editRegionEventLocation';
   static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
@@ -167,8 +169,9 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
     Routes.region: (_) => const RegionScreen(),
-    Routes.regionEventDetails: (_) => const RegionEventDetailsScreen(),
     Routes.editRegionDescription: (_) => const EditRegionDescription(),
+    Routes.editRegionImage: (_) => const EditRegionImage(),
+    Routes.regionEventDetails: (_) => const RegionEventDetailsScreen(),
     Routes.editRegionEventNameAndDescription: (_) => const EditRegionEventNameAndDescription(),
     Routes.editRegionEventLocation: (_) => const EditRegionEventLocation(),
     Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),

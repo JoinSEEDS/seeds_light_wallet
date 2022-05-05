@@ -17,6 +17,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/inter
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/join_region_use_case.dart';
 
 part 'region_event.dart';
+
 part 'region_state.dart';
 
 class RegionBloc extends Bloc<RegionEvent, RegionState> {
@@ -32,7 +33,10 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
     on<ClearRegionPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {}
+  void _onEditRegionImageButtonPressed(OnEditRegionImageButtonPressed event, Emitter<RegionState> emit) {
+    emit(state.copyWith(
+        pageCommand: NavigateToRouteWithArguments(route: Routes.editRegionImage, arguments: state.region)));
+  }
 
   void _onEditRegionDescriptionButtonPressed(OnEditRegionDescriptionButtonPressed event, Emitter<RegionState> emit) {
     emit(state.copyWith(
