@@ -7,10 +7,7 @@ class RegionAbout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topLeft,
-      padding: const EdgeInsets.fromLTRB(26.0, 0, 26.0, 26.0),
-      child: Text(BlocProvider.of<RegionBloc>(context).state.region?.description ?? ''),
-    );
+    final text = BlocProvider.of<RegionBloc>(context).state.region?.description ?? '';
+    return Container(alignment: Alignment.topLeft, padding: const EdgeInsets.all(26.0), child: Text(text));
   }
 }
