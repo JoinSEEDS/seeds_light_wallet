@@ -55,19 +55,27 @@ class CreateRegionEventBloc extends Bloc<CreateRegionEventEvents, CreateRegionEv
   }
 
   void _onStartDateChanged(OnStartDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(eventStartDate: event.selectedDate));
+    if (event.selectedDate != null) {
+      emit(state.copyWith(eventStartDate: event.selectedDate));
+    }
   }
 
   void _onEndDateChanged(OnEndDateChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(eventEndDate: event.selectedDate));
+    if (event.selectedDate != null) {
+      emit(state.copyWith(eventEndDate: event.selectedDate));
+    }
   }
 
   void _onStartTimeChanged(OnStartTimeChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(eventStartTime: event.selectedTime));
+    if (event.selectedTime != null) {
+      emit(state.copyWith(eventStartTime: event.selectedTime));
+    }
   }
 
   void _onEndTimeChanged(OnEndTimeChanged event, Emitter<CreateRegionEventState> emit) {
-    emit(state.copyWith(eventEndTime: event.selectedTime));
+    if (event.selectedTime != null) {
+      emit(state.copyWith(eventEndTime: event.selectedTime));
+    }
   }
 
   void _onSelectDateNextTapped(OnSelectDateNextTapped event, Emitter<CreateRegionEventState> emit) {

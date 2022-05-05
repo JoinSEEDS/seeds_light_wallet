@@ -23,11 +23,9 @@ class ChoseEventDateAndTime extends StatelessWidget {
         if (command is ShowStartTimePicker || command is ShowEndTimePicker) {
           final initialTime = state.eventEndTime ?? TimeOfDay.now();
           showTimePicker(context: context, initialTime: initialTime).then((selected) {
-            if (selected != null) {
-              BlocProvider.of<CreateRegionEventBloc>(context).add(
-                command is ShowStartTimePicker ? OnStartTimeChanged(selected) : OnEndTimeChanged(selected),
-              );
-            }
+            BlocProvider.of<CreateRegionEventBloc>(context).add(
+              command is ShowStartTimePicker ? OnStartTimeChanged(selected) : OnEndTimeChanged(selected),
+            );
           });
         } else if (command is ShowStartDatePicker) {
           final endDate = state.eventEndDate ?? DateTime(2099);
@@ -37,9 +35,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
             firstDate: DateTime.now(),
             lastDate: endDate,
           ).then((selected) {
-            if (selected != null) {
-              BlocProvider.of<CreateRegionEventBloc>(context).add(OnStartDateChanged(selected));
-            }
+            BlocProvider.of<CreateRegionEventBloc>(context).add(OnStartDateChanged(selected));
           });
         } else if (command is ShowEndDatePicker) {
           final initialDate = state.eventStartDate ?? DateTime.now();
@@ -49,9 +45,7 @@ class ChoseEventDateAndTime extends StatelessWidget {
             firstDate: initialDate,
             lastDate: DateTime(2099),
           ).then((selected) {
-            if (selected != null) {
-              BlocProvider.of<CreateRegionEventBloc>(context).add(OnEndDateChanged(selected));
-            }
+            BlocProvider.of<CreateRegionEventBloc>(context).add(OnEndDateChanged(selected));
           });
         } else if (command is ShowErrorMessage) {
           eventBus.fire(ShowSnackBar(command.message));

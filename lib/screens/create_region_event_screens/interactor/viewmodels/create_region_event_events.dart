@@ -77,7 +77,7 @@ class OnSelectEndDateButtonTapped extends CreateRegionEventEvents {
 }
 
 class OnStartDateChanged extends CreateRegionEventEvents {
-  final DateTime selectedDate;
+  final DateTime? selectedDate;
 
   const OnStartDateChanged(this.selectedDate);
 
@@ -86,7 +86,7 @@ class OnStartDateChanged extends CreateRegionEventEvents {
 }
 
 class OnEndDateChanged extends CreateRegionEventEvents {
-  final DateTime selectedDate;
+  final DateTime? selectedDate;
 
   const OnEndDateChanged(this.selectedDate);
 
@@ -109,7 +109,7 @@ class OnSelectEndTimeButtonTapped extends CreateRegionEventEvents {
 }
 
 class OnStartTimeChanged extends CreateRegionEventEvents {
-  final TimeOfDay selectedTime;
+  final TimeOfDay? selectedTime;
 
   const OnStartTimeChanged(this.selectedTime);
 
@@ -118,7 +118,7 @@ class OnStartTimeChanged extends CreateRegionEventEvents {
 }
 
 class OnEndTimeChanged extends CreateRegionEventEvents {
-  final TimeOfDay selectedTime;
+  final TimeOfDay? selectedTime;
 
   const OnEndTimeChanged(this.selectedTime);
 
