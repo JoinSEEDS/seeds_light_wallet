@@ -8,6 +8,7 @@ class EditRegionState extends Equatable {
   final PageCommand? pageCommand;
   final File? file;
   final PictureBoxState pictureBoxState;
+  final String? imageUrl;
 
   const EditRegionState({
     required this.newRegionDescription,
@@ -17,6 +18,7 @@ class EditRegionState extends Equatable {
     this.pageCommand,
     this.file,
     required this.pictureBoxState,
+    this.imageUrl,
   });
 
   @override
@@ -28,6 +30,7 @@ class EditRegionState extends Equatable {
         pageCommand,
         file,
         pictureBoxState,
+        imageUrl,
       ];
 
   EditRegionState copyWith({
@@ -38,6 +41,7 @@ class EditRegionState extends Equatable {
     PageCommand? pageCommand,
     File? file,
     PictureBoxState? pictureBoxState,
+    String? imageUrl,
   }) =>
       EditRegionState(
         newRegionDescription: newRegionDescription ?? this.newRegionDescription,
@@ -47,6 +51,7 @@ class EditRegionState extends Equatable {
         pageCommand: pageCommand,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
+        imageUrl: imageUrl ?? this.imageUrl,
       );
 
   factory EditRegionState.initial(RegionModel region) {

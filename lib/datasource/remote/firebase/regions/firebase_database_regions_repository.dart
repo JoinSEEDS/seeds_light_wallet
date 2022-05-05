@@ -69,16 +69,22 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   }
 
   /// Update a region's Image
-  Future<void> editRegionImage({
+  Future<Result<String>> editRegionImage({
     required String imageUrl,
     required String regionAccount,
   }) {
-    return regionCollection.doc(regionAccount).update(
-      {
-        imageUrlKey: imageUrl,
-        _dateUpdatedKey: FieldValue.serverTimestamp(),
-      },
-    );
+    return regionCollection
+        .doc(regionAccount)
+        .update(
+          {
+            imageUrlKey: imageUrl,
+            _dateUpdatedKey: FieldValue.serverTimestamp(),
+          },
+        )
+        .then((value) => mapFirebaseResponse<String>(() {
+              return regionAccount;
+            }))
+        .onError((error, stackTrace) => mapFirebaseError(error));
   }
 
   /// Delete a region and its matching location
