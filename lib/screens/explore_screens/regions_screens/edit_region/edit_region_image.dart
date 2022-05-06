@@ -24,37 +24,32 @@ class EditRegionImage extends StatelessWidget {
     return BlocProvider(
       create: (_) => EditRegionBloc(region!),
       child: BlocConsumer<EditRegionBloc, EditRegionState>(
-        listenWhen: (previous, current) => current.pageCommand != null,
+        listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          if (state.pageCommand != null) {
-            final pageCommand = state.pageCommand;
-
-            //need  a page command for this screen
-            if (pageCommand is RemoveAuthenticationScreen) {
-              // This pop remove the authentication screen
-              Navigator.of(context).pop();
-            } else if (pageCommand is ShowErrorMessage) {
-              eventBus.fire(ShowSnackBar(pageCommand.message));
-            } else if (pageCommand is NavigateToRoute) {
-              NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
-            } else if (pageCommand is EditRegionImage) {
-              BlocProvider.of<EditRegionBloc>(context).add(const OnEditRegionImage());
-            }
-
-            BlocProvider.of<EditRegionBloc>(context).add(const ClearEditRegionPageCommand());
+          final pageCommand = state.pageCommand;
+          BlocProvider.of<EditRegionBloc>(context).add(const ClearEditRegionPageCommand());
+          //need  a page command for this screen
+          if (pageCommand is RemoveAuthenticationScreen) {
+            // This pop remove the authentication screen
+            Navigator.of(context).pop();
+          } else if (pageCommand is ShowErrorMessage) {
+            eventBus.fire(ShowSnackBar(pageCommand.message));
+          } else if (pageCommand is NavigateToRoute) {
+            NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
           }
         },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(title: const Text("Edit Region")),
             bottomNavigationBar: SafeArea(
-                minimum: const EdgeInsets.all(horizontalEdgePadding),
-                child: FlatButtonLong(
-                    isLoading: state.isSaveChangesButtonLoading,
-                    enabled: state.isSaveChangesButtonEnable,
-                    title: "Save Image",
-                    onPressed: () =>
-                        BlocProvider.of<EditRegionBloc>(context).add(const OnEditRegionSaveChangesTapped()))),
+              minimum: const EdgeInsets.all(horizontalEdgePadding),
+              child: FlatButtonLong(
+                isLoading: state.isSaveChangesButtonLoading,
+                enabled: state.isSaveChangesButtonEnable,
+                title: "Save Image",
+                onPressed: () => BlocProvider.of<EditRegionBloc>(context).add(const OnSaveImageTapped()),
+              ),
+            ),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
@@ -67,7 +62,7 @@ class EditRegionImage extends StatelessWidget {
                       title: context.loc.createRegionAddBackGroundImageBoxTitle,
                       onTap: () => BlocProvider.of<EditRegionBloc>(context).add(const OnPickImage())),
                   const SizedBox(height: 10),
-                  if (state.file != null)
+                  if (state.shouldShowReplaceButton)
                     Center(
                       child: MaterialButton(
                           color: AppColors.green1,

@@ -10,9 +10,7 @@ class EditRegionDescriptionStateMapper extends StateMapper {
       return currentState.copyWith(
           isSaveChangesButtonLoading: false, pageCommand: ShowErrorMessage("Error Editing Region Description"));
     } else {
-      return currentState.copyWith(
-        pageCommand: NavigateToRoute(Routes.region),
-      );
+      return currentState.copyWith(pageCommand: NavigateToRoute(Routes.region));
     }
   }
 }

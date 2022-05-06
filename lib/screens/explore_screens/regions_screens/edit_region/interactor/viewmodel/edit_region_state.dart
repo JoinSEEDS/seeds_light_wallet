@@ -21,6 +21,8 @@ class EditRegionState extends Equatable {
     this.imageUrl,
   });
 
+  bool get shouldShowReplaceButton => file != null && !isSaveChangesButtonLoading;
+
   @override
   List<Object?> get props => [
         newRegionDescription,

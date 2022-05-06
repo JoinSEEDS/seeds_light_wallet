@@ -7,19 +7,12 @@ class EditRegionImageUseCase extends InputUseCase<String, EditRegionImageInput> 
 
   @override
   Future<Result<String>> run(EditRegionImageInput input) async {
-    final Result<String> editRegionImageResult =
-        await _firebaseRegionsRepository.editRegionImage(imageUrl: input.imageUrl, regionAccount: input.region.id);
-
-    return editRegionImageResult;
+    return _firebaseRegionsRepository.editRegionImage(imageUrl: input.imageUrl, regionAccount: input.region.id);
   }
 }
 
 class EditRegionImageInput {
   final String imageUrl;
   final RegionModel region;
-
-  EditRegionImageInput({
-    required this.imageUrl,
-    required this.region,
-  });
+  const EditRegionImageInput({required this.imageUrl, required this.region});
 }
