@@ -5,6 +5,8 @@
   "@genericCancelButtonTitle": {},
   "genericNextButtonTitle": "Next",
   "@genericNextButtonTitle": {},
+  "genericConfirmButtonTitle": "Confirm",
+  "@genericConfirmButtonTitle": {},
   "genericLoadingPageError": "Error Loading Page",
   "@genericLoadingPageError": {},
   "onboardingTransactionsTitle": "Better\nThan Free\nTransactions",
@@ -566,5 +568,9 @@
     }
   },  
   "proposalsUnableToLoadError": "Error loading proposals",
-  "@proposalsUnableToLoadError": {}
+  "@proposalsUnableToLoadError": {},
+  "proposalDetailsConfirmVoteTitle": "Confirm your Vote",
+  "@proposalDetailsConfirmVoteTitle": {},
+  "proposalDetailsConfirmVoteDescription": "Your trust tokens cannot be reallocated afterwards so please be sure of your vote!",
+  "@proposalDetailsConfirmVoteDescription": {}
 }
