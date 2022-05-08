@@ -12,6 +12,7 @@ class EditRegionDescriptionUseCase extends InputUseCase<TransactionResponse, _In
     required String description,
     required double latitude,
     required double longitude,
+    required String regionAddress,
   }) =>
       _Input(
         userAccount: settingsStorage.accountName,
@@ -20,6 +21,7 @@ class EditRegionDescriptionUseCase extends InputUseCase<TransactionResponse, _In
         description: description,
         latitude: latitude,
         longitude: longitude,
+        regionAddress: regionAddress,
       );
 
   @override
@@ -31,6 +33,7 @@ class EditRegionDescriptionUseCase extends InputUseCase<TransactionResponse, _In
       description: input.description,
       latitude: input.latitude,
       longitude: input.longitude,
+      regionAddress: input.regionAddress,
     );
 
     return editRegionResult;
@@ -44,13 +47,15 @@ class _Input {
   final String description;
   final double latitude;
   final double longitude;
+  final String regionAddress;
 
-  _Input({
+  const _Input({
     required this.userAccount,
     required this.regionAccount,
     required this.title,
     required this.description,
     required this.latitude,
     required this.longitude,
+    required this.regionAddress,
   });
 }

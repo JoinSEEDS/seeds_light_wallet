@@ -187,6 +187,7 @@ class RegionRepository extends HttpRepository with EosRepository {
     required String description,
     required double latitude,
     required double longitude,
+    required String regionAddress,
   }) async {
     print('[eos] update region $regionAccount');
 
@@ -203,7 +204,7 @@ class RegionRepository extends HttpRepository with EosRepository {
           'rgnaccount': regionAccount,
           'title': title,
           'description': description,
-          'locationJson': '{lat:$latitude,lon:$longitude}',
+          'locationJson': regionAddress,
           'latitude': latitude,
           'longitude': longitude
         },
