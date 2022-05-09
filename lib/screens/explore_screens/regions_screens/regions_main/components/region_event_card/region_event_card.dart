@@ -75,48 +75,51 @@ class RegionEventCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 12.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            event.eventName,
-                            style: Theme.of(context).textTheme.buttonLowEmphasis,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(DateFormat.yMMMMd().format(DateTime.parse(event.createdTime.toDate().toString()))),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              event.eventName,
+                              style: Theme.of(context).textTheme.buttonLowEmphasis,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(DateFormat.yMMMMd().format(DateTime.parse(event.createdTime.toDate().toString()))),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 8.0),
-                      Row(
-                        children: [
-                          if (state.profiles.isNotEmpty)
-                            StackedAvatars(state.profiles, 20)
-                          else
-                            const SizedBox.shrink(),
-                          const SizedBox(width: 6.0),
-                          Text(
-                            '${context.loc.regionMainMembersTitle(event.users.length, event.readableMembersCount)} ${context.loc.regionEventCardJoinedTitle}',
-                            style: Theme.of(context).textTheme.subtitle3.copyWith(color: AppColors.grey2),
-                          ),
-                          const Spacer(),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11.0),
-                              border: Border.all(color: AppColors.green3),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Row(
+                          children: [
+                            if (state.profiles.isNotEmpty)
+                              StackedAvatars(state.profiles, 20)
+                            else
+                              const SizedBox.shrink(),
+                            const SizedBox(width: 6.0),
+                            Text(
+                              '${context.loc.regionMainMembersTitle(event.users.length, event.readableMembersCount)} ${context.loc.regionEventCardJoinedTitle}',
+                              style: Theme.of(context).textTheme.subtitle3.copyWith(color: AppColors.grey2),
                             ),
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.access_time, size: 14, color: AppColors.green3),
-                                const SizedBox(width: 4.0),
-                                Text(
-                                  '${event.formattedStartTime} - ${event.formattedEndTime}',
-                                  style: Theme.of(context).textTheme.subtitle3Green,
-                                ),
-                              ],
+                            const Spacer(),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(11.0),
+                                border: Border.all(color: AppColors.green3),
+                              ),
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.access_time, size: 14, color: AppColors.green3),
+                                  const SizedBox(width: 4.0),
+                                  Text(event.formattedStartTime, style: Theme.of(context).textTheme.subtitle3Green),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 10.0),
                     ],
