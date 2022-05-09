@@ -30,7 +30,6 @@ class RegionEventModel {
     required this.eventEndTime,
     required this.users,
     required this.createdTime,
-
   });
 
   String get readableMembersCount {
@@ -39,7 +38,13 @@ class RegionEventModel {
 
   String get formattedStartTime => DateFormat.jm().format(DateTime.parse(eventStartTime.toDate().toString()));
 
+  String get formattedStartDate =>
+      DateFormat('EEEE, MMM d, y - h:mm a').format(DateTime.parse(eventStartTime.toDate().toString()));
+
   String get formattedEndTime => DateFormat.jm().format(DateTime.parse(eventEndTime.toDate().toString()));
+
+  String get formattedEndDate =>
+      DateFormat('EEEE, MMM d, y - h:mm a').format(DateTime.parse(eventEndTime.toDate().toString()));
 
   String get formattedCreatedTime => DateFormat.yMMMMEEEEd().format(DateTime.parse(createdTime.toDate().toString()));
 
