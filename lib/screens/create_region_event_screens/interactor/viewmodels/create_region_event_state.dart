@@ -72,6 +72,12 @@ class CreateRegionEventState extends Equatable {
   bool get isDateTimeNextButtonEnabled =>
       eventStartDate != null && eventEndDate != null && eventStartTime != null && eventEndTime != null;
 
+  String get startDateAndTimeFormatted =>
+      eventStartDate != null ? DateFormat('EEEE, MMM d, y - h:mm a').format(eventStartDate!) : "";
+
+  String get endDateAndTimeFormatted =>
+      eventEndDate != null ? DateFormat('EEEE, MMM d, y - h:mm a').format(eventEndDate!) : "";
+
   CreateRegionEventState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
