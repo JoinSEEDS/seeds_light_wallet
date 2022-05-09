@@ -68,11 +68,21 @@ class RegionMainAppBar extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      state.region?.description ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headline7LowEmphasis,
+                    Container(
+                      width: MediaQuery.of(context).size.width - 48,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              state.region?.locationJson ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.headline7LowEmphasis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       context.loc.regionMainMembersTitle(
