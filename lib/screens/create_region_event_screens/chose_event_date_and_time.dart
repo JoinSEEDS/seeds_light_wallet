@@ -112,13 +112,12 @@ class ChoseEventDateAndTime extends StatelessWidget {
                     ],
                   ),
                   Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButtonLong(
-                      enabled: state.isDateTimeNextButtonEnabled,
-                      title: "Next (4/5)",
-                      onPressed: () => BlocProvider.of<CreateRegionEventBloc>(context).add(const OnNextTapped()),
-                    ),
-                  )
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButtonLong(
+                          enabled: state.isDateTimeNextButtonEnabled,
+                          title: "Next (4/5)",
+                          onPressed: () =>
+                              BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectDateNextTapped())))
                 ],
               ),
             ),
