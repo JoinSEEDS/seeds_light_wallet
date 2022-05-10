@@ -117,34 +117,22 @@ class RegionEventDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(event.eventName, style: Theme.of(context).textTheme.headline7),
+                          const SizedBox(height: 10),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                event.formattedCreatedTime,
-                                style: Theme.of(context).textTheme.subtitle2LowEmphasis,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11.0),
-                                  border: Border.all(color: AppColors.green3),
-                                ),
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.access_time, size: 14, color: AppColors.green3),
-                                    const SizedBox(width: 4.0),
-                                    Text(
-                                      '${event.formattedStartTime} - ${event.formattedEndTime}',
-                                      style: Theme.of(context).textTheme.subtitle3Green,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              const Icon(Icons.calendar_today_outlined, color: AppColors.green1, size: 30),
+                              const SizedBox(width: 10),
+                              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Text('Start / ${event.formattedStartDate}',
+                                    style: Theme.of(context).textTheme.subtitle2LowEmphasis),
+                                Text('End / ${event.formattedEndDate}',
+                                    style: Theme.of(context).textTheme.subtitle2LowEmphasis)
+                              ]),
                             ],
                           ),
-                          Row(children: [Text(event.eventName, style: Theme.of(context).textTheme.headline7)]),
                         ],
                       ),
                     ),
