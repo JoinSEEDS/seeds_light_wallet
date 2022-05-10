@@ -151,6 +151,7 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
       eventStartTimeKey: eventStartTime,
       eventEndTimeKey: eventEndTime,
       dateCreatedKey: FieldValue.serverTimestamp(),
+      eventUsersKey: FieldValue.arrayUnion([creatorAccount])
     };
 
     return regionEventCollection
