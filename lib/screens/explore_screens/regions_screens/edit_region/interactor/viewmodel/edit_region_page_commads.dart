@@ -4,6 +4,6 @@ class RemoveAuthenticationScreen extends PageCommand {
   RemoveAuthenticationScreen();
 }
 
-class EditRegionImage extends PageCommand {
-  EditRegionImage();
+class UpdateFirebaseRegionImage extends PageCommand {
+  UpdateFirebaseRegionImage();
 }
