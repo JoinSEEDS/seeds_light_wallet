@@ -15,6 +15,7 @@ class RegionMainAppBar extends StatelessWidget {
     return BlocBuilder<RegionBloc, RegionState>(
       builder: (context, state) {
         return SliverAppBar(
+          title: Text(state.region?.title ?? "", overflow: TextOverflow.ellipsis),
           actions: [
             if (!state.isBrowseView)
               IconButton(
@@ -63,8 +64,8 @@ class RegionMainAppBar extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 22,
-                bottom: 30,
+                left: 10,
+                bottom: 10,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +77,7 @@ class RegionMainAppBar extends StatelessWidget {
                           Flexible(
                             child: Text(
                               state.region?.locationJson ?? '',
-                              maxLines: 2,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.headline7LowEmphasis,
                             ),
@@ -87,7 +88,7 @@ class RegionMainAppBar extends StatelessWidget {
                     Text(
                       context.loc.regionMainMembersTitle(
                         state.region?.membersCount ?? 0,
-                        '${state.region?.readableMembersCount ?? 0}',
+                        '  ${state.region?.readableMembersCount ?? 0}',
                       ),
                       style: Theme.of(context).textTheme.buttonWhiteL,
                     ),
