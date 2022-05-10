@@ -52,7 +52,7 @@ class EditRegionImage extends StatelessWidget {
                     enabled: state.isSaveChangesButtonEnable,
                     title: "Save Image",
                     onPressed: () =>
-                        BlocProvider.of<EditRegionBloc>(context).add(const OnEditRegionSaveChangesTapped()))),
+                        BlocProvider.of<EditRegionBloc>(context).add(const OnSaveImageTapped()))),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
