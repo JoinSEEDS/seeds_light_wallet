@@ -51,29 +51,19 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
 
   void _onSelectDateChange(OnSelectDateChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedDate != null) {
-      emit(state.copyWith(
-          newEventDateAndTime: event.selectedDate,
-          eventDateAndTimeInfo: DateFormat.yMMMMEEEEd().format(event.selectedDate!)));
+      emit(state.copyWith(eventStartDate: event.selectedDate));
     }
   }
 
   void _onStartTimeChange(OnStartTimeChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedTime != null) {
-      final now = DateTime.now();
-      final newStartTime = DateTime(now.year, now.month, now.day, event.selectedTime!.hour, event.selectedTime!.minute);
-
-      emit(state.copyWith(
-          newEventStartTime: event.selectedTime, startTimeInfo: "${DateFormat.jm().format(newStartTime)} - Stars"));
+      emit(state.copyWith(eventStartTime: event.selectedTime));
     }
   }
 
   void _onEndTimeChanged(OnEndTimeChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedTime != null) {
-      final now = DateTime.now();
-      final newEndTime = DateTime(now.year, now.month, now.day, event.selectedTime!.hour, event.selectedTime!.minute);
-
-      emit(state.copyWith(
-          newEventEndTime: event.selectedTime, endTimeInfo: "${DateFormat.jm().format(newEndTime)} - Ends"));
+      emit(state.copyWith(eventEndTime: event.selectedTime));
     }
   }
 

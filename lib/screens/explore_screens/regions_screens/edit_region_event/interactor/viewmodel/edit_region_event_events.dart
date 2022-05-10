@@ -57,6 +57,13 @@ class OnEndTimeChanged extends EditRegionEventEvents {
   String toString() => 'OnEndTimeChanged{selectedTime: $selectedTime}';
 }
 
+class OnSelectStartDateButtonTapped extends EditRegionEventEvents {
+  const OnSelectStartDateButtonTapped();
+
+  @override
+  String toString() => 'OnSelectStartDateButtonTapped';
+}
+
 class OnEventNameChange extends EditRegionEventEvents {
   final String eventName;
 

@@ -10,12 +10,10 @@ class EditRegionEventState extends Equatable {
   final bool isNewDescriptionNotEmpty;
   final PageCommand? pageCommand;
   final Place? newPlace;
-  final DateTime? newEventDateAndTime;
-  final TimeOfDay? newEventStartTime;
-  final TimeOfDay? newEventEndTime;
-  final String eventDateAndTimeInfo;
-  final String endTimeInfo;
-  final String startTimeInfo;
+  final DateTime eventStartDate;
+  final DateTime eventEndDate;
+  final TimeOfDay eventStartTime;
+  final TimeOfDay eventEndTime;
   final File? file;
   final PictureBoxState pictureBoxState;
   final String? imageUrl;
@@ -27,12 +25,10 @@ class EditRegionEventState extends Equatable {
     required this.isSaveChangesButtonLoading,
     this.pageCommand,
     this.newPlace,
-    this.newEventDateAndTime,
-    this.newEventStartTime,
-    this.newEventEndTime,
-    required this.endTimeInfo,
-    required this.startTimeInfo,
-    required this.eventDateAndTimeInfo,
+    required this.eventStartDate,
+    required this.eventEndDate,
+    required this.eventStartTime,
+    required this.eventEndTime,
     this.file,
     required this.pictureBoxState,
     required this.isSaveChangesButtonEnable,
@@ -52,16 +48,18 @@ class EditRegionEventState extends Equatable {
         isNewDescriptionNotEmpty,
         pageCommand,
         newPlace,
-        newEventDateAndTime,
-        newEventStartTime,
-        newEventEndTime,
-        endTimeInfo,
-        startTimeInfo,
-        eventDateAndTimeInfo,
+        eventStartDate,
+        eventEndDate,
+        eventStartTime,
+        eventEndTime,
         file,
         pictureBoxState,
         imageUrl,
       ];
+
+  String get startDateAndTimeFormatted => DateFormat('EEEE, MMM d, y').format(eventStartDate);
+
+  String get endDateAndTimeFormatted => DateFormat('EEEE, MMM d, y').format(eventEndDate);
 
   EditRegionEventState copyWith({
     String? newRegionEventDescription,
@@ -73,12 +71,10 @@ class EditRegionEventState extends Equatable {
     bool? isNewDescriptionNotEmpty,
     PageCommand? pageCommand,
     Place? newPlace,
-    DateTime? newEventDateAndTime,
-    TimeOfDay? newEventStartTime,
-    TimeOfDay? newEventEndTime,
-    String? endTimeInfo,
-    String? startTimeInfo,
-    String? eventDateAndTimeInfo,
+    DateTime? eventStartDate,
+    DateTime? eventEndDate,
+    TimeOfDay? eventStartTime,
+    TimeOfDay? eventEndTime,
     File? file,
     PictureBoxState? pictureBoxState,
     String? imageUrl,
@@ -93,12 +89,10 @@ class EditRegionEventState extends Equatable {
         isNewDescriptionNotEmpty: isNewDescriptionNotEmpty ?? this.isNewDescriptionNotEmpty,
         pageCommand: pageCommand,
         newPlace: newPlace ?? this.newPlace,
-        newEventDateAndTime: newEventDateAndTime ?? this.newEventDateAndTime,
-        newEventStartTime: newEventStartTime ?? this.newEventStartTime,
-        newEventEndTime: newEventEndTime ?? this.newEventEndTime,
-        endTimeInfo: endTimeInfo ?? this.endTimeInfo,
-        startTimeInfo: startTimeInfo ?? this.startTimeInfo,
-        eventDateAndTimeInfo: eventDateAndTimeInfo ?? this.eventDateAndTimeInfo,
+        eventStartDate: eventStartDate ?? this.eventStartDate,
+        eventEndDate: eventEndDate ?? this.eventEndDate,
+        eventStartTime: eventStartTime ?? this.eventStartTime,
+        eventEndTime: eventEndTime ?? this.eventEndTime,
         file: file ?? this.file,
         pictureBoxState: pictureBoxState ?? this.pictureBoxState,
         imageUrl: imageUrl ?? this.imageUrl,
@@ -107,10 +101,11 @@ class EditRegionEventState extends Equatable {
   factory EditRegionEventState.initial(RegionEventModel event) {
     return EditRegionEventState(
       event: event,
+      eventStartDate: event.eventStartTime.toDate(),
+      eventEndDate: event.eventEndTime.toDate(),
+      eventStartTime: TimeOfDay(hour: event.eventStartTime.toDate().hour, minute: event.eventStartTime.toDate().minute),
+      eventEndTime: TimeOfDay(hour: event.eventEndTime.toDate().hour, minute: event.eventEndTime.toDate().minute),
       isSaveChangesButtonLoading: false,
-      eventDateAndTimeInfo: event.formattedCreatedTime,
-      endTimeInfo: "${event.formattedEndTime} - Ends",
-      startTimeInfo: "${event.formattedStartTime} - Starts",
       pictureBoxState: PictureBoxState.pickImage,
       isSaveChangesButtonEnable: false,
       isNewDescriptionNotEmpty: true,
