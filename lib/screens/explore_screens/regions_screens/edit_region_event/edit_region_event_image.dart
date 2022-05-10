@@ -77,9 +77,7 @@ class EditRegionEventImage extends StatelessWidget {
                   else
                     const SizedBox.shrink(),
                   const SizedBox(height: 20),
-                  Text(context.loc.createRegionAddBackGroundImageDescription,
-                      style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
-                  Text("${context.loc.createRegionAddBackGroundImageAcceptedFilesTitle}: .png//.jpg",
+                  Text(context.loc.createRegionAddBackGroundImageAcceptedFilesTitle,
                       style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                 ],
               ),
