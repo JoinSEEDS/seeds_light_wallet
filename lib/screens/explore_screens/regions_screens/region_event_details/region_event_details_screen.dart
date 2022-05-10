@@ -167,7 +167,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
                                   onTap: () => BlocProvider.of<RegionEventDetailsBloc>(context)
                                       .add(const OnRegionMapsLinkTapped()),
                                   child: Text(
-                                    'https://www.google.com/maps/place/${event.eventLocation.latitude}+-${event.eventLocation.longitude.abs()}/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z',
+                                    'Open in maps',
                                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen,
                                   ),
                                 ),
