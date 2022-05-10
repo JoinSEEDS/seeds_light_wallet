@@ -277,9 +277,7 @@
   "@createRegionNotEnoughSeedsDialogTitle": {},
   "createRegionNotEnoughSeedsDialogSubtitle": "Parece que no tienes suficientes seeds para crear una región. Haga clic en el enlace a continuación para comprar algunas seeds en nuestro sitio web oficial.",
   "@createRegionNotEnoughSeedsDialogSubtitle": {},
-  "createRegionAddBackGroundImageDescription": "Dimensiones de la imagen.",
-  "@createRegionAddBackGroundImageDescription": {},
-  "createRegionAddBackGroundImageAcceptedFilesTitle": "Formatos de archivo aceptados",
+  "createRegionAddBackGroundImageAcceptedFilesTitle": "Formatos de archivo recomendados: .png//.jpg//.jpeg",
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},
   "createRegionAddBackGroundImageBoxTitle": "Agregar foto",
   "@createRegionAddBackGroundImageBoxTitle": {},
@@ -453,7 +451,14 @@
   "introducingRegionsDialogDescription8": "para comenzar a buscar regiones cerca de usted.",
   "@introducingRegionsDialogDescription8": {},
   "regionMainMembersTitle": "{members,plural, =1{{membersFormatted} miembro} other{{membersFormatted} miembros}}",
-  "@regionMainMembersTitle": { "placeholders": { "members": {}, "membersFormatted": { "type": "String" } } },
+  "@regionMainMembersTitle": {
+    "placeholders": {
+      "members": {},
+      "membersFormatted": {
+        "type": "String"
+      }
+    }
+  },
   "regionMainJoinTitle": "Unirse",
   "@regionMainJopinTitle": {},
   "joinRegionConfirmDialogTitle": "¿Unirse a esta región?",
@@ -540,7 +545,7 @@
         "example": "0"
       }
     }
-  },  
+  },
   "proposalsUnableToLoadError": "Error cargando las Propuestas",
   "@proposalsUnableToLoadError": {}
 }
