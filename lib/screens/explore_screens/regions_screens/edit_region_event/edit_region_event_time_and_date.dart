@@ -6,7 +6,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/create_region_event_screens/components/date_time_row.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/components/date_time_row.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
 
 class EditRegionEventTimeAndDate extends StatelessWidget {
