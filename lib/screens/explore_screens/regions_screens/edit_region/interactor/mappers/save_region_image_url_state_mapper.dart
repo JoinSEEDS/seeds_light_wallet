@@ -9,7 +9,7 @@ class SaveRegionImageUrlStateMapper extends StateMapper {
       return currentState.copyWith(
           isSaveChangesButtonLoading: false, pageCommand: ShowErrorMessage("Error Saving Image"));
     } else {
-      return currentState.copyWith(pageCommand: EditRegionImage(), imageUrl: result.asValue!.value);
+      return currentState.copyWith(pageCommand: UpdateFirebaseRegionImage(), imageUrl: result.asValue!.value);
     }
   }
 }

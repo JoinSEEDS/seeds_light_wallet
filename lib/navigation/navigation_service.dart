@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,13 +12,13 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/reco
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/screens/create_region_event_screens/create_region_event_screen_controller.dart';
-import 'package:seeds/screens/create_region_screens/create_region_screen_controller.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/flag_user_screen.dart';
 import 'package:seeds/screens/explore_screens/flag/flags/flag_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/create_region_event_screen_controller.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/create_region_screens/create_region_screen_controller.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_description.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region/edit_region_image.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/edit_region_event_image.dart';
