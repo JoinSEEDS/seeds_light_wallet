@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/region_event_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -10,6 +9,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/region_event_card/interactor/viewmodels/region_event_card_bloc.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/components/stacked_avatars.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/utils/date_time_extension.dart';
 
 class RegionEventCard extends StatelessWidget {
   final RegionEventModel event;
@@ -85,7 +85,7 @@ class RegionEventCard extends StatelessWidget {
                               style: Theme.of(context).textTheme.buttonLowEmphasis,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Text(DateFormat.yMMMMd().format(DateTime.parse(event.createdTime.toDate().toString()))),
+                            Text(event.eventStartTime.toDate().toYMMMMD(context)),
                           ],
                         ),
                       ),
