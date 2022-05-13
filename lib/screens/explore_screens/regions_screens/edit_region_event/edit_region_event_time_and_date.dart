@@ -25,33 +25,33 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final command = state.pageCommand;
-           // BlocProvider.of<CreateRegionEventBloc>(context).add(const ClearCreateRegionEventPageCommand());
+            BlocProvider.of<EditRegionEventBloc>(context).add(const ClearEditRegionEventPageCommand());
             if (command is ShowStartTimePicker || command is ShowEndTimePicker) {
-              final initialTime = state.eventEndTime ?? TimeOfDay.now();
+              final initialTime = state.eventEndTime;
               showTimePicker(context: context, initialTime: initialTime).then((selected) {
-               // BlocProvider.of<CreateRegionEventBloc>(context).add(
-                //  command is ShowStartTimePicker ? OnStartTimeChanged(selected) : OnEndTimeChanged(selected),
-               // );
+                BlocProvider.of<EditRegionEventBloc>(context).add(
+                  command is ShowStartTimePicker ? OnStartTimeChanged(selected) : OnEndTimeChanged(selected),
+                );
               });
             } else if (command is ShowStartDatePicker) {
-              final endDate = state.eventEndDate ?? DateTime(2099);
+              final endDate = state.eventEndDate;
               showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
                 firstDate: DateTime.now(),
                 lastDate: endDate,
               ).then((selected) {
-               // BlocProvider.of<CreateRegionEventBloc>(context).add(OnStartDateChanged(selected));
+                BlocProvider.of<EditRegionEventBloc>(context).add(OnStartDateChanged(selected));
               });
             } else if (command is ShowEndDatePicker) {
-              final initialDate = state.eventStartDate ?? DateTime.now();
+              final initialDate = state.eventStartDate;
               showDatePicker(
                 context: context,
                 initialDate: initialDate,
                 firstDate: initialDate,
                 lastDate: DateTime(2099),
               ).then((selected) {
-               // BlocProvider.of<CreateRegionEventBloc>(context).add(OnEndDateChanged(selected));
+                BlocProvider.of<EditRegionEventBloc>(context).add(OnEndDateChanged(selected));
               });
             } else if (command is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(command.message));
@@ -66,15 +66,6 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                     children: [
                       const Text('Start Date & Time'),
                       const SizedBox(height: 20),
-                      // DateTimeRow(
-                      //   label: "Select Event Start Date",
-                      //   icon: const Icon(Icons.calendar_today_outlined),
-                      //   onTap: () {
-                      //     BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectStartDateButtonTapped());
-                      //   },
-                      //   timeInfo:
-                      //   state.eventStartDate != null ? DateFormat.yMMMMEEEEd().format(state.eventStartDate!) : "",
-                      // ),
                       DateTimeRow(
                           label: "Select Event Start Date",
                           icon: const Icon(Icons.calendar_today_outlined),
@@ -86,13 +77,8 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                       DateTimeRow(
                         label: "Select Event Start Time",
                         icon: const Icon(Icons.access_time),
-                        onTap: () async {
-                          final TimeOfDay? picked = await showTimePicker(
-                            context: context,
-                            initialTime: const TimeOfDay(hour: 00, minute: 00),
-                          );
-                          // ignore: use_build_context_synchronously
-                          BlocProvider.of<EditRegionEventBloc>(context).add(OnStartTimeChanged(picked));
+                        onTap: () {
+                          BlocProvider.of<EditRegionEventBloc>(context).add(const OnSelectStartTimeButtonTapped());
                         },
                         timeInfo: state.eventStartTime.format(context),
                       ),
@@ -103,7 +89,7 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                         label: "Select Event End Date",
                         icon: const Icon(Icons.calendar_today_outlined),
                         onTap: () {
-                        //  BlocProvider.of<CreateRegionEventBloc>(context).add(const OnSelectEndDateButtonTapped());
+                          BlocProvider.of<EditRegionEventBloc>(context).add(const OnSelectEndDateButtonTapped());
                         },
                         timeInfo: state.endDateAndTimeFormatted,
                       ),
@@ -111,13 +97,8 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                       DateTimeRow(
                           label: "Select Event End Time",
                           icon: const Icon(Icons.access_time),
-                          onTap: () async {
-                            final TimeOfDay? picked = await showTimePicker(
-                              context: context,
-                              initialTime: const TimeOfDay(hour: 00, minute: 00),
-                            );
-                            // ignore: use_build_context_synchronously
-                            BlocProvider.of<EditRegionEventBloc>(context).add(OnEndTimeChanged(picked));
+                          onTap: () {
+                            BlocProvider.of<EditRegionEventBloc>(context).add(const OnSelectEndTimeButtonTapped());
                           },
                           timeInfo: state.eventEndTime.format(context)),
                     ],
