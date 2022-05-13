@@ -27,6 +27,7 @@ class RegionEvents extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<RegionEventModel> events = snapshot.data!;
+                events.sort((a, b) => b.eventStartTime.compareTo(a.eventStartTime));
                 return ListView.builder(
                   padding: const EdgeInsets.all(16.0),
                   itemCount: events.length,
