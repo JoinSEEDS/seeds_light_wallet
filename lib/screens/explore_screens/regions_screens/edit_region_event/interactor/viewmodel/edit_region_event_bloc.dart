@@ -15,6 +15,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/pick_image_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/mappers/save_image_url_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/usecases/edit_region_event_name_and_description_use_case.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_page_commands.dart';
 
 part 'edit_region_event_events.dart';
 
@@ -23,8 +24,13 @@ part 'edit_region_event_state.dart';
 class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventState> {
   EditRegionEventBloc(RegionEventModel event) : super(EditRegionEventState.initial(event)) {
     on<OnUpdateMapLocation>(_onUpdateMapLocations);
-    on<OnSelectDateChanged>(_onSelectDateChange);
+    on<OnSelectStartDateButtonTapped>((event, emit) => emit(state.copyWith(pageCommand: ShowStartDatePicker())));
+    on<OnStartDateChanged>(_onStartDateChange);
+    on<OnSelectEndDateButtonTapped>((event, emit) => emit(state.copyWith(pageCommand: ShowEndDatePicker())));
+    on<OnEndDateChanged>(_onEndDateChanged);
+    on<OnSelectStartTimeButtonTapped>((event, emit) => emit(state.copyWith(pageCommand: ShowStartTimePicker())));
     on<OnStartTimeChanged>(_onStartTimeChange);
+    on<OnSelectEndTimeButtonTapped>((event, emit) => emit(state.copyWith(pageCommand: ShowEndTimePicker())));
     on<OnEndTimeChanged>(_onEndTimeChanged);
     on<OnPickImage>(_onPickImage);
     on<OnSaveChangesTapped>(_onSaveChangesTapped);
@@ -49,31 +55,27 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
     emit(SaveImageUrlStateMapper().mapResultToState(state, urlResult));
   }
 
-  void _onSelectDateChange(OnSelectDateChanged event, Emitter<EditRegionEventState> emit) {
+  void _onStartDateChange(OnStartDateChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedDate != null) {
-      emit(state.copyWith(
-          newEventDateAndTime: event.selectedDate,
-          eventDateAndTimeInfo: DateFormat.yMMMMEEEEd().format(event.selectedDate!)));
+      emit(state.copyWith(eventStartDate: event.selectedDate));
     }
   }
 
   void _onStartTimeChange(OnStartTimeChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedTime != null) {
-      final now = DateTime.now();
-      final newStartTime = DateTime(now.year, now.month, now.day, event.selectedTime!.hour, event.selectedTime!.minute);
-
-      emit(state.copyWith(
-          newEventStartTime: event.selectedTime, startTimeInfo: "${DateFormat.jm().format(newStartTime)} - Stars"));
+      emit(state.copyWith(eventStartTime: event.selectedTime));
     }
   }
 
   void _onEndTimeChanged(OnEndTimeChanged event, Emitter<EditRegionEventState> emit) {
     if (event.selectedTime != null) {
-      final now = DateTime.now();
-      final newEndTime = DateTime(now.year, now.month, now.day, event.selectedTime!.hour, event.selectedTime!.minute);
+      emit(state.copyWith(eventEndTime: event.selectedTime));
+    }
+  }
 
-      emit(state.copyWith(
-          newEventEndTime: event.selectedTime, endTimeInfo: "${DateFormat.jm().format(newEndTime)} - Ends"));
+  void _onEndDateChanged(OnEndDateChanged event, Emitter<EditRegionEventState> emit) {
+    if (event.selectedDate != null) {
+      emit(state.copyWith(eventEndDate: event.selectedDate));
     }
   }
 

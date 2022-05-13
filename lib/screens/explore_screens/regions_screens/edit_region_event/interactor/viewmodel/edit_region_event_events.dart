@@ -30,13 +30,13 @@ class OnUpdateMapLocation extends EditRegionEventEvents {
   String toString() => 'OnUpdateMapLocation { Place: $place}';
 }
 
-class OnSelectDateChanged extends EditRegionEventEvents {
+class OnStartDateChanged extends EditRegionEventEvents {
   final DateTime? selectedDate;
 
-  const OnSelectDateChanged(this.selectedDate);
+  const OnStartDateChanged(this.selectedDate);
 
   @override
-  String toString() => 'onSelectDateChanged{newDateTime: $selectedDate}';
+  String toString() => 'OnStartDateChanged{newDateTime: $selectedDate}';
 }
 
 class OnStartTimeChanged extends EditRegionEventEvents {
@@ -56,6 +56,44 @@ class OnEndTimeChanged extends EditRegionEventEvents {
   @override
   String toString() => 'OnEndTimeChanged{selectedTime: $selectedTime}';
 }
+
+class OnEndDateChanged extends EditRegionEventEvents {
+  final DateTime? selectedDate;
+
+  const OnEndDateChanged(this.selectedDate);
+
+  @override
+  String toString() => 'onEndDateChanged { selectedDate: $selectedDate}';
+}
+
+class OnSelectStartDateButtonTapped extends EditRegionEventEvents {
+  const OnSelectStartDateButtonTapped();
+
+  @override
+  String toString() => 'OnSelectStartDateButtonTapped';
+}
+
+class OnSelectStartTimeButtonTapped extends EditRegionEventEvents {
+  const OnSelectStartTimeButtonTapped();
+
+  @override
+  String toString() => 'OnSelectStartTimeButtonTapped';
+}
+
+class OnSelectEndDateButtonTapped extends EditRegionEventEvents {
+  const OnSelectEndDateButtonTapped();
+
+  @override
+  String toString() => 'OnSelectEndDateButtonTapped';
+}
+
+class OnSelectEndTimeButtonTapped extends EditRegionEventEvents {
+  const OnSelectEndTimeButtonTapped();
+
+  @override
+  String toString() => 'OnSelectEndTimeButtonTapped';
+}
+
 
 class OnEventNameChange extends EditRegionEventEvents {
   final String eventName;
