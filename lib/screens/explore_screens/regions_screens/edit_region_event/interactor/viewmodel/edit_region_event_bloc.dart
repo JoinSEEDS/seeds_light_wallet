@@ -107,6 +107,20 @@ class EditRegionEventBloc extends Bloc<EditRegionEventEvents, EditRegionEventSta
       event: state.event,
       imageUrl: state.imageUrl,
       newPlace: state.newPlace,
+      eventStartTime: DateTime(
+        state.eventStartDate.year,
+        state.eventStartDate.month,
+        state.eventStartDate.day,
+        state.eventStartTime.hour,
+        state.eventStartTime.minute,
+      ),
+      eventEndTime: DateTime(
+        state.eventEndDate.year,
+        state.eventEndDate.month,
+        state.eventEndDate.day,
+        state.eventEndTime.hour,
+        state.eventEndTime.minute,
+      ),
     ));
     emit(EditRegionEventStateMapper().mapResultToState(state, result));
   }
