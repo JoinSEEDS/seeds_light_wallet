@@ -10,7 +10,7 @@ import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class LogoutRecoveryPhraseDialog extends StatelessWidget {
-  const LogoutRecoveryPhraseDialog({Key? key}) : super(key: key);
+  const LogoutRecoveryPhraseDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

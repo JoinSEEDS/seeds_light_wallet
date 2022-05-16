@@ -11,7 +11,7 @@ import 'package:seeds/screens/profile_screens/set_currency/interactor/viewmodels
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
-  const SetCurrencyScreen({Key? key}) : super(key: key);
+  const SetCurrencyScreen({super.key});
 
   @override
   _SetCurrencyScreenState createState() => _SetCurrencyScreenState();

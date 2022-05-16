@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-enum ImportKeyError { invalidPrivateKey, noAccountsFound, unableToLoadAccount, noPublicKeyFound }
+enum ImportKeyError {
+  invalidPrivateKey,
+  noAccountsFound,
+  unableToLoadAccount,
+  noPublicKeyFound;
 
-extension LocalizedImportKeyError on ImportKeyError {
   String localizedDescription(BuildContext context) {
     switch (this) {
       case ImportKeyError.invalidPrivateKey:

@@ -12,7 +12,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/create_region_scre
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionBackgroundImage extends StatelessWidget {
-  const AddRegionBackgroundImage({Key? key}) : super(key: key);
+  const AddRegionBackgroundImage({super.key});
 
   @override
   Widget build(BuildContext context) {

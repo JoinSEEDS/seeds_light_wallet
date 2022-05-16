@@ -18,7 +18,7 @@ import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/vie
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ReceiveEnterDataScreen extends StatefulWidget {
-  const ReceiveEnterDataScreen({Key? key}) : super(key: key);
+  const ReceiveEnterDataScreen({super.key});
 
   @override
   State<ReceiveEnterDataScreen> createState() => _ReceiveEnterDataScreenState();

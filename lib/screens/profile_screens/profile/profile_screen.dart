@@ -13,7 +13,7 @@ import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();

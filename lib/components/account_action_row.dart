@@ -10,13 +10,13 @@ class AccountActionRow extends StatelessWidget {
   final GestureTapCallback? onTileTap;
 
   const AccountActionRow({
-    Key? key,
+    super.key,
     required this.image,
     required this.account,
     required this.nickname,
     this.action,
     this.onTileTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

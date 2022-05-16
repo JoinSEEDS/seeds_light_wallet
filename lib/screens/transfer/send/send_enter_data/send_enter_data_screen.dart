@@ -26,7 +26,7 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendEnterDataScreen extends StatelessWidget {
-  const SendEnterDataScreen({Key? key}) : super(key: key);
+  const SendEnterDataScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

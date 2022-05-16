@@ -14,7 +14,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 class RegionsSearchResults extends StatelessWidget {
   final ValueSetter<List<RegionModel>>? onRegionsChanged;
 
-  const RegionsSearchResults({Key? key, this.onRegionsChanged}) : super(key: key);
+  const RegionsSearchResults({super.key, this.onRegionsChanged});
 
   @override
   Widget build(BuildContext context) {

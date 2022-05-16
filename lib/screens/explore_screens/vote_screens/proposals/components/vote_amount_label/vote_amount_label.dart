@@ -10,7 +10,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 class VoteAmountLabel extends StatelessWidget {
   final ProposalViewModel proposal;
 
-  const VoteAmountLabel(this.proposal, {Key? key}) : super(key: key);
+  const VoteAmountLabel(this.proposal, {super.key});
 
   @override
   Widget build(BuildContext context) {

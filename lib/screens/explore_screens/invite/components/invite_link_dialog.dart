@@ -8,7 +8,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 
 class InviteLinkDialog extends StatefulWidget {
-  const InviteLinkDialog({Key? key}) : super(key: key);
+  const InviteLinkDialog({super.key});
 
   @override
   State<InviteLinkDialog> createState() => _InviteLinkDialogState();

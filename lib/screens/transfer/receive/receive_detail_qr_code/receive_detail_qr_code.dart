@@ -15,7 +15,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
   final ReceiveDetails details;
 
-  const ReceiveDetailQrCodeScreen(this.details, {Key? key}) : super(key: key);
+  const ReceiveDetailQrCodeScreen(this.details, {super.key});
 
   @override
   Widget build(BuildContext context) {

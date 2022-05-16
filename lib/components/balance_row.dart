@@ -12,11 +12,11 @@ class BalanceRow extends StatelessWidget {
   final FiatDataModel? fiatAmount;
 
   const BalanceRow({
-    Key? key,
+    super.key,
     required this.label,
     required this.tokenAmount,
     required this.fiatAmount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

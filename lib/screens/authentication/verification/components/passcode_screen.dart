@@ -18,8 +18,7 @@ class PasscodeScreen extends StatefulWidget {
   final ValueSetter<String> onPasscodeCompleted;
   final Widget? bottomWidget;
 
-  const PasscodeScreen({Key? key, required this.title, required this.onPasscodeCompleted, this.bottomWidget})
-      : super(key: key);
+  const PasscodeScreen({super.key, required this.title, required this.onPasscodeCompleted, this.bottomWidget});
 
   @override
   State<StatefulWidget> createState() => _PasscodeScreenState();

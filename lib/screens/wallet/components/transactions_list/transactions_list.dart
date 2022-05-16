@@ -13,7 +13,7 @@ import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class TransactionsList extends StatefulWidget {
-  const TransactionsList({Key? key}) : super(key: key);
+  const TransactionsList({super.key});
 
   @override
   _TransactionsListState createState() => _TransactionsListState();

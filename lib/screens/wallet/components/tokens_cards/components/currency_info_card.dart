@@ -12,12 +12,12 @@ class CurrencyInfoCard extends StatelessWidget {
 
   const CurrencyInfoCard(
     this.tokenBalance, {
-    Key? key,
+    super.key,
     this.fiatBalance = "",
     this.cardWidth,
     this.cardHeight,
     this.textColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

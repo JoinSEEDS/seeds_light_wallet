@@ -6,7 +6,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendSearchUserScreen extends StatelessWidget {
-  const SendSearchUserScreen({Key? key}) : super(key: key);
+  const SendSearchUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

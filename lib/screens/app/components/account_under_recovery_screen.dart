@@ -7,7 +7,7 @@ import 'package:seeds/i18n/app/app.i18.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
-  const AccountUnderRecoveryScreen({Key? key}) : super(key: key);
+  const AccountUnderRecoveryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/
 import 'package:seeds/utils/build_context_extension.dart';
 
 class PlantSeedsSuccessDialog extends StatelessWidget {
-  const PlantSeedsSuccessDialog({Key? key}) : super(key: key);
+  const PlantSeedsSuccessDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

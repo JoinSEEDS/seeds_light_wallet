@@ -13,8 +13,7 @@ class GuardianSecurityCard extends StatelessWidget {
   final GestureTapCallback? onTap;
   final bool hasNotification;
 
-  const GuardianSecurityCard({Key? key, this.guardiansStatus, this.onTap, this.hasNotification = false})
-      : super(key: key);
+  const GuardianSecurityCard({super.key, this.guardiansStatus, this.onTap, this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {

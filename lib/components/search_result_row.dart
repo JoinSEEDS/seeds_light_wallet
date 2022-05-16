@@ -7,7 +7,7 @@ class SearchResultRow extends StatelessWidget {
   final ProfileModel member;
   final GestureTapCallback? onTap;
 
-  const SearchResultRow({Key? key, required this.member, this.onTap}) : super(key: key);
+  const SearchResultRow({super.key, required this.member, this.onTap});
 
   @override
   Widget build(BuildContext context) {

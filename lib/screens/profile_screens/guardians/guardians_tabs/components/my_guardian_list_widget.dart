@@ -6,7 +6,7 @@ class MyGuardiansListWidget extends StatelessWidget {
   final String currentUserId;
   final List<GuardianModel> guardians;
 
-  const MyGuardiansListWidget({Key? key, required this.currentUserId, required this.guardians}) : super(key: key);
+  const MyGuardiansListWidget({super.key, required this.currentUserId, required this.guardians});
 
   @override
   Widget build(BuildContext context) {

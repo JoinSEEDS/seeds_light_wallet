@@ -5,7 +5,7 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 class ContributionDetailSubtitle extends StatelessWidget {
   final String title;
 
-  const ContributionDetailSubtitle(this.title, {Key? key}) : super(key: key);
+  const ContributionDetailSubtitle(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {

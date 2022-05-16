@@ -10,13 +10,12 @@ class GuardianDialogSingleAction extends StatelessWidget {
   final String buttonTitle;
   final String title;
   const GuardianDialogSingleAction(
-      {Key? key,
+      {super.key,
       required this.image,
       required this.description,
       this.onButtonTab,
       required this.buttonTitle,
-      required this.title})
-      : super(key: key);
+      required this.title});
 
   @override
   Widget build(BuildContext context) {

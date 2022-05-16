@@ -8,7 +8,7 @@ import 'package:seeds/screens/explore_screens/flag/flags/interactor/viewmodels/f
 class RemoveFlagInfoDialog extends StatelessWidget {
   final String userAccount;
 
-  const RemoveFlagInfoDialog(this.userAccount, {Key? key}) : super(key: key);
+  const RemoveFlagInfoDialog(this.userAccount, {super.key});
 
   @override
   Widget build(BuildContext context) {

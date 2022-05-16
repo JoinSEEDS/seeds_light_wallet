@@ -11,13 +11,12 @@ class OnboardingDialogSingleAction extends StatelessWidget {
   final GestureTapCallback? onNext;
   final String buttonTitle;
   const OnboardingDialogSingleAction(
-      {Key? key,
+      {super.key,
       required this.indexDialong,
       required this.image,
       required this.description,
       this.onNext,
-      required this.buttonTitle})
-      : super(key: key);
+      required this.buttonTitle});
 
   @override
   Widget build(BuildContext context) {

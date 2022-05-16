@@ -3,10 +3,10 @@ import 'package:lottie/lottie.dart';
 
 class FullPageLoadingIndicator extends StatelessWidget {
   const FullPageLoadingIndicator({
-    Key? key,
+    super.key,
     this.width = 126,
     this.height = 126,
-  }) : super(key: key);
+  });
 
   final double width;
   final double height;

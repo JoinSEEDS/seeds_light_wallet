@@ -3,7 +3,7 @@ import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/images/explore/vouch_white_background.dart';
 
 class NotQualifiedToVouchDialog extends StatelessWidget {
-  const NotQualifiedToVouchDialog({Key? key}) : super(key: key);
+  const NotQualifiedToVouchDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

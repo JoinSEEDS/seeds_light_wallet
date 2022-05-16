@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-enum InviteError { inviteFail, noEnoughBalance, minimumSeedsRequired, errorLoadingBalance }
+enum InviteError {
+  inviteFail,
+  noEnoughBalance,
+  minimumSeedsRequired,
+  errorLoadingBalance;
 
-extension LocalizedInviteError on InviteError {
   String localizedDescription(BuildContext context) {
     switch (this) {
       case InviteError.inviteFail:

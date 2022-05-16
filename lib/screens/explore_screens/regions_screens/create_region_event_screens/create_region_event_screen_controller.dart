@@ -14,7 +14,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/create_region_even
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/review_and_publish_region_event.dart';
 
 class CreateRegionEventScreenController extends StatelessWidget {
-  const CreateRegionEventScreenController({Key? key}) : super(key: key);
+  const CreateRegionEventScreenController({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -30,7 +30,7 @@ class TextFormFieldCustom extends StatelessWidget {
   final String? counterText;
 
   const TextFormFieldCustom(
-      {Key? key,
+      {super.key,
       this.initialValue,
       this.autofocus = false,
       this.focusNode,
@@ -52,8 +52,7 @@ class TextFormFieldCustom extends StatelessWidget {
       this.labelText,
       this.disabledLabelColor,
       this.errorText,
-      this.counterText = ""})
-      : super(key: key);
+      this.counterText = ""});
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ class GenericRegionDialog extends StatelessWidget {
   final String title;
   final String description;
 
-  const GenericRegionDialog({Key? key, required this.title, required this.description}) : super(key: key);
+  const GenericRegionDialog({super.key, required this.title, required this.description});
 
   Future<bool?> show(BuildContext context) async {
     return showDialog(barrierDismissible: false, context: context, builder: (_) => this);

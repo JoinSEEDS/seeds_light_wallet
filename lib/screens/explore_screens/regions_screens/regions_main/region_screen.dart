@@ -13,7 +13,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/compo
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class RegionScreen extends StatelessWidget {
-  const RegionScreen({Key? key}) : super(key: key);
+  const RegionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -13,14 +13,14 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
   final TextEditingController? controller;
 
   const UnplantSeedsAmountEntry({
-    Key? key,
+    super.key,
     required this.tokenDataModel,
     required this.onValueChange,
     required this.autoFocus,
     required this.onTapMax,
     required this.unplantedBalanceFiat,
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

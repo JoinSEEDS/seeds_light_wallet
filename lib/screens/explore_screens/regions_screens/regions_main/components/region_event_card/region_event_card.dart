@@ -14,7 +14,7 @@ import 'package:seeds/utils/date_time_extension.dart';
 class RegionEventCard extends StatelessWidget {
   final RegionEventModel event;
 
-  const RegionEventCard(this.event, {Key? key}) : super(key: key);
+  const RegionEventCard(this.event, {super.key});
 
   @override
   Widget build(BuildContext context) {

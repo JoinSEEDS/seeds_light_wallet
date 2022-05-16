@@ -13,7 +13,7 @@ import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/sec
 import 'package:seeds/utils/build_context_extension.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({Key? key}) : super(key: key);
+  const VerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

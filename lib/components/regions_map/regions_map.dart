@@ -21,12 +21,12 @@ class RegionsMap extends StatefulWidget {
   final Place? initialPlace;
 
   const RegionsMap({
-    Key? key,
+    super.key,
     this.onPlaceChanged,
     this.onRegionsChanged,
     this.showRegionsResults = false,
     this.initialPlace,
-  }) : super(key: key);
+  });
 
   @override
   _RegionsMapState createState() => _RegionsMapState();

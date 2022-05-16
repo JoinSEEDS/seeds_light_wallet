@@ -5,7 +5,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 
 class VoteSuccessDialog extends StatelessWidget {
-  const VoteSuccessDialog({Key? key}) : super(key: key);
+  const VoteSuccessDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

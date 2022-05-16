@@ -9,12 +9,12 @@ class DelegateRow extends StatelessWidget {
   final String? avatarImage;
 
   const DelegateRow({
-    Key? key,
+    super.key,
     required this.account,
     required this.nickname,
     required this.onTapRemove,
     this.avatarImage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
