@@ -169,8 +169,8 @@ class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
     String? eventDescription,
     Place? place,
     String? eventImage,
-    Timestamp? eventStartTime,
-    Timestamp? eventEndTime,
+    DateTime? eventStartTime,
+    DateTime? eventEndTime,
   }) async {
     final Map<String, dynamic> data = {};
     if (eventName != null) {

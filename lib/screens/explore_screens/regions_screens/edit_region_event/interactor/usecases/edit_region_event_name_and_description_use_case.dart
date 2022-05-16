@@ -9,12 +9,13 @@ class EditRegionEventEventUseCase extends InputUseCase<String, EditRegionEventIn
   @override
   Future<Result<String>> run(EditRegionEventInput input) async {
     final Result<String> editRegionEventResult = await _firebaseDatabaseRegionsRepository.editRegionEvent(
-      eventId: input.event.id,
-      eventName: input.eventName,
-      eventDescription: input.eventDescription,
-      eventImage: input.imageUrl,
-      place: input.newPlace,
-    );
+        eventId: input.event.id,
+        eventName: input.eventName,
+        eventDescription: input.eventDescription,
+        eventImage: input.imageUrl,
+        place: input.newPlace,
+        eventStartTime: input.eventStartTime,
+        eventEndTime: input.eventEndTime);
 
     return editRegionEventResult;
   }
@@ -25,6 +26,8 @@ class EditRegionEventInput {
   final String? eventDescription;
   final String? imageUrl;
   final Place? newPlace;
+  final DateTime? eventStartTime;
+  final DateTime? eventEndTime;
   final RegionEventModel event;
 
   EditRegionEventInput({
@@ -32,6 +35,8 @@ class EditRegionEventInput {
     this.eventDescription,
     this.imageUrl,
     this.newPlace,
+    this.eventStartTime,
+    this.eventEndTime,
     required this.event,
   });
 }

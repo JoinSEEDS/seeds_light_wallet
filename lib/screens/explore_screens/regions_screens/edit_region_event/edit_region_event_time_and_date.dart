@@ -6,6 +6,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/components/date_time_row.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_page_commands.dart';
@@ -53,6 +54,9 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
               ).then((selected) {
                 BlocProvider.of<EditRegionEventBloc>(context).add(OnEndDateChanged(selected));
               });
+            }
+            if (command is NavigateToRoute) {
+              NavigationService.of(context).pushAndRemoveUntil(route: command.route, from: Routes.app);
             } else if (command is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(command.message));
             }
@@ -106,11 +110,10 @@ class EditRegionEventTimeAndDate extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButtonLong(
-                      isLoading: state.isSaveChangesButtonLoading,
-                      title: "Save Changes",
-                      // TODO(gguij004): next pr
-                      onPressed: () {},
-                    ),
+                        isLoading: state.isSaveChangesButtonLoading,
+                        title: "Save Changes",
+                        onPressed: () =>
+                            BlocProvider.of<EditRegionEventBloc>(context).add(const OnSaveChangesTapped())),
                   )
                 ],
               ),
