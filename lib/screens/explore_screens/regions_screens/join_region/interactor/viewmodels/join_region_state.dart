@@ -3,48 +3,43 @@ part of 'join_region_bloc.dart';
 class JoinRegionState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
-  final List<RegionModel> regions;
-  final Place? currentPlace;
   final bool isCreateRegionButtonLoading;
+  final bool isRegionsResultsEmpty;
 
   const JoinRegionState({
     this.pageCommand,
     required this.pageState,
-    required this.regions,
-    this.currentPlace,
     required this.isCreateRegionButtonLoading,
+    required this.isRegionsResultsEmpty,
   });
 
   @override
   List<Object?> get props => [
         pageCommand,
         pageState,
-        regions,
-        currentPlace,
         isCreateRegionButtonLoading,
+        isRegionsResultsEmpty,
       ];
 
   JoinRegionState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
-    List<RegionModel>? regions,
-    Place? currentPlace,
     bool? isCreateRegionButtonLoading,
+    bool? isRegionsResultsEmpty,
   }) {
     return JoinRegionState(
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
-      regions: regions ?? this.regions,
-      currentPlace: currentPlace ?? this.currentPlace,
       isCreateRegionButtonLoading: isCreateRegionButtonLoading ?? this.isCreateRegionButtonLoading,
+      isRegionsResultsEmpty: isRegionsResultsEmpty ?? this.isRegionsResultsEmpty,
     );
   }
 
   factory JoinRegionState.initial() {
     return const JoinRegionState(
       pageState: PageState.initial,
-      regions: [],
       isCreateRegionButtonLoading: false,
+      isRegionsResultsEmpty: true,
     );
   }
 }

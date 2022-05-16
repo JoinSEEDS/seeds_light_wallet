@@ -1,15 +1,17 @@
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:seeds/components/regions_map/components/regions_search_results/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/components/regions_map/components/regions_search_results/interactor/viewmodels/regions_search_results_bloc.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/firebase_region_model.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 
 class UpdateRegionsResultsStateMapper extends StateMapper {
-  JoinRegionState mapResultToState(JoinRegionState currentState, Result result, Place place) {
+  RegionsSearchResultsState mapResultToState(RegionsSearchResultsState currentState, Result result, Place place) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure);
+      return currentState.copyWith(pageState: PageState.failure, pageCommand: ShowErrorMessage(''));
     } else {
       final List<FirebaseRegion> fireRegions = result.asValue!.value;
       final List<RegionModel> newRegions = [];
@@ -19,7 +21,12 @@ class UpdateRegionsResultsStateMapper extends StateMapper {
           newRegions.add(found.addImageUrlToModel(i.imageUrl));
         }
       }
-      return currentState.copyWith(regions: newRegions, currentPlace: place);
+      return currentState.copyWith(
+        pageState: PageState.success,
+        pageCommand: RegionsChanged(),
+        nearbyRegions: newRegions,
+        currentPlace: place,
+      );
     }
   }
 }

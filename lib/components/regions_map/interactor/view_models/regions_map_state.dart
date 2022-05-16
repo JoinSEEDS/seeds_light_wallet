@@ -9,6 +9,7 @@ class RegionsMapState extends Equatable {
   final bool isCameraMoving;
   final bool isSearchingPlace;
   final bool isUserLocationEnabled;
+  final bool showRegionsResults;
 
   const RegionsMapState({
     this.pageCommand,
@@ -19,6 +20,7 @@ class RegionsMapState extends Equatable {
     required this.isCameraMoving,
     required this.isSearchingPlace,
     required this.isUserLocationEnabled,
+    required this.showRegionsResults,
   });
 
   @override
@@ -26,6 +28,7 @@ class RegionsMapState extends Equatable {
         pageCommand,
         pageState,
         initialPlace,
+        regions,
         newPlace,
         isCameraMoving,
         isSearchingPlace,
@@ -36,6 +39,7 @@ class RegionsMapState extends Equatable {
     PageCommand? pageCommand,
     PageState? pageState,
     Place? initialPlace,
+    List<RegionModel>? regions,
     Place? newPlace,
     bool? isCameraMoving,
     bool? isSearchingPlace,
@@ -46,14 +50,15 @@ class RegionsMapState extends Equatable {
       pageState: pageState ?? this.pageState,
       isCameraMoving: isCameraMoving ?? this.isCameraMoving,
       initialPlace: initialPlace ?? this.initialPlace,
-      regions: regions,
+      regions: regions ?? this.regions,
       newPlace: newPlace ?? this.newPlace,
       isSearchingPlace: isSearchingPlace ?? this.isSearchingPlace,
       isUserLocationEnabled: isUserLocationEnabled ?? this.isUserLocationEnabled,
+      showRegionsResults: showRegionsResults,
     );
   }
 
-  factory RegionsMapState.initial(List<RegionModel>? regions, Place? initial) {
+  factory RegionsMapState.initial(bool showRegionsResults, Place? initial) {
     // Copy and modify by a small value to fire the listner
     // (To avoid the cam move so much from the initial position)
     final Place? initialPlace = initial != null
@@ -61,12 +66,13 @@ class RegionsMapState extends Equatable {
         : null;
     return RegionsMapState(
       pageState: PageState.initial,
-      regions: regions ?? [],
+      regions: [],
       initialPlace: initialPlace,
       newPlace: initial ?? const Place(lat: 0, lng: 0, placeText: ''),
       isCameraMoving: false,
       isSearchingPlace: false,
       isUserLocationEnabled: true,
+      showRegionsResults: showRegionsResults,
     );
   }
 }

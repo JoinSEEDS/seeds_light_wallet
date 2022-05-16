@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/components/regions_map/components/regions_search_results/interactor/viewmodels/regions_search_results_bloc.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/images/explore/region_members.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 
 class RegionResultTile extends StatelessWidget {
   final RegionModel region;
@@ -37,7 +37,7 @@ class RegionResultTile extends StatelessWidget {
                 const CustomPaint(size: Size(13, 13 * 0.92), painter: RegionMembers())
               ],
             ),
-            BlocBuilder<JoinRegionBloc, JoinRegionState>(
+            BlocBuilder<RegionsSearchResultsBloc, RegionsSearchResultsState>(
               builder: (context, state) {
                 return Text('${region.distanceTo(state.currentPlace!.lat, state.currentPlace!.lng).truncate()} km',
                     style: Theme.of(context).textTheme.subtitle2OpacityEmphasis);

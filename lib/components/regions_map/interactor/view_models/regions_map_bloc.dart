@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_places_from_coordinates_use_case.dart';
+import 'package:seeds/components/regions_map/interactor/usecases/get_regions_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/usecases/get_user_location_use_case.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/page_commands.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
@@ -22,7 +23,8 @@ part 'regions_map_state.dart';
 const defaultLocation = [-99.085092, 19.461416];
 
 class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
-  RegionsMapBloc(List<RegionModel>? regions, Place? initial) : super(RegionsMapState.initial(regions, initial)) {
+  RegionsMapBloc(bool showRegionsResults, Place? initial)
+      : super(RegionsMapState.initial(showRegionsResults, initial)) {
     on<SetInitialValues>(_setInitialValues);
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>((_, emit) => emit(state.copyWith(isCameraMoving: true)));
@@ -33,6 +35,15 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
   }
 
   Future<void> _setInitialValues(SetInitialValues event, Emitter<RegionsMapState> emit) async {
+    List<RegionModel>? regions;
+    if (state.showRegionsResults) {
+      final result = await GetRegionsUseCase().run();
+      if (result.isError) {
+        emit(state.copyWith(pageState: PageState.failure));
+      } else {
+        regions = result.asValue!.value;
+      }
+    }
     if (state.initialPlace != null) {
       final result = await GetPlacesFromCoordinatesUseCase().run(GetPlacesFromCoordinatesUseCase.input(
         lat: state.initialPlace!.lat,
@@ -45,6 +56,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         emit(state.copyWith(
           pageCommand: MoveCamera(),
           pageState: PageState.success,
+          regions: regions,
           newPlace: state.newPlace.copyWith(
             lng: state.initialPlace!.lng,
             lat: state.initialPlace!.lat,
@@ -62,6 +74,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         emit(state.copyWith(
           pageCommand: MoveCamera(),
           pageState: PageState.success,
+          regions: regions,
           newPlace: state.newPlace.copyWith(placeText: place.first.toPlaceText),
           isUserLocationEnabled: false,
         ));
@@ -72,6 +85,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         emit(state.copyWith(
           pageCommand: MoveCamera(),
           pageState: PageState.success,
+          regions: regions,
           newPlace: state.newPlace.copyWith(placeText: place.first.toPlaceText),
           isUserLocationEnabled: true,
         ));

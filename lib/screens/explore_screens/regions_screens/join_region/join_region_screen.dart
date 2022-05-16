@@ -13,7 +13,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/create_new_region_dialog.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/not_enough_seeds_dialog.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/join_region/components/region_result_tile.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_bloc.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/viewmodels/join_region_page_command.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -24,7 +23,7 @@ class JoinRegionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => JoinRegionBloc()..add(const OnLoadRegions()),
+      create: (_) => JoinRegionBloc()..add(const OnJoinRegionMounted()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: BlocBuilder<JoinRegionBloc, JoinRegionState>(
@@ -61,6 +60,7 @@ class JoinRegionScreen extends StatelessWidget {
               eventBus.fire(ShowSnackBar(command.message));
             }
           },
+          buildWhen: (previous, current) => previous.pageState != current.pageState,
           builder: (context, state) {
             switch (state.pageState) {
               case PageState.failure:
@@ -73,39 +73,57 @@ class JoinRegionScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
                     child: Column(
                       children: [
-                        if (state.regions.isEmpty) Text(context.loc.joinRegionSearchDescription),
+                        BlocBuilder<JoinRegionBloc, JoinRegionState>(
+                          buildWhen: (previous, current) =>
+                              previous.isRegionsResultsEmpty != current.isRegionsResultsEmpty,
+                          builder: (context, state) {
+                            return state.isRegionsResultsEmpty
+                                ? Text(context.loc.joinRegionSearchDescription)
+                                : const SizedBox.shrink();
+                          },
+                        ),
                         const SizedBox(height: 20.0),
                         Expanded(
                             child: RegionsMap(
-                          regions: state.regions,
-                          onPlaceChanged: (place) {
-                            BlocProvider.of<JoinRegionBloc>(context).add(OnUpdateMapLocation(place));
+                          showRegionsResults: true,
+                          onRegionsChanged: (regions) {
+                            BlocProvider.of<JoinRegionBloc>(context).add(OnRegionsResultsChanged(regions.isEmpty));
                           },
-                          bottomWidget: state.currentPlace != null
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.regions.length,
-                                  itemBuilder: (_, index) => RegionResultTile(state.regions[index]),
-                                )
-                              : null,
                         )),
-                        if (state.regions.isEmpty)
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(text: context.loc.joinRegionCreateDescription1),
-                                TextSpan(
-                                    text: context.loc.joinRegionCreateDescription2,
-                                    style: Theme.of(context).textTheme.buttonWhiteL.copyWith(color: AppColors.canopy)),
-                                TextSpan(text: context.loc.joinRegionCreateDescription3),
-                              ],
-                            ),
-                          ),
+                        BlocBuilder<JoinRegionBloc, JoinRegionState>(
+                          buildWhen: (previous, current) =>
+                              previous.isRegionsResultsEmpty != current.isRegionsResultsEmpty,
+                          builder: (context, state) {
+                            return state.isRegionsResultsEmpty
+                                ? RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(text: context.loc.joinRegionCreateDescription1),
+                                        TextSpan(
+                                            text: context.loc.joinRegionCreateDescription2,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .buttonWhiteL
+                                                .copyWith(color: AppColors.canopy)),
+                                        TextSpan(text: context.loc.joinRegionCreateDescription3),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink();
+                          },
+                        ),
                         const SizedBox(height: 20.0),
-                        FlatButtonLong(
-                            isLoading: state.isCreateRegionButtonLoading,
-                            title: context.loc.joinRegionCreateDescription2,
-                            onPressed: () => BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionTapped()))
+                        BlocBuilder<JoinRegionBloc, JoinRegionState>(
+                          buildWhen: (previous, current) =>
+                              previous.isCreateRegionButtonLoading != current.isCreateRegionButtonLoading,
+                          builder: (context, state) {
+                            return FlatButtonLong(
+                                isLoading: state.isCreateRegionButtonLoading,
+                                title: context.loc.joinRegionCreateDescription2,
+                                onPressed: () =>
+                                    BlocProvider.of<JoinRegionBloc>(context).add(const OnCreateRegionTapped()));
+                          },
+                        )
                       ],
                     ),
                   ),
