@@ -55,7 +55,6 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
   Future<void> _onRegionMounted(OnRegionMounted event, Emitter<RegionState> emit) async {
     if (state.region == null) {
       // Not initial region --> region full view
-      emit(state.copyWith(pageState: PageState.loading));
       // Check if user has joined a Region
       final result = await GetRegionUseCase().run(settingsStorage.accountName);
       if (result.isError) {
