@@ -40,6 +40,7 @@ class AddRegionDescription extends StatelessWidget {
                             BlocProvider.of<CreateRegionBloc>(context).add(OnRegionDescriptionChange(text));
                           },
                         ),
+                        const SizedBox(height: 20),
                         Text(context.loc.createRegionAddDescriptionPageInfo,
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                       ],

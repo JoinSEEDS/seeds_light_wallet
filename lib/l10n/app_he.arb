@@ -249,8 +249,6 @@
   "@createRegionChooseRegionNameDescription": {},
   "createRegionAddDescriptionInputFormTitle": "תאור",
   "@createRegionAddDescriptionInputFormTitle": {},
-  "createRegionAddDescriptionPageInfo": "הקלד/י תאור של האזור שלך. היה/ ה ברור לגבי האזור כדי לעזור לאנשים להבין את שייכותם",
-  "@createRegionAddDescriptionPageInfo": {},
   "createRegionDialogLeftButtonTitle": "בטל",
   "@createRegionDialogLeftButtonTitle": {},
   "createRegionDialogTitle": "יצירת אזור חדש",
