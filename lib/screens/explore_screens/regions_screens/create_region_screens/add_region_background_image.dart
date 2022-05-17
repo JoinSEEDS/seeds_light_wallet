@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/flat_button_short.dart';
 import 'package:seeds/components/select_picture_box/select_picture_box.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
@@ -65,13 +65,9 @@ class AddRegionBackgroundImage extends StatelessWidget {
                       onTap: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage())),
                   const SizedBox(height: 10),
                   if (state.file != null)
-                    Center(
-                      child: MaterialButton(
-                          color: AppColors.green1,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                          child: const Text("Replace Image"),
-                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage())),
-                    )
+                    FlatButtonShort(
+                        title: 'Replace Image',
+                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage()))
                   else
                     const SizedBox.shrink(),
                   const SizedBox(height: 20),
