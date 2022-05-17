@@ -16,10 +16,17 @@ class RegionState extends Equatable {
       this.region,
       required this.isBrowseView,
       this.userType,
-      required this.loadingEvents});
+      required this.loadingEvents,});
 
   @override
-  List<Object?> get props => [pageCommand, pageState, region, isBrowseView, userType, loadingEvents];
+  List<Object?> get props => [
+        pageCommand,
+        pageState,
+        region,
+        isBrowseView,
+        userType,
+        loadingEvents,
+      ];
 
   bool get canCreateAnEvent => !isBrowseView || userType == TypeOfUsers.admin;
 
