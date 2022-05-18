@@ -80,11 +80,14 @@ class RegionEventCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              event.eventName,
-                              style: Theme.of(context).textTheme.buttonLowEmphasis,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                event.eventName,
+                                style: Theme.of(context).textTheme.buttonLowEmphasis,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
+                            const SizedBox(width: 16.0),
                             Text(event.eventStartTime.toDate().toYMMMMD(context)),
                           ],
                         ),
