@@ -8,6 +8,7 @@ class RegionAbout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = BlocProvider.of<RegionBloc>(context).state.region?.description ?? '';
-    return Container(alignment: Alignment.topLeft, padding: const EdgeInsets.all(26.0), child: Text(text));
+    return SingleChildScrollView(
+        child: Container(alignment: Alignment.topLeft, padding: const EdgeInsets.all(26.0), child: Text(text)));
   }
 }
