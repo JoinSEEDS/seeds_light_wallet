@@ -83,7 +83,6 @@ class CreateRegionBloc extends Bloc<CreateRegionEvent, CreateRegionState> {
     } else {
       final Result<RegionModel?> result = await GetRegionByIdUseCase().run("${event.regionId}$regionIdSuffix");
       emit(RegionIdAvailabilityStateMapper().mapResultToState(state, result));
-      emit(state.copyWith(regionId: event.regionId));
     }
   }
 
