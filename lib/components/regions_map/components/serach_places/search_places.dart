@@ -4,6 +4,7 @@ import 'package:seeds/components/regions_map/components/serach_places/interactor
 import 'package:seeds/components/regions_map/interactor/view_models/regions_map_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/images/explore/regions.dart';
 
 class SearchPlaces extends StatelessWidget {
   const SearchPlaces({Key? key}) : super(key: key);
@@ -84,24 +85,29 @@ class SearchPlaces extends StatelessWidget {
               child: BlocBuilder<SearchPlacesBloc, SearchPlacesState>(
                 builder: (context, state) {
                   return state.predictions.isNotEmpty
-                      ? ListView(
+                      ? ListView.builder(
                           clipBehavior: Clip.none,
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          children: [
-                            for (var i in state.predictions)
-                              ListTile(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  BlocProvider.of<SearchPlacesBloc>(context).add(OnPredictionSelected(i));
-                                },
-                                leading: const Icon(Icons.location_on),
-                                title: Text(
-                                  i.description,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                          itemCount: state.predictions.length,
+                          itemBuilder: (_, index) {
+                            final item = state.predictions[index];
+                            final isRegion = item.description.contains('.rgn');
+                            return ListTile(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<SearchPlacesBloc>(context).add(OnPredictionSelected(item));
+                              },
+                              leading: isRegion
+                                  ? const CustomPaint(size: Size(24, 24), painter: Regions())
+                                  : const Icon(Icons.location_on),
+                              title: Text(
+                                item.description,
+                                overflow: TextOverflow.ellipsis,
+                                style: isRegion ? Theme.of(context).textTheme.subtitle2Green3LowEmphasis : null,
                               ),
-                          ],
+                            );
+                          },
                         )
                       : const SizedBox.shrink();
                 },
