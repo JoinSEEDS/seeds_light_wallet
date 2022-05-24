@@ -13,6 +13,9 @@ import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 
 class WebViewRunner {
   HeadlessInAppWebView? _web;
+
+  HeadlessInAppWebView? get web => _web;
+
   Function? _onLaunched;
 
   late String _jsCode;
@@ -43,7 +46,7 @@ class WebViewRunner {
     print('js file loaded');
 
     if (_web == null) {
-      await _startLocalServer();
+      //await _startLocalServer();
 
       _web = HeadlessInAppWebView(
         initialOptions: InAppWebViewGroupOptions(
@@ -99,7 +102,8 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      await _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
+      // run without servers
+      //await _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
     } else {
       _webViewReloadTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
         _tryReload();
@@ -118,6 +122,7 @@ class WebViewRunner {
     webViewLoaded = true;
   }
 
+// TODO(n13): Maybwe we can remove the server - not sure what this does.
   Future<void> _startLocalServer() async {
     final cert = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/certificate.text");
     final keys = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
