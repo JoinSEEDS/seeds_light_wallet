@@ -61,6 +61,10 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
+  jaguar: ^3.0.12
+  aes_ecb_pkcs5_flutter: ^0.1.2
+  get_storage: ^2.0.3
+  flutter_inappwebview: ^5.4.3+7
 
 dev_dependencies:
   flutter_test:
