@@ -192,6 +192,7 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
+    - assets/polkadot/main.js
     # assets end
 
   fonts:

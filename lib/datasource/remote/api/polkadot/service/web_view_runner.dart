@@ -39,7 +39,7 @@ class WebViewRunner {
     webViewLoaded = false;
     jsCodeStarted = -1;
 
-    _jsCode = jsCode ?? await rootBundle.loadString('packages/polkawallet_sdk/js_api/dist/main.js');
+    _jsCode = jsCode ?? await rootBundle.loadString('assets/polkadot/main.js');
     print('js file loaded');
 
     if (_web == null) {
