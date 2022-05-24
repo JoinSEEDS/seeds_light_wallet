@@ -8,7 +8,6 @@ import 'package:seeds/datasource/remote/api/polkadot/api/types/gov/treasuryOverv
 import 'package:seeds/datasource/remote/api/polkadot/api/types/gov/treasuryTipData.dart';
 import 'package:seeds/datasource/remote/api/polkadot/service/gov.dart';
 
-
 class ApiGov {
   ApiGov(this.apiRoot, this.service);
 
@@ -32,27 +31,20 @@ class ApiGov {
 
   Future<List<ReferendumInfo>> queryReferendums(String address) async {
     final List data = await service.queryReferendums(address);
-    if (data.length > 0) {
-      return data
-          .map((e) => ReferendumInfo.fromJson(Map<String, dynamic>.of(e)))
-          .toList();
+    if (data.isNotEmpty) {
+      return data.map((e) => ReferendumInfo.fromJson(Map<String, dynamic>.of(e))).toList();
     }
     return [];
   }
 
   Future<List<ProposalInfoData>> queryProposals() async {
-    final List data =
-        await (service.queryProposals() as FutureOr<List<dynamic>>);
-    return data
-        .map((e) => ProposalInfoData.fromJson(Map<String, dynamic>.of(e)))
-        .toList();
+    final List data = await (service.queryProposals() as FutureOr<List<dynamic>>);
+    return data.map((e) => ProposalInfoData.fromJson(Map<String, dynamic>.of(e))).toList();
   }
 
   Future<ProposalInfoData?> queryNextExternal() async {
     final Map? data = await service.queryNextExternal();
-    return data == null
-        ? null
-        : ProposalInfoData.fromJson(Map<String, dynamic>.from(data));
+    return data == null ? null : ProposalInfoData.fromJson(Map<String, dynamic>.from(data));
   }
 
   Future<Map?> queryTreasuryProposal(String id) async {
@@ -78,9 +70,7 @@ class ApiGov {
   Future<List<CouncilMotionData>> queryCouncilMotions() async {
     final List? data = await service.queryCouncilMotions();
     if (data != null) {
-      return data
-          .map((e) => CouncilMotionData.fromJson(Map<String, dynamic>.of(e)))
-          .toList();
+      return data.map((e) => CouncilMotionData.fromJson(Map<String, dynamic>.of(e))).toList();
     }
     return [];
   }
@@ -88,8 +78,7 @@ class ApiGov {
   Future<TreasuryOverviewData> queryTreasuryOverview() async {
     final Map? data = await service.queryTreasuryOverview();
     if (data != null) {
-      return TreasuryOverviewData.fromJson(
-          Map<String, dynamic>.of(data as Map<String, dynamic>));
+      return TreasuryOverviewData.fromJson(Map<String, dynamic>.of(data as Map<String, dynamic>));
     }
     return TreasuryOverviewData();
   }
@@ -97,9 +86,7 @@ class ApiGov {
   Future<List<TreasuryTipData>> queryTreasuryTips() async {
     final List? data = await service.queryTreasuryTips();
     if (data != null) {
-      return data
-          .map((e) => TreasuryTipData.fromJson(Map<String, dynamic>.of(e)))
-          .toList();
+      return data.map((e) => TreasuryTipData.fromJson(Map<String, dynamic>.of(e))).toList();
     }
     return [];
   }

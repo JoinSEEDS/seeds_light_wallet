@@ -42,8 +42,7 @@ class LocalStorage {
   }
 
   Future<void> updateContact(Map<String, dynamic> con) async {
-    return storage.updateItemInList(
-        contactsKey, 'address', con['address'], con);
+    return storage.updateItemInList(contactsKey, 'address', con['address'], con);
   }
 
   Future<List<Map<String, dynamic>>> getContactList() async {
@@ -55,7 +54,7 @@ class LocalStorage {
   }
 
   Future<Map?> getSeeds(String? seedType) async {
-    String? value = await storage.getKV('${seedKey}_$seedType');
+    final String? value = await storage.getKV('${seedKey}_$seedType');
     if (value != null) {
       return jsonDecode(value);
     }
@@ -63,32 +62,28 @@ class LocalStorage {
   }
 
   Future<bool> setObject(String key, Object value) async {
-    String str = await compute(jsonEncode, value);
+    final String str = await compute(jsonEncode, value);
     return storage.setKV('${customKVKey}_$key', str);
   }
 
   Future<Object?> getObject(String key) async {
-    String? value = await storage.getKV('${customKVKey}_$key');
+    final String? value = await storage.getKV('${customKVKey}_$key');
     if (value != null) {
-      Object data = await compute(
-          jsonDecode as FutureOr<Object> Function(dynamic), value);
+      final Object data = await compute(jsonDecode as FutureOr<Object> Function(dynamic), value);
       return data;
     }
     return null;
   }
 
-  Future<void> setAccountCache(
-      String accPubKey, String key, Object value) async {
+  Future<void> setAccountCache(String accPubKey, String key, Object value) async {
     Map? data = await (getObject(key) as FutureOr<Map<dynamic, dynamic>?>);
-    if (data == null) {
-      data = {};
-    }
+    data ??= {};
     data[accPubKey] = value;
-    setObject(key, data);
+    await setObject(key, data);
   }
 
   Future<Object?> getAccountCache(String accPubKey, String key) async {
-    Map? data = await (getObject(key) as FutureOr<Map<dynamic, dynamic>?>);
+    final Map? data = await (getObject(key) as FutureOr<Map<dynamic, dynamic>?>);
     if (data == null) {
       return null;
     }
@@ -99,8 +94,7 @@ class LocalStorage {
   static const int customCacheTimeLength = 10 * 60 * 1000;
 
   static bool checkCacheTimeout(int cacheTime) {
-    return DateTime.now().millisecondsSinceEpoch - customCacheTimeLength >
-        cacheTime;
+    return DateTime.now().millisecondsSinceEpoch - customCacheTimeLength > cacheTime;
   }
 }
 
@@ -110,7 +104,7 @@ class _LocalStorage {
     return prefs.getString(key);
   }
 
-  Future<bool> setKV(String key, value) async {
+  Future<bool> setKV(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
   }
@@ -118,38 +112,37 @@ class _LocalStorage {
   Future<void> addItemToList(String storeKey, Map<String, dynamic> acc) async {
     List<Map<String, dynamic>> ls = [];
 
-    String? str = await getKV(storeKey);
+    final String? str = await getKV(storeKey);
     if (str != null) {
-      Iterable l = jsonDecode(str);
+      final Iterable l = jsonDecode(str);
       ls = l.map((i) => Map<String, dynamic>.from(i)).toList();
     }
 
     ls.add(acc);
 
-    setKV(storeKey, jsonEncode(ls));
+    await setKV(storeKey, jsonEncode(ls));
   }
 
-  Future<void> removeItemFromList(
-      String storeKey, String itemKey, String? itemValue) async {
-    var ls = await getList(storeKey);
+  Future<void> removeItemFromList(String storeKey, String itemKey, String? itemValue) async {
+    final ls = await getList(storeKey);
     ls.removeWhere((item) => item[itemKey] == itemValue);
-    setKV(storeKey, jsonEncode(ls));
+    await setKV(storeKey, jsonEncode(ls));
   }
 
-  Future<void> updateItemInList(String storeKey, String itemKey,
-      String? itemValue, Map<String, dynamic> itemNew) async {
-    var ls = await getList(storeKey);
+  Future<void> updateItemInList(
+      String storeKey, String itemKey, String? itemValue, Map<String, dynamic> itemNew) async {
+    final ls = await getList(storeKey);
     ls.removeWhere((item) => item[itemKey] == itemValue);
     ls.add(itemNew);
-    setKV(storeKey, jsonEncode(ls));
+    await setKV(storeKey, jsonEncode(ls));
   }
 
   Future<List<Map<String, dynamic>>> getList(String storeKey) async {
     List<Map<String, dynamic>> res = [];
 
-    String? str = await getKV(storeKey);
+    final String? str = await getKV(storeKey);
     if (str != null) {
-      Iterable l = jsonDecode(str);
+      final Iterable l = jsonDecode(str);
       res = l.map((i) => Map<String, dynamic>.from(i)).toList();
     }
     return res;

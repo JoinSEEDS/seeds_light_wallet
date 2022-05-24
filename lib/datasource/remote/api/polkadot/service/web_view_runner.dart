@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -38,15 +39,13 @@ class WebViewRunner {
     webViewLoaded = false;
     jsCodeStarted = -1;
 
-    _jsCode = jsCode ??
-        await rootBundle
-            .loadString('packages/polkawallet_sdk/js_api/dist/main.js');
+    _jsCode = jsCode ?? await rootBundle.loadString('packages/polkawallet_sdk/js_api/dist/main.js');
     print('js file loaded');
 
     if (_web == null) {
       await _startLocalServer();
 
-      _web = new HeadlessInAppWebView(
+      _web = HeadlessInAppWebView(
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(),
         ),
@@ -54,7 +53,7 @@ class WebViewRunner {
           print('HeadlessInAppWebView created!');
         },
         onConsoleMessage: (controller, message) {
-          print("CONSOLE MESSAGE: " + message.message);
+          // print("CONSOLE MESSAGE: ${message.message}");
           if (jsCodeStarted < 0) {
             if (message.message.contains('js loaded')) {
               jsCodeStarted = 1;
@@ -62,25 +61,26 @@ class WebViewRunner {
               jsCodeStarted = 0;
             }
           }
-          if (message.message.contains("WebSocket is not connected") &&
-              socketDisconnectedAction != null) {
+          if (message.message.contains("WebSocket is not connected") && socketDisconnectedAction != null) {
             socketDisconnectedAction();
           }
-          if (message.messageLevel != ConsoleMessageLevel.LOG) return;
+          if (message.messageLevel != ConsoleMessageLevel.LOG) {
+            return;
+          }
 
           try {
-            var msg = jsonDecode(message.message);
+            final msg = jsonDecode(message.message);
 
             final String? path = msg['path'];
             if (_msgCompleters[path!] != null) {
-              Completer handler = _msgCompleters[path]!;
+              final Completer handler = _msgCompleters[path]!;
               handler.complete(msg['data']);
               if (path.contains('uid=')) {
                 _msgCompleters.remove(path);
               }
             }
             if (_msgHandlers[path] != null) {
-              Function handler = _msgHandlers[path]!;
+              final Function handler = _msgHandlers[path]!;
               handler(msg['data']);
             }
           } catch (_) {
@@ -89,7 +89,9 @@ class WebViewRunner {
         },
         onLoadStop: (controller, url) async {
           print('webview loaded');
-          if (webViewLoaded) return;
+          if (webViewLoaded) {
+            return;
+          }
 
           _handleReloaded();
           await _startJSCode(keyring, keyringStorage);
@@ -97,10 +99,9 @@ class WebViewRunner {
       );
 
       await _web!.run();
-      _web!.webViewController.loadUrl(
-          urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
+      await _web!.webViewController.loadUrl(urlRequest: URLRequest(url: Uri.parse("https://localhost:8080/")));
     } else {
-      _webViewReloadTimer = Timer.periodic(Duration(seconds: 3), (timer) {
+      _webViewReloadTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
         _tryReload();
       });
     }
@@ -118,11 +119,9 @@ class WebViewRunner {
   }
 
   Future<void> _startLocalServer() async {
-    final cert = await rootBundle
-        .load("packages/polkawallet_sdk/lib/ssl/certificate.text");
-    final keys =
-        await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
-    final security = new SecurityContext()
+    final cert = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/certificate.text");
+    final keys = await rootBundle.load("packages/polkawallet_sdk/lib/ssl/keys.text");
+    final security = SecurityContext()
       ..useCertificateChainBytes(cert.buffer.asInt8List())
       ..usePrivateKeyBytes(keys.buffer.asInt8List());
     // Serves the API at localhost:8080 by default
@@ -131,8 +130,7 @@ class WebViewRunner {
     await server.serve(logRequests: false);
   }
 
-  Future<void> _startJSCode(
-      ServiceKeyring? keyring, Keyring keyringStorage) async {
+  Future<void> _startJSCode(ServiceKeyring? keyring, Keyring keyringStorage) async {
     // inject js file to webView
     await _web!.webViewController.evaluateJavascript(source: _jsCode);
 
@@ -150,8 +148,8 @@ class WebViewRunner {
   }) async {
     // check if there's a same request loading
     if (!allowRepeat) {
-      for (String i in _msgCompleters.keys) {
-        String call = code.split('(')[0];
+      for (final String i in _msgCompleters.keys) {
+        final String call = code.split('(')[0];
         if (i.contains(call)) {
           print('request $call loading');
           return _msgCompleters[i]!.future;
@@ -160,37 +158,33 @@ class WebViewRunner {
     }
 
     if (!wrapPromise) {
-      final res =
-          await _web!.webViewController.evaluateJavascript(source: code);
+      final res = await _web!.webViewController.evaluateJavascript(source: code);
       return res;
     }
 
-    final c = new Completer();
+    final c = Completer();
 
     final uid = getEvalJavascriptUID();
     final method = 'uid=$uid;${code.split('(')[0]}';
     _msgCompleters[method] = c;
 
-    final script = '$code.then(function(res) {'
-        '  console.log(JSON.stringify({ path: "$method", data: res }));'
-        '}).catch(function(err) {'
-        '  console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));'
-        '});';
-    _web!.webViewController.evaluateJavascript(source: script);
+    final script = '''
+      $code.then(function(res) {
+          console.log(JSON.stringify({ path: "$method", data: res }));
+        }).catch(function(err) {
+          console.log(JSON.stringify({ path: "log", data: {call: "$method", error: err.message} }));
+        });
+        ''';
+    await _web!.webViewController.evaluateJavascript(source: script);
 
     return c.future;
   }
 
   Future<NetworkParams?> connectNode(List<NetworkParams> nodes) async {
-    final isAvatarSupport = (await evalJavascript(
-            'settings.connectAll ? {}:null',
-            wrapPromise: false)) !=
-        null;
+    final isAvatarSupport = (await evalJavascript('settings.connectAll ? {}:null', wrapPromise: false)) != null;
     final dynamic res = await (isAvatarSupport
-        ? evalJavascript(
-            'settings.connectAll(${jsonEncode(nodes.map((e) => e.endpoint).toList())})')
-        : evalJavascript(
-            'settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})'));
+        ? evalJavascript('settings.connectAll(${jsonEncode(nodes.map((e) => e.endpoint).toList())})')
+        : evalJavascript('settings.connect(${jsonEncode(nodes.map((e) => e.endpoint).toList())})'));
     if (res != null) {
       final index = nodes.indexWhere((e) => e.endpoint!.trim() == res.trim());
       return nodes[index > -1 ? index : 0];
@@ -204,14 +198,13 @@ class WebViewRunner {
     Function callback,
   ) async {
     addMsgHandler(channel, callback);
-    evalJavascript(code);
+    await evalJavascript(code);
   }
 
   void unsubscribeMessage(String channel) {
     print('unsubscribe $channel');
     final unsubCall = 'unsub$channel';
-    _web!.webViewController
-        .evaluateJavascript(source: 'window.$unsubCall && window.$unsubCall()');
+    _web!.webViewController.evaluateJavascript(source: 'window.$unsubCall && window.$unsubCall()');
   }
 
   void addMsgHandler(String channel, Function onMessage) {

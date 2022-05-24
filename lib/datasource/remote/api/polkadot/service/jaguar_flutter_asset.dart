@@ -9,23 +9,21 @@ import 'package:jaguar/jaguar.dart';
 ///       server.addRoute(serveFlutterAssets());
 ///       await server.serve();
 Route serveFlutterAssets(
-    {String path: '*',
-    bool stripPrefix: true,
-    String prefix: '',
+    {String path = '*',
+    bool stripPrefix = true,
+    String prefix = '',
     Map<String, String>? pathRegEx,
     ResponseProcessor? responseProcessor}) {
   Route route;
   int skipCount = -1;
   route = Route.get(path, (ctx) async {
     Iterable<String> segs = ctx.pathSegments;
-    if (skipCount > 0) segs = segs.skip(skipCount);
+    if (skipCount > 0) {
+      segs = segs.skip(skipCount);
+    }
 
-    String lookupPath =
-        segs.join('/') + (ctx.path.endsWith('/') ? 'index.html' : '');
-    final body = (await rootBundle
-            .load('packages/polkawallet_sdk/assets/$prefix$lookupPath'))
-        .buffer
-        .asUint8List();
+    final String lookupPath = segs.join('/') + (ctx.path.endsWith('/') ? 'index.html' : '');
+    final body = (await rootBundle.load('packages/polkawallet_sdk/assets/$prefix$lookupPath')).buffer.asUint8List();
 
     String? mimeType;
     if (!ctx.path.endsWith('/')) {
@@ -42,7 +40,9 @@ Route serveFlutterAssets(
     ctx.response = ByteResponse(body: body, mimeType: mimeType);
   }, pathRegEx: pathRegEx, responseProcessor: responseProcessor);
 
-  if (stripPrefix) skipCount = route.pathSegments.length - 1;
+  if (stripPrefix) {
+    skipCount = route.pathSegments.length - 1;
+  }
 
   return route;
 }

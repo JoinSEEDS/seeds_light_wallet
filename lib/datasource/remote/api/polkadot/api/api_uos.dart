@@ -25,7 +25,7 @@ class ApiUOS {
 
   /// this function must be called after parseQrCode.
   /// @return: signature [String]
-  Future<String?> signAsync(String chain, password) async {
+  Future<String?> signAsync(String chain, String password) async {
     return service.signAsync(chain, password);
   }
 
@@ -33,7 +33,7 @@ class ApiUOS {
   /// @return txHash [string] if tx finalized success.
   Future<Map?> addSignatureAndSend(
     String address,
-    signed,
+    dynamic signed,
     Function(String) onStatusChange,
   ) async {
     final res = service.addSignatureAndSend(

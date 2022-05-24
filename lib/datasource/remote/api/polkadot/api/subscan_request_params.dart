@@ -6,14 +6,13 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
-const int tx_list_page_size = 10;
+const int txListPageSize = 10;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -39,6 +38,7 @@ class SubScanRequestParams {
   String? call;
 }
 
+// ignore: constant_identifier_names
 const post_headers = {"Content-type": "application/json", "Accept": "*/*"};
 
 /// Querying txs from [subscan.io](https://subscan.io).
@@ -57,13 +57,13 @@ class SubScanApi {
   Future<Map> fetchTransfersAsync(
     String address,
     int page, {
-    int size = tx_list_page_size,
+    int size = txListPageSize,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    final Completer completer = Completer<Map>();
 
-    ReceivePort receivePort = ReceivePort();
-    Isolate isolateIns = await Isolate.spawn(
+    final ReceivePort receivePort = ReceivePort();
+    final Isolate isolateIns = await Isolate.spawn(
         SubScanApi.fetchTransfers,
         SubScanRequestParams(
           sendPort: receivePort.sendPort,
@@ -84,14 +84,14 @@ class SubScanApi {
     String module, {
     String? call,
     int page = 0,
-    int size = tx_list_page_size,
+    int size = txListPageSize,
     String? sender,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    final Completer completer = Completer<Map>();
 
-    ReceivePort receivePort = ReceivePort();
-    Isolate isolateIns = await Isolate.spawn(
+    final ReceivePort receivePort = ReceivePort();
+    final Isolate isolateIns = await Isolate.spawn(
         SubScanApi.fetchTxs,
         SubScanRequestParams(
           sendPort: receivePort.sendPort,
@@ -112,14 +112,14 @@ class SubScanApi {
 
   Future<Map> fetchRewardTxsAsync({
     int page = 0,
-    int size = tx_list_page_size,
+    int size = txListPageSize,
     String? sender,
     String network = 'kusama',
   }) async {
-    Completer completer = new Completer<Map>();
+    final Completer completer = Completer<Map>();
 
-    ReceivePort receivePort = ReceivePort();
-    Isolate isolateIns = await Isolate.spawn(
+    final ReceivePort receivePort = ReceivePort();
+    final Isolate isolateIns = await Isolate.spawn(
         SubScanApi.fetchRewardTxs,
         SubScanRequestParams(
           sendPort: receivePort.sendPort,
@@ -137,30 +137,23 @@ class SubScanApi {
   }
 
   static Future<Map?> fetchTransfers(SubScanRequestParams params) async {
-    String url = '${getSnEndpoint(params.network!)}/transfers';
-    String body = jsonEncode({
+    final String url = '${getSnEndpoint(params.network!)}/transfers';
+    final String body = jsonEncode({
       "page": params.page,
       "row": params.row,
       "address": params.address,
     });
-    Response res =
-        await post(Uri.parse(url), headers: post_headers, body: body);
-    if (res.body != null) {
-      final obj = await compute(jsonDecode, res.body);
-      if (params.sendPort != null) {
-        params.sendPort!.send(obj['data']);
-      }
-      return obj['data'];
-    }
+    final Response res = await post(Uri.parse(url), headers: post_headers, body: body);
+    final obj = await compute(jsonDecode, res.body);
     if (params.sendPort != null) {
-      params.sendPort!.send({});
+      params.sendPort!.send(obj['data']);
     }
-    return {};
+    return obj['data'];
   }
 
   static Future<Map?> fetchTxs(SubScanRequestParams para) async {
-    String url = '${getSnEndpoint(para.network!)}/extrinsics';
-    Map params = {
+    final String url = '${getSnEndpoint(para.network!)}/extrinsics';
+    final Map params = {
       "page": para.page,
       "row": para.row,
       "module": para.module,
@@ -171,42 +164,28 @@ class SubScanApi {
     if (para.call != null) {
       params['call'] = para.call;
     }
-    String body = jsonEncode(params);
-    Response res =
-        await post(Uri.parse(url), headers: post_headers, body: body);
-    if (res.body != null) {
-      final obj = await compute(jsonDecode, res.body);
-      if (para.sendPort != null) {
-        para.sendPort!.send(obj['data']);
-      }
-      return obj['data'];
-    }
+    final String body = jsonEncode(params);
+    final Response res = await post(Uri.parse(url), headers: post_headers, body: body);
+    final obj = await compute(jsonDecode, res.body);
     if (para.sendPort != null) {
-      para.sendPort!.send({});
+      para.sendPort!.send(obj['data']);
     }
-    return {};
+    return obj['data'];
   }
 
   static Future<Map?> fetchRewardTxs(SubScanRequestParams para) async {
-    String url = '${getSnEndpoint(para.network!)}/account/reward_slash';
-    Map params = {
+    final String url = '${getSnEndpoint(para.network!)}/account/reward_slash';
+    final Map params = {
       "address": para.address,
       "page": para.page,
       "row": para.row,
     };
-    String body = jsonEncode(params);
-    Response res =
-        await post(Uri.parse(url), headers: post_headers, body: body);
-    if (res.body != null) {
-      final obj = await compute(jsonDecode, res.body);
-      if (para.sendPort != null) {
-        para.sendPort!.send(obj['data']);
-      }
-      return obj['data'];
-    }
+    final String body = jsonEncode(params);
+    final Response res = await post(Uri.parse(url), headers: post_headers, body: body);
+    final obj = await compute(jsonDecode, res.body);
     if (para.sendPort != null) {
-      para.sendPort!.send({});
+      para.sendPort!.send(obj['data']);
     }
-    return {};
+    return obj['data'];
   }
 }

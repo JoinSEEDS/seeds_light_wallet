@@ -17,14 +17,13 @@ class ServiceUOS {
   /// parse data of QR code.
   /// @return: { signer: <pubKey>, genesisHash: <genesisHash> } [Map]
   Future<Map<String, dynamic>> parseQrCode(List keyPairs, String data) async {
-    final res = await serviceRoot.webView!
-        .evalJavascript('keyring.parseQrCode("$data")');
+    final res = await serviceRoot.webView!.evalJavascript('keyring.parseQrCode("$data")');
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
 
-    final pubKeyAddressMap = await (serviceRoot.account
-        .decodeAddress([res['signer']]) as FutureOr<Map<dynamic, dynamic>>);
+    final pubKeyAddressMap =
+        await (serviceRoot.account.decodeAddress([res['signer']]) as FutureOr<Map<dynamic, dynamic>>);
     final pubKey = pubKeyAddressMap.keys.toList()[0];
     final accIndex = keyPairs.indexWhere((e) => e['pubKey'] == pubKey);
     if (accIndex < 0) {
@@ -38,9 +37,8 @@ class ServiceUOS {
 
   /// this function must be called after parseQrCode.
   /// @return: signature [String]
-  Future<String?> signAsync(String chain, password) async {
-    final res = await serviceRoot.webView!
-        .evalJavascript('keyring.signAsync("$chain", "$password")');
+  Future<String?> signAsync(String chain, String password) async {
+    final res = await serviceRoot.webView!.evalJavascript('keyring.signAsync("$chain", "$password")');
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
@@ -50,23 +48,21 @@ class ServiceUOS {
 
   Future<Map?> addSignatureAndSend(
     String address,
-    signed,
+    dynamic signed,
     Function(String) onStatusChange,
   ) async {
-    final msgId =
-        "onStatusChange${serviceRoot.webView!.getEvalJavascriptUID()}";
+    final msgId = "onStatusChange${serviceRoot.webView!.getEvalJavascriptUID()}";
     serviceRoot.webView!.addMsgHandler(msgId, onStatusChange);
 
-    final dynamic res = await serviceRoot.webView!.evalJavascript(
-        'keyring.addSignatureAndSend(api, "$address", "$signed")');
+    final dynamic res =
+        await serviceRoot.webView!.evalJavascript('keyring.addSignatureAndSend(api, "$address", "$signed")');
     serviceRoot.webView!.removeMsgHandler(msgId);
 
     return res;
   }
 
-  Future<Map?> makeQrCode(Map txInfo, List params,
-      {String? rawParam, int? ss58}) async {
-    String param = rawParam != null ? rawParam : jsonEncode(params);
+  Future<Map?> makeQrCode(Map txInfo, List params, {String? rawParam, int? ss58}) async {
+    final String param = rawParam ?? jsonEncode(params);
     final dynamic res = await serviceRoot.webView!.evalJavascript(
       'keyring.makeTx(api, ${jsonEncode(txInfo)}, $param, $ss58)',
     );

@@ -16,7 +16,6 @@ import 'package:seeds/datasource/remote/api/polkadot/api/types/networkParams.dar
 import 'package:seeds/datasource/remote/api/polkadot/service/substrate_service.dart';
 import 'package:seeds/datasource/remote/api/polkadot/storage/keyring.dart';
 
-
 /// The [PolkawalletApi] instance is the wrapper of `polkadot-js/api`.
 /// It provides:
 /// * [ApiKeyring] of npm package [@polkadot/keyring](https://www.npmjs.com/package/@polkadot/keyring)
@@ -82,28 +81,27 @@ class PolkawalletApi {
   NetworkParams? get connectedNode => _connectedNode;
 
   /// connect to a list of nodes, return null if connect failed.
-  Future<NetworkParams?> connectNode(
-      Keyring keyringStorage, List<NetworkParams> nodes) async {
+  Future<NetworkParams?> connectNode(Keyring keyringStorage, List<NetworkParams> nodes) async {
     _connectedNode = null;
     final NetworkParams? res = await service.webView!.connectNode(nodes);
     if (res != null) {
       _connectedNode = res;
 
       // update indices of keyPairs after connect
-      keyring.updateIndicesMap(keyringStorage);
+      await keyring.updateIndicesMap(keyringStorage);
     }
     return res;
   }
 
   /// subscribe message.
   Future<void> subscribeMessage(
-    String JSCall,
+    String jsCall,
     List params,
     String channel,
     Function callback,
   ) async {
-    service.webView!.subscribeMessage(
-      'settings.subscribeMessage($JSCall, ${jsonEncode(params)}, "$channel")',
+    await service.webView!.subscribeMessage(
+      'settings.subscribeMessage($jsCall, ${jsonEncode(params)}, "$channel")',
       channel,
       callback,
     );

@@ -12,7 +12,7 @@ class ApiStaking {
   final ServiceStaking service;
 
   Future<Map?> queryElectedInfo() async {
-    Map? data = await service.queryElectedInfo();
+    final Map? data = await service.queryElectedInfo();
     return data;
   }
 
@@ -28,29 +28,25 @@ class ApiStaking {
 
   /// query staking stash-controller relationship of a list of pubKeys,
   /// return list of [pubKey, controllerAddress, stashAddress].
-  Future<Map<String?, AccountBondedInfo>> queryBonded(
-      List<String> pubKeys) async {
-    if (pubKeys.length == 0) {
+  Future<Map<String?, AccountBondedInfo>> queryBonded(List<String> pubKeys) async {
+    if (pubKeys.isEmpty) {
       return {};
     }
-    final res = Map<String?, AccountBondedInfo>();
-    final List data =
-        await (service.queryBonded(pubKeys) as FutureOr<List<dynamic>>);
-    data.forEach((e) {
+    final res = <String?, AccountBondedInfo>{};
+    final List data = await (service.queryBonded(pubKeys) as FutureOr<List<dynamic>>);
+    for (final e in data) {
       res[e[0]] = AccountBondedInfo(e[0], e[1], e[2]);
-    });
+    }
     return res;
   }
 
   Future<OwnStashInfoData> queryOwnStashInfo(String accountId) async {
-    final Map data = await (service.queryOwnStashInfo(accountId)
-        as FutureOr<Map<dynamic, dynamic>>);
-    return OwnStashInfoData.fromJson(
-        Map<String, dynamic>.of(data as Map<String, dynamic>));
+    final Map data = await (service.queryOwnStashInfo(accountId) as FutureOr<Map<dynamic, dynamic>>);
+    return OwnStashInfoData.fromJson(Map<String, dynamic>.of(data as Map<String, dynamic>));
   }
 
   Future<Map?> loadValidatorRewardsData(String validatorId) async {
-    Map? data = await service.loadValidatorRewardsData(validatorId);
+    final Map? data = await service.loadValidatorRewardsData(validatorId);
     return data;
   }
 

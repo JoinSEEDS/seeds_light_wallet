@@ -1,6 +1,7 @@
 class ReferendumInfo extends _ReferendumInfo {
+  // ignore: prefer_constructors_over_static_methods
   static ReferendumInfo fromJson(Map<String, dynamic> json) {
-    ReferendumInfo info = ReferendumInfo();
+    final ReferendumInfo info = ReferendumInfo();
     info.index = BigInt.parse(json['index'].toString());
     info.imageHash = json['imageHash'];
     info.status = json['status'];
@@ -21,20 +22,20 @@ class ReferendumInfo extends _ReferendumInfo {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'index': this.index,
-        'imageHash': this.imageHash,
-        'status': this.status,
-        'image': this.image,
-        'detail': this.detail,
-        'isPassing': this.isPassing,
-        'voteCountAye': this.voteCountAye,
-        'voteCountNay': this.voteCountNay,
-        'votedTotal': this.votedTotal,
-        'votedAye': this.votedAye,
-        'votedNay': this.votedNay,
-        'changeAye': this.changeAye,
-        'changeNay': this.changeNay,
-        'userVoted': this.userVoted,
+        'index': index,
+        'imageHash': imageHash,
+        'status': status,
+        'image': image,
+        'detail': detail,
+        'isPassing': isPassing,
+        'voteCountAye': voteCountAye,
+        'voteCountNay': voteCountNay,
+        'votedTotal': votedTotal,
+        'votedAye': votedAye,
+        'votedNay': votedNay,
+        'changeAye': changeAye,
+        'changeNay': changeNay,
+        'userVoted': userVoted,
       };
 }
 

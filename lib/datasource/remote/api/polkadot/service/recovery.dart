@@ -9,7 +9,7 @@ class ServiceRecovery {
 
   Future<Map?> queryRecoverable(String address) async {
 //    address = "J4sW13h2HNerfxTzPGpLT66B3HVvuU32S6upxwSeFJQnAzg";
-    dynamic res = await serviceRoot.webView!.evalJavascript('api.query.recovery.recoverable("$address")');
+    final dynamic res = await serviceRoot.webView!.evalJavascript('api.query.recovery.recoverable("$address")');
     if (res != null) {
       res['address'] = address;
     }
@@ -32,21 +32,22 @@ class ServiceRecovery {
   }
 
   Future<List?> queryActiveRecoveryAttempts(String address, List<String> addressNew) async {
-    List queries = addressNew.map((e) => 'api.query.recovery.activeRecoveries("$address", "$e")').toList();
+    final List queries = addressNew.map((e) => 'api.query.recovery.activeRecoveries("$address", "$e")').toList();
     final res = await serviceRoot.webView!.evalJavascript('Promise.all([${queries.join(',')}])');
     return res;
   }
 
   Future<List?> queryActiveRecoveries(List<String> addresses, String addressNew) async {
-    List queries = addresses.map((e) => 'api.query.recovery.activeRecoveries("$e", "$addressNew")').toList();
+    final List queries = addresses.map((e) => 'api.query.recovery.activeRecoveries("$e", "$addressNew")').toList();
     final res = await serviceRoot.webView!.evalJavascript('Promise.all([${queries.join(',')}])');
     return res;
   }
 
   Future<List?> queryRecoveryProxies(List<String> addresses) async {
-    List queries = addresses.map((e) => 'api.query.recovery.proxy("$e")').toList();
+    final List queries = addresses.map((e) => 'api.query.recovery.proxy("$e")').toList();
     final res = await serviceRoot.webView!.evalJavascript(
       'Promise.all([${queries.join(',')}])',
+      // ignore: avoid_redundant_argument_values
       allowRepeat: true,
     );
     return res;

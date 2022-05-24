@@ -54,7 +54,7 @@ class ApiAccount {
 
   /// Get on-chain account info of addresses
   Future<List?> queryIndexInfo(List addresses) async {
-    if (addresses == null || addresses.length == 0) {
+    if (addresses.isEmpty) {
       return [];
     }
 
@@ -73,7 +73,7 @@ class ApiAccount {
   /// Get icons of pubKeys
   /// return svg strings
   Future<List?> getPubKeyIcons(List<String> keys) async {
-    if (keys == null || keys.length == 0) {
+    if (keys.isEmpty) {
       return [];
     }
     return service.getPubKeyIcons(keys);
@@ -82,7 +82,7 @@ class ApiAccount {
   /// Get icons of addresses
   /// return svg strings
   Future<List?> getAddressIcons(List addresses) async {
-    if (addresses == null || addresses.length == 0) {
+    if (addresses.isEmpty) {
       return [];
     }
     return service.getAddressIcons(addresses);

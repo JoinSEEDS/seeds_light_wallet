@@ -1,4 +1,3 @@
-
 import 'package:seeds/datasource/remote/api/polkadot/api/polkawallet_api.dart';
 import 'package:seeds/datasource/remote/api/polkadot/api/types/walletConnect/pairingData.dart';
 import 'package:seeds/datasource/remote/api/polkadot/api/types/walletConnect/payloadData.dart';
@@ -30,7 +29,7 @@ class ApiWalletConnect {
   }
 
   Future<Map?> disconnect(Map params) async {
-    return await service.disconnect(params);
+    return service.disconnect(params);
   }
 
   Future<Map?> approvePairing(WCPairingData proposal, String address) async {
@@ -44,11 +43,10 @@ class ApiWalletConnect {
   }
 
   Future<Map?> signPayload(WCPayloadData payload, String password) async {
-    return await service.signPayload(payload.toJson(), password);
+    return service.signPayload(payload.toJson(), password);
   }
 
-  Future<Map?> payloadRespond(WCPayloadData payload,
-      {Map? response, Map? error}) async {
+  Future<Map?> payloadRespond(WCPayloadData payload, {Map? response, Map? error}) async {
     final Map? res = await service.payloadRespond({
       'topic': payload.topic,
       'response': {

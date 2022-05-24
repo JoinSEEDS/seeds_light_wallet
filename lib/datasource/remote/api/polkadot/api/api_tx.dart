@@ -14,7 +14,7 @@ class ApiTx {
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
   Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params,
       {String? rawParam, String? jsApi}) async {
-    final String param = rawParam != null ? rawParam : jsonEncode(params);
+    final String param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
     final res = await (service.estimateFees(tx, param, jsApi: jsApi)
         as FutureOr<Map<dynamic, dynamic>>);
@@ -41,7 +41,7 @@ class ApiTx {
     Function(String)? onStatusChange,
     String? rawParam,
   }) async {
-    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
     print(tx);
     print(param);

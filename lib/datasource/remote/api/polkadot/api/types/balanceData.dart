@@ -4,8 +4,7 @@ part 'balanceData.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class BalanceData extends _BalanceData {
-  static BalanceData fromJson(Map<String, dynamic> json) =>
-      _$BalanceDataFromJson(json);
+  static BalanceData fromJson(Map<String, dynamic> json) => _$BalanceDataFromJson(json);
   Map<String, dynamic> toJson() => _$BalanceDataToJson(this);
 }
 
@@ -34,8 +33,7 @@ abstract class _BalanceData {
 
 @JsonSerializable()
 class BalanceBreakdownData extends _BalanceBreakdownData {
-  static BalanceBreakdownData fromJson(Map<String, dynamic> json) =>
-      _$BalanceBreakdownDataFromJson(json);
+  static BalanceBreakdownData fromJson(Map<String, dynamic> json) => _$BalanceBreakdownDataFromJson(json);
   Map<String, dynamic> toJson() => _$BalanceBreakdownDataToJson(this);
 }
 
@@ -47,6 +45,7 @@ abstract class _BalanceBreakdownData {
 }
 
 class AssetsBalanceData extends _AssetsBalanceData {
+  // ignore: prefer_constructors_over_static_methods
   static AssetsBalanceData fromJson(Map json) {
     final data = AssetsBalanceData();
     data.id = json['id'];

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_null_aware_method_calls
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -13,16 +15,18 @@ import 'package:seeds/datasource/remote/api/polkadot/webviewWithExtension/types/
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewWithExtension extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   WebViewWithExtension(
     this.api,
     this.initialUrl,
     this.keyring, {
+    Key? key,
     this.onPageFinished,
     this.onExtensionReady,
     this.onWebViewCreated,
     this.onSignBytesRequest,
     this.onSignExtrinsicRequest,
-  });
+  }) : super(key: key);
 
   final String initialUrl;
   final PolkawalletApi api;
@@ -58,7 +62,9 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
         return _controller
             .runJavascriptReturningResult('walletExtension.onAppResponse("${msg['msgType']}", ${jsonEncode(res)})');
       case 'pub(bytes.sign)':
-        if (_signing) break;
+        if (_signing) {
+          break;
+        }
         _signing = true;
         final SignAsExtensionParam param = SignAsExtensionParam.fromJson(msg as Map<String, dynamic>);
         final res = await widget.onSignBytesRequest!(param);
@@ -71,7 +77,9 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
         return _controller.runJavascriptReturningResult(
             'walletExtension.onAppResponse("${param.msgType}", ${jsonEncode(res.toJson())})');
       case 'pub(extrinsic.sign)':
-        if (_signing) break;
+        if (_signing) {
+          break;
+        }
         _signing = true;
         final SignAsExtensionParam params = SignAsExtensionParam.fromJson(msg as Map<String, dynamic>);
         final result = await widget.onSignExtrinsicRequest!(params);
@@ -91,7 +99,9 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
   }
 
   Future<void> _onFinishLoad(String url) async {
-    if (_loadingFinished) return;
+    if (_loadingFinished) {
+      return;
+    }
     setState(() {
       _loadingFinished = true;
     });
@@ -103,7 +113,7 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
 
     print('Inject extension js code...');
     final jsCode = await rootBundle.loadString('packages/polkawallet_sdk/js_as_extension/dist/main.js');
-    _controller.runJavascriptReturningResult(jsCode);
+    await _controller.runJavascriptReturningResult(jsCode);
     print('js code injected');
     if (widget.onExtensionReady != null) {
       widget.onExtensionReady!();
@@ -123,13 +133,16 @@ class _WebViewWithExtensionState extends State<WebViewWithExtension> {
           _controller = webViewController;
         });
       },
+      // ignore: prefer_collection_literals
       javascriptChannels: <JavascriptChannel>[
         JavascriptChannel(
           name: 'Extension',
           onMessageReceived: (JavascriptMessage message) {
             print('msg from dapp: ${message.message}');
             compute(jsonDecode, message.message).then((msg) {
-              if (msg['path'] != 'extensionRequest') return;
+              if (msg['path'] != 'extensionRequest') {
+                return;
+              }
               _msgHandler(msg['data']);
             });
           },

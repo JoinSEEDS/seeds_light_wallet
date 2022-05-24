@@ -9,7 +9,7 @@ class ServiceSetting {
 
   Future<Map?> queryNetwork() async {
     // fetch network info
-    List res = await serviceRoot.webView!.evalJavascript(
+    final List res = await serviceRoot.webView!.evalJavascript(
         'Promise.all([settings.getNetworkProperties(api),api.rpc.system.chain(),settings.getNetworkConst(api)])');
     if (res[0] == null || res[1] == null || res[2] == null) {
       return null;
@@ -21,15 +21,14 @@ class ServiceSetting {
   }
 
   Future<Map> queryNetworkConst() async {
-    final dynamic res = await serviceRoot.webView!
-        .evalJavascript('settings.getNetworkConst(api)');
+    final dynamic res = await serviceRoot.webView!.evalJavascript('settings.getNetworkConst(api)');
     return res;
   }
 
   Future<Map?> queryNetworkProps() async {
     // fetch network info
-    List res = await serviceRoot.webView!.evalJavascript(
-        'Promise.all([settings.getNetworkProperties(api), api.rpc.system.chain()])');
+    final List res = await serviceRoot.webView!
+        .evalJavascript('Promise.all([settings.getNetworkProperties(api), api.rpc.system.chain()])');
     if (res[0] == null || res[1] == null) {
       return null;
     }

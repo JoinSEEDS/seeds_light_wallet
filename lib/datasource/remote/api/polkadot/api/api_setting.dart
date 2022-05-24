@@ -12,7 +12,7 @@ class ApiSetting {
 
   /// query network const.
   Future<Map?> queryNetworkConst() async {
-    final Map? res = await service!.queryNetworkConst();
+    final Map res = await service!.queryNetworkConst();
     return res;
   }
 
@@ -28,7 +28,7 @@ class ApiSetting {
   /// subscribe best number.
   /// @return [String] msgChannel, call unsubscribeMessage(msgChannel) to unsub.
   Future<void> subscribeBestNumber(Function callback) async {
-    apiRoot.subscribeMessage(
+    await apiRoot.subscribeMessage(
       'api.derive.chain.bestNumber',
       [],
       _msgChannel,

@@ -9,32 +9,36 @@ class ServiceStaking {
   final SubstrateService serviceRoot;
 
   Future<Map?> queryElectedInfo() async {
-    dynamic data = await serviceRoot.webView!.evalJavascript('staking.querySortedTargets(api)', allowRepeat: false);
+    final dynamic data =
+        await serviceRoot.webView!.evalJavascript('staking.querySortedTargets(api)', allowRepeat: false);
     return data;
   }
 
   Future<Map?> queryNominations() async {
-    dynamic data = await serviceRoot.webView!.evalJavascript('staking.queryNominations(api)', allowRepeat: false);
+    final dynamic data = await serviceRoot.webView!.evalJavascript('staking.queryNominations(api)', allowRepeat: false);
     return data;
   }
 
   Future<Map?> queryNominationsCount() async {
-    dynamic data = await serviceRoot.webView!.evalJavascript('staking.queryNominationsCount(api)', allowRepeat: false);
+    final dynamic data =
+        await serviceRoot.webView!.evalJavascript('staking.queryNominationsCount(api)', allowRepeat: false);
     return data;
   }
 
   Future<List?> queryBonded(List<String> pubKeys) async {
-    dynamic res = await serviceRoot.webView!.evalJavascript('account.queryAccountsBonded(api, ${jsonEncode(pubKeys)})');
+    final dynamic res =
+        await serviceRoot.webView!.evalJavascript('account.queryAccountsBonded(api, ${jsonEncode(pubKeys)})');
     return res;
   }
 
   Future<Map?> queryOwnStashInfo(String accountId) async {
-    dynamic data = await serviceRoot.webView!.evalJavascript('staking.getOwnStashInfo(api, "$accountId")');
+    final dynamic data = await serviceRoot.webView!.evalJavascript('staking.getOwnStashInfo(api, "$accountId")');
     return data;
   }
 
   Future<Map?> loadValidatorRewardsData(String validatorId) async {
-    dynamic data = await serviceRoot.webView!.evalJavascript('staking.loadValidatorRewardsData(api, "$validatorId")');
+    final dynamic data =
+        await serviceRoot.webView!.evalJavascript('staking.loadValidatorRewardsData(api, "$validatorId")');
     return data;
   }
 

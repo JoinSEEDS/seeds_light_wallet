@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:seeds/datasource/remote/api/polkadot/api/polkawallet_api.dart';
 import 'package:seeds/datasource/remote/api/polkadot/api/types/balanceData.dart';

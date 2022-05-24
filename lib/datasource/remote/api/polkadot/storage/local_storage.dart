@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, prefer_function_declarations_over_variables
+
 import 'package:get_storage/get_storage.dart';
 
 const String sdk_storage_key = 'polka_wallet_sdk';
