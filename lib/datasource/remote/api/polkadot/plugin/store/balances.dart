@@ -1,60 +1,10 @@
-// part 'balances.g.dart';
+// we need TokenBalanceData - move to its own files
 
-// class BalancesStore = BalancesStoreBase with _$BalancesStore;
-
-// abstract class BalancesStoreBase with Store {
-//   @observable
-//   BalanceData? native;
-
-//   @observable
-//   List<TokenBalanceData> tokens = [];
-
-//   @observable
-//   bool isTokensFromCache = false;
-
-//   @observable
-//   List<ExtraTokenData>? extraTokens;
-
-//   @action
-//   void setBalance(BalanceData data) {
-//     native = data;
-//   }
-
-//   @action
-//   void setTokens(List<TokenBalanceData> ls, {bool isFromCache = false}) {
-//     final data = ls;
-//     if (!isFromCache) {
-//       tokens.toList().forEach((old) {
-//         final newDataIndex = ls.indexWhere((token) {
-//           if (old.tokenNameId == null) {
-//             // check by token.symbol with old data cache
-//             return token.symbol == old.symbol || token.symbol == old.id;
-//           } else {
-//             // or check by tokenNameId with new data
-//             return token.tokenNameId == old.tokenNameId;
-//           }
-//         });
-//         if (newDataIndex < 0) {
-//           data.add(old);
-//         }
-//       });
-//     }
-
-//     tokens = data;
-//     isTokensFromCache = isFromCache;
-//   }
-
-//   @action
-//   void setExtraTokens(List<ExtraTokenData> ls) {
-//     extraTokens = ls;
-//   }
+// class ExtraTokenData {
+//   ExtraTokenData({this.title, this.tokens});
+//   final String? title;
+//   final List<TokenBalanceData>? tokens;
 // }
-
-class ExtraTokenData {
-  ExtraTokenData({this.title, this.tokens});
-  final String? title;
-  final List<TokenBalanceData>? tokens;
-}
 
 /// none-native token data
 /// 1. [id] foreign asset id (Acala tokens module).
