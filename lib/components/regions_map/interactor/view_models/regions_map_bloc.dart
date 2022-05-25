@@ -28,7 +28,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
     on<SetInitialValues>(_setInitialValues);
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>((_, emit) => emit(state.copyWith(isCameraMoving: true)));
-    on<OnMapEndMove>(_onMapEndMove);
+    on<OnMapEndMove>((_, emit) => emit(state.copyWith(pageCommand: MoveCameraStop(), isCameraMoving: false)));
     on<ToggleSearchBar>((_, emit) => emit(state.copyWith(isSearchingPlace: !state.isSearchingPlace)));
     on<OnPlaceResultSelected>(_onPlaceResultSelected);
     on<ClearRegionsMapPageCommand>((_, emit) => emit(state.copyWith()));
@@ -109,27 +109,6 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
         emit(state.copyWith(
           pageCommand: MoveCamera(),
           newPlace: state.newPlace.copyWith(placeText: placemarks.first.toPlaceText),
-        ));
-      }
-    }
-  }
-
-  Future<void> _onMapEndMove(OnMapEndMove event, Emitter<RegionsMapState> emit) async {
-    if (event.pickedLat != 0 && event.pickedLong != 0) {
-      final result = await GetPlacesFromCoordinatesUseCase()
-          .run(GetPlacesFromCoordinatesUseCase.input(lat: event.pickedLat, lng: event.pickedLong));
-      if (result.isError) {
-        // No address information found for supplied coordinates.
-      } else {
-        final placemarks = result.asValue!.value;
-        emit(state.copyWith(
-          pageCommand: MoveCameraStop(),
-          newPlace: state.newPlace.copyWith(
-            lat: event.pickedLat,
-            lng: event.pickedLong,
-            placeText: placemarks.first.toPlaceText,
-          ),
-          isCameraMoving: false,
         ));
       }
     }
