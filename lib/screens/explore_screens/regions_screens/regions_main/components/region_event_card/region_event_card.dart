@@ -28,7 +28,7 @@ class RegionEventCard extends StatelessWidget {
               onTap: () => NavigationService.of(context).navigateTo(Routes.regionEventDetails, event),
               borderRadius: BorderRadius.circular(16.0),
               child: Container(
-                decoration: state.isEventPassEndDate
+                decoration: state.isEventExpired
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                         border: Border.all(color: AppColors.red),
@@ -54,7 +54,7 @@ class RegionEventCard extends StatelessWidget {
                               errorWidget: (_, __, ___) => const SizedBox.shrink(),
                             ),
                           ),
-                          if (state.isEventPassEndDate)
+                          if (state.isEventExpired)
                             Positioned(
                               bottom: 10,
                               left: 0,
