@@ -27,11 +27,14 @@ class RegionEvents extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<RegionEventModel> events = snapshot.data!;
-                events.sort((a, b) => b.eventStartTime.compareTo(a.eventStartTime));
+                events.sort((a, b) => a.eventStartTime.compareTo(b.eventStartTime));
+                final upcomming = events.where((i) => DateTime.now().isBefore(i.eventStartTime.toDate())).toList();
+                final expired = events.where((i) => DateTime.now().isAfter(i.eventStartTime.toDate())).toList();
+                final all = [...upcomming, ...expired];
                 return ListView.builder(
                   padding: const EdgeInsets.all(16.0),
-                  itemCount: events.length,
-                  itemBuilder: (_, index) => RegionEventCard(events[index]),
+                  itemCount: all.length,
+                  itemBuilder: (_, index) => RegionEventCard(all[index]),
                 );
               } else {
                 return const FullPageLoadingIndicator();

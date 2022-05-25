@@ -9,7 +9,7 @@ class RegionEventCardState extends Equatable {
   @override
   List<Object> get props => [profiles, event];
 
-  bool get isEventPassEndDate => DateTime.now().millisecondsSinceEpoch > event.eventEndTime.millisecondsSinceEpoch;
+  bool get isEventExpired => DateTime.now().isAfter(event.eventStartTime.toDate());
 
   RegionEventCardState copyWith({List<ProfileModel>? profiles, RegionEventModel? event}) {
     return RegionEventCardState(profiles: profiles ?? this.profiles, event: event ?? this.event);
