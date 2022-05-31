@@ -30,6 +30,7 @@ class RegionEvents extends StatelessWidget {
                 events.sort((a, b) => a.eventStartTime.compareTo(b.eventStartTime));
                 final upcomming = events.where((i) => DateTime.now().isBefore(i.eventStartTime.toDate())).toList();
                 final expired = events.where((i) => DateTime.now().isAfter(i.eventStartTime.toDate())).toList();
+                expired.sort((a, b) => b.eventStartTime.compareTo(a.eventStartTime));
                 final all = [...upcomming, ...expired];
                 return ListView.builder(
                   padding: const EdgeInsets.all(16.0),
