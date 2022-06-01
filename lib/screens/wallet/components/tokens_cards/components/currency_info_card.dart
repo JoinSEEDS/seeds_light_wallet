@@ -4,6 +4,9 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/utils/build_context_extension.dart';
 
 class CurrencyInfoCard extends StatelessWidget {
+  // TODO(chuck): provide default image
+  static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.jpg';
+
   final TokenBalanceViewModel tokenBalance;
   final String fiatBalance;
   final double? cardWidth;

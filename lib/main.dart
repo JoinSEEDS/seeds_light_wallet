@@ -11,6 +11,7 @@ import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/bloc_observer.dart';
 import 'package:seeds/seeds_app.dart';
 
@@ -23,6 +24,7 @@ Future<void> main() async {
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();
+    await TokenModel.updateModels(['lightwallet','lightly']);
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());
