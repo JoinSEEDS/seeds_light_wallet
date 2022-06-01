@@ -3,7 +3,6 @@ import 'package:seeds/components/select_picture_box/select_picture_box.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_page_commands.dart';
 
 class PickImageStateMapper extends StateMapper {
   EditRegionEventState mapResultToState(EditRegionEventState currentState, Result<File> result) {
@@ -14,7 +13,6 @@ class PickImageStateMapper extends StateMapper {
     } else {
       return currentState.copyWith(
         file: result.asValue!.value,
-        pageCommand: RemoveAuthenticationScreen(),
         pictureBoxState: PictureBoxState.imagePicked,
         isSaveChangesButtonEnable: true,
       );

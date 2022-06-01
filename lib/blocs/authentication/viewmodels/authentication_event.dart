@@ -13,16 +13,16 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
-class InitOnResumeAuth extends AuthenticationEvent {
-  const InitOnResumeAuth();
+class InitAuthTimer extends AuthenticationEvent {
+  const InitAuthTimer();
   @override
-  String toString() => 'InitOnResumeAuth';
+  String toString() => 'InitAuthTimer';
 }
 
-class SuccessOnResumeAuth extends AuthenticationEvent {
-  const SuccessOnResumeAuth();
+class StartTimeoutAuth extends AuthenticationEvent {
+  const StartTimeoutAuth();
   @override
-  String toString() => 'SuccessOnResumeAuth';
+  String toString() => 'StartTimeoutAuth';
 }
 
 class OnInviteLinkRecived extends AuthenticationEvent {

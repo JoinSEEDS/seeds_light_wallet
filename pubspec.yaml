@@ -26,7 +26,7 @@ dependencies:
   http: ^0.13.4
   shared_preferences: ^2.0.9
   flutter_secure_storage: ^5.0.2
-  local_auth: ^1.1.8
+  local_auth: ^2.0.1
   timeago: ^3.1.0
   cached_network_image: ^3.1.0+1
   flutter_svg: ^1.0.3
