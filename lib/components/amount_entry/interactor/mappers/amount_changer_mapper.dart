@@ -16,7 +16,7 @@ class AmountChangeMapper extends StateMapper {
 
     if (currentState.currentCurrencyInput == CurrencyInput.fiat) {
       fiatAmount = FiatDataModel(parsedQuantity, fiatSymbol: settingsStorage.selectedFiatCurrency);
-      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, currentState.tokenAmount.symbol);
+      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, currentState.tokenAmount.id!);
     } else {
       tokenAmount = currentState.tokenAmount.copyWith(parsedQuantity);
       fiatAmount = currentState.ratesState.tokenToFiat(tokenAmount, selectedFiat);
