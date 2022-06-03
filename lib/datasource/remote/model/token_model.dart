@@ -8,7 +8,7 @@ import 'package:seeds/screens/wallet/components/tokens_cards/components/currency
 
 
 class TokenModel extends Equatable {
-  //static const allTokens = [seedsToken, husdToken, hyphaToken, localScaleToken, starsToken, telosToken];
+  static const seedsEcosysUsecase = 'seedsecosys';
   static List<TokenModel> allTokens = [seedsToken];
   final String chainName;
   final String contract;
@@ -220,6 +220,7 @@ const seedsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  usecases: [TokenModel.seedsEcosysUsecase],
 );
 
 const husdToken = TokenModel(
