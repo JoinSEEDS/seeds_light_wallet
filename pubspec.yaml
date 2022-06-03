@@ -39,10 +39,10 @@ dependencies:
   geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4
-  image_cropper: ^1.5.0
+  image_cropper: ^2.0.3 
   carousel_slider: ^4.0.0
   qr_flutter: ^4.0.0
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.5+3
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
