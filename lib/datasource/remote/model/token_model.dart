@@ -185,8 +185,8 @@ class TokenModel extends Equatable {
       );
   }
 
-  factory TokenModel.fromSymbol(String symbol) {
-    return allTokens.firstWhere((e) => e.symbol == symbol);
+  factory TokenModel.fromId(String tokenId) {
+    return allTokens.firstWhere((e) => e.id == tokenId);
   }
 
   static TokenModel? fromSymbolOrNull(String symbol) {
@@ -240,7 +240,7 @@ const seedsToken = TokenModel(
   balanceSubTitle: 'Wallet Balance',
   usecases: [TokenModel.seedsEcosysUsecase],
 );
-
+/*
 const husdToken = TokenModel(
   chainName: "Telos",
   contract: "husd.hypha",
@@ -292,3 +292,4 @@ const telosToken = TokenModel(
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
   balanceSubTitle: 'Wallet Balance',
 );
+ */
