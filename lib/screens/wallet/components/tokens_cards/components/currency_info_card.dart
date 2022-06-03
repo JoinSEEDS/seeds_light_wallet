@@ -53,7 +53,7 @@ class CurrencyInfoCard extends StatelessWidget {
                       height: 42,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(image: AssetImage(seedsEcosysSymbol), fit: BoxFit.fill),
+                        image: const DecorationImage(image: AssetImage(seedsEcosysSymbol), fit: BoxFit.fill),
                       ),
                     ),
                     Container(

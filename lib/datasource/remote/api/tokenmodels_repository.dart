@@ -9,7 +9,7 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 
 class TokenModelsRepository extends HttpRepository {
   Future<Result<List<TokenModel>>> getTokenModels(List<String> useCaseList) async {
-    print("[http] update token models");
+    print("[http] importing token models");
     final v1ChainUrl = Uri.parse(
            'https://api.telosfoundation.io/v1/chain/get_table_rows');
     final idSet = <int>{};

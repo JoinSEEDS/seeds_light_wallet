@@ -203,6 +203,10 @@ class TokenModel extends Equatable {
   static Future<void> updateModels(List<String> useCaseList) async {
     await TokenModelsRepository().getTokenModels(useCaseList).then((models){
       if(models.isValue) {
+        for(final newtoken in models.asValue!.value) {
+          allTokens.removeWhere((token) => token.contract==newtoken.contract
+                                           && token.symbol==newtoken.symbol);
+        }
         allTokens.addAll(models.asValue!.value);
       } else if(models.isError) {
         print('Error updating Token Models from chain');
@@ -210,6 +214,20 @@ class TokenModel extends Equatable {
     });
   }
 
+  static Future<void> installModels(List<String> useCaseList) async {
+    allTokens = [seedsToken];
+    await updateModels(useCaseList);
+  }
+
+  static void pruneRemoving(List<String> useCaseList) {
+    allTokens.removeWhere((token) =>
+        token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false);
+  }
+
+  static void pruneKeeping(List<String> useCaseList) {
+    allTokens.removeWhere((token) => !
+    (token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false));
+  }
 }
 
 const seedsToken = TokenModel(
