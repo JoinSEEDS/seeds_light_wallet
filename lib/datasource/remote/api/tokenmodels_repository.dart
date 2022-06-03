@@ -13,6 +13,7 @@ class TokenModelsRepository extends HttpRepository {
     final v1ChainUrl = Uri.parse(
            'https://api.telosfoundation.io/v1/chain/get_table_rows');
     final idSet = <int>{};
+    final useCaseMap = <int, List<String>>{} ;
     for(final useCase in useCaseList) {
       final String request = '''
       {
@@ -27,6 +28,10 @@ class TokenModelsRepository extends HttpRepository {
           .then((http.Response response)  {
               final acceptances = json.decode(response.body)['rows'].toList();
               final tokenIds = List<int>.from(acceptances.map((row) => row['token_id']).toList());
+              for (final id in tokenIds) {
+                useCaseMap[id] ??= [];
+                useCaseMap[id]!.add(useCase);
+              }
               idSet.addAll(tokenIds);
           });
     }
@@ -43,6 +48,9 @@ class TokenModelsRepository extends HttpRepository {
           .then((http.Response response) => mapHttpResponse<List<TokenModel>>(response, (dynamic body) {
                  final tokens = List<Map<String,dynamic>>.from(body['rows'].toList()
                      .where((row) => idSet.contains(row['id'])));
+                 for (final token in tokens) {
+                   token['usecases'] = useCaseMap[token['id']];
+                 }
                  return List<TokenModel?>.from(tokens.map((token) =>
                     TokenModel.fromJson(token))).whereNotNull().toList();
              }))
