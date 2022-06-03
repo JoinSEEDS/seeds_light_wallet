@@ -75,10 +75,13 @@ class SeedsApp extends StatelessWidget {
                               break;
                             case AuthStatus.emptyPasscode:
                             case AuthStatus.locked:
-                              navigator.pushAndRemoveAll(Routes.verification);
+                              if (navigator.currentRouteName() == null) {
+                                navigator.pushAndRemoveAll(Routes.app);
+                              }
+                              navigator.navigateTo(Routes.verification);
                               break;
                             case AuthStatus.unlocked:
-                              navigator.pushAndRemoveAll(Routes.app);
+                              navigator.pushApp();
                               break;
                             default:
                               navigator.pushAndRemoveAll(Routes.splash);
