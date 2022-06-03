@@ -18,6 +18,7 @@ class TokenModel extends Equatable {
   final String logoUrl;
   final String balanceSubTitle;
   final int precision;
+  final List<String>? usecases;
 
   String get id => "$contract#$symbol";
 
@@ -43,6 +44,7 @@ class TokenModel extends Equatable {
     required this.logoUrl,
     required this.balanceSubTitle,
     this.precision = 4,
+    this.usecases,
   });
 
   // TODO(chuck): import tmastrSchemaText from public ecosystem-wide asset location
@@ -161,7 +163,8 @@ class TokenModel extends Equatable {
     }
     if (!( extendJson("chainName", "chain") &&
            extendJson("contract", "account") &&
-           extendJson("symbolcode", "symbol")   )) {
+           extendJson("symbolcode", "symbol") &&
+           extendJson("usecases", "usecases"))) {
       return null;
     }
     final validationErrors = tmastrSchema.validateWithErrors(parsedJson);
@@ -178,6 +181,7 @@ class TokenModel extends Equatable {
         balanceSubTitle: parsedJson["subtitle"],
         backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
         precision: parsedJson["precision"] ?? 4,
+        usecases: parsedJson["usecases"],
       );
   }
 
