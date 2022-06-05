@@ -28,7 +28,7 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
     on<SetInitialValues>(_setInitialValues);
     on<MoveToCurrentLocation>(_moveToCurrentLocation);
     on<OnMapMoving>((_, emit) => emit(state.copyWith(isCameraMoving: true)));
-    on<OnMapEndMove>((_, emit) => emit(state.copyWith(pageCommand: MoveCameraStop(), isCameraMoving: false)));
+    on<OnMapEndMove>(_onMapEndMove);
     on<ToggleSearchBar>((_, emit) => emit(state.copyWith(isSearchingPlace: !state.isSearchingPlace)));
     on<OnPlaceResultSelected>(_onPlaceResultSelected);
     on<ClearRegionsMapPageCommand>((_, emit) => emit(state.copyWith()));
@@ -114,7 +114,40 @@ class RegionsMapBloc extends Bloc<RegionsMapEvent, RegionsMapState> {
     }
   }
 
+  Future<void> _onMapEndMove(OnMapEndMove event, Emitter<RegionsMapState> emit) async {
+    if (state.isSerachResultSelected) {
+      // Map ends moving by pressing a search result this already has the venue address.
+      emit(state.copyWith(pageCommand: MoveCameraStop(), isCameraMoving: false, isSerachResultSelected: false));
+    } else {
+      // Map ends moving by drag and drop the map --> we need fetch the place address from coords.
+      // Sadly this Geolocation call does not seems return the venue value.
+      if (event.pickedLat != 0 && event.pickedLong != 0) {
+        final result = await GetPlacesFromCoordinatesUseCase()
+            .run(GetPlacesFromCoordinatesUseCase.input(lat: event.pickedLat, lng: event.pickedLong));
+        if (result.isError) {
+          // No address information found for supplied coordinates --> do nothing.
+        } else {
+          final placemarks = result.asValue!.value;
+          emit(state.copyWith(
+            pageCommand: MoveCameraStop(),
+            isCameraMoving: false,
+            newPlace: state.newPlace.copyWith(
+              lat: event.pickedLat,
+              lng: event.pickedLong,
+              placeText: placemarks.first.toPlaceText,
+            ),
+          ));
+        }
+      }
+    }
+  }
+
   void _onPlaceResultSelected(OnPlaceResultSelected event, Emitter<RegionsMapState> emit) {
-    emit(state.copyWith(pageCommand: MoveCamera(), isSearchingPlace: false, newPlace: event.place));
+    emit(state.copyWith(
+      pageCommand: MoveCamera(),
+      isSearchingPlace: false,
+      isSerachResultSelected: true,
+      newPlace: event.place,
+    ));
   }
 }
