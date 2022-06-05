@@ -10,6 +10,7 @@ class RegionsMapState extends Equatable {
   final bool isSearchingPlace;
   final bool isUserLocationEnabled;
   final bool showRegionsResults;
+  final bool isSerachResultSelected;
 
   const RegionsMapState({
     this.pageCommand,
@@ -21,6 +22,7 @@ class RegionsMapState extends Equatable {
     required this.isSearchingPlace,
     required this.isUserLocationEnabled,
     required this.showRegionsResults,
+    required this.isSerachResultSelected,
   });
 
   @override
@@ -33,6 +35,7 @@ class RegionsMapState extends Equatable {
         isCameraMoving,
         isSearchingPlace,
         isUserLocationEnabled,
+        isSerachResultSelected,
       ];
 
   RegionsMapState copyWith({
@@ -44,6 +47,7 @@ class RegionsMapState extends Equatable {
     bool? isCameraMoving,
     bool? isSearchingPlace,
     bool? isUserLocationEnabled,
+    bool? isSerachResultSelected,
   }) {
     return RegionsMapState(
       pageCommand: pageCommand,
@@ -55,6 +59,7 @@ class RegionsMapState extends Equatable {
       isSearchingPlace: isSearchingPlace ?? this.isSearchingPlace,
       isUserLocationEnabled: isUserLocationEnabled ?? this.isUserLocationEnabled,
       showRegionsResults: showRegionsResults,
+      isSerachResultSelected: isSerachResultSelected ?? this.isSerachResultSelected,
     );
   }
 
@@ -73,6 +78,7 @@ class RegionsMapState extends Equatable {
       isSearchingPlace: false,
       isUserLocationEnabled: true,
       showRegionsResults: showRegionsResults,
+      isSerachResultSelected: false,
     );
   }
 }
