@@ -47,44 +47,52 @@ class SeedsApp extends StatelessWidget {
           child: Builder(
             builder: (context) {
               final navigator = NavigationService.of(context);
-              return MaterialApp(
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                theme: SeedsAppTheme.darkTheme,
-                scaffoldMessengerKey: rootScaffoldMessengerKey,
-                navigatorKey: navigator.appNavigatorKey,
-                onGenerateRoute: navigator.onGenerateRoute,
-                builder: (_, child) {
-                  return I18n(
-                    child: BlocListener<AuthenticationBloc, AuthenticationState>(
-                      listenWhen: (previous, current) => previous.authStatus != current.authStatus,
-                      listener: (_, state) {
-                        switch (state.authStatus) {
-                          case AuthStatus.emptyAccount:
-                            navigator.pushAndRemoveAll(Routes.onboarding);
-                            break;
-                          case AuthStatus.inviteLink:
-                            navigator.pushAndRemoveAll(Routes.signup);
-                            break;
-                          case AuthStatus.recoveryMode:
-                            navigator.pushAndRemoveAll(Routes.login);
-                            break;
-                          case AuthStatus.emptyPasscode:
-                          case AuthStatus.locked:
-                            navigator.pushAndRemoveAll(Routes.verification);
-                            break;
-                          case AuthStatus.unlocked:
-                            navigator.pushAndRemoveAll(Routes.app);
-                            break;
-                          default:
-                            navigator.pushAndRemoveAll(Routes.splash);
-                            break;
-                        }
-                      },
-                      child: child,
-                    ),
-                  );
-                },
+              return GestureDetector(
+                onTap: () => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
+                onPanDown: (_) => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
+                onPanUpdate: (_) => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
+                child: MaterialApp(
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  theme: SeedsAppTheme.darkTheme,
+                  scaffoldMessengerKey: rootScaffoldMessengerKey,
+                  navigatorKey: navigator.appNavigatorKey,
+                  onGenerateRoute: navigator.onGenerateRoute,
+                  builder: (_, child) {
+                    return I18n(
+                      child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                        listenWhen: (previous, current) => previous.authStatus != current.authStatus,
+                        listener: (_, state) {
+                          switch (state.authStatus) {
+                            case AuthStatus.emptyAccount:
+                              navigator.pushAndRemoveAll(Routes.onboarding);
+                              break;
+                            case AuthStatus.inviteLink:
+                              navigator.pushAndRemoveAll(Routes.signup);
+                              break;
+                            case AuthStatus.recoveryMode:
+                              navigator.pushAndRemoveAll(Routes.login);
+                              break;
+                            case AuthStatus.emptyPasscode:
+                            case AuthStatus.locked:
+                              if (navigator.currentRouteName() == null) {
+                                navigator.pushAndRemoveAll(Routes.app);
+                              }
+                              navigator.navigateTo(Routes.verification);
+                              break;
+                            case AuthStatus.unlocked:
+                              navigator.pushApp();
+                              break;
+                            default:
+                              navigator.pushAndRemoveAll(Routes.splash);
+                              break;
+                          }
+                        },
+                        child: child,
+                      ),
+                    );
+                  },
+                ),
               );
             },
           ),
