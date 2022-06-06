@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
@@ -58,14 +56,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   ];
   final PageController _pageController = PageController();
   late AppBloc _appBloc;
-  late GlobalKey<NavigatorState> _navigatorKey;
   late ConnectionNotifier _connectionNotifier;
 
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context), BlocProvider.of<AuthenticationBloc>(context))
-      ..add(const OnAppMounted());
+    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context))..add(const OnAppMounted());
     _connectionNotifier = ConnectionNotifier()..discoverEndpoints();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
@@ -77,12 +73,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
-        if (settingsStorage.passcodeActive ?? false) {
-          // Enable the flag that indicates is in OnResumeAuth
-          BlocProvider.of<AuthenticationBloc>(context).add(const InitOnResumeAuth());
-          // Navigate to verification screen (verify mode) on app resume
-          Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
-        }
         break;
       case AppLifecycleState.resumed:
         _connectionNotifier.discoverEndpoints();
@@ -102,7 +92,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
       create: (_) => _appBloc,
       child: Scaffold(
@@ -171,25 +160,5 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         ),
       ),
     );
-  }
-}
-
-extension NavigatorStateExtension on NavigatorState {
-  /// Navigate only if the new route is not the same as the current one
-  void pushNamedIfNotCurrent(String routeName, {Object? arguments}) {
-    if (!isCurrent(routeName)) {
-      pushNamed(routeName, arguments: arguments);
-    }
-  }
-
-  bool isCurrent(String routeName) {
-    bool isCurrent = false;
-    popUntil((route) {
-      if (route.settings.name == routeName) {
-        isCurrent = true;
-      }
-      return true;
-    });
-    return isCurrent;
   }
 }

@@ -35,14 +35,8 @@ class VerificationScreen extends StatelessWidget {
                 } else if (pageCommand is BiometricAuthorized) {
                   final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
                   if (_securityBloc == null) {
-                    if (authenticationBloc.state.isOnResumeAuth) {
-                      // App resume flow: disable flag and then fires navigator pop
-                      authenticationBloc.add(const SuccessOnResumeAuth());
-                      Navigator.of(context).pop();
-                    } else {
-                      // Onboarding flow: just unlock
-                      authenticationBloc.add(const UnlockWallet());
-                    }
+                    // Onboarding or timeout authentication: just unlock
+                    authenticationBloc.add(const UnlockWallet());
                   } else {
                     // Security flow: update screen and then fires navigator pop
                     _securityBloc.add(const OnValidVerification());
@@ -65,14 +59,8 @@ class VerificationScreen extends StatelessWidget {
                     }
                   } else {
                     if (_securityBloc == null) {
-                      if (authenticationBloc.state.isOnResumeAuth) {
-                        // App resume flow: disable flag and then fires navigator pop
-                        authenticationBloc.add(const SuccessOnResumeAuth());
-                        Navigator.of(context).pop();
-                      } else {
-                        // Onboarding flow: just unlock
-                        authenticationBloc.add(const UnlockWallet());
-                      }
+                      // Onboarding or timeout authentication: just unlock
+                      authenticationBloc.add(const UnlockWallet());
                     } else {
                       // pop from disable on security
                       Navigator.of(context).pop();

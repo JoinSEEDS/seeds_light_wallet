@@ -13,13 +13,7 @@ class EditProfilePicBottomSheet extends StatelessWidget {
       create: (_) => PickImageBloc(),
       child: BlocConsumer<PickImageBloc, PickImageState>(
         listenWhen: (previous, current) => previous.file != current.file,
-        listener: (context, state) {
-          // When the system explore files is open or the camera is open, the wallet app
-          // goes into the background (paused) and this triggers the verification screen.
-          // thus, we need fire an extra pop.
-          Navigator.of(context).pop(); // <--- to remove verify screen
-          Navigator.of(context).pop(state.file);
-        },
+        listener: (context, state) => Navigator.of(context).pop(state.file),
         builder: (context, _) {
           return Column(
             mainAxisSize: MainAxisSize.min,

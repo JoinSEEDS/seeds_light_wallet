@@ -3,11 +3,11 @@ package com.joinseeds.seedswallet
 import android.util.Log
 import android.webkit.WebStorage
 import androidx.annotation.NonNull
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
-class MainActivity: FlutterActivity() {
+class MainActivity: FlutterFragmentActivity() {
   private val channel = "lw.web_view.clear"
 
   override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
