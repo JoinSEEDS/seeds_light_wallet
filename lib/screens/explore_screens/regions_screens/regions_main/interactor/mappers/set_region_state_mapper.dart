@@ -27,6 +27,7 @@ class SetRegionStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
+        loadingEvents: false,
         isBrowseView: false,
         userType: typeOfUser,
         region: firebaseRegion != null ? region?.addImageUrlToModel(firebaseRegion.imageUrl) : region,

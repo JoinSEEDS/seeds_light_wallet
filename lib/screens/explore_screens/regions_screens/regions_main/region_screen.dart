@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -34,8 +33,6 @@ class RegionScreen extends StatelessWidget {
         },
         builder: (context, state) {
           switch (state.pageState) {
-            case PageState.loading:
-              return const Scaffold(body: FullPageLoadingIndicator());
             case PageState.failure:
               return const Scaffold(body: FullPageErrorIndicator());
             case PageState.success:
