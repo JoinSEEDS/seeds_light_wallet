@@ -10,7 +10,10 @@ extension RatesStateExtensions on RatesState {
     final RateModel? rateModel = rates?[tokenAmount.symbol];
     if (rateModel != null) {
       final double? usdValue = rateModel.tokenToUSD(tokenAmount.amount);
-      if (usdValue != null) {
+
+      if (usdValue != null && currencySymbol == 'USD') {
+        return FiatDataModel(usdValue, fiatSymbol: currencySymbol);
+      } else if (usdValue != null) {
         // Convert the seeds (USD amount) in the new currency
         final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
         return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
