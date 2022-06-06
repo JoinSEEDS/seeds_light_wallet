@@ -38,7 +38,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
             final url = Platform.isIOS
                 ? 'https://maps.apple.com/?q=${event.eventLocation.latitude},${event.eventLocation.longitude}'
                 : 'https://www.google.com/maps/place/${event.eventLocation.latitude}+-${event.eventLocation.longitude.abs()}/@${event.eventLocation.latitude},${event.eventLocation.longitude},17z';
-            launchUrl(Uri.parse(url));
+            launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
           } else if (command is ShowEditRegionEventButtons) {
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(
