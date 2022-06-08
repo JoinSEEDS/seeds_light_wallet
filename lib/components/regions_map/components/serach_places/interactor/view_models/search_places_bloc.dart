@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/regions_map/components/serach_places/interactor/mappers/predictions_state_mapper.dart';
 import 'package:seeds/components/regions_map/components/serach_places/interactor/usecases/get_place_details_use_case.dart';
@@ -46,18 +47,31 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
           }
         }
       }
-      final result = await GetUserLocationUseCase().run();
-      if (result.isError) {
-        emit(state.copyWith(pageState: PageState.failure));
-      } else {
-        final Position position = result.asValue!.value;
+
+      final locationStatus = await Permission.location.status;
+      final locationIsEnabled = await Permission.locationWhenInUse.serviceStatus.isEnabled;
+      if (locationStatus.isDenied || !locationIsEnabled) {
+        // We didn't ask for permission yet or the permission has been denied before but not permanently.
         final res = await GetPlacesAutocompleteUseCase().run(GetPlacesAutocompleteUseCase.input(
           event.query,
-          location: Location(lat: position.latitude, lng: position.longitude),
           language: 'en',
         ));
-
         emit(PredictionsStateMapper().mapResultToState(state, res, regionMatches));
+      } else {
+        // We have user location permission use location to improve near results.
+        final result = await GetUserLocationUseCase().run();
+        if (result.isError) {
+          emit(state.copyWith(pageState: PageState.failure));
+        } else {
+          final Position position = result.asValue!.value;
+          final res = await GetPlacesAutocompleteUseCase().run(GetPlacesAutocompleteUseCase.input(
+            event.query,
+            location: Location(lat: position.latitude, lng: position.longitude),
+            language: 'en',
+          ));
+
+          emit(PredictionsStateMapper().mapResultToState(state, res, regionMatches));
+        }
       }
     } else {
       emit(state.copyWith(predictions: []));
