@@ -13,32 +13,34 @@ class RegionEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegionBloc, RegionState>(
       builder: (context, state) {
-        return Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: state.canCreateAnEvent
-              ? FloatingActionButton(
-                  backgroundColor: AppColors.green1,
-                  onPressed: () => BlocProvider.of<RegionBloc>(context)..add(const OnAddEventButtonPressed()),
-                  child: const Icon(Icons.add, color: AppColors.white),
-                )
-              : null,
-          body: StreamBuilder<List<RegionEventModel>>(
-            stream: BlocProvider.of<RegionBloc>(context).regionEvents,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final List<RegionEventModel> events = snapshot.data!;
-                events.sort((a, b) => b.eventStartTime.compareTo(a.eventStartTime));
-                return ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: events.length,
-                  itemBuilder: (_, index) => RegionEventCard(events[index]),
-                );
-              } else {
-                return const FullPageLoadingIndicator();
-              }
-            },
-          ),
-        );
+        return state.loadingEvents
+            ? const FullPageLoadingIndicator()
+            : Scaffold(
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: state.canCreateAnEvent
+                    ? FloatingActionButton(
+                        backgroundColor: AppColors.green1,
+                        onPressed: () => BlocProvider.of<RegionBloc>(context)..add(const OnAddEventButtonPressed()),
+                        child: const Icon(Icons.add, color: AppColors.white),
+                      )
+                    : null,
+                body: StreamBuilder<List<RegionEventModel>>(
+                  stream: BlocProvider.of<RegionBloc>(context).regionEvents,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List<RegionEventModel> events = snapshot.data!;
+                      events.sort((a, b) => b.eventStartTime.compareTo(a.eventStartTime));
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(16.0),
+                        itemCount: events.length,
+                        itemBuilder: (_, index) => RegionEventCard(events[index]),
+                      );
+                    } else {
+                      return const FullPageLoadingIndicator();
+                    }
+                  },
+                ),
+              );
       },
     );
   }
