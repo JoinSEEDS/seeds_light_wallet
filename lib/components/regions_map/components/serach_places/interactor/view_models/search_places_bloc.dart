@@ -17,6 +17,7 @@ import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 part 'search_places_event.dart';
+
 part 'search_places_state.dart';
 
 class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
@@ -50,7 +51,10 @@ class SearchPlacesBloc extends Bloc<SearchPlacesEvent, SearchPlacesState> {
 
       final locationStatus = await Permission.location.status;
       final locationIsEnabled = await Permission.locationWhenInUse.serviceStatus.isEnabled;
-      if (locationStatus.isDenied || !locationIsEnabled) {
+      if (locationStatus.isDenied ||
+          locationStatus.isPermanentlyDenied ||
+          locationStatus.isRestricted ||
+          !locationIsEnabled) {
         // We didn't ask for permission yet or the permission has been denied before but not permanently.
         final res = await GetPlacesAutocompleteUseCase().run(GetPlacesAutocompleteUseCase.input(
           event.query,
