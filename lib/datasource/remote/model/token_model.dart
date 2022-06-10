@@ -200,11 +200,12 @@ class TokenModel extends Equatable {
     return "${quantity.toStringAsFixed(precision)} $symbol";
   }
 
-  static Future<void> updateModels(List<String> useCaseList) async {
-    await TokenModelsRepository().getTokenModels(useCaseList).then((models){
+  static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
+    await TokenModelsRepository().getTokenModels(acceptList, infoList).then((models){
       if(models.isValue) {
         for(final newtoken in models.asValue!.value) {
           allTokens.removeWhere((token) => token.contract==newtoken.contract
+                                           && token.chainName==newtoken.chainName
                                            && token.symbol==newtoken.symbol);
         }
         allTokens.addAll(models.asValue!.value);
@@ -214,9 +215,9 @@ class TokenModel extends Equatable {
     });
   }
 
-  static Future<void> installModels(List<String> useCaseList) async {
+  static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
     allTokens = [seedsToken];
-    await updateModels(useCaseList);
+    await updateModels(acceptList, infoList);
   }
 
   static void pruneRemoving(List<String> useCaseList) {
