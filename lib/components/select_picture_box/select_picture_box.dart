@@ -52,7 +52,7 @@ class SelectPictureBox extends StatelessWidget {
       case PictureBoxState.imagePicked:
         return ClipRRect(
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-            child: Image.file(backgroundImage!, fit: BoxFit.fill));
+            child: Image.file(backgroundImage!, fit: BoxFit.cover));
     }
   }
 }
