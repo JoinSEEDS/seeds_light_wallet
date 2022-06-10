@@ -8,6 +8,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
@@ -31,10 +32,14 @@ class InviteScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(context.loc.inviteScreenAppBarTitle),
           actions: [
-            IconButton(
+            TextButton(
               onPressed: () => NavigationService.of(context).navigateTo(Routes.manageInvites),
-              icon: const Icon(Icons.settings),
-            )
+              child: Text(
+                context.loc.inviteScreenManageInvitesTitle,
+                style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
+              ),
+            ),
+            const SizedBox(width: 8.0),
           ],
         ),
         body: BlocConsumer<InviteBloc, InviteState>(
