@@ -14,7 +14,7 @@ class ReviewAndPublishRegionEventHeader extends StatelessWidget {
         return Stack(
           children: [
             Container(
-                width: width, height: height * 0.4, child: ClipRRect(child: Image.file(state.file!, fit: BoxFit.fill))),
+                width: width, height: height * 0.4, child: ClipRRect(child: Image.file(state.file!, fit: BoxFit.cover))),
             Positioned(
               left: 0,
               top: 0,
