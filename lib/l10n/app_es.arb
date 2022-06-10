@@ -213,6 +213,8 @@
   "@verificationScreenCreateCode": {},
   "inviteScreenAppBarTitle": "Invitación",
   "@inviteScreenAppBarTitle": {},
+  "inviteScreenManageInvitesTitle": "Gestionar invitaciónes",
+  "@inviteScreenManageInvitesTitle": {},
   "inviteScreenInputAmountTitle": "Monto de invitación",
   "@inviteScreenInputAmountTitle": {},
   "inviteScreenBalanceTitle": "Balance disponible",
