@@ -10,16 +10,16 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 /// Retrieve token metadata (used for display of currency cards etc) from
 /// a table in the token master smart contract (tmastr.seeds)
 class TokenModelsRepository extends HttpRepository {
-  Future<Result<List<TokenModel>>> getTokenModels(List<String> useCaseList) async {
-    /// imports data from all tokens which are accepted under any of the entries in useCaseList
+  Future<Result<List<TokenModel>>> getTokenModels(List<String> acceptList, [List<String>? infoList]) async {
+    /// imports data from all tokens which are accepted under any of the entries in acceptList
     print("[http] importing token models");
     final v1ChainUrl = Uri.parse(
            'https://api.telosfoundation.io/v1/chain/get_table_rows');
     final idSet = <int>{};
     final useCaseMap = <int, List<String>>{} ;
     /// accumulate accepted token id's in idSet
-    /// record valid usecases for each token in useCaseMap
-    for(final useCase in useCaseList) {
+    /// record valid usecases (from both acceptList and infoList) for each token in useCaseMap
+    for(final useCase in acceptList + (infoList ?? [])) {
       final String request = '''
       {
         "code":"${SeedsCode.accountTokenModels.value}",
@@ -37,7 +37,9 @@ class TokenModelsRepository extends HttpRepository {
                 useCaseMap[id] ??= [];
                 useCaseMap[id]!.add(useCase);
               }
-              idSet.addAll(tokenIds);
+              if(acceptList.contains(useCase)) {
+                idSet.addAll(tokenIds);
+              }
           });
     }
     final String request = '''
