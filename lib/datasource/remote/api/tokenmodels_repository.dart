@@ -65,4 +65,16 @@ class TokenModelsRepository extends HttpRepository {
         }))
         .catchError((dynamic error) => mapHttpError(error));
   }
+
+  Future<Result<Map<String,dynamic>>> getSchema() async {
+    print('[http] get token master list schema');
+    final request = '{"json":true,"code":"${SeedsCode.accountTokenModels.value}", "scope":"${SeedsCode.accountTokenModels.value}","table":"schema"}';
+
+    return http
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<Map<String,dynamic>>(response, (dynamic body) {
+      return body;
+    }))
+        .catchError((error) => mapHttpError(error));
+  }
 }
