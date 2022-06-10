@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_schema2/json_schema2.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 
 
@@ -216,8 +217,12 @@ class TokenModel extends Equatable {
   }
 
   static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
-    allTokens = [seedsToken];
-    await updateModels(acceptList, infoList);
+    if( remoteConfigurations.featureFlagTokenMasterListEnabled) {
+      allTokens = [seedsToken];
+      await updateModels(acceptList, infoList);
+    } else {
+      allTokens = _staticTokenList;
+    }
   }
 
   static void pruneRemoving(List<String> useCaseList) {
@@ -239,10 +244,11 @@ const seedsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
-  usecases: [TokenModel.seedsEcosysUsecase],
+  usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
-/*
-const husdToken = TokenModel(
+
+final _staticTokenList = [seedsToken, _husdToken, _hyphaToken, _localScaleToken, _starsToken, _telosToken];
+const _husdToken = TokenModel(
   chainName: "Telos",
   contract: "husd.hypha",
   symbol: "HUSD",
@@ -251,9 +257,10 @@ const husdToken = TokenModel(
   logoUrl: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   precision: 2,
+  usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
-const hyphaToken = TokenModel(
+const _hyphaToken = TokenModel(
   chainName: "Telos",
   contract: "hypha.hypha",
   symbol: "HYPHA",
@@ -262,9 +269,10 @@ const hyphaToken = TokenModel(
   logoUrl: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   precision: 2,
+  usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
-const localScaleToken = TokenModel(
+const _localScaleToken = TokenModel(
   chainName: "Telos",
   contract: "token.local",
   symbol: "LSCL",
@@ -272,9 +280,10 @@ const localScaleToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  usecases: ["lightwallet"],
 );
 
-const starsToken = TokenModel(
+const _starsToken = TokenModel(
   chainName: "Telos",
   contract: "star.seeds",
   symbol: "STARS",
@@ -282,9 +291,10 @@ const starsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/stars/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/stars/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  usecases: ["lightwallet"],
 );
 
-const telosToken = TokenModel(
+const _telosToken = TokenModel(
   chainName: "Telos",
   contract: "eosio.token",
   symbol: "TLOS",
@@ -292,5 +302,5 @@ const telosToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/tlos/background.png',
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  usecases: ["lightwallet"],
 );
- */

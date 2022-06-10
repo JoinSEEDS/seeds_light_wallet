@@ -164,6 +164,7 @@ flutter:
     - assets/images/wallet/currency_info_cards/tlos/background.png
     - assets/images/wallet/currency_info_cards/tlos/logo.png
     - assets/images/wallet/currency_info_cards/seeds/seeds_check_transp.png
+    - assets/images/wallet/currency_info_cards/experimental.png
     - assets/images/profile/lotus.svg
     - assets/images/profile/logout_icon.svg
     - assets/images/profile/contribution_icon.svg
