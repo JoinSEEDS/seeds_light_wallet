@@ -58,7 +58,7 @@ class _SettingsStorage {
 
   String? get passcode => _passcode;
 
-  bool? get passcodeActive => _passcodeActive;
+  bool get passcodeActive => _passcodeActive ?? false;
 
   bool? get biometricActive => _biometricActive;
 

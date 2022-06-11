@@ -9,7 +9,6 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
-import 'package:seeds/screens/explore_screens/regions_screens/create_region_screens/interactor/viewmodels/create_region_page_commands.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionBackgroundImage extends StatelessWidget {
@@ -22,14 +21,9 @@ class AddRegionBackgroundImage extends StatelessWidget {
       listener: (context, state) {
         if (state.pageCommand != null) {
           final pageCommand = state.pageCommand;
-
           if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
-          } else if (pageCommand is RemoveAuthenticationScreen) {
-            // This pop remove the authentication screen
-            Navigator.of(context).pop();
           }
-
           BlocProvider.of<CreateRegionBloc>(context).add(const ClearCreateRegionPageCommand());
         }
       },

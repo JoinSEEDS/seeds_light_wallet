@@ -29,10 +29,7 @@ class EditRegionImage extends StatelessWidget {
           final pageCommand = state.pageCommand;
 
           //need  a page command for this screen
-          if (pageCommand is RemoveAuthenticationScreen) {
-            // This pop remove the authentication screen
-            Navigator.of(context).pop();
-          } else if (pageCommand is ShowErrorMessage) {
+          if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).pushAndRemoveUntil(route: pageCommand.route, from: Routes.app);
@@ -51,8 +48,7 @@ class EditRegionImage extends StatelessWidget {
                     isLoading: state.isSaveChangesButtonLoading,
                     enabled: state.isSaveChangesButtonEnable,
                     title: "Save Image",
-                    onPressed: () =>
-                        BlocProvider.of<EditRegionBloc>(context).add(const OnSaveImageTapped()))),
+                    onPressed: () => BlocProvider.of<EditRegionBloc>(context).add(const OnSaveImageTapped()))),
             body: SafeArea(
               minimum: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(

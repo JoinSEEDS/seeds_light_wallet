@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.8.3+78
+version: 2.9.0+79
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -26,7 +26,7 @@ dependencies:
   http: ^0.13.4
   shared_preferences: ^2.0.9
   flutter_secure_storage: ^5.0.2
-  local_auth: ^1.1.8
+  local_auth: ^2.0.1
   timeago: ^3.1.0
   cached_network_image: ^3.1.0+1
   flutter_svg: ^1.0.3
@@ -39,10 +39,10 @@ dependencies:
   geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4
-  image_cropper: ^1.5.0
+  image_cropper: ^2.0.3 
   carousel_slider: ^4.0.0
   qr_flutter: ^4.0.0
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.5+3
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
@@ -61,6 +61,7 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:

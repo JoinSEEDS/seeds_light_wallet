@@ -235,6 +235,8 @@
   "@verificationScreenCreateCode": {},
   "inviteScreenAppBarTitle": "Invite",
   "@inviteScreenAppBarTitle": {},
+  "inviteScreenManageInvitesTitle": "Manage Invites",
+  "@inviteScreenManageInvitesTitle": {},
   "inviteScreenInputAmountTitle": "Invite amount",
   "@inviteScreenInputAmountTitle": {},
   "inviteScreenBalanceTitle": "Available Balance",
