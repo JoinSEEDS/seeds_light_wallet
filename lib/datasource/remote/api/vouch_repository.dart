@@ -42,14 +42,10 @@ class VouchRepository extends HttpRepository with EosRepository {
   }
 
   /// users where accountName is sponsor - who accountname vouched for
-  Future<Result<List<VouchModel>>> getVouchees(String accountName) {
-    return _getVouches(accountName, true);
-  }
+  Future<Result<List<VouchModel>>> getVouchees(String accountName) => _getVouches(accountName, true);
 
   /// users who are sponsors for accountName
-  Future<Result<List<VouchModel>>> getSponsors(String accountName) {
-    return _getVouches(accountName, false);
-  }
+  Future<Result<List<VouchModel>>> getSponsors(String accountName) => _getVouches(accountName, false);
 
   Future<Result<List<VouchModel>>> _getVouches(String accountName, bool isSponsor) {
     print('[http] users where $accountName ($isSponsor ? "is sponsor" : "was sponsored")');

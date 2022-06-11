@@ -24,14 +24,14 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
   late AnimationController _controller;
   late Animation<double> _timeLineAnimation;
   late Animation<double> _reputationAnimation;
-  late Animation<double> _residentsAnimation;
+  late Animation<double> _citizenCeremonyAnimation;
   late Animation<double> _ageAnimation;
   late Animation<double> _seedsAnimation;
   late Animation<double> _transactionsAnimation;
   late Animation<double> _visitorsAnimation;
   int _timeLine = 0;
   int _reputation = 0;
-  int _residents = 0;
+  int _citizenCeremony = 0;
   int _age = 0;
   int _seeds = 0;
   int _transactions = 0;
@@ -59,13 +59,13 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
-        _reputationAnimation = Tween<double>(begin: 0, end: state.reputationScore?.toDouble()).animate(_controller)
+        _reputationAnimation = Tween<double>(begin: 0, end: state.reputationScore?.toDouble() ?? 0).animate(_controller)
           ..addListener(() {
             setState(() => _reputation = _reputationAnimation.value.toInt());
           });
-        _residentsAnimation = Tween<double>(begin: 0, end: state.invitedResidents!.toDouble()).animate(_controller)
+        _citizenCeremonyAnimation = Tween<double>(begin: 0, end: state.citizenCeremony!.toDouble()).animate(_controller)
           ..addListener(() {
-            setState(() => _residents = _residentsAnimation.value.toInt() * 100);
+            setState(() => _citizenCeremony = _citizenCeremonyAnimation.value.toInt() * 100);
           });
         _ageAnimation = Tween<double>(begin: 0, end: state.profile!.accountAge.toDouble()).animate(_controller)
           ..addListener(() {
@@ -163,6 +163,16 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                   childAspectRatio: 0.8,
                   children: <Widget>[
                     CircularProgressItem(
+                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
+                      totalStep: citizenRequiredCitizenVouched * 100,
+                      currentStep: _citizenCeremony,
+                      circleRadius: 30,
+                      title: 'Citizen Ceremony'.i18n,
+                      titleStyle: Theme.of(context).textTheme.subtitle3,
+                      rate: _citizenCeremony == citizenRequiredCitizenVouched ? 'Passed' : 'Waiting',
+                      rateStyle: Theme.of(context).textTheme.subtitle1!,
+                    ),
+                    CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
                       totalStep: citizenRequiredReputation,
                       currentStep: _reputation,
@@ -170,16 +180,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                       title: 'Reputation Score'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
                       rate: '$_reputation/$citizenRequiredReputation',
-                      rateStyle: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    CircularProgressItem(
-                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                      totalStep: citizenRequiredResidentsInvited * 100,
-                      currentStep: _residents,
-                      circleRadius: 30,
-                      title: 'Residents Invited'.i18n,
-                      titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_residents ~/ 100}/$citizenRequiredResidentsInvited',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(
