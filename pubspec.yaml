@@ -61,11 +61,8 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
-<<<<<<< HEAD
   permission_handler: ^9.2.0
-=======
   json_schema2: ^2.0.2
->>>>>>> token models: import from tmastr.seeds contract (WIP)
 
 dev_dependencies:
   flutter_test:
