@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:json_schema2/json_schema2.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 
 
@@ -116,18 +117,18 @@ class TokenModel extends Equatable {
   }
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
-    await TokenModelsRepository().getTokenModels(acceptList, infoList).then((models){
-      if(models.isValue) {
-        for(final newtoken in models.asValue!.value) {
-          allTokens.removeWhere((token) => token.contract==newtoken.contract
-                                           && token.chainName==newtoken.chainName
-                                           && token.symbol==newtoken.symbol);
-        }
-        allTokens.addAll(models.asValue!.value);
-      } else if(models.isError) {
-        print('Error updating Token Models from chain');
-      }
-    });
+    final selector = TokenModelSelector(acceptList: acceptList, infoList: infoList);
+    final tokenListResult = await GetTokenModelsUseCase().run(selector);
+    if(tokenListResult.isError) {
+      return;
+    }
+    final tokenList = tokenListResult.asValue!.value;
+    for(final newtoken in tokenList) {
+      allTokens.removeWhere((token) => token.contract==newtoken.contract
+                                       && token.chainName==newtoken.chainName
+                                       && token.symbol==newtoken.symbol);
+    }
+    allTokens.addAll(tokenList);
   }
 
   static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
