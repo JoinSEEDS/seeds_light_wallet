@@ -28,7 +28,9 @@ const String _tableVouches = 'vouches';
 const String _tableFlagPoints = 'flags';
 const String _tableRegions = 'regions';
 const String _tableRegionMembers = 'members';
+const String _tableTokenMasterAcceptances = 'acceptances';
 const String _tableTokenMasterSchema = 'schema';
+const String _tableTokenMasterTokens = 'tokens';
 
 enum SeedsTable {
   tableBalances,
@@ -61,7 +63,9 @@ enum SeedsTable {
   tableFlags,
   tableRegions,
   tableRegionMembers,
+  tableTokenMasterAcceptances,
   tableTokenMasterSchema,
+  tableTokenMasterTokens,
 }
 
 extension SeedsTableExtension on SeedsTable {
@@ -127,8 +131,12 @@ extension SeedsTableExtension on SeedsTable {
         return _tableRegions;
       case SeedsTable.tableRegionMembers:
         return _tableRegionMembers;
+      case SeedsTable.tableTokenMasterAcceptances:
+        return _tableTokenMasterAcceptances;
       case SeedsTable.tableTokenMasterSchema:
         return _tableTokenMasterSchema;
+      case SeedsTable.tableTokenMasterTokens:
+        return _tableTokenMasterTokens;
     }
   }
 }
