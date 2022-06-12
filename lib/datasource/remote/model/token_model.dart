@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -50,15 +51,15 @@ class TokenModel extends Equatable {
     this.usecases,
   });
 
-  static Future<void> installSchema() async {
-    await TokenModelsRepository().getSchema().then((result){
+  static Future<Result<void>> installSchema() async {
+    final result = await TokenModelsRepository().getSchema();
       if(result.isValue) {
         final tmastrSchemaMap = result.asValue!.value;
         tmastrSchema = JsonSchema.createSchema(tmastrSchemaMap);
-      } else if(result.isError) {
-        print('Error getting Token Master schema from chain');
+        return Result.value(null);
       }
-    });
+      print('Error getting Token Master schema from chain');
+      return result;
   }
 
   static TokenModel? fromJson(Map<String,dynamic> data) {
@@ -133,12 +134,14 @@ class TokenModel extends Equatable {
 
   static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
     if( remoteConfigurations.featureFlagTokenMasterListEnabled) {
-      await installSchema();
-      allTokens = [seedsToken];
-      await updateModels(acceptList, infoList);
-    } else {
-      allTokens = _staticTokenList;
+      final installResult = await installSchema();
+      if(installResult.isValue) {
+        allTokens = [seedsToken];
+        await updateModels(acceptList, infoList);
+        return;
+      }
     }
+    allTokens = _staticTokenList;
   }
 
   static void pruneRemoving(List<String> useCaseList) {
