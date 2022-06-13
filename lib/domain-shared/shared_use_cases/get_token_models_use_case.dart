@@ -26,14 +26,12 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
     for(final useCase in input.acceptList + (input.infoList ?? [])) {
       bool more = true;
       int lastRetrieved = -1;
+      fetchOneUseCase:
       while(more) {
         final acceptedTokenIdsResult = await TokenModelsRepository()
             .getAcceptedTokenIds(useCase, lastRetrieved+1);
-        if (acceptedTokenIdsResult.isError) {
-          continue;
-        }
         if(acceptedTokenIdsResult.isError) {
-          return acceptedTokenIdsResult.asError!;
+          break fetchOneUseCase;
         }
         final resultValue = acceptedTokenIdsResult.asValue!.value;
         more = resultValue['more'];
