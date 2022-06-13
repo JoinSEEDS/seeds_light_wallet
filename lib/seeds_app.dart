@@ -75,7 +75,9 @@ class SeedsApp extends StatelessWidget {
                               break;
                             case AuthStatus.emptyPasscode:
                             case AuthStatus.locked:
-                              if (navigator.currentRouteName() == null) {
+                              if (navigator.currentRouteName() == null ||
+                                  navigator.currentRouteName() == Routes.importKey ||
+                                  navigator.currentRouteName() == Routes.importWords) {
                                 navigator.pushAndRemoveAll(Routes.app);
                               }
                               navigator.navigateTo(Routes.verification);
