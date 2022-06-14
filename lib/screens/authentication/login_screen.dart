@@ -12,7 +12,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 const int _approxWidgetHeight = 450;
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

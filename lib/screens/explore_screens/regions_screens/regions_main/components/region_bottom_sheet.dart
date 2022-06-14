@@ -8,7 +8,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 class RegionBottomSheet extends StatelessWidget {
   final TypeOfUsers userType;
 
-  const RegionBottomSheet(this.userType, {Key? key}) : super(key: key);
+  const RegionBottomSheet(this.userType, {super.key});
 
   void show(BuildContext context) {
     showModalBottomSheet(

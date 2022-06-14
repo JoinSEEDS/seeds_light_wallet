@@ -10,7 +10,7 @@ import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interacto
 class GuardianRowTrailingWidget extends StatelessWidget {
   final GuardianModel guardian;
 
-  const GuardianRowTrailingWidget({Key? key, required this.guardian}) : super(key: key);
+  const GuardianRowTrailingWidget({super.key, required this.guardian});
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({Key? key}) : super(key: key);
+  const ExploreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

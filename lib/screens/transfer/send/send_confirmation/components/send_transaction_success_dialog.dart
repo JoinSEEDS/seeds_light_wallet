@@ -26,7 +26,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String transactionID;
 
   const SendTransactionSuccessDialog({
-    Key? key,
+    super.key,
     required this.amount,
     required this.tokenSymbol,
     this.fiatAmount,
@@ -37,7 +37,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     this.fromName,
     required this.fromAccount,
     required this.transactionID,
-  }) : super(key: key);
+  });
 
   factory SendTransactionSuccessDialog.fromPageCommand(ShowTransferSuccess pageCommand) {
     return SendTransactionSuccessDialog(
@@ -149,7 +149,7 @@ class DialogRow extends StatelessWidget {
   final String? name;
   final String? toOrFromText;
 
-  const DialogRow({Key? key, this.imageUrl, required this.account, this.name, this.toOrFromText}) : super(key: key);
+  const DialogRow({super.key, this.imageUrl, required this.account, this.name, this.toOrFromText});
 
   @override
   Widget build(BuildContext context) {

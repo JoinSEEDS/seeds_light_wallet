@@ -8,7 +8,6 @@ import 'package:seeds/images/vote/triangle_pass_value.dart';
 import 'package:seeds/images/vote/votes_down_arrow.dart';
 import 'package:seeds/images/vote/votes_up_arrow.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/vote_amount_label.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_localized.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/cap_utils.dart';
@@ -18,7 +17,7 @@ class ProposalCard extends StatefulWidget {
   final ProposalViewModel proposal;
   final VoidCallback onTap;
 
-  const ProposalCard({Key? key, required this.proposal, required this.onTap}) : super(key: key);
+  const ProposalCard({super.key, required this.proposal, required this.onTap});
 
   @override
   _ProposalCardState createState() => _ProposalCardState();

@@ -8,7 +8,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegators_t
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegators_tab/interactor/viewmodels/delegators_bloc.dart';
 
 class DelegatorsTab extends StatelessWidget {
-  const DelegatorsTab({Key? key}) : super(key: key);
+  const DelegatorsTab({super.key});
 
   @override
   Widget build(BuildContext context) {

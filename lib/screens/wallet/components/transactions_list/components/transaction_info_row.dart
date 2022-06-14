@@ -15,13 +15,13 @@ class TransactionInfoRow extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const TransactionInfoRow({
-    Key? key,
+    super.key,
     required this.amount,
     required this.onTap,
     required this.profileAccount,
     required this.timestamp,
     required this.incoming,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

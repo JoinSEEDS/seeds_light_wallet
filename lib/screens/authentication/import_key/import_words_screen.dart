@@ -15,7 +15,7 @@ const _numberOfWords = 12;
 const _numberOfColumns = 3;
 
 class ImportWordsScreen extends StatelessWidget {
-  const ImportWordsScreen({Key? key}) : super(key: key);
+  const ImportWordsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

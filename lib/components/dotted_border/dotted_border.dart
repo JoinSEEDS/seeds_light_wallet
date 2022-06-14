@@ -21,7 +21,7 @@ class DottedBorder extends StatelessWidget {
   final PathBuilder? customPath;
 
   DottedBorder({
-    Key? key,
+    super.key,
     required this.child,
     this.color = Colors.black,
     this.strokeWidth = 1,
@@ -31,7 +31,7 @@ class DottedBorder extends StatelessWidget {
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
-  }) : super(key: key) {
+  }) {
     assert(_isValidDashPattern(dashPattern), 'Invalid dash pattern');
   }
 

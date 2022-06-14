@@ -4,7 +4,7 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
-  const InviteLinkFailDialog({Key? key}) : super(key: key);
+  const InviteLinkFailDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

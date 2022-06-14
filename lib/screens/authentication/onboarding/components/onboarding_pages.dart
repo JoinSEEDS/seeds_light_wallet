@@ -12,7 +12,7 @@ class OnboardingPage extends StatelessWidget {
   final Widget bottomLeaf2;
 
   const OnboardingPage({
-    Key? key,
+    super.key,
     required this.onboardingImage,
     required this.title,
     required this.subTitle,
@@ -21,7 +21,7 @@ class OnboardingPage extends StatelessWidget {
     required this.bottomLeaf1,
     required this.bottomLeaf2,
     this.topLeaf2,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

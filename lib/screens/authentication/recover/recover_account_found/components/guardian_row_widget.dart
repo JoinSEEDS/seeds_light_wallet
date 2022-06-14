@@ -10,10 +10,10 @@ class GuardianRowWidget extends StatelessWidget {
   final bool showGuardianSigned;
 
   const GuardianRowWidget({
-    Key? key,
+    super.key,
     required this.guardianModel,
     required this.showGuardianSigned,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

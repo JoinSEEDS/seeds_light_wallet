@@ -12,7 +12,7 @@ import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmode
 import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_page_commands.dart';
 
 class FlagUserScreen extends StatelessWidget {
-  const FlagUserScreen({Key? key}) : super(key: key);
+  const FlagUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

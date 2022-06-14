@@ -13,7 +13,7 @@ import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
-  const ClaimInviteScreen({Key? key}) : super(key: key);
+  const ClaimInviteScreen({super.key});
 
   @override
   _ClaimInviteScreenState createState() => _ClaimInviteScreenState();

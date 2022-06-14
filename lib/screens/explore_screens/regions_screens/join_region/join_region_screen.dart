@@ -18,7 +18,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/join_region/intera
 import 'package:seeds/utils/build_context_extension.dart';
 
 class JoinRegionScreen extends StatelessWidget {
-  const JoinRegionScreen({Key? key}) : super(key: key);
+  const JoinRegionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

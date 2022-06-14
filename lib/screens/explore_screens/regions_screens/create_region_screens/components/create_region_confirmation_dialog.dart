@@ -6,7 +6,7 @@ import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_screens/interactor/viewmodels/create_region_bloc.dart';
 
 class CreateRegionConfirmationDialog extends StatelessWidget {
-  const CreateRegionConfirmationDialog({Key? key}) : super(key: key);
+  const CreateRegionConfirmationDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

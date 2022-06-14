@@ -5,7 +5,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class PasscodeCreatedDialog extends StatelessWidget {
-  const PasscodeCreatedDialog({Key? key}) : super(key: key);
+  const PasscodeCreatedDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

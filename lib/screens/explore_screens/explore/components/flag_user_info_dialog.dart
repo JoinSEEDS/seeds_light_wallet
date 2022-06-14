@@ -6,7 +6,7 @@ import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class FlagUserInfoDialog extends StatelessWidget {
-  const FlagUserInfoDialog({Key? key}) : super(key: key);
+  const FlagUserInfoDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

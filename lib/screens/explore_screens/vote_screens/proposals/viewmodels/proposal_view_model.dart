@@ -1,13 +1,33 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
+import 'package:seeds/utils/build_context_extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 const double unityThreshold = 0.9;
 
-enum ProposalCategory { campaign, alliance, milestone, referendum }
+enum ProposalCategory {
+  campaign,
+  alliance,
+  milestone,
+  referendum;
+
+  String localizedDescription(BuildContext context) {
+    switch (this) {
+      case ProposalCategory.alliance:
+        return context.loc.proposalCategoryAlliance;
+      case ProposalCategory.campaign:
+        return context.loc.proposalCategoryCampaign;
+      case ProposalCategory.milestone:
+        return context.loc.proposalCategoryMilestone;
+      case ProposalCategory.referendum:
+        return context.loc.proposalCategoryReferendum;
+    }
+  }
+}
 
 class ProposalViewModel {
   final int id;
@@ -65,6 +85,16 @@ class ProposalViewModel {
       return DateFormat.yMd(Platform.localeName.split('_').first).format(created);
     } else {
       return timeago.format(created);
+    }
+  }
+
+  String localizedStatus(BuildContext context) {
+    if (status == "passed") {
+      return context.loc.proposalStatusPassed;
+    } else if (status == "rejected") {
+      return context.loc.proposalStatusRejected;
+    } else {
+      return status;
     }
   }
 

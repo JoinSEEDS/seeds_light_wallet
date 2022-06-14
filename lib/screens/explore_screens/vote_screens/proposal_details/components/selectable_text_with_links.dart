@@ -22,7 +22,7 @@ class SelectableTextWithLinks extends StatelessWidget {
   final String text;
   final TextStyle? style;
 
-  const SelectableTextWithLinks(this.text, {Key? key, this.style}) : super(key: key);
+  const SelectableTextWithLinks(this.text, {super.key, this.style});
 
   @override
   Widget build(BuildContext context) {

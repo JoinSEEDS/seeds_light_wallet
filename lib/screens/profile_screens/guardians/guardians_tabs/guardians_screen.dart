@@ -19,7 +19,7 @@ import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interacto
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 class GuardiansScreen extends StatelessWidget {
-  const GuardiansScreen({Key? key}) : super(key: key);
+  const GuardiansScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

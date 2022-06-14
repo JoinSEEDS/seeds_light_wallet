@@ -9,7 +9,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/inter
 class DelegateAUserConfirmationDialog extends StatelessWidget {
   final ProfileModel selectedDelegate;
 
-  const DelegateAUserConfirmationDialog(this.selectedDelegate, {Key? key}) : super(key: key);
+  const DelegateAUserConfirmationDialog(this.selectedDelegate, {super.key});
 
   @override
   Widget build(BuildContext context) {

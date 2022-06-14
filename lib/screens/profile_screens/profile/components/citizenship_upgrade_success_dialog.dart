@@ -7,7 +7,7 @@ import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
   final bool isResident;
 
-  const CitizenshipUpgradeSuccessDialog({Key? key, required this.isResident}) : super(key: key);
+  const CitizenshipUpgradeSuccessDialog({super.key, required this.isResident});
 
   @override
   Widget build(BuildContext context) {

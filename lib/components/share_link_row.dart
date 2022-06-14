@@ -11,7 +11,7 @@ class ShareLinkRow extends StatelessWidget {
   final String label;
   final String link;
 
-  const ShareLinkRow({Key? key, required this.label, required this.link}) : super(key: key);
+  const ShareLinkRow({super.key, required this.label, required this.link});
 
   @override
   Widget build(BuildContext context) {

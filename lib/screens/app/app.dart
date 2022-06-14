@@ -24,7 +24,7 @@ import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   _AppState createState() => _AppState();
@@ -64,7 +64,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context))..add(const OnAppMounted());
     _connectionNotifier = ConnectionNotifier()..discoverEndpoints();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -85,7 +85,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
     super.dispose();
   }

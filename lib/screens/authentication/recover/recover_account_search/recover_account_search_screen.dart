@@ -12,12 +12,11 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_search_bloc.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_search_errors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class RecoverAccountSearchScreen extends StatefulWidget {
-  const RecoverAccountSearchScreen({Key? key}) : super(key: key);
+  const RecoverAccountSearchScreen({super.key});
 
   @override
   _RecoverAccountSearchScreenState createState() => _RecoverAccountSearchScreenState();

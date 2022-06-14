@@ -12,7 +12,7 @@ import 'package:seeds/utils/cap_utils.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class ProposalDetailsMiddle extends StatelessWidget {
-  const ProposalDetailsMiddle({Key? key}) : super(key: key);
+  const ProposalDetailsMiddle({super.key});
 
   @override
   Widget build(BuildContext context) {

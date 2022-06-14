@@ -13,7 +13,7 @@ import 'package:seeds/screens/profile_screens/guardians/select_guardian/interact
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
 
 class SelectGuardiansScreen extends StatelessWidget {
-  const SelectGuardiansScreen({Key? key}) : super(key: key);
+  const SelectGuardiansScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

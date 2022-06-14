@@ -36,7 +36,7 @@ class CustomDialog extends StatelessWidget {
   final VoidCallback? onSingleLargeButtonPressed;
 
   const CustomDialog({
-    Key? key,
+    super.key,
     this.icon,
     required this.children,
     this.leftButtonTitle = '',
@@ -46,7 +46,7 @@ class CustomDialog extends StatelessWidget {
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
     this.iconPadding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ class Circle extends StatelessWidget {
   final bool filled;
   final double extraSize;
 
-  const Circle({Key? key, this.filled = false, this.extraSize = 0}) : super(key: key);
+  const Circle({super.key, this.filled = false, this.extraSize = 0});
 
   @override
   Widget build(BuildContext context) {

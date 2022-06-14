@@ -9,7 +9,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/create_region_even
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
 
 class ReviewAndPublishRegionEvent extends StatelessWidget {
-  const ReviewAndPublishRegionEvent({Key? key}) : super(key: key);
+  const ReviewAndPublishRegionEvent({super.key});
 
   @override
   Widget build(BuildContext context) {

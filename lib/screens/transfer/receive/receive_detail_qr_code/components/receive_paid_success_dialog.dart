@@ -21,7 +21,7 @@ class ReceivePaidSuccessArgs {
 class ReceivePaidSuccessDialog extends StatelessWidget {
   final ReceivePaidSuccessArgs args;
 
-  const ReceivePaidSuccessDialog(this.args, {Key? key}) : super(key: key);
+  const ReceivePaidSuccessDialog(this.args, {super.key});
 
   @override
   Widget build(BuildContext context) {

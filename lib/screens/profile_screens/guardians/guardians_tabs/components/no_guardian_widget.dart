@@ -4,7 +4,7 @@ import 'package:seeds/design/app_theme.dart';
 class NoGuardiansWidget extends StatelessWidget {
   final String message;
 
-  const NoGuardiansWidget({Key? key, required this.message}) : super(key: key);
+  const NoGuardiansWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/string_extension.dart';
 
 class CreateDisplayNameScreen extends StatefulWidget {
-  const CreateDisplayNameScreen({Key? key}) : super(key: key);
+  const CreateDisplayNameScreen({super.key});
 
   @override
   _CreateDisplayNameStateScreen createState() => _CreateDisplayNameStateScreen();

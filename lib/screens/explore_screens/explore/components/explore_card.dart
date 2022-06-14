@@ -14,7 +14,7 @@ class ExploreCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ExploreCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     this.iconUseCircleBackground = true,
@@ -22,7 +22,7 @@ class ExploreCard extends StatelessWidget {
     this.backgroundImage,
     this.gradient,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

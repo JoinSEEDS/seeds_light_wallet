@@ -13,7 +13,7 @@ import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/component
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
 class MyGuardiansTab extends StatelessWidget {
-  const MyGuardiansTab({Key? key}) : super(key: key);
+  const MyGuardiansTab({super.key});
 
   @override
   Widget build(BuildContext context) {

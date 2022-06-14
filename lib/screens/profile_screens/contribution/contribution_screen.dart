@@ -15,7 +15,7 @@ import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ContributionScreen extends StatefulWidget {
-  const ContributionScreen({Key? key}) : super(key: key);
+  const ContributionScreen({super.key});
 
   @override
   _ContributionScreenState createState() => _ContributionScreenState();

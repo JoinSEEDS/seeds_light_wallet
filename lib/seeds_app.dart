@@ -12,7 +12,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
 class SeedsApp extends StatelessWidget {
-  const SeedsApp({Key? key}) : super(key: key);
+  const SeedsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,9 @@ class SeedsApp extends StatelessWidget {
                               break;
                             case AuthStatus.emptyPasscode:
                             case AuthStatus.locked:
-                              if (navigator.currentRouteName() == null) {
+                              if (navigator.currentRouteName() == null ||
+                                  navigator.currentRouteName() == Routes.importKey ||
+                                  navigator.currentRouteName() == Routes.importWords) {
                                 navigator.pushAndRemoveAll(Routes.app);
                               }
                               navigator.navigateTo(Routes.verification);

@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-enum RecoverAccountSearchError { noActiveGuardians, unableToLoadGuardians, unableToLoadAccount, invalidAccount }
+enum RecoverAccountSearchError {
+  noActiveGuardians,
+  unableToLoadGuardians,
+  unableToLoadAccount,
+  invalidAccount;
 
-extension LocalizedRecoverAccountErrors on RecoverAccountSearchError {
   String localizedDescription(BuildContext context) {
     switch (this) {
       case RecoverAccountSearchError.noActiveGuardians:

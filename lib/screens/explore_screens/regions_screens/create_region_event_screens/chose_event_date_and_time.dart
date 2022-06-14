@@ -11,7 +11,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/create_region_even
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/interactor/viewmodels/create_region_events_page_commands.dart';
 
 class ChoseEventDateAndTime extends StatelessWidget {
-  const ChoseEventDateAndTime({Key? key}) : super(key: key);
+  const ChoseEventDateAndTime({super.key});
 
   @override
   Widget build(BuildContext context) {

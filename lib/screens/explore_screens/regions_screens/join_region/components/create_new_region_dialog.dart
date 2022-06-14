@@ -6,7 +6,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/join_region/intera
 import 'package:seeds/utils/build_context_extension.dart';
 
 class CreateNewRegionDialog extends StatelessWidget {
-  const CreateNewRegionDialog({Key? key}) : super(key: key);
+  const CreateNewRegionDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ import 'package:seeds/images/explore/red_exclamation_circle.dart';
 import 'package:seeds/screens/explore_screens/flag/flag_user/interactor/viewmodel/flag_user_bloc.dart';
 
 class FlagUserConfirmationDialog extends StatelessWidget {
-  const FlagUserConfirmationDialog({Key? key}) : super(key: key);
+  const FlagUserConfirmationDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

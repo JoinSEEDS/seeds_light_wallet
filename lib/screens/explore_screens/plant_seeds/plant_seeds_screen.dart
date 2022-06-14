@@ -16,11 +16,10 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_page_command.dart';
-import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_errors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class PlantSeedsScreen extends StatelessWidget {
-  const PlantSeedsScreen({Key? key}) : super(key: key);
+  const PlantSeedsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

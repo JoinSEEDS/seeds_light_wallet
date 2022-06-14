@@ -12,7 +12,7 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class TokenCards extends StatefulWidget {
-  const TokenCards({Key? key}) : super(key: key);
+  const TokenCards({super.key});
 
   @override
   _TokenCardsState createState() => _TokenCardsState();

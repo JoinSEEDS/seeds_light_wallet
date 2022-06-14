@@ -7,7 +7,7 @@ import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profileValuesArguments.dart';
 
 class CitizenshipScreen extends StatelessWidget {
-  const CitizenshipScreen({Key? key}) : super(key: key);
+  const CitizenshipScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

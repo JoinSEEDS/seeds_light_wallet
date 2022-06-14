@@ -15,7 +15,7 @@ import 'package:share/share.dart';
 class TransactionDetailsBottomSheet extends StatelessWidget {
   final TransactionModel transaction;
 
-  const TransactionDetailsBottomSheet(this.transaction, {Key? key}) : super(key: key);
+  const TransactionDetailsBottomSheet(this.transaction, {super.key});
 
   void show(BuildContext context) {
     showModalBottomSheet(

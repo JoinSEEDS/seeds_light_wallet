@@ -16,13 +16,13 @@ class ProfileAvatar extends StatelessWidget {
   final BoxDecoration? decoration;
 
   const ProfileAvatar({
-    Key? key,
+    super.key,
     this.decoration,
     required this.size,
     this.image,
     this.nickname,
     required this.account,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

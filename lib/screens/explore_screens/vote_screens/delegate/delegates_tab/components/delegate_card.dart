@@ -13,12 +13,12 @@ class DelegateCard extends StatelessWidget {
   final ProfileModel? delegate;
 
   const DelegateCard({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.activeDelegate,
     required this.onTapRemove,
     this.delegate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

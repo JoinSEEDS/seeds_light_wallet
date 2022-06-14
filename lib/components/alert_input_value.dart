@@ -5,7 +5,7 @@ class AlertInputValue extends StatelessWidget {
   final String text;
   final bool isVisible;
 
-  const AlertInputValue(this.text, {Key? key, required this.isVisible}) : super(key: key);
+  const AlertInputValue(this.text, {super.key, required this.isVisible});
 
   @override
   Widget build(BuildContext context) {

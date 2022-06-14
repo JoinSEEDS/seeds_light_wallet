@@ -7,7 +7,7 @@ import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 class WalletScreen extends StatefulWidget {
-  const WalletScreen({Key? key}) : super(key: key);
+  const WalletScreen({super.key});
 
   @override
   _WalletScreenState createState() => _WalletScreenState();

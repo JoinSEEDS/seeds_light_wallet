@@ -6,7 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 
 class CitizenshipUpgradeInProgressDialog extends StatelessWidget {
-  const CitizenshipUpgradeInProgressDialog({Key? key}) : super(key: key);
+  const CitizenshipUpgradeInProgressDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

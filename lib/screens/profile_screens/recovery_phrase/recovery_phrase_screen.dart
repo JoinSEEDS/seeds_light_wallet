@@ -13,7 +13,7 @@ const _numberOfWords = 12;
 const _numberOfColumns = 3;
 
 class RecoveryPhraseScreen extends StatelessWidget {
-  const RecoveryPhraseScreen({Key? key}) : super(key: key);
+  const RecoveryPhraseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

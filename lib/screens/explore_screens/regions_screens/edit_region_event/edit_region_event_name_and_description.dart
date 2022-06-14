@@ -12,7 +12,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/
 import 'package:seeds/utils/build_context_extension.dart';
 
 class EditRegionEventNameAndDescription extends StatelessWidget {
-  const EditRegionEventNameAndDescription({Key? key}) : super(key: key);
+  const EditRegionEventNameAndDescription({super.key});
 
   @override
   Widget build(BuildContext context) {

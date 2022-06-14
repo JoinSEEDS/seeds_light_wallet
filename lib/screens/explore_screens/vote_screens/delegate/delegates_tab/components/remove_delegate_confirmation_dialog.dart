@@ -5,7 +5,7 @@ import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegates_bloc.dart';
 
 class RemoveDelegateConfirmationDialog extends StatelessWidget {
-  const RemoveDelegateConfirmationDialog({Key? key}) : super(key: key);
+  const RemoveDelegateConfirmationDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

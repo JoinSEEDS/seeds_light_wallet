@@ -7,7 +7,7 @@ class QrCodeGeneratorWidget extends StatelessWidget {
   final String data;
   final double size;
 
-  const QrCodeGeneratorWidget({Key? key, required this.data, required this.size}) : super(key: key);
+  const QrCodeGeneratorWidget({super.key, required this.data, required this.size});
 
   @override
   Widget build(BuildContext context) {

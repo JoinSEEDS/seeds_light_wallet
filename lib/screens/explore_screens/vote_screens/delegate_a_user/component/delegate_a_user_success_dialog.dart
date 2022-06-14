@@ -6,7 +6,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_bloc.dart';
 
 class DelegateAUserSuccessDialog extends StatelessWidget {
-  const DelegateAUserSuccessDialog({Key? key}) : super(key: key);
+  const DelegateAUserSuccessDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

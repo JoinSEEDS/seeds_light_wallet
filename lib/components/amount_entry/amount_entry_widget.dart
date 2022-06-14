@@ -15,11 +15,11 @@ class AmountEntryWidget extends StatelessWidget {
   final bool autoFocus;
 
   const AmountEntryWidget({
-    Key? key,
+    super.key,
     required this.tokenDataModel,
     required this.onValueChange,
     required this.autoFocus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

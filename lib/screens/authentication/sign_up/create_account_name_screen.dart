@@ -10,14 +10,13 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/global_error.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/authentication/sign_up/signup_errors.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class CreateAccountNameScreen extends StatefulWidget {
-  const CreateAccountNameScreen({Key? key}) : super(key: key);
+  const CreateAccountNameScreen({super.key});
 
   @override
   _CreateAccountNameStateScreen createState() => _CreateAccountNameStateScreen();

@@ -16,7 +16,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewm
 class ProposalsList extends StatefulWidget {
   final ProposalType proposalType;
 
-  const ProposalsList(this.proposalType, {Key? key}) : super(key: key);
+  const ProposalsList(this.proposalType, {super.key});
 
   @override
   _ProposalsListState createState() => _ProposalsListState();
@@ -36,7 +36,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
         _proposalsBloc.add(const OnUserProposalsScroll());
       }
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         print('Screen not mounted --> call avoided.');
         return;
