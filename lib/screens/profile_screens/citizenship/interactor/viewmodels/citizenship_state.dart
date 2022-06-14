@@ -12,7 +12,7 @@ const int citizenRequiredVisitorsInvited = 3;
 const int citizenRequiredAccountAge = 60;
 const int citizenRequiredPlantedSeeds = 200;
 const int citizenRequiredSeedsTransactions = 5;
-const int citizenRequiredResidentsInvited = 1;
+const int citizenRequiredCitizenVouched = 3;
 
 class CitizenshipState extends Equatable {
   final PageState pageState;
@@ -21,7 +21,7 @@ class CitizenshipState extends Equatable {
   final ScoreModel? reputationScore;
   final double? progressTimeline;
   final int? invitedVisitors;
-  final int? invitedResidents;
+  final int? citizenCeremony;
   final double? plantedSeeds;
   final int? seedsTransactionsCount;
 
@@ -31,7 +31,7 @@ class CitizenshipState extends Equatable {
     this.profile,
     this.reputationScore,
     this.progressTimeline,
-    this.invitedResidents,
+    this.citizenCeremony,
     this.invitedVisitors,
     this.plantedSeeds,
     this.seedsTransactionsCount,
@@ -44,7 +44,7 @@ class CitizenshipState extends Equatable {
         profile,
         reputationScore,
         progressTimeline,
-        invitedResidents,
+        citizenCeremony,
         invitedVisitors,
         plantedSeeds,
         seedsTransactionsCount,
@@ -56,7 +56,7 @@ class CitizenshipState extends Equatable {
     ProfileModel? profile,
     ScoreModel? reputationScore,
     double? progressTimeline,
-    int? invitedResidents,
+    int? citizenCeremony,
     int? invitedVisitors,
     double? plantedSeeds,
     int? seedsTransactionsCount,
@@ -67,7 +67,7 @@ class CitizenshipState extends Equatable {
       profile: profile ?? this.profile,
       reputationScore: reputationScore ?? this.reputationScore,
       progressTimeline: progressTimeline ?? this.progressTimeline,
-      invitedResidents: invitedResidents ?? this.invitedResidents,
+      citizenCeremony: citizenCeremony ?? this.citizenCeremony,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
       plantedSeeds: plantedSeeds ?? this.plantedSeeds,
       seedsTransactionsCount: seedsTransactionsCount ?? this.seedsTransactionsCount,
