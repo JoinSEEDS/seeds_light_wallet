@@ -56,7 +56,7 @@ class _FirebaseRemoteConfigService {
     _featureFlagClaimUnplantedSeeds: false,
     _featureFlagP2P: false,
     _featureFlagRegions: false,
-    _featureFlagTokenMasterList: true,
+    _featureFlagTokenMasterList: false,
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
