@@ -91,7 +91,7 @@ class ExploreScreen extends StatelessWidget {
     }
     return BlocProvider(
       create: (_) => ExploreBloc(),
-      child: BlocConsumer<ExploreBloc, ExploreState>(
+      child: BlocListener<ExploreBloc, ExploreState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
@@ -115,29 +115,31 @@ class ExploreScreen extends StatelessWidget {
             });
           }
         },
-        builder: (context, _) {
-          return Scaffold(
-            appBar: AppBar(title: Text(context.loc.explorerAppBarTitle)),
-            body: GridView.count(
-              padding: const EdgeInsets.all(18),
-              crossAxisSpacing: 18,
-              mainAxisSpacing: 18,
-              crossAxisCount: 2,
-              children: [
-                for (final i in exploreItems)
-                  ExploreCard(
-                    title: i.title,
-                    icon: i.icon,
-                    backgroundIconColor: i.backgroundIconColor,
-                    iconUseCircleBackground: i.iconUseCircleBackground,
-                    backgroundImage: i.backgroundImage,
-                    gradient: i.gradient,
-                    onTap: () => BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent),
-                  )
-              ],
-            ),
-          );
-        },
+        child: Builder(
+          builder: (context) {
+            return Scaffold(
+              appBar: AppBar(title: Text(context.loc.explorerAppBarTitle)),
+              body: GridView.count(
+                padding: const EdgeInsets.all(18),
+                crossAxisSpacing: 18,
+                mainAxisSpacing: 18,
+                crossAxisCount: 2,
+                children: [
+                  for (final i in exploreItems)
+                    ExploreCard(
+                      title: i.title,
+                      icon: i.icon,
+                      backgroundIconColor: i.backgroundIconColor,
+                      iconUseCircleBackground: i.iconUseCircleBackground,
+                      backgroundImage: i.backgroundImage,
+                      gradient: i.gradient,
+                      onTap: () => BlocProvider.of<ExploreBloc>(context).add(i.onTapEvent),
+                    )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
