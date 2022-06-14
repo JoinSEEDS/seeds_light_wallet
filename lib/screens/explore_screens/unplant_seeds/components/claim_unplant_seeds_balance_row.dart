@@ -11,12 +11,12 @@ class ClaimUnplantSeedsBalanceRow extends StatelessWidget {
   final GestureTapCallback onTapClaim;
 
   const ClaimUnplantSeedsBalanceRow({
-    Key? key,
+    super.key,
     required this.tokenAmount,
     required this.fiatAmount,
     required this.isClaimButtonEnable,
     required this.onTapClaim,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

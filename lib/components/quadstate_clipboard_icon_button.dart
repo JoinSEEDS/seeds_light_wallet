@@ -9,13 +9,13 @@ class QuadStateClipboardIconButton extends StatelessWidget {
   final bool isLoading;
 
   const QuadStateClipboardIconButton({
-    Key? key,
+    super.key,
     required this.onClear,
     this.onPaste,
     required this.isChecked,
     required this.canClear,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

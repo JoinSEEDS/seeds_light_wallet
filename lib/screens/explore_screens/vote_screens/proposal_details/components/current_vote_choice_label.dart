@@ -6,7 +6,7 @@ import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
 
 class CurrentVoteChoiceLabel extends StatelessWidget {
-  const CurrentVoteChoiceLabel({Key? key}) : super(key: key);
+  const CurrentVoteChoiceLabel({super.key});
 
   @override
   Widget build(BuildContext context) {

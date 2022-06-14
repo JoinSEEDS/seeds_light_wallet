@@ -11,7 +11,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewm
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 class VoteScreen extends StatelessWidget {
-  const VoteScreen({Key? key}) : super(key: key);
+  const VoteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendConfirmationScreen extends StatelessWidget {
-  const SendConfirmationScreen({Key? key}) : super(key: key);
+  const SendConfirmationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,8 +11,7 @@ class FlatButtonLong extends StatelessWidget {
   final bool isLoading;
 
   const FlatButtonLong(
-      {Key? key, required this.title, required this.onPressed, this.enabled = true, this.isLoading = false})
-      : super(key: key);
+      {super.key, required this.title, required this.onPressed, this.enabled = true, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {

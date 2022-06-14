@@ -11,11 +11,11 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
   final GestureTapCallback? onConfirm;
 
   const RemoveGuardianConfirmationDialog({
-    Key? key,
+    super.key,
     this.onConfirm,
     this.onDismiss,
     required this.guardian,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ class CircularProgressItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const CircularProgressItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.totalStep,
     required this.currentStep,
@@ -24,7 +24,7 @@ class CircularProgressItem extends StatelessWidget {
     required this.rate,
     required this.rateStyle,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/create_region_scre
 import 'package:seeds/utils/build_context_extension.dart';
 
 class AddRegionDescription extends StatelessWidget {
-  const AddRegionDescription({Key? key}) : super(key: key);
+  const AddRegionDescription({super.key});
 
   @override
   Widget build(BuildContext context) {

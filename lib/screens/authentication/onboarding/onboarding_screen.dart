@@ -8,7 +8,7 @@ import 'package:seeds/screens/authentication/onboarding/components/pages/onboard
 import 'package:seeds/utils/build_context_extension.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => OnboardingState();

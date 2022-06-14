@@ -21,7 +21,7 @@ import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodel
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_page_commands.dart';
 
 class UnplantSeedsScreen extends StatefulWidget {
-  const UnplantSeedsScreen({Key? key}) : super(key: key);
+  const UnplantSeedsScreen({super.key});
 
   @override
   State<UnplantSeedsScreen> createState() => _UnplantSeedsScreenState();

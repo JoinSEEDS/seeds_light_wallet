@@ -6,7 +6,7 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ReceiveSendButtons extends StatelessWidget {
-  const ReceiveSendButtons({Key? key}) : super(key: key);
+  const ReceiveSendButtons({super.key});
 
   @override
   Widget build(BuildContext context) {

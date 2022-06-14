@@ -7,7 +7,7 @@ import 'package:seeds/utils/cap_utils.dart';
 class TransactionActionCard extends StatelessWidget {
   final EOSAction action;
 
-  const TransactionActionCard(this.action, {Key? key}) : super(key: key);
+  const TransactionActionCard(this.action, {super.key});
 
   @override
   Widget build(BuildContext context) {

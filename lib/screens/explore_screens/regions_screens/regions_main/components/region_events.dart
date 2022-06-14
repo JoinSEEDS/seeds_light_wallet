@@ -7,7 +7,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/compo
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class RegionEvents extends StatelessWidget {
-  const RegionEvents({Key? key}) : super(key: key);
+  const RegionEvents({super.key});
 
   @override
   Widget build(BuildContext context) {

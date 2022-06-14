@@ -10,7 +10,7 @@ import 'package:seeds/utils/string_extension.dart';
 class GuardianRowWidget extends StatelessWidget {
   final GuardianModel guardianModel;
 
-  const GuardianRowWidget({Key? key, required this.guardianModel}) : super(key: key);
+  const GuardianRowWidget({super.key, required this.guardianModel});
 
   @override
   Widget build(BuildContext context) {

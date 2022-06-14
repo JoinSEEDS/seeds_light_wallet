@@ -13,7 +13,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/inte
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
 class ProposalDetailsScreen extends StatefulWidget {
-  const ProposalDetailsScreen({Key? key}) : super(key: key);
+  const ProposalDetailsScreen({super.key});
 
   @override
   _ProposalDetailsScreenState createState() => _ProposalDetailsScreenState();

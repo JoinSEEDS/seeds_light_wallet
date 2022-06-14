@@ -14,7 +14,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 class GenericTransactionSuccessDialog extends StatelessWidget {
   final GenericTransactionModel transactionModel;
 
-  const GenericTransactionSuccessDialog(this.transactionModel, {Key? key}) : super(key: key);
+  const GenericTransactionSuccessDialog(this.transactionModel, {super.key});
 
   @override
   Widget build(BuildContext context) {

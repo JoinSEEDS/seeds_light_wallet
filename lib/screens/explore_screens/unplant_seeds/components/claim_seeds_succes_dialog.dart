@@ -10,8 +10,7 @@ class ClaimSeedsSuccessDialog extends StatelessWidget {
   final TokenDataModel claimSeedsAmount;
   final FiatDataModel claimSeedsAmountFiat;
 
-  const ClaimSeedsSuccessDialog({Key? key, required this.claimSeedsAmountFiat, required this.claimSeedsAmount})
-      : super(key: key);
+  const ClaimSeedsSuccessDialog({super.key, required this.claimSeedsAmountFiat, required this.claimSeedsAmount});
 
   @override
   Widget build(BuildContext context) {

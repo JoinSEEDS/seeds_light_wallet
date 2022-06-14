@@ -10,7 +10,7 @@ import 'package:seeds/screens/profile_screens/profile/components/profile_list_ti
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class ProfileMiddle extends StatelessWidget {
-  const ProfileMiddle({Key? key}) : super(key: key);
+  const ProfileMiddle({super.key});
 
   @override
   Widget build(BuildContext context) {

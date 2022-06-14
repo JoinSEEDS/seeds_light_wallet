@@ -5,7 +5,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_ta
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegators_tab/delegators_tab.dart';
 
 class DelegateScreen extends StatelessWidget {
-  const DelegateScreen({Key? key}) : super(key: key);
+  const DelegateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -17,12 +17,11 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/components/guardian_row_widget.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
-import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_errors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
-  const RecoverAccountFoundScreen({Key? key}) : super(key: key);
+  const RecoverAccountFoundScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

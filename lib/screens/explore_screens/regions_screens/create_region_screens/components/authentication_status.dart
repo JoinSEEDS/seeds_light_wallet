@@ -7,9 +7,9 @@ class AuthenticationStatus extends StatelessWidget {
   final RegionIdStatusIcon authenticationIdState;
 
   const AuthenticationStatus({
-    Key? key,
+    super.key,
     required this.authenticationIdState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

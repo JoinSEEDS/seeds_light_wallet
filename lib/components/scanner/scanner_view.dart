@@ -9,7 +9,7 @@ class ScannerView extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> onCodeScanned;
 
-  ScannerView({Key? key, required this.onCodeScanned}) : super(key: key);
+  ScannerView({super.key, required this.onCodeScanned});
 
   void scan() => _scannerBloc.add(const Scan());
 
@@ -46,7 +46,7 @@ class _ScannerViewState extends State<ScannerView> {
                       return;
                     } else {
                       widget._scannerBloc.add(const ShowLoading());
-                      widget.onCodeScanned(event.code);
+                      widget.onCodeScanned(event.code!);
                     }
                   });
                 },

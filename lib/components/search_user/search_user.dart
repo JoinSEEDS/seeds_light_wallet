@@ -15,12 +15,12 @@ class SearchUser extends StatelessWidget {
   final ValueSetter<ProfileModel> onUserSelected;
 
   const SearchUser({
-    Key? key,
+    super.key,
     this.title,
     this.noShowUsers,
     this.filterByCitizenshipStatus,
     required this.onUserSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

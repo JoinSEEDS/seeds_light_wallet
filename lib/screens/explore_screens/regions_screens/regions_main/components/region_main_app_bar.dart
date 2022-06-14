@@ -8,7 +8,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/inter
 import 'package:seeds/utils/build_context_extension.dart';
 
 class RegionMainAppBar extends StatelessWidget {
-  const RegionMainAppBar({Key? key}) : super(key: key);
+  const RegionMainAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

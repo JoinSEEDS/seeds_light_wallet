@@ -6,7 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 class MemberInfoRow extends StatelessWidget {
   final ProfileModel member;
 
-  const MemberInfoRow(this.member, {Key? key}) : super(key: key);
+  const MemberInfoRow(this.member, {super.key});
 
   @override
   Widget build(BuildContext context) {

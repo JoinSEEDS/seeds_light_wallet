@@ -7,7 +7,7 @@ import 'package:seeds/utils/string_extension.dart';
 class DelegatorRow extends StatelessWidget {
   final ProfileModel delegator;
 
-  const DelegatorRow(this.delegator, {Key? key}) : super(key: key);
+  const DelegatorRow(this.delegator, {super.key});
 
   @override
   Widget build(BuildContext context) {

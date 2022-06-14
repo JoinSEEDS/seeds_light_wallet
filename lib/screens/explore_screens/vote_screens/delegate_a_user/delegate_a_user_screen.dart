@@ -14,7 +14,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/inter
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_page_commands.dart';
 
 class DelegateAUserScreen extends StatelessWidget {
-  const DelegateAUserScreen({Key? key}) : super(key: key);
+  const DelegateAUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

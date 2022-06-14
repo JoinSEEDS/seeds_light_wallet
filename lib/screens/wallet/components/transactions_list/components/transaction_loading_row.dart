@@ -3,7 +3,7 @@ import 'package:seeds/components/shimmer_circle.dart';
 import 'package:seeds/components/shimmer_rectangle.dart';
 
 class TransactionLoadingRow extends StatelessWidget {
-  const TransactionLoadingRow({Key? key}) : super(key: key);
+  const TransactionLoadingRow({super.key});
 
   @override
   Widget build(BuildContext context) {

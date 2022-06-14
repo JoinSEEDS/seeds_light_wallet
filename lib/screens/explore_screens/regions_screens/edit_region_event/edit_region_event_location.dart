@@ -11,7 +11,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/edit_region_event/interactor/viewmodel/edit_region_event_bloc.dart';
 
 class EditRegionEventLocation extends StatelessWidget {
-  const EditRegionEventLocation({Key? key}) : super(key: key);
+  const EditRegionEventLocation({super.key});
 
   @override
   Widget build(BuildContext context) {

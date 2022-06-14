@@ -12,10 +12,8 @@ enum SignUpError {
   validationFailedOnlyNumbers15,
   validationFailedNameLowercaseOnly,
   validationFailedNoSpecialCharactersOrSpaces,
-  validationFailedUsernameMustBe12Characters
-}
+  validationFailedUsernameMustBe12Characters;
 
-extension LocalizedSignUpError on SignUpError {
   String localizedDescription(BuildContext context) {
     switch (this) {
       case SignUpError.failedToCreateAccount:

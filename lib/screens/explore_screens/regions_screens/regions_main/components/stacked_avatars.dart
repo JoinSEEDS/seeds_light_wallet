@@ -7,7 +7,7 @@ class StackedAvatars extends StatelessWidget {
   final List<ProfileModel> profiles;
   final double avatarSize;
 
-  const StackedAvatars(this.profiles, this.avatarSize, {Key? key}) : super(key: key);
+  const StackedAvatars(this.profiles, this.avatarSize, {super.key});
 
   @override
   Widget build(BuildContext context) {

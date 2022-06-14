@@ -5,7 +5,7 @@ import 'package:seeds/screens/transfer/receive/receive_selection/components/rece
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ReceiveScreen extends StatelessWidget {
-  const ReceiveScreen({Key? key}) : super(key: key);
+  const ReceiveScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

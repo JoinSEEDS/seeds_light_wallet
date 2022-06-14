@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
 
 class IntroducingDelegatesDialog extends StatelessWidget {
-  const IntroducingDelegatesDialog({Key? key}) : super(key: key);
+  const IntroducingDelegatesDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -13,14 +13,14 @@ class TextFormFieldLight extends StatelessWidget {
   final String? labelText;
 
   const TextFormFieldLight({
-    Key? key,
+    super.key,
     this.controller,
     this.onChanged,
     this.maxLength,
     this.suffixIcon,
     this.hintText,
     this.labelText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

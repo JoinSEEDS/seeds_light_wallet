@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Keyboard extends StatelessWidget {
   final ValueSetter<String> onDigitTapped;
 
-  const Keyboard({Key? key, required this.onDigitTapped}) : super(key: key);
+  const Keyboard({super.key, required this.onDigitTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class AlignedGrid extends StatelessWidget {
   final List<Widget> children;
   final Size keyboardSize;
 
-  const AlignedGrid({Key? key, required this.children, required this.keyboardSize}) : super(key: key);
+  const AlignedGrid({super.key, required this.children, required this.keyboardSize});
 
   @override
   Widget build(BuildContext context) {

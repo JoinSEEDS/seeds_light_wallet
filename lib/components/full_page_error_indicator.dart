@@ -8,7 +8,7 @@ class FullPageErrorIndicator extends StatelessWidget {
   final String? buttonTitle;
   final VoidCallback? buttonOnPressed;
 
-  const FullPageErrorIndicator({this.errorMessage, this.buttonTitle, this.buttonOnPressed, Key? key}) : super(key: key);
+  const FullPageErrorIndicator({this.errorMessage, this.buttonTitle, this.buttonOnPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

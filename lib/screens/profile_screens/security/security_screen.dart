@@ -15,7 +15,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 import 'package:share/share.dart';
 
 class SecurityScreen extends StatelessWidget {
-  const SecurityScreen({Key? key}) : super(key: key);
+  const SecurityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

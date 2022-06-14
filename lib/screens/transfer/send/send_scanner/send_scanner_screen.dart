@@ -9,7 +9,7 @@ import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/s
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendScannerScreen extends StatefulWidget {
-  const SendScannerScreen({Key? key}) : super(key: key);
+  const SendScannerScreen({super.key});
 
   @override
   _SendScannerScreenState createState() => _SendScannerScreenState();

@@ -6,7 +6,7 @@ class QRCodeView extends StatelessWidget {
   final GlobalKey? qrKey;
   final QRViewCreatedCallback onQRViewCreated;
 
-  const QRCodeView({required this.onQRViewCreated, Key? key, this.qrKey}) : super(key: key);
+  const QRCodeView({required this.onQRViewCreated, super.key, this.qrKey});
 
   @override
   Widget build(BuildContext context) {

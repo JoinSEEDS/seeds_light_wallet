@@ -18,7 +18,7 @@ class SendConfirmationDialog extends StatelessWidget {
   final VoidCallback onSendButtonPressed;
 
   const SendConfirmationDialog({
-    Key? key,
+    super.key,
     required this.tokenAmount,
     this.fiatAmount,
     this.toImage,
@@ -26,7 +26,7 @@ class SendConfirmationDialog extends StatelessWidget {
     required this.toAccount,
     this.memo,
     required this.onSendButtonPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class DialogRow extends StatelessWidget {
   final String? name;
   final String? toOrFromText;
 
-  const DialogRow({Key? key, this.imageUrl, required this.account, this.name, this.toOrFromText}) : super(key: key);
+  const DialogRow({super.key, this.imageUrl, required this.account, this.name, this.toOrFromText});
 
   @override
   Widget build(BuildContext context) {

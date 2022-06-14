@@ -15,7 +15,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/edit_region/intera
 import 'package:seeds/utils/build_context_extension.dart';
 
 class EditRegionImage extends StatelessWidget {
-  const EditRegionImage({Key? key}) : super(key: key);
+  const EditRegionImage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/region_event_detai
 import 'package:url_launcher/url_launcher.dart';
 
 class RegionEventDetailsScreen extends StatelessWidget {
-  const RegionEventDetailsScreen({Key? key}) : super(key: key);
+  const RegionEventDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

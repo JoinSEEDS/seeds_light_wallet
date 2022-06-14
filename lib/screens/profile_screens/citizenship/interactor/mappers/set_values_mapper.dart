@@ -11,11 +11,17 @@ import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/
 
 class SetValuesStateMapper extends StateMapper {
   CitizenshipState mapResultToState(
-      CitizenshipState currentState, List<Result> referredAccountResults, List<Result> citizenshipDataResults) {
+    CitizenshipState currentState,
+    List<Result> referredAccountResults,
+    List<Result> citizenshipDataResults,
+    Result<List<ProfileModel>>? vouchees,
+  ) {
     // Accounts found, but errors fetching data happened.
     if (referredAccountResults.isNotEmpty && areAllResultsError(referredAccountResults)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts".i18n);
     } else if (areAllResultsError(citizenshipDataResults)) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Citizenship Data'.i18n);
+    } else if (vouchees != null && vouchees.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Citizenship Data'.i18n);
     } else {
       citizenshipDataResults.retainWhere((Result i) => i.isValue);
@@ -34,6 +40,8 @@ class SetValuesStateMapper extends StateMapper {
 
       final int reputation = reputationScore?.value ?? 0;
 
+      int citizenVouched = 0;
+
       // Define timeline
       if (profile.status == ProfileStatus.visitor) {
         // Timeline to resident
@@ -44,13 +52,14 @@ class SetValuesStateMapper extends StateMapper {
             4 *
             100;
       } else {
+        final voucheesProfiles = vouchees!.asValue!.value;
+        citizenVouched = voucheesProfiles.where((i) => i.status == ProfileStatus.citizen).length;
         // Timeline to citizen
-        final int residentsInvited =
-            profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
+
         timeline = ((min(reputation, citizenRequiredReputation) / citizenRequiredReputation) +
                 (min(planted, citizenRequiredPlantedSeeds) / citizenRequiredPlantedSeeds) +
                 (min(transactions, citizenRequiredSeedsTransactions) / citizenRequiredSeedsTransactions) +
-                (min(residentsInvited, citizenRequiredResidentsInvited) / citizenRequiredResidentsInvited) +
+                (min(citizenVouched, citizenRequiredCitizenVouched) / citizenRequiredCitizenVouched) +
                 (min(profile.accountAge, citizenRequiredAccountAge) / citizenRequiredAccountAge) +
                 (min(profiles.length, citizenRequiredVisitorsInvited) / citizenRequiredVisitorsInvited)) /
             6 *
@@ -63,8 +72,7 @@ class SetValuesStateMapper extends StateMapper {
         seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
         progressTimeline: timeline,
         invitedVisitors: profiles.length,
-        invitedResidents:
-            profiles.where((i) => i.status == ProfileStatus.citizen || i.status == ProfileStatus.resident).length,
+        citizenCeremony: citizenVouched,
       );
     }
   }

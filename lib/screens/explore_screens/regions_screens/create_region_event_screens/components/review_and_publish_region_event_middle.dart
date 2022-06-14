@@ -5,7 +5,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
 
 class ReviewAndPublishRegionEventMiddle extends StatelessWidget {
-  const ReviewAndPublishRegionEventMiddle({Key? key}) : super(key: key);
+  const ReviewAndPublishRegionEventMiddle({super.key});
 
   @override
   Widget build(BuildContext context) {

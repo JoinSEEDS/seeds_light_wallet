@@ -13,7 +13,7 @@ import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/pa
 import 'package:seeds/utils/build_context_extension.dart';
 
 class EditNameScreen extends StatelessWidget {
-  const EditNameScreen({Key? key}) : super(key: key);
+  const EditNameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class EditNameScreen extends StatelessWidget {
 
             if (pageCommand is EditNameSuccess) {
               Navigator.of(context).pop(state.name);
-            } else if(pageCommand is ShowErrorMessage) {
+            } else if (pageCommand is ShowErrorMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
               BlocProvider.of<EditNameBloc>(context).add(const ClearPageCommand());
             }

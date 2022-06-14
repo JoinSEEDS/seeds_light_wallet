@@ -10,7 +10,7 @@ import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
 class GuardianApproveOrDenyScreen extends StatelessWidget {
   final GuardianRecoveryRequestData data;
 
-  const GuardianApproveOrDenyScreen({Key? key, required this.data}) : super(key: key);
+  const GuardianApproveOrDenyScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

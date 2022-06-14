@@ -13,7 +13,7 @@ import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/im
 import 'package:seeds/utils/build_context_extension.dart';
 
 class ImportKeyScreen extends StatefulWidget {
-  const ImportKeyScreen({Key? key}) : super(key: key);
+  const ImportKeyScreen({super.key});
 
   @override
   _ImportKeyScreenState createState() => _ImportKeyScreenState();

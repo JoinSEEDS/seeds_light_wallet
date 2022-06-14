@@ -6,7 +6,7 @@ import 'package:seeds/images/explore/vouch_white_background.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
 
 class VouchForMemberConfirmationDialog extends StatelessWidget {
-  const VouchForMemberConfirmationDialog({Key? key}) : super(key: key);
+  const VouchForMemberConfirmationDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

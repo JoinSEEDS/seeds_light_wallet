@@ -10,9 +10,13 @@ class FlatButtonShort extends StatelessWidget {
   final bool enabled;
   final bool isLoading;
 
-  const FlatButtonShort(
-      {Key? key, required this.title, required this.onPressed, this.enabled = true, this.isLoading = false})
-      : super(key: key);
+  const FlatButtonShort({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.enabled = true,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {

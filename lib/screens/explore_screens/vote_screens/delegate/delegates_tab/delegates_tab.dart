@@ -15,7 +15,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_ta
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegates_page_commands.dart';
 
 class DelegatesTab extends StatelessWidget {
-  const DelegatesTab({Key? key}) : super(key: key);
+  const DelegatesTab({super.key});
 
   @override
   Widget build(BuildContext context) {

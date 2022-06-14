@@ -14,7 +14,7 @@ import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class VisitorView extends StatefulWidget {
-  const VisitorView({Key? key}) : super(key: key);
+  const VisitorView({super.key});
 
   @override
   _VisitorViewState createState() => _VisitorViewState();

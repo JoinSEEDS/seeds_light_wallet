@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
 
 class SelectedGuardiansWidget extends StatelessWidget {
-  const SelectedGuardiansWidget({Key? key}) : super(key: key);
+  const SelectedGuardiansWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

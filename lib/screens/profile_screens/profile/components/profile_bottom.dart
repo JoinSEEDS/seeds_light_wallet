@@ -15,7 +15,7 @@ import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_bloc.dart';
 
 class ProfileBottom extends StatelessWidget {
-  const ProfileBottom({Key? key}) : super(key: key);
+  const ProfileBottom({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -12,13 +12,13 @@ class ProfileListTile extends StatelessWidget {
   final bool showShimmer;
 
   const ProfileListTile({
-    Key? key,
+    super.key,
     required this.leading,
     required this.title,
     required this.trailing,
     required this.onTap,
     this.showShimmer = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

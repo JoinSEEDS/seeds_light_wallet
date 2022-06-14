@@ -18,11 +18,10 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_page_command.dart';
-import 'package:seeds/screens/explore_screens/invite/invite_errors.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class InviteScreen extends StatelessWidget {
-  const InviteScreen({Key? key}) : super(key: key);
+  const InviteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

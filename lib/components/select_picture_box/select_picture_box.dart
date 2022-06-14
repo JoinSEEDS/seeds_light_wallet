@@ -15,12 +15,12 @@ class SelectPictureBox extends StatelessWidget {
   final PictureBoxState pictureBoxState;
 
   const SelectPictureBox({
-    Key? key,
+    super.key,
     required this.title,
     this.backgroundImage,
     required this.onTap,
     required this.pictureBoxState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -24,14 +24,13 @@ class SecurityCard extends StatelessWidget {
   final bool hasNotification;
 
   const SecurityCard(
-      {Key? key,
+      {super.key,
       required this.icon,
       required this.title,
       this.description = '',
       this.titleWidget,
       this.onTap,
-      this.hasNotification = false})
-      : super(key: key);
+      this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {

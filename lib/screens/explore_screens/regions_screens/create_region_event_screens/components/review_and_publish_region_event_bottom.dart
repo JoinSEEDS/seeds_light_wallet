@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/create_region_event_screens/interactor/viewmodels/create_region_event_bloc.dart';
 
 class ReviewAndPublishRegionEventBottom extends StatelessWidget {
-  const ReviewAndPublishRegionEventBottom({Key? key}) : super(key: key);
+  const ReviewAndPublishRegionEventBottom({super.key});
 
   @override
   Widget build(BuildContext context) {

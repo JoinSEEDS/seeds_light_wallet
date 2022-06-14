@@ -7,7 +7,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/images/explore/regions.dart';
 
 class SearchPlaces extends StatelessWidget {
-  const SearchPlaces({Key? key}) : super(key: key);
+  const SearchPlaces({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class SearchPlaces extends StatelessWidget {
 }
 
 class PoweredByGoogleImage extends StatelessWidget {
-  const PoweredByGoogleImage({Key? key}) : super(key: key);
+  const PoweredByGoogleImage({super.key});
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -12,7 +12,7 @@ import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interacto
 import 'package:seeds/screens/explore_screens/vouch/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_page_commands.dart';
 
 class VouchForAMemberScreen extends StatelessWidget {
-  const VouchForAMemberScreen({Key? key}) : super(key: key);
+  const VouchForAMemberScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
