@@ -26,9 +26,9 @@ const bool testnetMode = false;
 const bool unitTestMode = false; // set testnetMode and unitTestMode to true for automated tests
 
 // TESTNET CONFIG: Used for testing purposes.
-const String _testnetEosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
-const String _testnetHyphaEndPointUrl = 'https://test.hypha.earth';
-const String _testnetDefaultEndPointUrl = "https://test.hypha.earth";
+const String _testnetEosEndpoints = '[ { "url": "https://api-test.telosfoundation.io", "isDefault": true } ]';
+const String _testnetHyphaEndPointUrl = 'https://api-test.telosfoundation.io';
+const String _testnetDefaultEndPointUrl = "https://api-test.telosfoundation.io";
 const String _testnetDefaultV2EndpointUrl = "https://api-test.telosfoundation.io";
 // END - TESTNET CONFIG
 
