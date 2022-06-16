@@ -16,6 +16,10 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
 
   const GenericTransactionSuccessDialog(this.transactionModel, {super.key});
 
+  Future<void> show(BuildContext context) {
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
