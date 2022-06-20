@@ -9,7 +9,7 @@ class ActivateGuardianStateMapper extends StateMapper {
   GuardiansState mapResultToState(GuardiansState currentState, Iterable<GuardianModel> myGuardians) {
     final pageCommand = ShowActivateGuardian(
         myGuardians: myGuardians,
-        rightButtonTitle: "Activate Guardians!".i18n,
+        rightButtonTitle: "Activate".i18n,
         leftButtonTitle: "Dismiss".i18n,
         index: 4,
         image: "assets/images/guardians/onboarding/onboarding_1.jpg",
