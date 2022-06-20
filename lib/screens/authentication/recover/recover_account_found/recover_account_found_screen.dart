@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
@@ -82,6 +83,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
       case PageState.failure:
         return FullPageErrorIndicator(
           errorMessage: state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context),
+          // TODO: This localization is used for both cancel button and full screen error, seems wrong
           buttonTitle: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
           buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
         );
@@ -153,8 +155,15 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding, vertical: 16),
                       child: FlatButtonLong(
+                        title: context.loc.recoverAccountFoundReloadTitle,
+                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnRefreshTapped()),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                      child: FlatButtonLongOutlined(
                         title: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
                         onPressed: () =>
                             BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
