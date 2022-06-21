@@ -9,6 +9,8 @@ import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
 
+class CitizenshipData {}
+
 class SetValuesStateMapper extends StateMapper {
   CitizenshipState mapResultToState(
     CitizenshipState currentState,
@@ -68,6 +70,7 @@ class SetValuesStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
+        reputationScore: reputationScore,
         plantedSeeds: plantedSeeds?.quantity,
         seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
         progressTimeline: timeline,
