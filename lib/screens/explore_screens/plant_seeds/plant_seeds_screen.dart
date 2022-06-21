@@ -20,13 +20,14 @@ import 'package:seeds/utils/build_context_extension.dart';
 
 class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
         appBar: AppBar(title: Text(context.loc.plantSeedsAppBarTitle)),
-        body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
+        body: BlocListener<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final pageCommand = state.pageCommand;
@@ -47,66 +48,79 @@ class PlantSeedsScreen extends StatelessWidget {
               eventBus.fire(ShowSnackBar(pageCommand.error.localizedDescription(context)));
             }
           },
-          builder: (context, PlantSeedsState state) {
-            switch (state.pageState) {
-              case PageState.loading:
-                return const FullPageLoadingIndicator();
-              case PageState.failure:
-                return FullPageErrorIndicator(errorMessage: state.error?.localizedDescription(context));
-              case PageState.success:
-                return SafeArea(
-                  minimum: const EdgeInsets.all(horizontalEdgePadding),
-                  child: Stack(
-                    children: [
-                      SingleChildScrollView(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 16),
-                              Text(context.loc.plantSeedsPlantAmount, style: Theme.of(context).textTheme.headline6),
-                              const SizedBox(height: 16),
-                              AmountEntryWidget(
-                                tokenDataModel: TokenDataModel(0),
-                                onValueChange: (value) {
-                                  BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
-                                },
-                                autoFocus: state.isAutoFocus,
-                              ),
-                              const SizedBox(height: 24),
-                              AlertInputValue(context.loc.plantSeedsNotEnoughBalanceAlert, isVisible: state.showAlert),
-                              const SizedBox(height: 24),
-                              BalanceRow(
-                                label: context.loc.plantSeedsAvailableBalance,
-                                fiatAmount: state.availableBalanceFiat,
-                                tokenAmount: state.availableBalance,
-                              ),
-                              const DividerJungle(height: 24),
-                              BalanceRow(
-                                label: context.loc.plantSeedsPlantedBalance,
-                                fiatAmount: state.plantedBalanceFiat,
-                                tokenAmount: state.plantedBalance,
-                              ),
-                            ],
+          child: BlocBuilder<PlantSeedsBloc, PlantSeedsState>(
+            buildWhen: (previousState, state) {
+              return previousState.pageState != state.pageState;
+            },
+            builder: (context, state) {
+              switch (state.pageState) {
+                case PageState.loading:
+                  return const FullPageLoadingIndicator();
+                case PageState.failure:
+                  return FullPageErrorIndicator(errorMessage: state.error?.localizedDescription(context));
+                case PageState.success:
+                  return SafeArea(
+                    minimum: const EdgeInsets.all(horizontalEdgePadding),
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 16),
+                                Text(context.loc.plantSeedsPlantAmount, style: Theme.of(context).textTheme.headline6),
+                                const SizedBox(height: 16),
+                                AmountEntryWidget(
+                                  tokenDataModel: TokenDataModel(0),
+                                  onValueChange: (value) {
+                                    BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
+                                  },
+                                  autoFocus: state.isAutoFocus,
+                                ),
+                                const SizedBox(height: 24),
+                                AlertInputValue(context.loc.plantSeedsNotEnoughBalanceAlert,
+                                    isVisible: state.showAlert),
+                                const SizedBox(height: 24),
+                                BalanceRow(
+                                  label: context.loc.plantSeedsAvailableBalance,
+                                  fiatAmount: state.availableBalanceFiat,
+                                  tokenAmount: state.availableBalance,
+                                ),
+                                const DividerJungle(height: 24),
+                                BalanceRow(
+                                  label: context.loc.plantSeedsPlantedBalance,
+                                  fiatAmount: state.plantedBalanceFiat,
+                                  tokenAmount: state.plantedBalance,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                          title: context.loc.plantSeedsPlantButtonTitle,
-                          enabled: state.isPlantSeedsButtonEnabled,
-                          onPressed: () =>
-                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                        BlocBuilder<PlantSeedsBloc, PlantSeedsState>(
+                          buildWhen: (previousState, state) {
+                            return previousState.isPlantSeedsButtonEnabled != state.isPlantSeedsButtonEnabled;
+                          },
+                          builder: (context, state) {
+                            return Align(
+                              alignment: Alignment.bottomCenter,
+                              child: FlatButtonLong(
+                                title: context.loc.plantSeedsPlantButtonTitle,
+                                enabled: state.isPlantSeedsButtonEnabled,
+                                onPressed: () =>
+                                    BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              default:
-                return const SizedBox.shrink();
-            }
-          },
+                      ],
+                    ),
+                  );
+                default:
+                  return const SizedBox.shrink();
+              }
+            },
+          ),
         ),
       ),
     );
