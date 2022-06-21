@@ -68,6 +68,7 @@ class SetValuesStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
+        reputationScore: reputationScore,
         plantedSeeds: plantedSeeds?.quantity,
         seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
         progressTimeline: timeline,
