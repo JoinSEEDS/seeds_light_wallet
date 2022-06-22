@@ -10,11 +10,12 @@ class UserRecoversModel {
   });
 
   factory UserRecoversModel.fromTableRows(List<dynamic> rows) {
-    if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
+    if (rows.isNotEmpty) {
+      final data = rows[0];
       return UserRecoversModel(
-        alreadySignedGuardians: List<String>.from(rows[0]['guardians']),
-        publicKey: rows[0]['public key'],
-        completeTimestamp: rows[0]['complete_timestamp'],
+        alreadySignedGuardians: List<String>.from(data['guardians']),
+        publicKey: data['public_key'],
+        completeTimestamp: data['complete_timestamp'],
       );
     } else {
       return UserRecoversModel(alreadySignedGuardians: [], publicKey: "", completeTimestamp: 0);
