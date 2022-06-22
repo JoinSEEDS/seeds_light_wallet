@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -320,10 +321,18 @@ class _SettingsStorage {
   void saveSelectedFiatCurrency(String value) => selectedFiatCurrency = value;
 
   // ignore: use_setters_to_change_properties
-  void saveIsCitizen(bool value) => isCitizen = value;
-
-  // ignore: use_setters_to_change_properties
-  void saveIsVisitor(bool value) => isVisitor = value;
+  void saveCitizenshipStatus(ProfileStatus status) {
+    if (status == ProfileStatus.citizen) {
+      isCitizen = true;
+      isVisitor = false;
+    } else if (status == ProfileStatus.visitor) {
+      isCitizen = false;
+      isVisitor = true;
+    } else if (status == ProfileStatus.resident) {
+      isCitizen = false;
+      isVisitor = false;
+    }
+  }
 
   // ignore: use_setters_to_change_properties
   void saveFirstTimeOnDelegateScreen(bool value) => isFirstTimeOnDelegateScreen = value;

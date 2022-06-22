@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 
 class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
-  final bool isResident;
+  final ProfileStatus status;
 
-  const CitizenshipUpgradeSuccessDialog({super.key, required this.isResident});
+  const CitizenshipUpgradeSuccessDialog({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              if (isResident)
+              if (status == ProfileStatus.citizen)
                 Container(
                   height: 100,
                   child: RichText(

@@ -1,4 +1,5 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
@@ -11,6 +12,15 @@ class ProfileValuesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       final response = result.asValue!.value;
+      final ProfileModel? profileModel = response.profileModel;
+      if (profileModel != null) {
+        // This is a pretty bad side effect - to fix this, we need to avoid storing the
+        // citizenship status in the settings and saving this - since this value always needs to be
+        // updated from chain, it can't be in the wallet.
+        // As a remedy, we are now updating it every time we load the user profile.
+        settingsStorage.saveCitizenshipStatus(profileModel.status);
+      }
+
       final bool isCitizen = settingsStorage.isCitizen;
       final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 

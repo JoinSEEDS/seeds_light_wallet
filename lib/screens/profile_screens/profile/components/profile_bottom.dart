@@ -52,7 +52,7 @@ class ProfileBottom extends StatelessWidget {
             builder: (_) {
               return BlocProvider.value(
                 value: BlocProvider.of<ProfileBloc>(context),
-                child: CitizenshipUpgradeSuccessDialog(isResident: pageCommand.isResident),
+                child: CitizenshipUpgradeSuccessDialog(status: pageCommand.status),
               );
             },
           );

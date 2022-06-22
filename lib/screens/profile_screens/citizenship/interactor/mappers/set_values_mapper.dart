@@ -60,9 +60,8 @@ class SetValuesStateMapper extends StateMapper {
                 (min(planted, citizenRequiredPlantedSeeds) / citizenRequiredPlantedSeeds) +
                 (min(transactions, citizenRequiredSeedsTransactions) / citizenRequiredSeedsTransactions) +
                 (min(citizenVouched, citizenRequiredCitizenVouched) / citizenRequiredCitizenVouched) +
-                (min(profile.accountAge, citizenRequiredAccountAge) / citizenRequiredAccountAge) +
-                (min(profiles.length, citizenRequiredVisitorsInvited) / citizenRequiredVisitorsInvited)) /
-            6 *
+                (min(profile.accountAge, citizenRequiredAccountAge) / citizenRequiredAccountAge)) /
+            5 *
             100;
       }
 
