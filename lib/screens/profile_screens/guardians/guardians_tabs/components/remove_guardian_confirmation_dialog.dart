@@ -31,9 +31,9 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
           color: AppColors.blue,
         ),
       ),
-      rightButtonTitle: "Accept".i18n,
+      rightButtonTitle: "Ok".i18n,
       onRightButtonPressed: onConfirm,
-      leftButtonTitle: "Decline".i18n,
+      leftButtonTitle: "Cancel".i18n,
       onLeftButtonPressed: onDismiss,
       children: [
         const SizedBox(height: 20),
