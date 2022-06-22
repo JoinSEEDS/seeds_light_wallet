@@ -28,14 +28,12 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
   late Animation<double> _ageAnimation;
   late Animation<double> _seedsAnimation;
   late Animation<double> _transactionsAnimation;
-  late Animation<double> _visitorsAnimation;
   int _timeLine = 0;
   int _reputation = 0;
   int _citizenCeremony = 0;
   int _age = 0;
   int _seeds = 0;
   int _transactions = 0;
-  int _visitors = 0;
 
   @override
   void initState() {
@@ -80,10 +78,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });
-        _visitorsAnimation = Tween<double>(begin: 0, end: state.invitedVisitors!.toDouble()).animate(_controller)
-          ..addListener(() {
-            setState(() => _visitors = _visitorsAnimation.value.toInt() * 100);
-          });
         _controller.forward();
       },
       builder: (context, state) {
@@ -210,16 +204,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
                       rate: '$_transactions/$citizenRequiredSeedsTransactions',
-                      rateStyle: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    CircularProgressItem(
-                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                      totalStep: citizenRequiredVisitorsInvited,
-                      currentStep: _visitors ~/ 100,
-                      circleRadius: 30,
-                      title: 'Invited Users'.i18n,
-                      titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_visitors ~/ 100}/$citizenRequiredVisitorsInvited',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                   ],

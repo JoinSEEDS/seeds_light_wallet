@@ -103,12 +103,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<void> _onActivateResidentButtonTapped(OnActivateResidentButtonTapped event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade()));
     final Result result = await MakeResidentUseCase().run();
-    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, false));
+    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, ProfileStatus.resident));
   }
 
   Future<void> _onActivateCitizenButtonTapped(OnActivateCitizenButtonTapped event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade()));
     final Result result = await MakeCitizenUseCase().run();
-    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, true));
+    emit(UpgradeCitizenshipResultMapper().mapResultToState(state, result, ProfileStatus.citizen));
   }
 }
