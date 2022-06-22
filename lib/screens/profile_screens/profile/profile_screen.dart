@@ -5,6 +5,7 @@ import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/profile_screens/profile/components/citizenship_card.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_bottom.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_header.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_middle.dart';
@@ -58,17 +59,24 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
               ],
             ),
             body: BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, _) {
+              builder: (context, profileState) {
+                final components = [
+                  const ProfileHeader(),
+                  const DividerJungle(thickness: 2),
+                  const ProfileMiddle(),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
+                  const SizedBox(height: 16.0),
+                ];
+                if (state.showCitizenCard) {
+                  components
+                      .add(const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: CitizenshipCard()));
+                }
+                components.add(const ProfileBottom());
+
                 return RefreshIndicator(
                   onRefresh: () async => BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues()),
                   child: ListView(
-                    children: [
-                      const ProfileHeader(),
-                      const DividerJungle(thickness: 2),
-                      const ProfileMiddle(),
-                      const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
-                      const ProfileBottom(),
-                    ],
+                    children: components,
                   ),
                 );
               },
