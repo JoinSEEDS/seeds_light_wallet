@@ -13,10 +13,8 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       final response = result.asValue!.value;
       final ProfileModel? profileModel = response.profileModel;
-      if (profileModel != null) {
-        // This is a pretty bad side effect - to fix this, we need to avoid storing the
-        // citizenship status in the settings and saving this - since this value always needs to be
-        // updated from chain, it can't be in the wallet.
+      if (profileModel != null && profileModel.account == settingsStorage.accountName) {
+        // Storing the status in settings is problematic since it's a server side value.
         // As a remedy, we are now updating it every time we load the user profile.
         settingsStorage.saveCitizenshipStatus(profileModel.status);
       }
