@@ -24,31 +24,34 @@ class ProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final Text titleText = Text(title, style: Theme.of(context).textTheme.button);
     final Text trailingText = Text(trailing, style: Theme.of(context).textTheme.headline7LowEmphasis);
-    return showShimmer
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
-            child: Row(
-              children: [
-                const ShimmerCircle(28),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Row(
-                    children: [
-                      ShimmerRectangle(size: titleText.textSize),
-                      const Spacer(),
-                      ShimmerRectangle(size: trailingText.textSize),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        : InkWell(
-            onTap: onTap,
-            child: Padding(
+    return SizedBox(
+      height: 60,
+      child: showShimmer
+          ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
-              child: Row(children: [leading, const SizedBox(width: 20), Expanded(child: titleText), trailingText]),
+              child: Row(
+                children: [
+                  const ShimmerCircle(28),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        ShimmerRectangle(size: titleText.textSize),
+                        const Spacer(),
+                        ShimmerRectangle(size: trailingText.textSize),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+                child: Row(children: [leading, const SizedBox(width: 20), Expanded(child: titleText), trailingText]),
+              ),
             ),
-          );
+    );
   }
 }
