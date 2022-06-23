@@ -29,10 +29,7 @@ class NavigateToRouteWithArguments<T> extends PageCommand {
   final String route;
   final T arguments;
 
-  NavigateToRouteWithArguments({
-    required this.route,
-    required this.arguments,
-  });
+  NavigateToRouteWithArguments({required this.route, required this.arguments});
 }
 
 class NavigateToSendConfirmation extends NavigateToRouteWithArguments {
