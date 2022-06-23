@@ -20,16 +20,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     final result = await GetUserProfileUseCase().run(settingsStorage.accountName);
     WalletState newState;
     emit(newState = UserAccountStateMapper().mapResultToState(state, result));
-    if (newState.profile.status == ProfileStatus.citizen) {
-      // Here is the first time the get user profile is called in the app
-      // so we need save here the is citizen status in the settingsStorage
-      // to avoid show shimmer again in the citizenship module
-      settingsStorage.saveIsCitizen(true);
-      settingsStorage.saveIsVisitor(false);
-    } else if (newState.profile.status == ProfileStatus.visitor) {
-      settingsStorage.saveIsVisitor(true);
-    } else if (newState.profile.status == ProfileStatus.resident) {
-      settingsStorage.saveIsVisitor(false);
-    }
+    settingsStorage.saveCitizenshipStatus(newState.profile.status);
   }
 }
