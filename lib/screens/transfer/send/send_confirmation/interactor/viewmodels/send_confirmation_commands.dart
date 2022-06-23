@@ -32,3 +32,9 @@ class ShowInvalidTransactionReason extends TransactionPageCommand {
   final String reason;
   ShowInvalidTransactionReason(this.reason);
 }
+
+class ShowFailedTransactionReason extends TransactionPageCommand {
+  final String title;
+  final String details;
+  ShowFailedTransactionReason({required this.title, required this.details});
+}

@@ -54,6 +54,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     );
   }
 
+  Future<void> show(BuildContext context) {
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(

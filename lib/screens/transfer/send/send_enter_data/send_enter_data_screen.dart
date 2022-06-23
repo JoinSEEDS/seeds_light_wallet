@@ -64,19 +64,11 @@ class SendEnterDataScreen extends StatelessWidget {
               InAppReview.instance.requestReview();
               settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
             }
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false, // user must tap button
-              builder: (_) => SendTransactionSuccessDialog.fromPageCommand(command),
-            );
+            SendTransactionSuccessDialog.fromPageCommand(command).show(context);
           } else if (command is ShowTransactionSuccess) {
             Navigator.of(context).pop(); // pop send
             Navigator.of(context).pop(); // pop scanner
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false, // user must tap button
-              builder: (_) => GenericTransactionSuccessDialog(command.transactionModel),
-            );
+            GenericTransactionSuccessDialog(command.transactionModel).show(context);
           }
         },
         child: Scaffold(
