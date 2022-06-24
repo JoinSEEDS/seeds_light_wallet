@@ -5,7 +5,6 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/profile/components/citizenship_card.dart';
 import 'package:seeds/screens/profile_screens/profile/components/citizenship_upgrade_in_progress_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/components/citizenship_upgrade_success_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/components/logout_dialog.dart';
@@ -76,8 +75,6 @@ class ProfileBottom extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const CitizenshipCard(),
-            const SizedBox(height: 16.0),
             BlocBuilder<ProfileBloc, ProfileState>(
               buildWhen: (previous, current) => previous.hasSecurityNotification != current.hasSecurityNotification,
               builder: (context, state) {

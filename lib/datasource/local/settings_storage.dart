@@ -77,8 +77,6 @@ class _SettingsStorage {
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
-  bool get isVisitor => _preferences.getBool(_kIsVisitor) ?? false;
-
   bool get isFirstTimeOnDelegateScreen => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
 
   bool get isFirstTimeOnRegionsScreen => _preferences.getBool(_kIsFirstTimeOnRegionsScreen) ?? true;
@@ -150,12 +148,6 @@ class _SettingsStorage {
   set isCitizen(bool? value) {
     if (value != null) {
       _preferences.setBool(_kIsCitizen, value);
-    }
-  }
-
-  set isVisitor(bool? value) {
-    if (value != null) {
-      _preferences.setBool(_kIsVisitor, value);
     }
   }
 
@@ -324,13 +316,10 @@ class _SettingsStorage {
   void saveCitizenshipStatus(ProfileStatus status) {
     if (status == ProfileStatus.citizen) {
       isCitizen = true;
-      isVisitor = false;
     } else if (status == ProfileStatus.visitor) {
       isCitizen = false;
-      isVisitor = true;
     } else if (status == ProfileStatus.resident) {
       isCitizen = false;
-      isVisitor = false;
     }
   }
 

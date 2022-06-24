@@ -19,8 +19,7 @@ class ProfileValuesStateMapper extends StateMapper {
         settingsStorage.saveCitizenshipStatus(profileModel.status);
       }
 
-      final bool isCitizen = settingsStorage.isCitizen;
-      final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
+      final bool isCitizen = profileModel?.status == ProfileStatus.citizen;
 
       if (isCitizen) {
         return currentState.copyWith(
@@ -28,6 +27,7 @@ class ProfileValuesStateMapper extends StateMapper {
       } else {
         final organization = response.organizationModel ?? [];
 
+        final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
         response.canResident != null
             ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
             : response.canCitizen != null

@@ -5,6 +5,7 @@ import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/profile_screens/profile/components/citizenship_card.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_bottom.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_header.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_middle.dart';
@@ -28,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
     super.build(context);
     return BlocProvider(
       create: (_) => ProfileBloc(remoteConfigurations.featureFlagImportAccountEnabled)..add(LoadProfileValues()),
-      child: BlocConsumer<ProfileBloc, ProfileState>(
+      child: BlocListener<ProfileBloc, ProfileState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
@@ -37,44 +38,52 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
             const SwithAccountBottomSheet().show(context);
           }
         },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: InkWell(
-                onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
+        child: Builder(
+          builder: (context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: InkWell(
+                  onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
+                    ),
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
+                    onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+                  ),
+                ],
               ),
-              actions: [
-                IconButton(
-                  icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
-                  onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
-                ),
-              ],
-            ),
-            body: BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, _) {
-                return RefreshIndicator(
-                  onRefresh: () async => BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues()),
-                  child: ListView(
-                    children: [
-                      const ProfileHeader(),
-                      const DividerJungle(thickness: 2),
-                      const ProfileMiddle(),
-                      const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
-                      const ProfileBottom(),
-                    ],
-                  ),
-                );
-              },
-            ),
-          );
-        },
+              body: BlocBuilder<ProfileBloc, ProfileState>(
+                buildWhen: (previous, current) =>
+                    previous.profile != current.profile || previous.isOrganization != current.isOrganization,
+                builder: (context, state) {
+                  final components = [
+                    const ProfileHeader(),
+                    const DividerJungle(thickness: 2),
+                    const ProfileMiddle(),
+                    const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
+                    const SizedBox(height: 16.0),
+                    const ProfileBottom(),
+                  ];
+                  if (state.showCitizenCard) {
+                    components.insert(5, const CitizenshipCard());
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: () async => BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues()),
+                    child: ListView(children: components),
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -11,6 +11,7 @@ class ProfileState extends Equatable {
   final bool hasSecurityNotification;
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
   final bool isImportAccountEnabled;
+  bool get showCitizenCard => !(profile == null || profile?.status == ProfileStatus.citizen || isOrganization);
 
   const ProfileState({
     required this.pageState,
@@ -37,6 +38,9 @@ class ProfileState extends Equatable {
         hasSecurityNotification,
         citizenshipUpgradeStatus,
         isImportAccountEnabled,
+        showCitizenCard,
+        showShimmer,
+        accountStatus,
       ];
 
   bool get showShimmer => pageState == PageState.loading || pageState == PageState.initial;
