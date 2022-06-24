@@ -303,10 +303,11 @@ class SerialBuffer {
 
   /// Append a `symbol_code`. Unlike `symbol`, `symbol_code` doesn't include a precision. */
   void pushSymbolCode(String name) {
-    Uint8List a = Uint8List.fromList(utf8.encode(name));
-    while (a.length < 8) {
-      a.add(0);
+    final l = List<int>.from(utf8.encode(name));
+    while(l.length <8) {
+      l.add(0);
     }
+    Uint8List a = Uint8List.fromList(l);
     pushArray(a.sublist(0, 8));
   }
 
