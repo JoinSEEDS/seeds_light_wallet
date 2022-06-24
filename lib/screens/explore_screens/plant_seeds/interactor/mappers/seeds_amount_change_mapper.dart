@@ -15,7 +15,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     return currentState.copyWith(
       tokenAmount: tokenAmount,
       fiatAmount: rateState.tokenToFiat(tokenAmount, selectedFiat),
-      isPlantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
+      isPlantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity <= currentAvailable,
       showAlert: parsedQuantity > currentAvailable,
     );
   }
