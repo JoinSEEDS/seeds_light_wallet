@@ -19,7 +19,7 @@ class ReceiveSeedsInvoiceUseCase extends InputUseCase<ReceiveInvoiceResponse, _I
     final Result<String> invoice = await _invoiceRepository.createInvoice(
       tokenAmount: input.tokenAmount,
       accountName: settingsStorage.accountName,
-      tokenContract: TokenModel.fromSymbol(input.tokenAmount.symbol).contract,
+      tokenContract: TokenModel.fromId(input.tokenAmount.id!).contract,
       memo: input.memo,
     );
 

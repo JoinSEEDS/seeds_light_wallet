@@ -62,6 +62,7 @@ dependencies:
   geolocator: ^8.2.0
   geocoding: ^2.0.2
   permission_handler: ^9.2.0
+  json_schema2: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -159,6 +160,8 @@ flutter:
     - assets/images/wallet/currency_info_cards/stars/logo.jpg
     - assets/images/wallet/currency_info_cards/tlos/background.png
     - assets/images/wallet/currency_info_cards/tlos/logo.png
+    - assets/images/wallet/currency_info_cards/seeds/seeds_check_transp.png
+    - assets/images/wallet/currency_info_cards/experimental.png
     - assets/images/profile/lotus.svg
     - assets/images/profile/logout_icon.svg
     - assets/images/profile/contribution_icon.svg

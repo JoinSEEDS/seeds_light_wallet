@@ -45,7 +45,7 @@ class RatesRepository extends HttpRepository {
     return http
         .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: params)
         .then((http.Response response) => mapHttpResponse<RateModel>(response, (dynamic body) {
-              return RateModel.fromOracleJson("TLOS", 4, body);
+              return RateModel.fromOracleJson("eosio.token#TLOS", 4, body);
             }))
         .catchError((error) => mapHttpError(error));
   }
