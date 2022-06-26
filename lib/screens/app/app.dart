@@ -97,7 +97,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       child: Scaffold(
         body: BlocConsumer<AppBloc, AppState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
+          listener: (context, state) async {
             final pageCommand = state.pageCommand;
             _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
@@ -107,7 +107,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else if (pageCommand is ShowMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is NavigateToRouteWithArguments) {
-              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              if (pageCommand is NavigateToSendConfirmation) {
+                await NavigationService.of(context)
+                    .navigateTo(Routes.verificationUnpoppable)
+                    .then((_) => NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments));
+              } else {
+                await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              }
             }
           },
           builder: (context, state) {

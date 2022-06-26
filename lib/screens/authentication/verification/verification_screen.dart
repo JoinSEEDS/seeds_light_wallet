@@ -9,20 +9,23 @@ import 'package:seeds/screens/authentication/verification/components/passcode_cr
 import 'package:seeds/screens/authentication/verification/components/passcode_screen.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
-import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({super.key});
+  final bool _isUnpoppable;
+
+  const VerificationScreen({super.key}) : _isUnpoppable = false;
+
+  /// This contructor creates a unpoppable screen and use the main builder to unlock the app.
+  const VerificationScreen.unpoppable({super.key}) : _isUnpoppable = true;
 
   @override
   Widget build(BuildContext context) {
-    final SecurityBloc? _securityBloc = ModalRoute.of(context)!.settings.arguments as SecurityBloc?;
     return BlocProvider(
       create: (_) => VerificationBloc()..add(const InitBiometricAuth()),
       child: WillPopScope(
         // User can only pop without auth if it is on security screen
-        onWillPop: () async => _securityBloc != null,
+        onWillPop: () async => !_isUnpoppable,
         child: Scaffold(
           body: SafeArea(
             child: BlocConsumer<VerificationBloc, VerificationState>(
@@ -33,38 +36,28 @@ class VerificationScreen extends StatelessWidget {
                 if (pageCommand is PasscodeNotMatch) {
                   eventBus.fire(ShowSnackBar.success(context.loc.verificationScreenSnackBarError));
                 } else if (pageCommand is BiometricAuthorized) {
-                  final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-                  if (_securityBloc == null) {
+                  if (_isUnpoppable) {
                     // Onboarding or timeout authentication: just unlock
-                    authenticationBloc.add(const UnlockWallet());
-                  } else {
-                    // Security flow: update screen and then fires navigator pop
-                    _securityBloc.add(const OnValidVerification());
-                    Navigator.of(context).pop();
+                    BlocProvider.of<AuthenticationBloc>(context).add(const UnlockWallet());
                   }
+                  Navigator.of(context).pop(true);
                 } else if (pageCommand is PasscodeValid) {
                   final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-                  _securityBloc?.add(const OnValidVerification());
                   if (state.isCreateMode) {
                     // Enable and save new passcode
                     authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
-                    Navigator.of(context).pop();
-                    showDialog<void>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) => const PasscodeCreatedDialog(),
-                    );
-                    if (_securityBloc == null) {
+                    if (_isUnpoppable) {
                       authenticationBloc.add(const UnlockWallet());
                     }
+                    Navigator.of(context).pop(true);
+                    const PasscodeCreatedDialog().show(context);
                   } else {
-                    if (_securityBloc == null) {
+                    if (_isUnpoppable) {
                       // Onboarding or timeout authentication: just unlock
                       authenticationBloc.add(const UnlockWallet());
-                    } else {
-                      // pop from disable on security
-                      Navigator.of(context).pop();
                     }
+                    // pop from disable on security
+                    Navigator.of(context).pop(true);
                   }
                 }
               },

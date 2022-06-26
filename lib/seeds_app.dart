@@ -80,7 +80,7 @@ class SeedsApp extends StatelessWidget {
                                   navigator.currentRouteName() == Routes.importWords) {
                                 navigator.pushAndRemoveAll(Routes.app);
                               }
-                              navigator.navigateTo(Routes.verification);
+                              navigator.navigateTo(Routes.verificationUnpoppable);
                               break;
                             case AuthStatus.unlocked:
                               navigator.pushApp();

@@ -7,6 +7,10 @@ import 'package:seeds/utils/build_context_extension.dart';
 class PasscodeCreatedDialog extends StatelessWidget {
   const PasscodeCreatedDialog({super.key});
 
+  Future<void> show(BuildContext context) async {
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
