@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -20,10 +19,8 @@ class PlantedRepository extends HttpRepository {
         upperBound: userAccount);
 
     return http
-        .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<PlantedModel>(response, (dynamic body) {
-              return PlantedModel.fromJson(body);
-            }))
+        .post(plantedURL, body: request)
+        .then((response) => mapHttpResponse<PlantedModel>(response, (body) => PlantedModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -40,8 +37,8 @@ class PlantedRepository extends HttpRepository {
     );
 
     return http
-        .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<RefundModel>>(response, (dynamic body) {
+        .post(plantedURL, body: request)
+        .then((response) => mapHttpResponse<List<RefundModel>>(response, (body) {
               final List<dynamic> allRefunds = body['rows'].toList();
               return allRefunds.map((item) => RefundModel.fromJson(item)).toList();
             }))

@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -19,10 +18,8 @@ class VoiceRepository extends HttpRepository {
     );
 
     return http
-        .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
-              return VoiceModel.fromJson(body);
-            }))
+        .post(voiceURL, body: request)
+        .then((response) => mapHttpResponse<VoiceModel>(response, (body) => VoiceModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -39,10 +36,8 @@ class VoiceRepository extends HttpRepository {
     );
 
     return http
-        .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
-              return VoiceModel.fromJson(body);
-            }))
+        .post(voiceURL, body: request)
+        .then((response) => mapHttpResponse<VoiceModel>(response, (body) => VoiceModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -59,10 +54,8 @@ class VoiceRepository extends HttpRepository {
     );
 
     return http
-        .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
-              return VoiceModel.fromJson(body);
-            }))
+        .post(voiceURL, body: request)
+        .then((response) => mapHttpResponse<VoiceModel>(response, (body) => VoiceModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -78,10 +71,8 @@ class VoiceRepository extends HttpRepository {
         upperBound: userAccount);
 
     return http
-        .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
-              return VoiceModel.fromBalanceJson(body);
-            }))
+        .post(voiceURL, body: request)
+        .then((response) => mapHttpResponse<VoiceModel>(response, (body) => VoiceModel.fromBalanceJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 }

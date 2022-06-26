@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -35,9 +34,7 @@ class VouchRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -63,8 +60,8 @@ class VouchRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<VouchModel>>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<List<VouchModel>>(response, (body) {
               print("result $isSponsor: $body");
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => VouchModel.fromJson(item)).toList();

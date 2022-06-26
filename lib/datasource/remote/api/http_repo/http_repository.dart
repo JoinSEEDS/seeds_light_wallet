@@ -1,11 +1,30 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/util/response_extension.dart';
+
+class _HttpClient extends http.BaseClient {
+  final http.Client _httpClient = http.Client();
+  Map<String, String> headers = {'Content-type': 'application/json'};
+
+  // Intercept each call to log request info to Crashlytics.
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    if (kDebugMode) {
+      print('${request.method} ${request.url} ${request.contentLength}');
+    }
+    FirebaseCrashlytics.instance.log('${request.method} ${request.url} ${(request as Request).body}');
+    request.headers.addAll(headers);
+    return _httpClient.send(request);
+  }
+}
 
 abstract class HttpRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
@@ -13,9 +32,9 @@ abstract class HttpRepository {
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String mapsApiKey = 'AIzaSyB3Ghs8i_Lw55vmSyh5mxLA9cGcWuc1A54';
   String fxApiKey = "thesecretapikey989";
-  Map<String, String> headers = {'Content-type': 'application/json'};
+  _HttpClient http = _HttpClient();
 
-  FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, Function modelMapper) {
+  FutureOr<Result<T>> mapHttpResponse<T>(Response response, Function modelMapper) {
     switch (response.statusCode) {
       case 200:
         {
@@ -24,13 +43,19 @@ abstract class HttpRepository {
           return ValueResult(modelMapper(body));
         }
       default:
-        print("network error: ${response.reasonPhrase}");
+        if (kDebugMode) {
+          print('http error: ${response.reasonPhrase}');
+        }
+        FirebaseCrashlytics.instance.log('http error: ${response.statusCode}, ${response.reasonPhrase}');
         return ErrorResult(NetworkError(response.statusCode));
     }
   }
 
   ErrorResult mapHttpError(dynamic error) {
-    print('mapHttpError: $error');
+    if (kDebugMode) {
+      print('mapHttpError: $error');
+    }
+    FirebaseCrashlytics.instance.log('mapHttpError: $error');
     return ErrorResult(error);
   }
 

@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -21,10 +20,8 @@ class SeedsHistoryRepository extends HttpRepository {
     final seedsHistoryURL = Uri.parse('$hyphaURL/v1/chain/get_table_rows');
 
     return http
-        .post(seedsHistoryURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<SeedsHistoryModel>(response, (dynamic body) {
-              return SeedsHistoryModel.fromJson(body);
-            }))
-        .catchError((dynamic error) => mapHttpError(error));
+        .post(seedsHistoryURL, body: request)
+        .then((response) => mapHttpResponse<SeedsHistoryModel>(response, (body) => SeedsHistoryModel.fromJson(body)))
+        .catchError((error) => mapHttpError(error));
   }
 }

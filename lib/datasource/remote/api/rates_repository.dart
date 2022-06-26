@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -12,9 +11,7 @@ class RatesRepository extends HttpRepository {
 
     return http
         .get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=$fxApiKey"))
-        .then((http.Response response) => mapHttpResponse<FiatRateModel>(response, (dynamic body) {
-              return FiatRateModel.fromJson(body);
-            }))
+        .then((response) => mapHttpResponse<FiatRateModel>(response, (body) => FiatRateModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -24,10 +21,8 @@ class RatesRepository extends HttpRepository {
     final request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<RateModel>(response, (dynamic body) {
-              return RateModel.fromSeedsJson(body);
-            }))
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), body: request)
+        .then((response) => mapHttpResponse<RateModel>(response, (body) => RateModel.fromSeedsJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -43,8 +38,8 @@ class RatesRepository extends HttpRepository {
     );
 
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<RateModel>(response, (dynamic body) {
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), body: params)
+        .then((response) => mapHttpResponse<RateModel>(response, (body) {
               return RateModel.fromOracleJson("eosio.token#TLOS", 4, body);
             }))
         .catchError((error) => mapHttpError(error));

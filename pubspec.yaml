@@ -62,6 +62,7 @@ dependencies:
   geolocator: ^8.2.0
   geocoding: ^2.0.2
   permission_handler: ^9.2.0
+  firebase_crashlytics: ^2.8.2
   json_schema2: ^2.0.2
 
 dev_dependencies:

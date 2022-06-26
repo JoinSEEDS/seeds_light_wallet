@@ -23,9 +23,7 @@ class SendTransactionRepository extends EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
-              return response["transaction_id"];
-            }))
+        .then((response) => mapEosResponse(response, (body) => response["transaction_id"]))
         .catchError((error) => mapEosError(error));
   }
 }

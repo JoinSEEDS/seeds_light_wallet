@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -33,8 +32,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<MoonPhaseModel>>(response, (dynamic body) {
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<List<MoonPhaseModel>>(response, (body) {
               return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -55,8 +54,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteCycleModel>(response, (dynamic body) {
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<VoteCycleModel>(response, (body) {
               return VoteCycleModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
@@ -79,8 +78,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse(response, (body) {
               final List<ProposalModel> result =
                   body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
               if (proposalType.filterByStage != null) {
@@ -105,8 +104,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ReferendumModel>>(response, (dynamic body) {
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<List<ReferendumModel>>(response, (body) {
               // The referendums do not have a status field as do the proposals, so the scope must be added
               // to each referendum, which also acts as a status field.
               final List<ReferendumModel> result =
@@ -124,8 +123,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<SupportLevelModel>>(response, (dynamic body) {
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<List<SupportLevelModel>>(response, (body) {
               return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -146,10 +145,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
-              return VoteModel.fromJson(body);
-            }))
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<VoteModel>(response, (body) => VoteModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -168,10 +165,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
-              return VoteModel.fromJsonReferendum(body);
-            }))
+        .post(proposalsURL, body: request)
+        .then((response) => mapHttpResponse<VoteModel>(response, (body) => VoteModel.fromJsonReferendum(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -193,9 +188,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -217,9 +210,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -233,9 +224,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -254,10 +243,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<DelegateModel>(response, (dynamic body) {
-              return DelegateModel.fromJson(body);
-            }))
+        .post(url, body: request)
+        .then((response) => mapHttpResponse<DelegateModel>(response, (body) => DelegateModel.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -277,8 +264,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
-        .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<DelegatorModel>>(response, (dynamic body) {
+        .post(url, body: request)
+        .then((response) => mapHttpResponse<List<DelegatorModel>>(response, (body) {
               final List<dynamic> allDelegator = body['rows'].toList();
               return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
             }))
@@ -295,9 +282,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 

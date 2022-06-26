@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -27,9 +26,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'), body: request)
+        .then((response) => mapHttpResponse<ProfileModel>(response, (body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
@@ -44,8 +42,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     final body = '{ "account_name": "$accountName" }';
 
     return http
-        .post(url, headers: headers, body: body)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(url, body: body)
+        .then((response) => mapHttpResponse(response, (body) {
               final List<dynamic> allAccounts = body['permissions'].toList();
               final permissions = allAccounts.map((item) => Permission.fromJson(item)).toList();
               final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
@@ -89,9 +87,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -115,8 +111,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(scoreURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ScoreModel>(response, (dynamic body) {
+        .post(scoreURL, body: request)
+        .then((response) => mapHttpResponse<ScoreModel>(response, (body) {
               return ScoreModel.fromJson(json: body, fieldName: fieldName);
             }))
         .catchError((error) => mapHttpError(error));
@@ -136,11 +132,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ReferredAccounts>(response, (dynamic body) {
-              return ReferredAccounts.fromJson(body);
-            }))
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'), body: request)
+        .then((response) => mapHttpResponse<ReferredAccounts>(response, (body) => ReferredAccounts.fromJson(body)))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -166,9 +159,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -192,9 +183,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -224,9 +213,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -277,9 +264,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -290,11 +275,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     final request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
 
     return http
-        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<bool>(response, (dynamic body) {
-              return (body['rows'] as List).isNotEmpty;
-            }))
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'), body: request)
+        .then((response) => mapHttpResponse<bool>(response, (body) => (body['rows'] as List).isNotEmpty))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -311,8 +293,8 @@ class ProfileRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<OrganizationModel>>(response, (dynamic body) {
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), body: request)
+        .then((response) => mapHttpResponse<List<OrganizationModel>>(response, (body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((i) => OrganizationModel.fromJson(i)).toList();
             }))

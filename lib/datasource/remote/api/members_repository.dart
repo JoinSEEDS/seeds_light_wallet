@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -18,8 +17,8 @@ class MembersRepository extends HttpRepository {
         limit: 1000);
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<List<ProfileModel>>(response, (body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
@@ -45,8 +44,8 @@ class MembersRepository extends HttpRepository {
         limit: 100);
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<List<ProfileModel>>(response, (body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
@@ -78,8 +77,8 @@ class MembersRepository extends HttpRepository {
     ''';
 
     return http
-        .post(mongoUrl, headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
+        .post(mongoUrl, body: params)
+        .then((response) => mapHttpResponse<List<ProfileModel>>(response, (body) {
               final List<dynamic> allAccounts = body['items'].toList();
               return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
@@ -94,8 +93,8 @@ class MembersRepository extends HttpRepository {
     final body = '{ "account_name": "$filter" }';
 
     return http
-        .post(url, headers: headers, body: body)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
+        .post(url, body: body)
+        .then((response) => mapHttpResponse<List<ProfileModel>>(response, (body) {
               return [
                 ProfileModel.usingDefaultValues(
                   account: filter,
@@ -122,8 +121,8 @@ class MembersRepository extends HttpRepository {
         upperBound: accountName);
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ProfileModel?>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<ProfileModel?>(response, (body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               if (allAccounts.isNotEmpty) {
                 return ProfileModel.fromJson(allAccounts[0]);

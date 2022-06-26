@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -28,8 +27,8 @@ class RegionRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<RegionModel>>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<List<RegionModel>>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => RegionModel.fromJson(item)).toList();
             }))
@@ -51,8 +50,8 @@ class RegionRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<RegionModel?>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<RegionModel?>(response, (body) {
               final items = List.from(body['rows']);
               return items.isEmpty ? null : RegionModel.fromJson(items.first);
             }))
@@ -77,8 +76,8 @@ class RegionRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<RegionMemberModel>>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<List<RegionMemberModel>>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => RegionMemberModel.fromJson(item)).toList();
             }))
@@ -101,8 +100,8 @@ class RegionRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<RegionMemberModel?>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<RegionMemberModel?>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               if (items.isEmpty) {
                 return null;
@@ -169,9 +168,7 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -212,9 +209,7 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -241,9 +236,7 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -270,9 +263,7 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -292,8 +283,8 @@ class RegionRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<double>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<double>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               final setting = SeedsSettingsModel.fromJson(items[0]);
               return setting.value / 10000.0; // settings values are stored with 10000 multiplier

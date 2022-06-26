@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:async/async.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
@@ -71,7 +73,10 @@ abstract class EosRepository {
   }
 
   ErrorResult mapEosError(dynamic error) {
-    print('mapEosError: $error');
+    if (kDebugMode) {
+      print('mapEosError: $error');
+    }
+    FirebaseCrashlytics.instance.log('mapEosError: $error');
     return ErrorResult(error);
   }
 }

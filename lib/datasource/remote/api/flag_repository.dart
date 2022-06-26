@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
@@ -35,9 +34,7 @@ class FlagRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -64,9 +61,7 @@ class FlagRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -88,8 +83,8 @@ class FlagRepository extends HttpRepository with EosRepository {
     print("request $request");
 
     return http
-        .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
+        .post(url, body: request)
+        .then((response) => mapHttpResponse<List<FlagModel>>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => FlagModel.fromJson(item)).toList();
             }))
@@ -112,8 +107,8 @@ class FlagRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
+        .post(url, body: request)
+        .then((response) => mapHttpResponse<List<FlagModel>>(response, (body) {
               final List<dynamic> items = body['rows'].toList();
               return items.map((item) => FlagModel.fromJson(item)).toList();
             }))

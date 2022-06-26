@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -204,8 +203,8 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final body = '{ "account_name": "$accountName" }';
 
     return http
-        .post(url, headers: headers, body: body)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(url, body: body)
+        .then((response) => mapHttpResponse(response, (body) {
               final List<dynamic> allAccounts = body['permissions'].toList();
               return allAccounts.map((item) => Permission.fromJson(item)).toList();
             }))
@@ -263,8 +262,8 @@ class GuardiansRepository extends EosRepository with HttpRepository {
         upperBound: accountName);
 
     return http
-        .post(Uri.parse(requestURL), headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(Uri.parse(requestURL), body: request)
+        .then((response) => mapHttpResponse(response, (body) {
               final rows = body["rows"] as List<dynamic>;
               return UserRecoversModel.fromTableRows(rows);
             }))
@@ -285,8 +284,8 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     );
 
     return http
-        .post(Uri.parse(requestURL), headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(Uri.parse(requestURL), body: request)
+        .then((response) => mapHttpResponse(response, (body) {
               final rows = body["rows"] as List<dynamic>;
               return UserGuardiansModel.fromTableRows(rows);
             }))

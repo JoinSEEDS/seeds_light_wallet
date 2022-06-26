@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:7d2393ccb8b3bdda1a3413",
+        "mobilesdk_app_id": "1:366914936426:android:978896cb9d8996661a3413",
         "android_client_info": {
-          "package_name": "com.joinseeds.seedswallet"
+          "package_name": "com.joinseeds.parq"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "366914936426-kn6vumn468dl6vc1rdp9ircp6v9ehufg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.joinseeds.seedswallet",
-            "certificate_hash": "ada86e0a7e0067084ed872e08681b2104aaf5270"
-          }
-        },
         {
           "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
           "client_type": 3
@@ -53,18 +45,18 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:389b18d13a862a531a3413",
+        "mobilesdk_app_id": "1:366914936426:android:7d2393ccb8b3bdda1a3413",
         "android_client_info": {
-          "package_name": "com.joinseeds.wallet"
+          "package_name": "com.joinseeds.seedswallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com",
+          "client_id": "366914936426-kn6vumn468dl6vc1rdp9ircp6v9ehufg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.joinseeds.wallet",
-            "certificate_hash": "1d4a3d87c78e5d83f8b7c7fb5240f10fe072132f"
+            "package_name": "com.joinseeds.seedswallet",
+            "certificate_hash": "ada86e0a7e0067084ed872e08681b2104aaf5270"
           }
         },
         {

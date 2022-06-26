@@ -10,16 +10,12 @@ class KeyAccountsRepository extends HttpRepository {
     final body = '{ "public_key": "$publicKey" }';
 
     return http
-        .post(url, headers: headers, body: body)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              print('result: $body');
-
+        .post(url, body: body)
+        .then((response) => mapHttpResponse(response, (body) {
               final result = List<String>.from(body['account_names']);
-
               result.sort();
-
               return result;
             }))
-        .catchError((dynamic error) => mapHttpError(error));
+        .catchError((error) => mapHttpError(error));
   }
 }

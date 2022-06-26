@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:async/async.dart';
 
 import 'package:seeds/crypto/eosdart/eosdart.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
@@ -61,9 +60,7 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 
@@ -79,8 +76,8 @@ class InviteRepository extends HttpRepository with EosRepository {
         limit: 1000);
 
     return http
-        .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
+        .post(membersURL, body: request)
+        .then((response) => mapHttpResponse<ProfileModel>(response, (body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
             }))
@@ -103,8 +100,8 @@ class InviteRepository extends HttpRepository with EosRepository {
         keyType: "sha256");
 
     return http
-        .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<InviteModel>>(response, (dynamic body) {
+        .post(inviteURL, body: request)
+        .then((response) => mapHttpResponse<List<InviteModel>>(response, (body) {
               final List<dynamic> invite = body['rows'].toList();
               return invite.map((item) => InviteModel.fromJson(item)).toList();
             }))
@@ -127,8 +124,8 @@ class InviteRepository extends HttpRepository with EosRepository {
     );
 
     return http
-        .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<InviteModel>>(response, toDomainInviteModel))
+        .post(inviteURL, body: request)
+        .then((response) => mapHttpResponse<List<InviteModel>>(response, toDomainInviteModel))
         .catchError((e) => mapHttpError(e));
   }
 
@@ -155,9 +152,7 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
+        .then((response) => mapEosResponse<TransactionResponse>(response, (body) => TransactionResponse.fromJson(body)))
         .catchError((error) => mapEosError(error));
   }
 }

@@ -4,7 +4,6 @@ import 'package:async/async.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
@@ -35,11 +34,8 @@ class SignupRepository extends EosRepository with HttpRepository {
     final requestBody = '{ "account_name": "$username" }';
 
     return http
-        .post(
-          Uri.parse(keyAccountsURL),
-          body: requestBody,
-        )
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .post(Uri.parse(keyAccountsURL), body: requestBody)
+        .then((response) => mapHttpResponse(response, (body) {
               // Username exists on the blockchain and is not available
               return null;
             }))
