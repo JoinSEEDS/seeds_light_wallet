@@ -8,6 +8,14 @@ import 'package:seeds/utils/build_context_extension.dart';
 class PlantSeedsSuccessDialog extends StatelessWidget {
   const PlantSeedsSuccessDialog({super.key});
 
+  Future<void> show(BuildContext context, PlantSeedsBloc plantSeedsBloc) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => BlocProvider.value(value: plantSeedsBloc, child: this),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

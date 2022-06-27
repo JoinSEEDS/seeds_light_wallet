@@ -20,6 +20,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 
 class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,24 +31,15 @@ class PlantSeedsScreen extends StatelessWidget {
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final pageCommand = state.pageCommand;
-
             if (pageCommand is ShowPlantSeedsSuccess) {
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false,
-                builder: (_) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<PlantSeedsBloc>(context),
-                    child: const PlantSeedsSuccessDialog(),
-                  );
-                },
-              );
+              const PlantSeedsSuccessDialog().show(context, BlocProvider.of<PlantSeedsBloc>(context));
             }
             if (pageCommand is ShowError) {
               eventBus.fire(ShowSnackBar(pageCommand.error.localizedDescription(context)));
             }
           },
-          builder: (context, PlantSeedsState state) {
+          buildWhen: (previous, current) => previous.pageState != current.pageState,
+          builder: (context, state) {
             switch (state.pageState) {
               case PageState.loading:
                 return const FullPageLoadingIndicator();
@@ -91,14 +83,21 @@ class PlantSeedsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                          title: context.loc.plantSeedsPlantButtonTitle,
-                          enabled: state.isPlantSeedsButtonEnabled,
-                          onPressed: () =>
-                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
-                        ),
+                      BlocBuilder<PlantSeedsBloc, PlantSeedsState>(
+                        buildWhen: (previous, current) {
+                          return previous.isPlantSeedsButtonEnabled != current.isPlantSeedsButtonEnabled;
+                        },
+                        builder: (context, state) {
+                          return Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FlatButtonLong(
+                              title: context.loc.plantSeedsPlantButtonTitle,
+                              enabled: state.isPlantSeedsButtonEnabled,
+                              onPressed: () =>
+                                  BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
