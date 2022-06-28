@@ -16,7 +16,7 @@ class ChooseRegionId extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CreateRegionBloc, CreateRegionState>(
+    return BlocListener<CreateRegionBloc, CreateRegionState>(
       listenWhen: (_, current) => current.pageCommand != null,
       listener: (context, state) {
         final pageCommand = state.pageCommand;
@@ -26,63 +26,72 @@ class ChooseRegionId extends StatelessWidget {
         }
         BlocProvider.of<CreateRegionBloc>(context).add(const ClearCreateRegionPageCommand());
       },
-      builder: (context, state) {
-        return WillPopScope(
-          onWillPop: () async {
-            BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
-            return false;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-                leading:
-                    BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
-                title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
-            body: SafeArea(
-              minimum: const EdgeInsets.all(horizontalEdgePadding),
-              child: Stack(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                          child: Container(
-                              width: 60,
-                              height: 60,
-                              child: AuthenticationStatus(authenticationIdState: state.regionIdValidationStatus))),
-                      const SizedBox(height: 10),
-                      TextFormFieldCustom(
+      child: WillPopScope(
+        onWillPop: () async {
+          BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
+          return false;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
+            title: Text(context.loc.createRegionSelectRegionAppBarTitle),
+          ),
+          body: SafeArea(
+            minimum: const EdgeInsets.all(horizontalEdgePadding),
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Center(child: AuthenticationStatus()),
+                    const SizedBox(height: 10),
+                    BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                      buildWhen: (previous, current) {
+                        return previous.regionIdErrorMessage != current.regionIdErrorMessage ||
+                            previous.regionId != current.regionId;
+                      },
+                      builder: (context, state) {
+                        return TextFormFieldCustom(
                           errorText: state.regionIdErrorMessage,
                           initialValue: state.regionId,
                           maxLength: 8,
                           suffixText: ".rgn",
                           autofocus: true,
                           labelText: context.loc.createRegionChooseRegionIdInputFormTitle,
-                          onChanged: (val) => BlocProvider.of<CreateRegionBloc>(context).add(OnRegionIdChange(val))),
-                      const SizedBox(height: 20),
-                      Text(context.loc.createRegionChooseRegionIdDescription1,
-                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
-                      const SizedBox(height: 20),
-                      Text(context.loc.createRegionChooseRegionIdDescription2,
-                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
-                      const SizedBox(height: 20),
-                      Text(context.loc.createRegionChooseRegionIdDescription3,
-                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButtonLong(
-                      enabled: state.regionIdValidationStatus == RegionIdStatusIcon.valid,
-                      title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
-                      onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
+                          onChanged: (val) => BlocProvider.of<CreateRegionBloc>(context).add(OnRegionIdChange(val)),
+                        );
+                      },
                     ),
-                  )
-                ],
-              ),
+                    const SizedBox(height: 20),
+                    Text(context.loc.createRegionChooseRegionIdDescription1,
+                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                    const SizedBox(height: 20),
+                    Text(context.loc.createRegionChooseRegionIdDescription2,
+                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+                    const SizedBox(height: 20),
+                    Text(context.loc.createRegionChooseRegionIdDescription3,
+                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                    buildWhen: (previous, current) =>
+                        previous.regionIdValidationStatus != current.regionIdValidationStatus,
+                    builder: (context, state) {
+                      return FlatButtonLong(
+                        enabled: state.regionIdValidationStatus == RegionIdStatusIcon.valid,
+                        title: "${context.loc.createRegionSelectRegionButtonTitle} (3/5)",
+                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
+                      );
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

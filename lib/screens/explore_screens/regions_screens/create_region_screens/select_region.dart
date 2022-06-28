@@ -10,27 +10,35 @@ class SelectRegion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateRegionBloc, CreateRegionState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {},
-        child: BlocBuilder<CreateRegionBloc, CreateRegionState>(builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
-              bottomNavigationBar: SafeArea(
-                  minimum: const EdgeInsets.all(16),
-                  child: FlatButtonLong(
-                      enabled: state.currentPlace != null,
-                      title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)",
-                      onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()))),
-              body: SafeArea(
-                  minimum: const EdgeInsets.all(16),
-                  child: Column(children: [
-                    Text(context.loc.createRegionSelectRegionDescription),
-                    const SizedBox(height: 20),
-                    Expanded(child: RegionsMap(onPlaceChanged: (place) {
-                      BlocProvider.of<CreateRegionBloc>(context).add(OnUpdateMapLocation(place));
-                    }))
-                  ])));
-        }));
+    return Scaffold(
+      appBar: AppBar(title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
+      body: SafeArea(
+        minimum: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(context.loc.createRegionSelectRegionDescription),
+            const SizedBox(height: 20),
+            Expanded(
+              child: RegionsMap(onPlaceChanged: (place) {
+                BlocProvider.of<CreateRegionBloc>(context).add(OnUpdateMapLocation(place));
+              }),
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.all(16),
+        child: BlocBuilder<CreateRegionBloc, CreateRegionState>(
+          buildWhen: (previous, current) => previous.currentPlace != current.currentPlace,
+          builder: (context, state) {
+            return FlatButtonLong(
+              enabled: state.currentPlace != null,
+              title: "${context.loc.createRegionSelectRegionButtonTitle} (1/5)",
+              onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

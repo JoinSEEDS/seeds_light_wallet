@@ -12,26 +12,27 @@ class AddRegionDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateRegionBloc, CreateRegionState>(
-      builder: (context, state) {
-        return WillPopScope(
-          onWillPop: () async {
-            BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
-            return false;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-                leading:
-                    BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
-                title: Text(context.loc.createRegionSelectRegionAppBarTitle)),
-            body: SafeArea(
-              minimum: const EdgeInsets.all(horizontalEdgePadding),
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        TextFormFieldCustom(
+    return WillPopScope(
+      onWillPop: () async {
+        BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
+          title: Text(context.loc.createRegionSelectRegionAppBarTitle),
+        ),
+        body: SafeArea(
+          minimum: const EdgeInsets.all(horizontalEdgePadding),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                      buildWhen: (previous, current) => previous.regionDescription != current.regionDescription,
+                      builder: (context, state) {
+                        return TextFormFieldCustom(
                           initialValue: state.regionDescription,
                           autofocus: true,
                           maxLines: 10,
@@ -39,25 +40,32 @@ class AddRegionDescription extends StatelessWidget {
                           onChanged: (text) {
                             BlocProvider.of<CreateRegionBloc>(context).add(OnRegionDescriptionChange(text));
                           },
-                        ),
-                        const SizedBox(height: 20),
-                        Text(context.loc.createRegionAddDescriptionPageInfo,
-                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-                      ],
+                        );
+                      },
                     ),
-                  ),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FlatButtonLong(
-                          enabled: state.regionDescription.isNotEmpty,
-                          title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
-                          onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped())))
-                ],
+                    const SizedBox(height: 20),
+                    Text(context.loc.createRegionAddDescriptionPageInfo,
+                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                  ],
+                ),
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                  buildWhen: (previous, current) => previous.regionDescription != current.regionDescription,
+                  builder: (context, state) {
+                    return FlatButtonLong(
+                      enabled: state.regionDescription.isNotEmpty,
+                      title: "${context.loc.createRegionSelectRegionButtonTitle} (4/5)",
+                      onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnNextTapped()),
+                    );
+                  },
+                ),
+              )
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

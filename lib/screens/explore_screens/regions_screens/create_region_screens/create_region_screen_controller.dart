@@ -15,9 +15,7 @@ class CreateRegionScreenController extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CreateRegionBloc(),
-      child: BlocConsumer<CreateRegionBloc, CreateRegionState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {},
+      child: BlocBuilder<CreateRegionBloc, CreateRegionState>(
         buildWhen: (previous, current) => previous.createRegionsScreens != current.createRegionsScreens,
         builder: (_, state) {
           final CreateRegionScreen createRegionsScreens = state.createRegionsScreens;

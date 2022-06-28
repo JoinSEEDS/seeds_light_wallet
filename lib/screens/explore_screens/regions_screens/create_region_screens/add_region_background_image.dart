@@ -16,7 +16,7 @@ class AddRegionBackgroundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CreateRegionBloc, CreateRegionState>(
+    return BlocListener<CreateRegionBloc, CreateRegionState>(
       listenWhen: (previous, current) => current.pageCommand != null,
       listener: (context, state) {
         if (state.pageCommand != null) {
@@ -27,52 +27,71 @@ class AddRegionBackgroundImage extends StatelessWidget {
           BlocProvider.of<CreateRegionBloc>(context).add(const ClearCreateRegionPageCommand());
         }
       },
-      builder: (context, CreateRegionState state) {
-        return WillPopScope(
-          onWillPop: () async {
-            BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
-            return false;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              leading:
-                  BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
-              title: Text(context.loc.createRegionSelectRegionAppBarTitle),
-            ),
-            bottomNavigationBar: SafeArea(
-                minimum: const EdgeInsets.all(horizontalEdgePadding),
-                child: FlatButtonLong(
-                    isLoading: state.isNextButtonLoading,
-                    enabled: state.file != null,
-                    title: "${context.loc.createRegionSelectRegionButtonTitle} (5/5)",
-                    onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImageNextTapped()))),
-            body: SafeArea(
-              minimum: const EdgeInsets.all(horizontalEdgePadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  SelectPictureBox(
+      child: WillPopScope(
+        onWillPop: () async {
+          BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed());
+          return false;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: BackButton(onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnBackPressed())),
+            title: Text(context.loc.createRegionSelectRegionAppBarTitle),
+          ),
+          body: SafeArea(
+            minimum: const EdgeInsets.all(horizontalEdgePadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                  buildWhen: (previous, current) {
+                    return previous.pictureBoxState != current.pictureBoxState || previous.file != current.file;
+                  },
+                  builder: (context, state) {
+                    return SelectPictureBox(
                       pictureBoxState: state.pictureBoxState,
                       backgroundImage: state.file,
                       title: context.loc.createRegionAddBackGroundImageBoxTitle,
-                      onTap: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage())),
-                  const SizedBox(height: 10),
-                  if (state.file != null)
-                    FlatButtonShort(
-                        title: 'Replace Image',
-                        onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage()))
-                  else
-                    const SizedBox.shrink(),
-                  const SizedBox(height: 20),
-                  Text(context.loc.createRegionAddBackGroundImageAcceptedFilesTitle,
-                      style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-                ],
-              ),
+                      onTap: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<CreateRegionBloc, CreateRegionState>(
+                  buildWhen: (previous, current) => previous.file != current.file,
+                  builder: (context, state) {
+                    return state.file != null
+                        ? FlatButtonShort(
+                            title: 'Replace Image',
+                            onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImage()),
+                          )
+                        : const SizedBox.shrink();
+                  },
+                ),
+                const SizedBox(height: 20),
+                Text(context.loc.createRegionAddBackGroundImageAcceptedFilesTitle,
+                    style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+              ],
             ),
           ),
-        );
-      },
+          bottomNavigationBar: SafeArea(
+            minimum: const EdgeInsets.all(horizontalEdgePadding),
+            child: BlocBuilder<CreateRegionBloc, CreateRegionState>(
+              buildWhen: (previous, current) {
+                return previous.isNextButtonLoading != current.isNextButtonLoading || previous.file != current.file;
+              },
+              builder: (context, state) {
+                return FlatButtonLong(
+                  isLoading: state.isNextButtonLoading,
+                  enabled: state.file != null,
+                  title: "${context.loc.createRegionSelectRegionButtonTitle} (5/5)",
+                  onPressed: () => BlocProvider.of<CreateRegionBloc>(context).add(const OnPickImageNextTapped()),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
