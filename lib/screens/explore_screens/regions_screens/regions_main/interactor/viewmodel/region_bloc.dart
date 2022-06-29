@@ -48,9 +48,13 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
         pageCommand: NavigateToRouteWithArguments(route: Routes.createRegionEvent, arguments: state.region)));
   }
 
-  Stream<List<RegionMessageModel>> get regionMessages => _firebaseRepository.getMessagesForRegion(state.region!.id);
+  Stream<List<RegionMessageModel>> get regionMessages {
+    return state.region != null ? _firebaseRepository.getMessagesForRegion(state.region!.id) : const Stream.empty();
+  }
 
-  Stream<List<RegionEventModel>> get regionEvents => _firebaseRepository.getEventsForRegion(state.region!.id);
+  Stream<List<RegionEventModel>> get regionEvents {
+    return state.region != null ? _firebaseRepository.getEventsForRegion(state.region!.id) : const Stream.empty();
+  }
 
   Future<void> _onRegionMounted(OnRegionMounted event, Emitter<RegionState> emit) async {
     if (state.region == null) {
