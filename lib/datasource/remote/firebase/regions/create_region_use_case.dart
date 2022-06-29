@@ -38,15 +38,19 @@ class CreateRegionUseCase extends InputUseCase<TransactionResponse, _Input> {
     );
 
     if (firebaseResult.isValue) {
+      final fee = await _regionRepository.getRegionFee();
+
       /// Save to chain
       final Result<TransactionResponse> createRegionResult = await _regionRepository.create(
-          userAccount: input.userAccount,
-          regionAccount: input.regionAccount,
-          title: input.title,
-          description: input.description,
-          latitude: input.latitude,
-          longitude: input.longitude,
-          regionAddress: input.regionAddress);
+        userAccount: input.userAccount,
+        regionAccount: input.regionAccount,
+        title: input.title,
+        description: input.description,
+        latitude: input.latitude,
+        longitude: input.longitude,
+        regionAddress: input.regionAddress,
+        regionFee: fee.asValue!.value,
+      );
 
       if (createRegionResult.isValue) {
         /// Happy Path, Region is fully created.
