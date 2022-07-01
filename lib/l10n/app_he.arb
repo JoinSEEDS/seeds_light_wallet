@@ -282,7 +282,6 @@
   "@explorerRegionsItemTitle": {},
   "verificationScreenButtonTitle": "השתמש בביומטריה לפתיחה",
   "@verificationScreenButtonTitle": {},
-  "createRegionNotEnoughSeedsDialogSubtitle": "זה נראה שאין לך מספיק סידס ליצירת אזור. אנא הקלק בלינק למטה כדי לקנות סידס מהאתר הרשמי שלנו.",
   "@createRegionNotEnoughSeedsDialogSubtitle": {},
   "inviteBalanceMapperError": "טעות בהעלאת היתרה הנוכחים",
   "@inviteBalanceMapperError": {},
