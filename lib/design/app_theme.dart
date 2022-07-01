@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/design/app_color_schemes.dart';
 import 'package:seeds/design/app_colors.dart';
 
 class SeedsAppTheme {
+  // TODO(gguij004): not completed, next pr will add more themes.
+  static ThemeData get newDarkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: AppColorSchemes.darkColorScheme,
+      appBarTheme: const AppBarTheme(
+          elevation: 0.0, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600) // headline7
+          ),
+      scaffoldBackgroundColor: AppColorSchemes.darkColorScheme.background,
+      bottomNavigationBarTheme:
+          BottomNavigationBarThemeData(backgroundColor: AppColorSchemes.darkColorScheme.background),
+      fontFamily: 'SFProDisplay',
+      textTheme: SeedsTextTheme.darkTheme,
+      inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        contentTextStyle: TextStyle(color: AppColorSchemes.darkColorScheme.onBackground),
+      ),
+      indicatorColor: AppColorSchemes.darkColorScheme.secondary,
+    );
+  }
+
   static ThemeData get lightTheme {
     return ThemeData(
       primaryColor: AppColors.primary,
