@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/viewmodel/region_bloc.dart';
 
 class SetRegionStateMapper extends StateMapper {
-  RegionState mapResultToState(RegionState currentState, List<Result> results) {
+  RegionState mapResultToState(RegionState currentState, List<Result> results, {required bool isBrowseView}) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure);
     } else {
@@ -28,7 +28,7 @@ class SetRegionStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         loadingEvents: false,
-        isBrowseView: false,
+        isBrowseView: isBrowseView,
         userType: typeOfUser,
         region: firebaseRegion != null ? region?.addImageUrlToModel(firebaseRegion.imageUrl) : region,
       );
