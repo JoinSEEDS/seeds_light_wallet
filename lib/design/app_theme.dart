@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_color_schemes.dart';
 import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/design/seeds_material_widgets_themes.dart';
 
 class SeedsAppTheme {
   // TODO(gguij004): not completed, next pr will add more themes.
   static ThemeData get newDarkTheme {
+    //canvasColor: BottomNavigationBar background color
     return ThemeData(
       useMaterial3: true,
       colorScheme: AppColorSchemes.darkColorScheme,
-      appBarTheme: const AppBarTheme(
-          elevation: 0.0, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600) // headline7
-          ),
       scaffoldBackgroundColor: AppColorSchemes.darkColorScheme.background,
-      bottomNavigationBarTheme:
-          BottomNavigationBarThemeData(backgroundColor: AppColorSchemes.darkColorScheme.background),
+      canvasColor: AppColorSchemes.darkColorScheme.background,
       fontFamily: 'SFProDisplay',
-      textTheme: SeedsTextTheme.darkTheme,
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
-      snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        contentTextStyle: TextStyle(color: AppColorSchemes.darkColorScheme.onBackground),
-      ),
       indicatorColor: AppColorSchemes.darkColorScheme.secondary,
+      textTheme: SeedsTextTheme.darkTheme,
+      appBarTheme: SeedsMaterialWidgetThemes.appBarThemeData,
+      snackBarTheme: SeedsMaterialWidgetThemes.snackBarThemeData,
+      sliderTheme: SeedsMaterialWidgetThemes.sliderDarkThemeData
     );
   }
 

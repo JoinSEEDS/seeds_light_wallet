@@ -3,20 +3,21 @@ import 'package:seeds/design/app_colors.dart';
 
 class AppColorSchemes {
   // TODO(gguij004): not completed or being used yet, most colors are just there for testing.
+  // surface: AppBar color
   static const ColorScheme darkColorScheme = ColorScheme(
     surfaceTint: Colors.brown,
-    primaryContainer: Colors.amber,
+    primaryContainer: AppColors.white,
     background: AppColors.primary,
     onBackground: AppColors.white,
-    primary: AppColors.purple,
-    secondary: AppColors.green1,
+    primary: AppColors.green1,
+    onPrimary: AppColors.white,
+    secondary: AppColors.primary,
+    onSecondary: AppColors.white,
     surface: AppColors.primary,
     onSurface: AppColors.white,
-    onPrimary: Colors.purple,
-    onSecondary: Colors.blueAccent,
+    error: Colors.red,
     onError: Colors.blueAccent,
     brightness: Brightness.dark,
-    error: Colors.deepOrange,
     // errorContainer: Colors.deepOrange,
     // inversePrimary: Colors.deepOrange,
     // inverseSurface: Colors.deepOrange,

@@ -31,7 +31,7 @@ class Snack extends SnackBar {
           duration: duration,
           content: Row(
             children: [
-              Expanded(child: Text(title, textAlign: TextAlign.center)),
+              Expanded(child: Text(title, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.white))),
               InkWell(
                 onTap: () => scaffoldMessengerState.hideCurrentSnackBar(),
                 child: const Icon(Icons.close),
