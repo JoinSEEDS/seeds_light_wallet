@@ -57,6 +57,12 @@ class OnApproveGuardianRecoveryTapped extends AppEvent {
   String toString() => 'OnApproveGuardianRecoveryTapped';
 }
 
+class OnDeepRegionReceived extends AppEvent {
+  const OnDeepRegionReceived();
+  @override
+  String toString() => 'OnApproveGuardianRecoveryTapped';
+}
+
 class OnDismissGuardianRecoveryTapped extends AppEvent {
   @override
   String toString() => 'OnDismissGuardianRecoveryTapped';

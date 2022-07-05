@@ -14,6 +14,13 @@ class OnRegionMounted extends RegionEvent {
   String toString() => 'OnRegionMounted';
 }
 
+class OnShareRegionPressed extends RegionEvent {
+  const OnShareRegionPressed();
+
+  @override
+  String toString() => 'OnShareRegionPressed';
+}
+
 class OnJoinRegionButtonPressed extends RegionEvent {
   const OnJoinRegionButtonPressed();
 

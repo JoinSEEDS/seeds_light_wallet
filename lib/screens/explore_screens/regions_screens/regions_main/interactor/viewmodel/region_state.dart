@@ -8,15 +8,18 @@ class RegionState extends Equatable {
   final RegionModel? region;
   final bool isBrowseView;
   final TypeOfUsers? userType;
+  final String? deepLinkRegionId;
   final bool loadingEvents;
 
-  const RegionState(
-      {this.pageCommand,
-      required this.pageState,
-      this.region,
-      required this.isBrowseView,
-      this.userType,
-      required this.loadingEvents,});
+  const RegionState({
+    this.pageCommand,
+    required this.pageState,
+    this.region,
+    required this.isBrowseView,
+    this.userType,
+    this.deepLinkRegionId,
+    required this.loadingEvents,
+  });
 
   @override
   List<Object?> get props => [
@@ -25,6 +28,7 @@ class RegionState extends Equatable {
         region,
         isBrowseView,
         userType,
+        deepLinkRegionId,
         loadingEvents,
       ];
 
@@ -36,6 +40,7 @@ class RegionState extends Equatable {
     RegionModel? region,
     bool? isBrowseView,
     TypeOfUsers? userType,
+    String? deepLinkRegionId,
     bool? loadingEvents,
   }) {
     return RegionState(
@@ -44,15 +49,17 @@ class RegionState extends Equatable {
       region: region ?? this.region,
       isBrowseView: isBrowseView ?? this.isBrowseView,
       userType: userType ?? this.userType,
+      deepLinkRegionId: deepLinkRegionId ?? this.deepLinkRegionId,
       loadingEvents: loadingEvents ?? this.loadingEvents,
     );
   }
 
-  factory RegionState.initial(RegionModel? region) {
+  factory RegionState.initial(RegionModel? region, String? deepLinkRegionId) {
     return RegionState(
       pageState: PageState.success,
       isBrowseView: region != null,
       region: region,
+      deepLinkRegionId: deepLinkRegionId,
       loadingEvents: true,
     );
   }

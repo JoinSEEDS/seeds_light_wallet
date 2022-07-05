@@ -12,36 +12,25 @@ class GetInitialDeepLinkUseCase {
     final placeHolder = splitUri[0];
     final linkData = splitUri[1];
 
-    var deepLinkPlaceHolder = DeepLinkPlaceHolder.linkUnknown;
-    if (placeHolder.contains("guardian")) {
-      final SeedsESR request = SeedsESR(uri: linkData);
+    final deepLinkPlaceHolder = DeepLinkPlaceHolder.values
+        .singleWhere((i) => placeHolder.contains(i.name), orElse: () => DeepLinkPlaceHolder.unknown);
 
-      await request.resolve(account: settingsStorage.accountName);
-      final action = request.actions.first;
-      final data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
-
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkGuardians;
-      return DeepLinkData(data, deepLinkPlaceHolder);
-    } else if (placeHolder.contains("invite")) {
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvite;
-      return DeepLinkData(
-        {"Mnemonic": linkData},
-        deepLinkPlaceHolder,
-      );
-    } else if (placeHolder.contains("invoice")) {
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvoice;
-      final Result esrData = await getSigningRequestUseCase.run(linkData);
-
-      return DeepLinkData(
-        {"invoice": esrData},
-        deepLinkPlaceHolder,
-      );
-    } else {
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkUnknown;
-      return DeepLinkData(
-        {},
-        deepLinkPlaceHolder,
-      );
+    switch (deepLinkPlaceHolder) {
+      case DeepLinkPlaceHolder.guardian:
+        final SeedsESR request = SeedsESR(uri: linkData);
+        await request.resolve(account: settingsStorage.accountName);
+        final action = request.actions.first;
+        final data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
+        return DeepLinkData(data, deepLinkPlaceHolder);
+      case DeepLinkPlaceHolder.invite:
+        return DeepLinkData({'Mnemonic': linkData}, deepLinkPlaceHolder);
+      case DeepLinkPlaceHolder.region:
+        return DeepLinkData({'region': linkData}, deepLinkPlaceHolder);
+      case DeepLinkPlaceHolder.invoice:
+        final Result esrData = await getSigningRequestUseCase.run(linkData);
+        return DeepLinkData({'invoice': esrData}, deepLinkPlaceHolder);
+      default:
+        return DeepLinkData({}, deepLinkPlaceHolder);
     }
   }
 }
