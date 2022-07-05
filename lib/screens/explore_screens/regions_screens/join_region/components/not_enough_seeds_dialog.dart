@@ -9,6 +9,10 @@ import 'package:url_launcher/url_launcher.dart';
 class NotEnoughSeedsDialog extends StatelessWidget {
   const NotEnoughSeedsDialog({super.key});
 
+  Future<void> show(BuildContext context) async {
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
