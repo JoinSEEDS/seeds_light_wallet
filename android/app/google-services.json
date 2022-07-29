@@ -1,96 +1,41 @@
 {
   "project_info": {
-    "project_number": "366914936426",
-    "firebase_url": "https://seeds-77371.firebaseio.com",
-    "project_id": "seeds-77371",
-    "storage_bucket": "seeds-77371.appspot.com"
+    "project_number": "175601130491",
+    "project_id": "seedswallet-rainbow",
+    "storage_bucket": "seedswallet-rainbow.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:7d2393ccb8b3bdda1a3413",
+        "mobilesdk_app_id": "1:175601130491:android:310ba738f0b10f5674895e",
         "android_client_info": {
-          "package_name": "com.joinseeds.seedswallet"
+          "package_name": "xyz.cc42.seedswallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "366914936426-kn6vumn468dl6vc1rdp9ircp6v9ehufg.apps.googleusercontent.com",
+          "client_id": "175601130491-apa2lerm4ep1nq9k4ae8b0jgctdj7l8t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.joinseeds.seedswallet",
-            "certificate_hash": "ada86e0a7e0067084ed872e08681b2104aaf5270"
+            "package_name": "xyz.cc42.seedswallet",
+            "certificate_hash": "7384bd150beab2589724c344fd5177b64fa8d7f7"
           }
         },
         {
-          "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
+          "client_id": "175601130491-fm0d57pbtter0eg3873g0rajvlk8qjj0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZXBIoUmP6kWF0rDoT13EI0FaAqh_nGdw"
-        }
+          "current_key": "AIzaSyBCiP2wVcX3LIVOOzVY7mDk9HP__gny2Ic"        }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
+              "client_id": "175601130491-fm0d57pbtter0eg3873g0rajvlk8qjj0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.joinseeds.seedslight",
-                "app_store_id": "1507143650"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:389b18d13a862a531a3413",
-        "android_client_info": {
-          "package_name": "com.joinseeds.wallet"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.joinseeds.wallet",
-            "certificate_hash": "1d4a3d87c78e5d83f8b7c7fb5240f10fe072132f"
-          }
-        },
-        {
-          "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAZXBIoUmP6kWF0rDoT13EI0FaAqh_nGdw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.joinseeds.seedslight",
-                "app_store_id": "1507143650"
-              }
             }
           ]
         }
