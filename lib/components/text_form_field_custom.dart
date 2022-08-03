@@ -28,11 +28,13 @@ class TextFormFieldCustom extends StatelessWidget {
   final bool? disabledLabelColor;
   final String? errorText;
   final String? counterText;
+  final bool autoCorrect;
 
   const TextFormFieldCustom(
       {super.key,
       this.initialValue,
       this.autofocus = false,
+      this.autoCorrect = true,
       this.focusNode,
       this.nextFocus,
       this.onFieldSubmitted,
@@ -61,6 +63,7 @@ class TextFormFieldCustom extends StatelessWidget {
       child: TextFormField(
         initialValue: initialValue,
         autofocus: autofocus,
+        autocorrect: autoCorrect,
         focusNode: focusNode,
         onFieldSubmitted: onFieldSubmitted,
         textInputAction: textInputAction,
