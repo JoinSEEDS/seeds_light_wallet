@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.9.301+83
+version: 2.9.301+1
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -36,6 +36,7 @@ dependencies:
   firebase_storage: ^10.1.0
   cloud_firestore: ^3.1.0
   firebase_remote_config: ^0.11.0+2
+  firebase_analytics: ^9.3.0
   geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4

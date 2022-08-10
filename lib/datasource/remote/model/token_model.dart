@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:async/async.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,13 @@ class TokenModel extends Equatable {
   String get id => "$contract#$symbol";
 
   ImageProvider get backgroundImage {
-    return
-      backgroundImageUrl.startsWith("assets") ?
+    try {
+      return backgroundImageUrl.startsWith("assets") ?
       AssetImage(backgroundImageUrl) as ImageProvider :
-      NetworkImage(backgroundImageUrl);
+      CachedNetworkImageProvider(backgroundImageUrl);
+    } catch (e) {
+      return const AssetImage(CurrencyInfoCard.defaultBgImage) as ImageProvider;
+    }
   }
   ImageProvider get logo {
     return

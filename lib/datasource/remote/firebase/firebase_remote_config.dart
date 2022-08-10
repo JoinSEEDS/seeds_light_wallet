@@ -83,7 +83,7 @@ class _FirebaseRemoteConfigService {
     /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       minimumFetchInterval: const Duration(seconds: 60),
-      fetchTimeout: const Duration(seconds: 60),
+      fetchTimeout: const Duration(seconds: 5),
     ));
 
     refresh();
