@@ -20,9 +20,8 @@ Future<void> main() async {
   // Zone to handle asynchronous errors (Dart).
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
-    var udpLog = UdpLogger();
     await udpLog.setSender();
-    await udpLog.setTarget("192.168.1.130",2222);
+    await udpLog.setTarget("192.168.1.130",22222);
     var rr = await udpLog.log("Bonjour!\n");
     print("udpLog: $rr");
     WidgetsFlutterBinding.ensureInitialized();

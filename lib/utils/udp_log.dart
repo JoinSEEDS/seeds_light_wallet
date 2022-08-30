@@ -27,3 +27,4 @@ class UdpLogger extends Equatable {
   List<Object?> get props => [targetEndpoint];
 }
 
+var udpLog = UdpLogger();
