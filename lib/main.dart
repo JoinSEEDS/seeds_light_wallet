@@ -22,17 +22,13 @@ Future<void> main() async {
   await runZonedGuarded(() async {
     await udpLog.setSender();
     await udpLog.setTarget("192.168.1.130",22222);
-    await udpLog.log("Bonjour!\n");
+    var rr = await udpLog.log("Bonjour!\n");
+    print("udpLog: $rr");
     WidgetsFlutterBinding.ensureInitialized();
-    await udpLog.log("Firebase init\n");
     await Firebase.initializeApp();
-    await udpLog.log("Settings storage\n");
     await settingsStorage.initialise();
-    await udpLog.log("PushNotification\n");
     await PushNotificationService().initialise();
-    await udpLog.log("remoteconfig\n");
     await remoteConfigurations.initialise();
-    await udpLog.log("token models\n");
     await TokenModel.installModels(['lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
     await udpLog.log("Token models installed.\n");
     await Hive.initFlutter();
@@ -57,6 +53,5 @@ Future<void> main() async {
     }
   }, (error, stackTrace) async {
     //await FirebaseCrashlytics.instance.recordError(error, stack);
-    await udpLog.log("caught $error");
   });
 }
