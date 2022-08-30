@@ -44,7 +44,7 @@ dependencies:
   carousel_slider: ^4.0.0
   qr_flutter: ^4.0.0
   image_picker: ^0.8.5+3
-  qr_code_scanner: ^1.0.0
+  qr_code_scanner: ^1.0.1
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.2.1
