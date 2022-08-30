@@ -9,6 +9,7 @@ import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
+import 'package:seeds/utils/udp_log.dart';
 
 
 class TokenModel extends Equatable {
@@ -99,7 +100,7 @@ class TokenModel extends Equatable {
         symbol: parsedJson["symbol"]!,
         name: parsedJson["name"]!,
         logoUrl: parsedJson["logo"]!,
-        balanceSubTitle: parsedJson["subtitle"],
+        balanceSubTitle: parsedJson["subtitle"] ?? "Balance",
         backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
         precision: parsedJson["precision"] ?? 4,
         usecases: parsedJson["usecases"],
@@ -123,6 +124,7 @@ class TokenModel extends Equatable {
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
     final selector = TokenModelSelector(acceptList: acceptList, infoList: infoList);
+    await udpLog.log("run GetTokenModelsUseCase\n");
     final tokenListResult = await GetTokenModelsUseCase().run(selector);
     if(tokenListResult.isError) {
       return;
@@ -138,9 +140,11 @@ class TokenModel extends Equatable {
 
   static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
     if( remoteConfigurations.featureFlagTokenMasterListEnabled) {
+      await udpLog.log("install schema\n");
       final installResult = await installSchema();
       if(installResult.isValue) {
         allTokens = [seedsToken];
+        await udpLog.log("update models\n");
         await updateModels(acceptList, infoList);
         return;
       }

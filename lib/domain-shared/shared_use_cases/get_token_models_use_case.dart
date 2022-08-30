@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/utils/udp_log.dart';
 
 class TokenModelSelector {
   final List<String> acceptList;
@@ -78,8 +79,18 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       for (final token in tokens) {
         token['usecases'] = useCaseMap[token['id']];
       }
-      final theseTokens =List<TokenModel?>.from(tokens.map((token) =>
-          TokenModel.fromJson(token)));
+      //final theseTokens =List<TokenModel?>.from(tokens.map((token) =>
+      //    TokenModel.fromJson(token)));
+      List<TokenModel?> theseTokens = [];
+      for (final token in tokens) {
+        await udpLog.log("TokenModel fromJson for ${token['symbolcode']}\n");
+        try {
+          theseTokens.add(TokenModel.fromJson(token));
+        }
+        catch(e) {
+          await udpLog.log("fromJson exception $e\n");
+        }
+      }
       rv.addAll(theseTokens.whereNotNull());
           /// build a TokenModel from each selected token's metadata
     }
