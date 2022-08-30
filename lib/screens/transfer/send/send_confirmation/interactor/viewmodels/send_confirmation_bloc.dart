@@ -31,13 +31,24 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     // We can extend this initial validation logic in future using a switch case for any transaction type
     // for now it only validates a transfer
     if (state.isTransfer) {
-      final esoAction = state.transaction.actions.first;
-      final symbol = (esoAction.data?['quantity'] as String).split(' ').last;
-      final targetToken = TokenModel.allTokens.singleWhereOrNull((i) => i.symbol == symbol);
-      if (targetToken != null) {
-        final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
-        emit(InitialValidationStateMapper().mapResultToState(state, result));
-      }
+      final eosAction = state.transaction.actions.first;
+      final symbol = (eosAction.data?['quantity'] as String).split(' ').last;
+      final contract = eosAction.account;
+      var targetToken = TokenModel.allTokens.
+          singleWhereOrNull((i) => i.symbol == symbol && i.contract == contract);
+      targetToken ??= TokenModel(
+        chainName: "Telos",
+        contract: eosAction.account!,
+        symbol: symbol,
+        name: symbol,
+        backgroundImageUrl: '',
+        logoUrl: '',
+        balanceSubTitle: 'Wallet Balance',
+        precision: 4,
+        usecases: [],
+      );
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
+      emit(InitialValidationStateMapper().mapResultToState(state, result));
     } else {
       emit(state.copyWith(pageState: PageState.success));
     }
