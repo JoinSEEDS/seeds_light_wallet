@@ -19,13 +19,6 @@ Future<void> main() async {
   // Zone to handle asynchronous errors (Dart).
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
-<<<<<<< HEAD
-    await udpLog.setSender();
-    await udpLog.setTarget("192.168.1.130",22222);
-    var rr = await udpLog.log("Bonjour!\n");
-    print("udpLog: $rr");
-=======
->>>>>>> parent of 11c0fa9b... udp logging (WIP not working)
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await settingsStorage.initialise();

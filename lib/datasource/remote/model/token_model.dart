@@ -67,8 +67,9 @@ class TokenModel extends Equatable {
   }
 
   static TokenModel? fromJson(Map<String,dynamic> data) {
+    Map<String,dynamic> parsedJson;
     try {
-      final Map<String,dynamic> parsedJson = json.decode(data["json"]);
+      parsedJson = json.decode(data["json"]);
     }
     catch (e) {
       print("in TokenModel ${data['symbolcode']}: $e");
