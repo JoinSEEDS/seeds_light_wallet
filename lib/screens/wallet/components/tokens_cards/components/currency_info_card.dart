@@ -6,6 +6,7 @@ import 'package:seeds/utils/build_context_extension.dart';
 class CurrencyInfoCard extends StatelessWidget {
   // TODO(chuck): provide default image
   static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.png';
+  static const defaultBalanceSubtitle = 'Balance';
 
   final TokenBalanceViewModel tokenBalance;
   final String fiatBalance;

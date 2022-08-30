@@ -67,7 +67,13 @@ class TokenModel extends Equatable {
   }
 
   static TokenModel? fromJson(Map<String,dynamic> data) {
-    final Map<String,dynamic> parsedJson = json.decode(data["json"]);
+    try {
+      final Map<String,dynamic> parsedJson = json.decode(data["json"]);
+    }
+    catch (e) {
+      print("in TokenModel ${data['symbolcode']}: $e");
+      return null;
+    }
     bool extendJson(String dataField, String jsonField) {
       final jsonData = parsedJson[jsonField];
       if( jsonData != null && jsonData != data[dataField] ) {
@@ -99,7 +105,7 @@ class TokenModel extends Equatable {
         symbol: parsedJson["symbol"]!,
         name: parsedJson["name"]!,
         logoUrl: parsedJson["logo"]!,
-        balanceSubTitle: parsedJson["subtitle"],
+        balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
         backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
         precision: parsedJson["precision"] ?? 4,
         usecases: parsedJson["usecases"],
