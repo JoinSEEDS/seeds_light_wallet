@@ -15,6 +15,7 @@ class TokenModel extends Equatable {
   static const seedsEcosysUsecase = 'seedsecosys';
   static List<TokenModel> allTokens = [seedsToken];
   static JsonSchema? tmastrSchema;
+  static Map<String, int?> contractPrecisions = {"token.seeds#SEEDS": 4};
   final String chainName;
   final String contract;
   final String symbol;
@@ -124,8 +125,22 @@ class TokenModel extends Equatable {
   @override
   List<Object?> get props => [chainName, contract, symbol];
 
-  String getAssetString(double quantity) {
-    return "${quantity.toStringAsFixed(precision)} $symbol";
+  static String getAssetString(String? id, double quantity) {
+    if (id!=null && contractPrecisions.containsKey(id)) {
+      final symbol = TokenModel.fromId(id).symbol;
+      return symbol==null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
+    } else {
+      return "";
+    }
+  }
+
+  void setPrecisionFromString(String s) {
+    final amount = s.split(' ')[0];
+    final ss = amount.split('.');
+    if (ss.isEmpty) {
+      return;
+    }
+    contractPrecisions[this.id] = ss.length==1 ? 0 : ss[1].length;
   }
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
@@ -153,6 +168,7 @@ class TokenModel extends Equatable {
       }
     }
     allTokens = _staticTokenList;
+    contractPrecisions = Map.fromEntries(allTokens.map((t) => MapEntry(t.id , t.precision)));
   }
 
   static void pruneRemoving(List<String> useCaseList) {
