@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
+import 'package:seeds/datasource/remote/api/stat_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 
@@ -78,8 +79,24 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       for (final token in tokens) {
         token['usecases'] = useCaseMap[token['id']];
       }
-      final theseTokens =List<TokenModel?>.from(tokens.map((token) =>
-          TokenModel.fromJson(token)));
+      final StatRepository _statRepository = StatRepository();
+      List<TokenModel?> theseTokens = [];
+      /// verify token contract on chain and get contract precision
+      await Future.forEach(tokens, (token) async {
+        final tm = TokenModel.fromJson(token as Map<String, dynamic>);
+        if (tm != null) {
+          await _statRepository.getTokenStat(
+              tokenContract: tm.contract, symbol: tm.symbol).then((stats) {
+                if (stats.asValue != null) {
+                  final supply = stats.asValue!.value.supplyString;
+                  tm.setPrecisionFromString(supply);
+                  theseTokens.add(tm);
+                  print("supply: $supply");
+                }
+              })
+              .catchError((dynamic error) => _statRepository.mapHttpError(error));
+        }
+      });
       rv.addAll(theseTokens.whereNotNull());
           /// build a TokenModel from each selected token's metadata
     }
