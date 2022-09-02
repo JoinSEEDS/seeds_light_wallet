@@ -41,6 +41,7 @@ class _ScannerViewState extends State<ScannerView> {
                 qrKey: _qrKey,
                 onQRViewCreated: (controller) async {
                   _controller = controller;
+                  _controller.resumeCamera();
                   _controller.scannedDataStream.listen((event) {
                     if (state.gotValidQR || event.code.isNullOrEmpty) {
                       return;
