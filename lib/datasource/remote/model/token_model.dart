@@ -146,8 +146,9 @@ class TokenModel extends Equatable {
     contractPrecisions[this.id] = ss.length==1 ? 0 : ss[1].length;
   }
 
-  // enabling 'send' overdrafts for Mutual Credit
-  bool blockAmount(double insufficiency) {
+  // enabling 'send' transfer validity checks, e.g. Mutual Credit,
+  //  membership limitations
+  bool blockTransfer(double insufficiency, String toAccount) {
     if (overdraw == "block") {
       return insufficiency > 0;
     } else if (overdraw == "allow") {
@@ -156,8 +157,8 @@ class TokenModel extends Equatable {
     print("unexpected overdraw field: $overdraw");
     return false;
   }
-  bool warnAmount(double insufficiency) {
-    return insufficiency > 0;
+  String? warnTransfer(double insufficiency, String toAccount) {
+    return insufficiency > 0 ? "insufficient balance" : null;
   }
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
