@@ -44,6 +44,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
         backgroundImageUrl: '',
         logoUrl: '',
         balanceSubTitle: 'Wallet Balance',
+        overdraw: '',
         precision: 4,
         usecases: [],
       );
