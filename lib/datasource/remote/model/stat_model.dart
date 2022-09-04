@@ -1,4 +1,3 @@
-import 'package:seeds/datasource/remote/model/token_model.dart';
 
 /// Token per USD
 class StatModel {
