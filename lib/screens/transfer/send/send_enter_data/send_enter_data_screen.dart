@@ -87,7 +87,7 @@ class SendEnterDataScreen extends StatelessWidget {
                       ? const SendLoadingIndicator()
                       : const SafeArea(child: FullPageLoadingIndicator());
                 case PageState.failure:
-                  return const SafeArea(child: FullPageErrorIndicator());
+                  return SafeArea(child: FullPageErrorIndicator(errorMessage: state.errorMessage));
                 case PageState.success:
                   return SafeArea(
                     minimum: const EdgeInsets.all(horizontalEdgePadding),
