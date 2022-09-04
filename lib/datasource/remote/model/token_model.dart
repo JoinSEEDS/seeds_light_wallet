@@ -33,8 +33,14 @@ class TokenModel extends Equatable {
     try {
       return backgroundImageUrl.startsWith("assets") ?
       AssetImage(backgroundImageUrl) as ImageProvider :
-      CachedNetworkImageProvider(backgroundImageUrl);
+      CachedNetworkImageProvider(backgroundImageUrl,
+        // unsuccessfully trying to catch http timeout
+        // ref https://github.com/Baseflow/flutter_cached_network_image/issues/703
+        errorListener: () {
+          print("CachedNetworkImageProvider: Image failed to load!");
+        });
     } catch (e) {
+      print("backgroundImage caught $e");
       return const AssetImage(CurrencyInfoCard.defaultBgImage) as ImageProvider;
     }
   }
