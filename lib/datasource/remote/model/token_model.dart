@@ -137,7 +137,7 @@ class TokenModel extends Equatable {
 
   // enabling 'send' transfer validity checks, e.g. Mutual Credit,
   //  membership limitations
-  bool blockTransfer(double insufficiency, String toAccount) {
+  bool blockTransfer(double insufficiency, String? toAccount) {
     if (overdraw == "block") {
       return insufficiency > 0;
     } else if (overdraw == "allow") {
@@ -146,7 +146,7 @@ class TokenModel extends Equatable {
     print("unexpected overdraw field: $overdraw");
     return false;
   }
-  String? warnTransfer(double insufficiency, String toAccount) {
+  String? warnTransfer(double insufficiency, String? toAccount) {
     return insufficiency > 0 ? "insufficient balance" : null;
   }
 
