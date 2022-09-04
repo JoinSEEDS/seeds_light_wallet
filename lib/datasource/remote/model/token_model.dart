@@ -23,6 +23,7 @@ class TokenModel extends Equatable {
   final String backgroundImageUrl;
   final String logoUrl;
   final String balanceSubTitle;
+  final String overdraw;
   final int precision;
   final List<String>? usecases;
 
@@ -52,6 +53,7 @@ class TokenModel extends Equatable {
     required this.backgroundImageUrl,
     required this.logoUrl,
     required this.balanceSubTitle,
+    required this.overdraw,
     this.precision = 4,
     this.usecases,
   });
@@ -109,6 +111,7 @@ class TokenModel extends Equatable {
         logoUrl: parsedJson["logo"]!,
         balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
         backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
+        overdraw: parsedJson["overdraw"] ?? "allow",
         precision: parsedJson["precision"] ?? 4,
         usecases: parsedJson["usecases"],
       );
@@ -141,6 +144,20 @@ class TokenModel extends Equatable {
       return;
     }
     contractPrecisions[this.id] = ss.length==1 ? 0 : ss[1].length;
+  }
+
+  // enabling 'send' overdrafts for Mutual Credit
+  bool blockAmount(double insufficiency) {
+    if (overdraw == "block") {
+      return insufficiency > 0;
+    } else if (overdraw == "allow") {
+      return false;
+    }
+    print("unexpected overdraw field: $overdraw");
+    return false;
+  }
+  bool warnAmount(double insufficiency) {
+    return insufficiency > 0;
   }
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
@@ -190,6 +207,7 @@ const seedsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
@@ -202,6 +220,7 @@ const _husdToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/husd/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   precision: 2,
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
@@ -214,6 +233,7 @@ const _hyphaToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   precision: 2,
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
@@ -226,6 +246,7 @@ const _localScaleToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );
 
@@ -237,6 +258,7 @@ const _starsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/stars/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/stars/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );
 
@@ -248,5 +270,6 @@ const _telosToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/tlos/background.png',
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );
