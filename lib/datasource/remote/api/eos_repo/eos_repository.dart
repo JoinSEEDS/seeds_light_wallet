@@ -71,7 +71,12 @@ abstract class EosRepository {
   }
 
   ErrorResult mapEosError(dynamic error) {
+    final regex = RegExp(r'^.*Internal Service Error.*assertion failure with message: ([^\"]*)');
     print('mapEosError: $error');
+    final match = regex.firstMatch(error);
+    if (match != null && match.groupCount == 1) {
+      return ErrorResult("Transaction error:\n${match.group(1)!}");
+    }
     return ErrorResult(error);
   }
 }
