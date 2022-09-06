@@ -106,8 +106,8 @@ class TokenModel extends Equatable {
       );
   }
 
-  factory TokenModel.fromId(String tokenId) {
-    return allTokens.firstWhere((e) => e.id == tokenId);
+  static TokenModel? fromId(String tokenId) {
+    return allTokens.firstWhereOrNull((e) => e.id == tokenId);
   }
 
   static TokenModel? fromSymbolOrNull(String symbol) {
@@ -118,8 +118,8 @@ class TokenModel extends Equatable {
   List<Object?> get props => [chainName, contract, symbol];
 
   static String getAssetString(String? id, double quantity) {
-    if (id!=null && contractPrecisions.containsKey(id)) {
-      final symbol = TokenModel.fromId(id).symbol;
+    if (id!=null && TokenModel.fromId(id)!=null && contractPrecisions.containsKey(id)) {
+      final symbol = TokenModel.fromId(id)!.symbol;
       return symbol==null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
     } else {
       return "";

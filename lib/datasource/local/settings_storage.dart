@@ -67,7 +67,7 @@ class _SettingsStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? seedsToken.id);
+  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? seedsToken.id) ?? seedsToken;
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 

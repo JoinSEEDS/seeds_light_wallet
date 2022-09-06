@@ -27,7 +27,7 @@ extension RatesStateExtensions on RatesState {
       if (rateModel != null) {
         final double? tokenValue = rateModel.usdToToken(usdValue);
         if (tokenValue != null) {
-          return TokenDataModel(tokenValue, token: TokenModel.fromId(tokenId));
+          return TokenDataModel(tokenValue, token: TokenModel.fromId(tokenId)!);
         }
       }
     }
