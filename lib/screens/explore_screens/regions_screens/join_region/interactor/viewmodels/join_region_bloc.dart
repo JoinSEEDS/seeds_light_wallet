@@ -40,7 +40,7 @@ class JoinRegionBloc extends Bloc<JoinRegionEvent, JoinRegionState> {
 
   Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<JoinRegionState> emit) async {
     emit(state.copyWith(isCreateRegionButtonLoading: true));
-    final result = await GetAvailableBalanceUseCase().run(TokenModel.fromId(seedsToken.id));
+    final result = await GetAvailableBalanceUseCase().run(seedsToken);
     emit(CreateRegionBalanceResultStateMapper().mapResultToState(state, result));
   }
 
