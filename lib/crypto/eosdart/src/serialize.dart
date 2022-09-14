@@ -630,7 +630,7 @@ Map<String, Type> createInitialTypes() {
         buffer.push([data == null ? 1 : 0]);
       },
       deserialize: (Type self, SerialBuffer buffer, {SerializerState? state, bool? allowExtensions}) {
-        return buffer.get();
+        return buffer.get()!=0;
       },
     ),
     "uint8": createType(
