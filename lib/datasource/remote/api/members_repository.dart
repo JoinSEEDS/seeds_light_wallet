@@ -106,11 +106,11 @@ class MembersRepository extends HttpRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  /// accountName must be greater than 2 or we return empty list of users.
+  /// accountName must be greater than 1 or we return empty list of users.
   /// This will return one account if found or null if not found.
   Future<Result<ProfileModel?>> getMemberByAccountName(String accountName) {
     print('[http] getMemberByAccountName $accountName ');
-    assert(accountName.length > 2);
+    assert(accountName.length >= 2);
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
