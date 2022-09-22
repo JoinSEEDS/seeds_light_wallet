@@ -402,7 +402,7 @@ class SerialBuffer {
   String getPublicKey() {
     var type = get();
     var data = getUint8List(numeric.publicKeyDataSize);
-    return numeric.publicKeyToString(numeric.IKey(type as numeric.KeyType, data));
+    return numeric.publicKeyToString(numeric.IKey(numeric.KeyType.values[type], data));
   }
 
   /// Append a private key */
@@ -416,7 +416,7 @@ class SerialBuffer {
   String getPrivateKey() {
     var type = get();
     var data = getUint8List(numeric.privateKeyDataSize);
-    return numeric.privateKeyToString(numeric.IKey(type as numeric.KeyType, data));
+    return numeric.privateKeyToString(numeric.IKey(numeric.KeyType.values[type], data));
   }
 
   /// Append a signature */
