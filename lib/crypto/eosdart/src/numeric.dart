@@ -236,8 +236,8 @@ Uint8List digestSuffixRipemd160(Uint8List data, String suffix) {
 
 IKey stringToKey(String s, KeyType type, int size, String suffix) {
   var whole = base58ToBinary(size + 4, s);
-  var result = IKey(type, whole);
-  var digest = digestSuffixRipemd160(result.data, suffix);
+  var result = IKey(type, whole.sublist(0,size));
+  var digest = digestSuffixRipemd160(result.data, suffix).toList();
   if (digest[0] != whole[size + 0] ||
       digest[1] != whole[size + 1] ||
       digest[2] != whole[size + 2] ||
