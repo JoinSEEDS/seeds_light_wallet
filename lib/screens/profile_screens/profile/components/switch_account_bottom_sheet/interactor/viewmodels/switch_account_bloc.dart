@@ -41,7 +41,7 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
 
   Future<void> _onAccountSelected(OnAccountSelected event, Emitter<SwitchAccountState> emit) async {
     emit(state.copyWith(currentAcccout: event.profile));
-    final result = await GetPublicKeyFromAccountUseCase().run(event.profile.account);
+    final result = await GetPublicKeysFromAccountUseCase().run(event.profile.account);
     emit(SetFoundPrivateKeyStateMapper().mapResultToState(state, result));
     // Only refresh the current accountName and the privateKey, then fire auth.
     _authenticationBloc.add(OnSwitchAccount(event.profile.account, state.authDataModel!));
