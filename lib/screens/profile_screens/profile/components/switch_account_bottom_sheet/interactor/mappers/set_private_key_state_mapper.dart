@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -9,12 +10,19 @@ class SetFoundPrivateKeyStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noPublicKeyFound);
     } else {
-      ///-------GET PRIVATE KEY
-      final String publicKey = result.asValue!.value;
-      // Find the keys pair match the public key
-      final Keys keys = currentState.keys.singleWhere((i) => i.publicKey == publicKey);
-      // Set the private key of the match pair
-      return currentState.copyWith(authDataModel: AuthDataModel.fromKeyAndNoWords(keys.privateKey));
+      ///-------GET PRIVATE KEY MATCHING ONE OF THE PUBLIC KEYS
+      for(final String publicKey in result.asValue!.value) {
+        // Find the keys pair match the public key
+        final Keys? keypair = currentState.keys.singleWhereOrNull((i) =>
+        i.publicKey == publicKey);
+        if(keypair != null) {
+          // Set the private key of the match pair
+          return currentState.copyWith(
+              authDataModel: AuthDataModel.fromKeyAndNoWords(
+                  keypair.privateKey));
+        }
+      }
+      return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noPublicKeyFound);
     }
   }
 }
