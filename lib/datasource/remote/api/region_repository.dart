@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
@@ -12,7 +13,6 @@ import 'package:seeds/datasource/remote/model/region_member_model.dart';
 import 'package:seeds/datasource/remote/model/region_model.dart';
 import 'package:seeds/datasource/remote/model/seeds_settings_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 
 class RegionRepository extends HttpRepository with EosRepository {
   Future<Result<List<RegionModel>>> getRegions() {
@@ -129,7 +129,7 @@ class RegionRepository extends HttpRepository with EosRepository {
     required double latitude,
     required double longitude,
     required String regionAddress,
-    double regionFee = 1000.0,
+    required TokenDataModel regionFee,
   }) async {
     print('[eos] create region $regionAccount');
 
@@ -145,7 +145,7 @@ class RegionRepository extends HttpRepository with EosRepository {
         ..data = {
           'from': userAccount,
           'to': SeedsCode.accountRegion.value,
-          'quantity': '${regionFee.toStringAsFixed(4)} $currencySeedsCode',
+          'quantity': regionFee.asFormattedString(),
           'memo': 'Create region fee',
         },
       Action()
@@ -277,7 +277,7 @@ class RegionRepository extends HttpRepository with EosRepository {
   }
 
   // return the region fee in Seeds - fee needed to create a region
-  Future<Result<double>> getRegionFee() {
+  Future<Result<TokenDataModel>> getRegionFee() {
     print('[http] get region fee');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -293,10 +293,11 @@ class RegionRepository extends HttpRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<double>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<TokenDataModel>(response, (dynamic body) {
               final List<dynamic> items = body['rows'].toList();
               final setting = SeedsSettingsModel.fromJson(items[0]);
-              return setting.value / 10000.0; // settings values are stored with 10000 multiplier
+              // ignore: avoid_redundant_argument_values
+              return TokenDataModel(setting.value / 10000.0);
             }))
         .catchError((error) => mapHttpError(error));
   }

@@ -8,6 +8,7 @@ import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_c
 import 'package:seeds/domain-shared/shared_use_cases/get_region_use_case.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/join_region/interactor/mappers/create_region_balance_result_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/get_region_fee_use_case.dart';
 
 part 'join_region_event.dart';
 part 'join_region_state.dart';
@@ -40,8 +41,9 @@ class JoinRegionBloc extends Bloc<JoinRegionEvent, JoinRegionState> {
 
   Future<void> _onCreateRegionTapped(OnCreateRegionTapped event, Emitter<JoinRegionState> emit) async {
     emit(state.copyWith(isCreateRegionButtonLoading: true));
-    final result = await GetAvailableBalanceUseCase().run(TokenModel.fromId(seedsToken.id));
-    emit(CreateRegionBalanceResultStateMapper().mapResultToState(state, result));
+    final balanceResult = await GetAvailableBalanceUseCase().run(TokenModel.fromId(seedsToken.id));
+    final regionFeeResult = await GetRegionFeeUseCase().run();
+    emit(CreateRegionBalanceResultStateMapper().mapResultToState(state, balanceResult, regionFeeResult));
   }
 
   void _onCreateRegionNextTapped(OnCreateRegionNextTapped event, Emitter<JoinRegionState> emit) {
