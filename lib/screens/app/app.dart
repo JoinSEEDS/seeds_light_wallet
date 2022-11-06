@@ -106,6 +106,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               eventBus.fire(ShowSnackBar(pageCommand.message));
             } else if (pageCommand is ShowMessage) {
               eventBus.fire(ShowSnackBar(pageCommand.message));
+            } else if (pageCommand is NavigateToRoute) {
+              await NavigationService.of(context).navigateTo(pageCommand.route);
             } else if (pageCommand is NavigateToRouteWithArguments) {
               if (pageCommand is NavigateToSendConfirmation) {
                 await NavigationService.of(context)

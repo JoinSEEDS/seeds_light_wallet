@@ -50,6 +50,8 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   TextFormFieldCustom(
+                    // ignore: avoid_redundant_argument_values
+                    textCapitalization: TextCapitalization.none,
                     labelText: context.loc.signUpFullNameTitle,
                     onFieldSubmitted: (_) => _onNextPressed(),
                     maxLength: 36,

@@ -275,7 +275,7 @@
   "@createRegionNotEnoughSeedsDialogRightButtonTitle": {},
   "createRegionNotEnoughSeedsDialogTitle": "¡No tienes suficientes seeds!",
   "@createRegionNotEnoughSeedsDialogTitle": {},
-  "createRegionNotEnoughSeedsDialogSubtitle": "Parece que no tienes suficientes seeds para crear una región. Haga clic en el enlace a continuación para comprar algunas seeds en nuestro sitio web oficial.",
+  "createRegionNotEnoughSeedsDialogSubtitle": "Necesitas 1000.00 SEEDS para crear una región.",
   "@createRegionNotEnoughSeedsDialogSubtitle": {},
   "createRegionAddBackGroundImageAcceptedFilesTitle": "Formatos de archivo recomendados: .png//.jpg//.jpeg",
   "@createRegionAddBackGroundImageAcceptedFilesTitle": {},

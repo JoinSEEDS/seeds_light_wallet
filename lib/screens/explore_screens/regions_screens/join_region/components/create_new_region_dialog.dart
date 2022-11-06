@@ -8,6 +8,14 @@ import 'package:seeds/utils/build_context_extension.dart';
 class CreateNewRegionDialog extends StatelessWidget {
   const CreateNewRegionDialog({super.key});
 
+  Future<void> show(BuildContext context, JoinRegionBloc joinRegionBloc) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => BlocProvider.value(value: joinRegionBloc, child: this),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final double iconSize = MediaQuery.of(context).size.width * 0.3;

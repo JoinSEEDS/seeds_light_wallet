@@ -1,5 +1,4 @@
 class InviteLinkData {
   final String mnemonic;
-
-  InviteLinkData(this.mnemonic);
+  const InviteLinkData(this.mnemonic);
 }

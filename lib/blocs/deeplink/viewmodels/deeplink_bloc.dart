@@ -8,6 +8,7 @@ import 'package:seeds/blocs/deeplink/mappers/eosio_signing_request_state_mapper.
 import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
+import 'package:seeds/blocs/deeplink/model/region_link_data.dart';
 import 'package:seeds/blocs/deeplink/usecase/get_initial_deep_link_use_case.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_signing_request_use_case.dart';
