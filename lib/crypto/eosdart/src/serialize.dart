@@ -430,7 +430,7 @@ class SerialBuffer {
   String getSignature() {
     var type = get();
     var data = getUint8List(numeric.signatureDataSize);
-    return numeric.signatureToString(numeric.IKey(numeric.IKey(numeric.KeyType.values[type], data));
+    return numeric.signatureToString(numeric.IKey(numeric.KeyType.values[type], data));
   }
 } // SerialBuffer
 
