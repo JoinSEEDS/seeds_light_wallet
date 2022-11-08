@@ -234,10 +234,25 @@ Uint8List digestSuffixRipemd160(Uint8List data, String suffix) {
   return dg.process(d);
 }
 
+Uint8List digestSha256X2(Uint8List data) {
+  var dg = Digest("SHA-256");
+  var d1 = dg.process(data);
+  dg.reset();
+  return dg.process(d1);
+}
+
 IKey stringToKey(String s, KeyType type, int size, String suffix) {
   var whole = base58ToBinary(size + 4, s);
-  var result = IKey(type, whole);
-  var digest = digestSuffixRipemd160(result.data, suffix);
+
+  var result;
+  var digest;
+  if (suffix == '') {
+    result = IKey(type, whole.sublist(1,size));
+    digest = digestSha256X2(whole.sublist(0,size));
+  } else {
+    result = IKey(type, whole.sublist(0,size));
+    digest = digestSuffixRipemd160(result.data, suffix).toList();
+  }
   if (digest[0] != whole[size + 0] ||
       digest[1] != whole[size + 1] ||
       digest[2] != whole[size + 2] ||
@@ -314,8 +329,10 @@ List<String> convertLegacyPublicKeys(List<String> keys) =>
 IKey stringToPrivateKey(String s) {
   if (s.substring(0, 7) == 'PVT_R1_') {
     return stringToKey(s.substring(7), KeyType.r1, privateKeyDataSize, 'R1');
+  } else if (s.substring(0, 7) == 'PVT_K1_') {
+    return stringToKey(s.substring(7), KeyType.k1, privateKeyDataSize, 'K1');
   } else {
-    throw 'unrecognized private key format';
+    return stringToKey(s, KeyType.k1, privateKeyDataSize+1, '');
   }
 }
 
@@ -323,6 +340,8 @@ IKey stringToPrivateKey(String s) {
 String privateKeyToString(IKey key) {
   if (key.type == KeyType.r1) {
     return keyToString(key, 'R1', 'PVT_R1_');
+  } else if (key.type == KeyType.k1) {
+    return keyToString(key, 'K1', 'PVT_K1_');
   } else {
     throw 'unrecognized private key format';
   }
