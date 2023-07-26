@@ -2,12 +2,17 @@
 
 import 'package:async/async.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+
 import 'package:seeds/crypto/eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/domain-shared/app_constants.dart';
 
 class SignupRepository extends EosRepository with HttpRepository {
   Future<Result> unpackDynamicLink(String scannedLink) async {
@@ -56,11 +61,11 @@ class SignupRepository extends EosRepository with HttpRepository {
 
     final actions = <Action>[
       Action()
-        ..account = onboardingAccountName
+        ..account = SeedsCode.accountJoin.value
         ..name = SeedsEosAction.actionNameAcceptnew.value
         ..authorization = <Authorization>[
           Authorization()
-            ..actor = onboardingAccountName
+            ..actor = SeedsCode.accountJoin.value
             ..permission = permissionApplication
         ]
         ..data = {
@@ -83,5 +88,40 @@ class SignupRepository extends EosRepository with HttpRepository {
       print('SignupRepository:createAccount error $error');
       return mapEosError(error);
     }
+  }
+
+  Future<Result<String>> generateEsrUrl(List<esr.Action> actions) async {
+    print('[ESR] generateEsrUrl: ');
+
+    final esr.SigningRequestCreateArguments args =
+        esr.SigningRequestCreateArguments(actions: actions, chainId: telosChainId);
+
+    return esr.SigningRequestManager.create(args,
+            options: esr.defaultSigningRequestEncodingOptions(
+              nodeUrl: remoteConfigurations.hyphaEndPoint,
+            ))
+        .then((esr.SigningRequestManager response) => ValueResult(response.encode()))
+        // ignore: return_of_invalid_type_from_catch_error
+        .catchError((error) => mapEosError(error));
+  }
+
+  Future<Result<String>> acceptExistAction({
+    required String accountName,
+    required String inviteSecret,
+  }) async {
+    final action = esr.Action()
+      ..account = SeedsCode.accountJoin.value
+      ..name = SeedsEosAction.actionNameAcceptExisting.value
+      ..authorization = <esr.Authorization>[
+        esr.Authorization()
+          ..actor = SeedsCode.accountJoin.value
+          ..permission = permissionApplication
+      ]
+      ..data = {
+        'account': accountName,
+        'invite_secret': inviteSecret,
+      };
+    final esrUrl = await generateEsrUrl([action]);
+    return esrUrl;
   }
 }

@@ -13,6 +13,7 @@ const String _actionNameCanresident = 'canresident';
 const String _actionNameMakecitizen = 'makecitizen';
 const String _actionNameCakecitizen = 'cancitizen';
 const String _actionNameAcceptnew = 'acceptnew';
+const String _actionNameAcceptExisting = 'acceptexist';
 const String _actionNameRecover = 'recover';
 const String _actionNameUnplant = 'unplant';
 const String _actionNameClaimRefund = 'claimrefund';
@@ -42,6 +43,7 @@ enum SeedsEosAction {
   actionNameMakecitizen,
   actionNameCakecitizen,
   actionNameAcceptnew,
+  actionNameAcceptExisting,
   actionNameRecover,
   actionNameUnplant,
   actionNameClaimRefund,
@@ -89,6 +91,8 @@ extension SeedsEosActionExtension on SeedsEosAction {
         return _actionNameCanresident;
       case SeedsEosAction.actionNameAcceptnew:
         return _actionNameAcceptnew;
+      case SeedsEosAction.actionNameAcceptExisting:
+        return _actionNameAcceptExisting;
       case SeedsEosAction.actionNameRecover:
         return _actionNameRecover;
       case SeedsEosAction.actionNameUnplant:

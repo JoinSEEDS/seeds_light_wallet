@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.9.1+81
+version: 2.9.3+83
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -19,10 +19,10 @@ dependencies:
   url_launcher: ^6.1.0
   step_progress_indicator: ^1.0.1
   uni_links: ^0.5.1
-  intl: ^0.17.0
+  intl: ^0.18.0
   flutter_localizations:
     sdk: flutter
-  i18n_extension: ^5.0.0
+  i18n_extension: ^7.0.0
   http: ^0.13.4
   shared_preferences: ^2.0.9
   flutter_secure_storage: ^5.0.2

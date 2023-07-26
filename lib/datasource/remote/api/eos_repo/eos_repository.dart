@@ -8,7 +8,6 @@ import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
-  String onboardingAccountName = 'join.seeds';
   int guardianRecoveryTimeDelaySec = const Duration(hours: 24).inSeconds;
 
   String? get host => remoteConfigurations.activeEOSServerUrl.url;
