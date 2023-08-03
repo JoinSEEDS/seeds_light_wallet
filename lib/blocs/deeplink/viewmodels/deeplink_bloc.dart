@@ -70,7 +70,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
         add(HandleIncomingSigningRequest(uri));
       }
     }, onError: (err) {
-      print("ESR Error: ${err.toString()}");
+      print("ESR Error: $err");
     });
   }
 
