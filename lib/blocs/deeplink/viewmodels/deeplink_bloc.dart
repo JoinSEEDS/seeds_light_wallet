@@ -36,15 +36,16 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
   }
 
   Future<void> initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink(
-        onError: (error) async {},
-        onSuccess: (dynamicLink) async {
-          final Uri? deepLink = dynamicLink?.link;
-
-          if (deepLink != null) {
-            add(HandleIncomingFirebaseDeepLink(deepLink));
-          }
-        });
+    FirebaseDynamicLinks.instance.onLink.listen(
+      (pendingDynamicLinkData) {
+        // Set up the `onLink` event listener next as it may be received here
+        final Uri deepLink = pendingDynamicLinkData.link;
+        // Example of using the dynamic link to push the user to a different screen
+        add(HandleIncomingFirebaseDeepLink(deepLink));
+        // }
+      },
+      onError: (error) async {},
+    );
 
     final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri? deepLink = data?.link;
@@ -70,7 +71,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
         add(HandleIncomingSigningRequest(uri));
       }
     }, onError: (err) {
-      print("ESR Error: ${err.toString()}");
+      print("ESR Error: $err");
     });
   }
 

@@ -19,10 +19,10 @@ dependencies:
   url_launcher: ^6.1.0
   step_progress_indicator: ^1.0.1
   uni_links: ^0.5.1
-  intl: ^0.17.0
+  intl: ^0.18.0
   flutter_localizations:
     sdk: flutter
-  i18n_extension: ^5.0.0
+  i18n_extension: ^7.0.0
   http: ^0.13.4
   shared_preferences: ^2.0.9
   flutter_secure_storage: ^5.0.2
@@ -30,13 +30,6 @@ dependencies:
   timeago: ^3.1.0
   cached_network_image: ^3.2.1
   flutter_svg: ^1.0.3
-  firebase_dynamic_links: ^3.0.1
-  firebase_messaging: ^11.1.0
-  firebase_core: ^1.10.0
-  firebase_storage: ^10.1.0
-  cloud_firestore: ^3.1.0
-  firebase_remote_config: ^0.11.0+2
-  geoflutterfire: ^3.0.2
   shimmer: ^2.0.0
   share: ^2.0.4
   image_cropper: ^2.0.3 
@@ -56,13 +49,21 @@ dependencies:
   bs58check: ^1.0.2
   pointycastle: ^3.4.0
   hdkey: ^0.0.1
-  package_info_plus: ^1.3.0
-  flutterfire_installations: ^0.1.0
   google_maps_flutter: ^2.1.1
   geolocator: ^8.2.0
   geocoding: ^2.0.2
   permission_handler: ^9.2.0
   json_schema2: ^2.0.2
+  local_auth_android: ^1.0.32
+  local_auth_ios: ^1.1.3
+  firebase_dynamic_links: ^5.3.4
+  firebase_remote_config: ^4.2.4
+  firebase_storage: ^11.2.5
+  cloud_firestore: ^4.8.4
+  firebase_messaging: ^14.6.5
+  geoflutterfire2: ^2.3.15
+  firebase_app_installations: ^0.2.3+4
+  package_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
