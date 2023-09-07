@@ -10,7 +10,7 @@ class ImportAccountsUseCase {
 
   Future<List<Result>> run(List<String> publicKeys) async {
     final List<Future<Result>> getKeyAccountsFutures =
-        publicKeys.map((i) => _keyAccountsRepository.getKeyAccounts(i)).toList();
+        publicKeys.map((i) => _keyAccountsRepository.getAccountsByKey(i)).toList();
 
     final List<Result> keyAccountsResponse = await Future.wait(getKeyAccountsFutures);
     if (keyAccountsResponse.singleWhereOrNull((i) => i.isError) != null) {

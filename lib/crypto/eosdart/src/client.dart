@@ -219,10 +219,21 @@ class EOSClient {
   }
 
   /// Get Key Accounts
-  Future<AccountNames> getKeyAccounts(String pubKey) async {
-    return _post('/history/get_key_accounts', {'public_key': pubKey}).then((accountNames) {
-      return AccountNames.fromJson(accountNames as Map<String, dynamic>);
-    });
+
+  // Get Key Accounts using new API: new get_accounts_by_authorizers API
+  Future<AccountNames> getAccountsByKey(String pubKey) async {
+    try {
+      return _post('/chain/get_accounts_by_authorizers', {
+        'accounts': [],
+        'keys': [pubKey]
+      }).then((response) {
+        final List<String> accountNames = List.from(response['accounts'].map((e) => e['account_name']));
+        return AccountNames()..accountNames = accountNames.toSet().toList();
+      });
+    } catch (e) {
+      print("getAccountsByKey error $e");
+      return AccountNames();
+    }
   }
 
   /// Push transaction to EOS chain
@@ -294,19 +305,6 @@ class EOSClient {
     action.serialize!(action, buffer, data);
     return ser.arrayToHex(buffer.asUint8List());
   }
-
-//  Future<List<AbiResp>> _getTransactionAbis(Transaction transaction) async {
-//    Set<String> accounts = Set();
-//    List<AbiResp> result = [];
-//
-//    for (Action action in transaction.actions) {
-//      accounts.add(action.account);
-//    }
-//
-//    for (String accountName in accounts) {
-//      result.add(await this.getRawAbi(accountName));
-//    }
-//  }
 
   Future<PushTransactionArgs> _pushTransactionArgs(
       String? chainId, Type transactionType, Transaction transaction, bool sign) async {
