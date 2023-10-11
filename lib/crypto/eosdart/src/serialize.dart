@@ -212,7 +212,9 @@ class SerialBuffer {
 
   // /** Get a `float32` */
   double getFloat32() {
-    return getUint8List(4).buffer.asFloat32List()[0];
+    var rp = readPos;
+    getUint8List(4);
+    return array.buffer.asByteData(rp).getFloat32(0, Endian.little);
   }
 
   // /** Append a `float64` */
@@ -222,7 +224,9 @@ class SerialBuffer {
 
   // /** Get a `float64` */
   double getFloat64() {
-    return getUint8List(8).buffer.asFloat64List()[0];
+    var rp = readPos;
+    getUint8List(8);
+    return array.buffer.asByteData(rp).getFloat64(0, Endian.little);
   }
 
   /// Append a `name` */
