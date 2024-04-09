@@ -39,7 +39,7 @@ class Identity {
     } else {
       throw 'Data must be either Uint8List or SerialBuffer';
     }
-    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer));
+    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer) as Map);
     return Identity.fromJson(deserializedData);
   }
 }

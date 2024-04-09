@@ -21,7 +21,7 @@ class BalanceRepository extends HttpRepository {
     return http
         .post(balanceURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<BalanceModel>(response, (dynamic body) {
-              return BalanceModel.fromJson(body);
+              return BalanceModel.fromJson(body as List);
             }))
         .catchError((dynamic error) => mapHttpError(error));
   }

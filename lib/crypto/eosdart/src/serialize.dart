@@ -445,9 +445,9 @@ Type createType(
     Type? optionalOf,
     void Function(Type self, SerialBuffer buffer, Object data, {SerializerState state, bool allowExtensions})?
         serialize,
-    Object? Function(Type self, SerialBuffer buffer, {SerializerState? state, bool? allowExtensions})? deserialize,
-    String? baseName: "",
-    List<Field>? fields: const [],
+    Function(Type self, SerialBuffer buffer, {SerializerState? state, bool allowExtensions})? deserialize,
+    String? baseName = "",
+    List<Field>? fields = const [],
     Type? extensionOf}) {
   var t = Type(
       aliasOfName: aliasOfName,
@@ -573,13 +573,13 @@ bool supportedAbiVersion(String version) {
   return version.startsWith('eosio::abi/1.');
 }
 
-void serializeStruct(Type self, SerialBuffer buffer, Object data, {SerializerState? state, allowExtensions = true}) {
+void serializeStruct(Type self, SerialBuffer buffer, Object data, {SerializerState? state, bool allowExtensions = true}) {
   if (state == null) state = SerializerState();
   // try {
   if (self.base != null) {
     self.base!.serialize!(self.base, buffer, data, state: state, allowExtensions: allowExtensions);
   }
-  Map dy = data as dynamic;
+  Map dy = data as Map;
   for (var field in self.fields!) {
     if (dy.containsKey(field.name)) {
       if (state.skippedBinaryExtension) {
@@ -602,7 +602,7 @@ void serializeStruct(Type self, SerialBuffer buffer, Object data, {SerializerSta
   // }
 }
 
-deserializeStruct(Type self, SerialBuffer buffer, {SerializerState? state, allowExtensions = true}) {
+deserializeStruct(Type self, SerialBuffer buffer, {SerializerState? state, bool allowExtensions = true}) {
   if (state == null) state = SerializerState();
   try {
     var result;

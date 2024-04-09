@@ -62,18 +62,18 @@ abstract class EosRepository {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
-      final map = Map<String, dynamic>.from(response);
-      return ValueResult(modelMapper(map));
+      final map = Map<String, dynamic>.from(response as Map<String, dynamic>);
+      return ValueResult<T>(modelMapper(map) as T);
     } else {
       print('ErrorResult: $response');
-      return ErrorResult(EosError(response['processed']['error_code']));
+      return ErrorResult(EosError(response['processed']['error_code'] as int?));
     }
   }
 
   ErrorResult mapEosError(dynamic error) {
     final regex = RegExp(r'^.*Internal Service Error.*assertion failure with message: ([^\"]*)');
     print('mapEosError: $error');
-    final match = regex.firstMatch(error);
+    final match = regex.firstMatch(error as String);
     if (match != null && match.groupCount == 1) {
       return ErrorResult("Transaction error:\n${match.group(1)!}");
     }

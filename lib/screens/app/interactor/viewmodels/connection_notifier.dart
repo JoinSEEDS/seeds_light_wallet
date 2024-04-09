@@ -27,7 +27,7 @@ class ConnectionNotifier extends ChangeNotifier {
   ];
 
   Future<void> discoverEndpoints() async {
-    final checks = <Future>[];
+    final checks = <Future<Endpoint>>[];
 
     for (final endpoint in availableEndpoints) {
       checks.add(checkEndpoint(endpoint));
@@ -55,7 +55,7 @@ class ConnectionNotifier extends ChangeNotifier {
         return Endpoint(endpoint, infinitePing);
       }
     } catch (err) {
-      print('error pinging: ${err.toString()}');
+      print('error pinging: ${err}');
       return Endpoint(endpoint, doubleInfinitePing);
     }
   }

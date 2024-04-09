@@ -15,11 +15,11 @@ class VoteCycleModel {
 
   factory VoteCycleModel.fromJson(Map<String, dynamic> json) {
     return VoteCycleModel(
-      propcycle: json['propcycle'],
-      startTime: json['start_time'],
-      endTime: json['end_time'],
-      activeProps: List<int>.from(json['active_props']),
-      evalProps: List<int>.from(json['eval_props']),
+      propcycle: json['propcycle'] as int,
+      startTime: json['start_time'] as int,
+      endTime: json['end_time'] as int,
+      activeProps: List<int>.from(json['active_props'] as List<int>),
+      evalProps: List<int>.from(json['eval_props'] as List<int>),
     );
   }
 }

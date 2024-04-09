@@ -22,7 +22,7 @@ class FetchRecoverGuardianInitialDataUseCase {
 
     List<Result> membersData = [];
     if (accountGuardians.isValue) {
-      final UserGuardiansModel guardians = accountGuardians.asValue!.value;
+      final UserGuardiansModel guardians = accountGuardians.asValue!.value as UserGuardiansModel;
       membersData = await _getMembersData(guardians.guardians);
     }
 
@@ -43,7 +43,7 @@ class FetchRecoverGuardianInitialDataUseCase {
 
   Future<Result<dynamic>> generateFirebaseDynamicLink(Result<dynamic> link) async {
     if (link.isValue) {
-      final String linkValue = link.asValue!.value;
+      final String linkValue = link.asValue!.value as String;
       final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardianTargetLink, linkValue);
       return guardianLink;
     } else {

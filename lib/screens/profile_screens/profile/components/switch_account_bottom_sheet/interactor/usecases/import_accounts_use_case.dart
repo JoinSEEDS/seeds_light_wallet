@@ -17,7 +17,7 @@ class ImportAccountsUseCase {
       return keyAccountsResponse;
     } else {
       final List<List<String>> keyAccountsValues =
-          keyAccountsResponse.map<List<String>>((i) => i.asValue!.value).toList();
+          keyAccountsResponse.map<List<String>>((i) => i.asValue!.value as List<String>).toList();
       final List<String> keyAccounts = keyAccountsValues.expand((i) => i).toList();
       final List<String> savedAccounts = settingsStorage.accountsList;
       // Remove duplicated accounts

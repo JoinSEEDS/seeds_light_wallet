@@ -6,7 +6,7 @@ class FiatRateModel {
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json.isNotEmpty) {
-      final model = FiatRateModel(Map<String, num>.from(json["rates"]), base: json["base"]);
+      final model = FiatRateModel(Map<String, num>.from(json["rates"] as Map), base: json["base"] as String);
       model.rebase("USD");
       return model;
     } else {

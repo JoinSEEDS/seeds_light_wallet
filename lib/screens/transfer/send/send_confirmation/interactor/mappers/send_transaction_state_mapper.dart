@@ -91,7 +91,7 @@ class SendTransactionStateMapper extends StateMapper {
 extension EosErrorParser on String {
   String get userErrorMessage {
     try {
-      return jsonDecode(this)["error"]["details"][0]["message"];
+      return jsonDecode(this)["error"]["details"][0]["message"] as String;
     } catch (error) {
       print("Error decoding error message $this $error");
       return this;

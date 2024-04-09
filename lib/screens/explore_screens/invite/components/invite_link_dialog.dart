@@ -5,7 +5,7 @@ import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class InviteLinkDialog extends StatefulWidget {
   const InviteLinkDialog({super.key});

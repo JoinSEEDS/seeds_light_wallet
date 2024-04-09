@@ -91,17 +91,17 @@ class ProfileModel extends Equatable {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      account: json['account'],
-      status: enumFromString<ProfileStatus>(ProfileStatus.values, json['status']),
-      type: json['type'],
-      nickname: json['nickname'],
-      image: json['image'],
-      story: json['story'],
-      roles: json['roles'],
-      skills: json['skills'],
-      interests: json['interests'],
-      reputation: json['reputation'],
-      timestamp: json['timestamp'],
+      account: json['account'] as String,
+      status: enumFromString<ProfileStatus>(ProfileStatus.values, json['status'] as String),
+      type: json['type'] as String,
+      nickname: json['nickname'] as String,
+      image: json['image'] as String,
+      story: json['story'] as String,
+      roles: json['roles'] as String,
+      skills: json['skills'] as String,
+      interests: json['interests'] as String,
+      reputation: json['reputation'] as int,
+      timestamp: json['timestamp'] as int,
     );
   }
 

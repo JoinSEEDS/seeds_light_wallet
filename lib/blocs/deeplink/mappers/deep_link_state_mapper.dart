@@ -3,6 +3,7 @@ import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
 import 'package:seeds/blocs/deeplink/model/region_link_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/utils/result_extension.dart';
@@ -13,8 +14,8 @@ class DeepLinkStateMapper extends StateMapper {
   DeeplinkState mapResultToState(DeeplinkState currentState, DeepLinkData deepLinkData) {
     switch (deepLinkData.deepLinkPlaceHolder) {
       case DeepLinkPlaceHolder.guardian:
-        final newPublicKey = deepLinkData.data['new_public_key'];
-        final userAccount = deepLinkData.data['user_account'];
+        final newPublicKey = deepLinkData.data['new_public_key'] as String;
+        final userAccount = deepLinkData.data['user_account'] as String;
         return currentState.copyWith(
           showGuardianApproveOrDenyScreen: GuardianRecoveryRequestData(
             guardianAccount: userAccount,
@@ -24,18 +25,18 @@ class DeepLinkStateMapper extends StateMapper {
       case DeepLinkPlaceHolder.invite:
         if (settingsStorage.accountName.isNullOrEmpty) {
           // Handle invite link. Send user to memonic screen.
-          return currentState.copyWith(inviteLinkData: InviteLinkData(deepLinkData.data['Mnemonic']));
+          return currentState.copyWith(inviteLinkData: InviteLinkData(deepLinkData.data['Mnemonic'] as String));
         } else {
           //  If user is logged in, Ignore invite link
           return currentState;
         }
       case DeepLinkPlaceHolder.region:
         // Handle region link. Send user to region screen (join mode).
-        return currentState.copyWith(regionLinkData: RegionLinkData(deepLinkData.data['region']));
+        return currentState.copyWith(regionLinkData: RegionLinkData(deepLinkData.data['region'] as String));
       case DeepLinkPlaceHolder.invoice:
         final invite = deepLinkData.data['invoice'] as Result<dynamic>;
         if (invite.isValue) {
-          return currentState.copyWith(signingRequest: invite.valueOrNull);
+          return currentState.copyWith(signingRequest: invite.valueOrNull as ScanQrCodeResultData?);
         } else {
           return currentState;
         }

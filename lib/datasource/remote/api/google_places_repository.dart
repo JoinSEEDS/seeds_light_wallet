@@ -56,7 +56,7 @@ class GoogleMapsPlacesRepository extends HttpRepository {
 
     return http
         .get(Uri.https('maps.googleapis.com', '/maps/api/place/autocomplete/json', params))
-        .then((http.Response response) => mapHttpResponse<PlacesAutocompleteResponse>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<PlacesAutocompleteResponse>(response, (Map<String, dynamic> body) {
               return PlacesAutocompleteResponse.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -67,7 +67,7 @@ class GoogleMapsPlacesRepository extends HttpRepository {
 
     return http
         .get(Uri.parse('https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$mapsApiKey'))
-        .then((http.Response response) => mapHttpResponse<PlacesDetailsResponse>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<PlacesDetailsResponse>(response, (Map<String, dynamic> body) {
               return PlacesDetailsResponse.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));

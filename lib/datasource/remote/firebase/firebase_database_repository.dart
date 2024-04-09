@@ -42,17 +42,17 @@ abstract class FirebaseDatabaseService {
 
   FutureOr<Result<T>> mapFirebaseResponse<T>(Function modelMapper) {
     print('Model Class: $modelMapper');
-    return Result.value(modelMapper());
+    return Result.value(modelMapper() as T);
   }
 
   ErrorResult mapFirebaseError(dynamic error) {
     print('mapFirebaseError: $error');
-    return ErrorResult(error);
+    return ErrorResult(error as Object);
   }
 }
 
 extension QueryDocumentSnapshotGetOrDefault<T> on QueryDocumentSnapshot<Map<String, dynamic>> {
   T getOrDefault(String key, T defaultValue) {
-    return data().containsKey(key) ? this[key] ?? defaultValue : defaultValue;
+    return data().containsKey(key) ? this[key] as T? ?? defaultValue : defaultValue;
   }
 }

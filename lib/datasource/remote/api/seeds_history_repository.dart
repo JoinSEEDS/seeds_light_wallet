@@ -22,7 +22,7 @@ class SeedsHistoryRepository extends HttpRepository {
 
     return http
         .post(seedsHistoryURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<SeedsHistoryModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<SeedsHistoryModel>(response, (Map<String, dynamic> body) {
               return SeedsHistoryModel.fromJson(body);
             }))
         .catchError((dynamic error) => mapHttpError(error));

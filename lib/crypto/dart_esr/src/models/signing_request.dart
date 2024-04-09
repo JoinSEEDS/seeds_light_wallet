@@ -2,7 +2,7 @@
 
 import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/crypto/dart_esr/dart_esr.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 part 'signing_request.g.dart';
@@ -22,7 +22,7 @@ class SigningRequest {
   String? callback = '';
 
   @JsonKey(name: 'info')
-  List<esr.InfoPair> info = [];
+  List<InfoPair> info = [];
 
   SigningRequest();
 
@@ -48,7 +48,7 @@ class SigningRequest {
     } else {
       throw 'Data must be either Uint8List or SerialBuffer';
     }
-    var deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer));
+    var deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer) as Map);
     return SigningRequest.fromJson(deserializedData);
   }
 }

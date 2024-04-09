@@ -12,7 +12,7 @@ class RatesRepository extends HttpRepository {
 
     return http
         .get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=$fxApiKey"))
-        .then((http.Response response) => mapHttpResponse<FiatRateModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<FiatRateModel>(response, (Map<String, dynamic> body) {
               return FiatRateModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -25,7 +25,7 @@ class RatesRepository extends HttpRepository {
 
     return http
         .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<RateModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<RateModel>(response, (Map<String, dynamic> body) {
               return RateModel.fromSeedsJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -44,7 +44,7 @@ class RatesRepository extends HttpRepository {
 
     return http
         .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<RateModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<RateModel>(response, (Map<String, dynamic> body) {
               return RateModel.fromOracleJson("eosio.token#TLOS", 4, body);
             }))
         .catchError((error) => mapHttpError(error));

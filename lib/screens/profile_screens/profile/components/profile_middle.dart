@@ -33,7 +33,7 @@ class ProfileMiddle extends StatelessWidget {
               title: 'Currency'.i18n,
               trailing: settingsStorage.selectedFiatCurrency,
               onTap: () async {
-                final bool? shouldRebuild = await NavigationService.of(context).navigateTo(Routes.setCurrency);
+                final bool? shouldRebuild = await NavigationService.of(context).navigateTo(Routes.setCurrency) as bool?;
                 if (shouldRebuild != null && shouldRebuild) {
                   // ignore: use_build_context_synchronously
                   BlocProvider.of<ProfileBloc>(context).add(const OnCurrencyChanged());

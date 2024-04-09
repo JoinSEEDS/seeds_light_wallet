@@ -171,13 +171,13 @@ class SigningRequestManager {
     final id = SigningRequestUtils.variantId(chainId);
     if (id[0] == 'chain_alias') {
       buf.push([0]);
-      buf.push(id[1]);
+      buf.push(id[1] as List<int>);
     } else {
       buf.push([1]);
-      buf.pushArray(eosDart.hexToUint8List(id[1]));
+      buf.pushArray(eosDart.hexToUint8List(id[1] as String));
     }
     buf.push([2]); // transaction variant
-    buf.pushArray(serializedTransaction);
+    buf.pushArray(serializedTransaction as List<int>);
     buf.push([ESRConstants.RequestFlagsBroadcast]); // flags
     buf.push([0]); // callback
     buf.push([0]); // info
@@ -350,7 +350,7 @@ class SigningRequestManager {
     final abis = <String?, dynamic>{};
 
     await Future.forEach(getRequiredAbis(), (dynamic account) async {
-      abis[account] = await provider.getAbi(account);
+      abis[account as String] = await provider.getAbi(account);
     });
     return abis;
   }
@@ -364,7 +364,7 @@ class SigningRequestManager {
       if (SigningRequestUtils.isIdentity(rawAction)) {
         contractAbi = ESRConstants.signingRequestAbi(version);
       } else {
-        contractAbi = abis[rawAction.account];
+        contractAbi = abis[rawAction.account] as eosDart.Abi?;
       }
       if (contractAbi == null) {
         throw 'Missing ABI definition for ${rawAction.account}';
@@ -428,11 +428,12 @@ class SigningRequestManager {
     final transaction = resolveTransaction(abis, signer, ctx);
 
     for (final action in transaction.actions!) {
-      var contractAbi;
+      eosDart.Abi? contractAbi;
       if (SigningRequestUtils.isIdentity(action)) {
-        contractAbi = ESRConstants.signingRequestAbi;
+        // TODO(chuck): deal with signingRequestAbi versioning
+        contractAbi = ESRConstants.signingRequestAbi(3);
       } else {
-        contractAbi = abis[action?.account];
+        contractAbi = abis[action?.account] as eosDart.Abi;
       }
       if (contractAbi == null) {
         throw 'Missing ABI definition for ${action?.account}';
@@ -451,7 +452,7 @@ class SigningRequestManager {
     final id = signingRequest.chainId!;
     switch (id[0]) {
       case 'chain_id':
-        return id[1];
+        return id[1] as String;
       case 'chain_alias':
         if (ESRConstants.ChainIdLookup.containsKey(id[1])) {
           return ESRConstants.ChainIdLookup[id[1]];
@@ -468,13 +469,13 @@ class SigningRequestManager {
     final req = signingRequest.req!;
     switch (req[0]) {
       case 'action':
-        return [Action.fromJson(Map<String, dynamic>.from(req[1]))];
+        return [Action.fromJson(Map<String, dynamic>.from(req[1] as Map))];
       case 'action[]':
         print("*** actions: ${req.toString()}");
 
         final actions = req[1] as List;
         final List<Action> resultActions = List.from(actions.map(
-          (e) => Action.fromJson(Map<String, dynamic>.from(e)),
+          (e) => Action.fromJson(Map<String, dynamic>.from(e as Map)),
         ));
         // TODO(n13): return list of actions  - note this code is duplicated elsewhere we already handle multiple actions
         return resultActions;
@@ -484,8 +485,8 @@ class SigningRequestManager {
         final req1 = req[1];
         if (req1['permission'] != null) {
           final auth = Authorization()
-            ..actor = req1['permission']['actor'] ?? ESRConstants.PlaceholderName
-            ..permission = req1['permission']['permission'] ?? ESRConstants.PlaceholderPermission;
+            ..actor = req1['permission']['actor'] as String? ?? ESRConstants.PlaceholderName
+            ..permission = req1['permission']['permission'] as String? ?? ESRConstants.PlaceholderPermission;
 
           final identity = Identity()..authorization = auth;
 
@@ -500,10 +501,10 @@ class SigningRequestManager {
             ..data = data
         ];
       case 'transaction':
-        final List<dynamic> actionsRaw = req[1]['actions'];
+        final List<dynamic> actionsRaw = req[1]['actions'] as List;
         final List<Action> actions = [];
         for (final item in actionsRaw) {
-          actions.add(Action.fromJson(Map<String, dynamic>.from(item)));
+          actions.add(Action.fromJson(Map<String, dynamic>.from(item as Map)));
         }
         return actions;
       default:
@@ -516,7 +517,7 @@ class SigningRequestManager {
     final req = signingRequest.req!;
     switch (req[0]) {
       case 'transaction':
-        return req[1];
+        return req[1] as Transaction;
       case 'action':
       case 'action[]':
       case 'identity':
@@ -611,11 +612,11 @@ class SigningRequestManager {
     Uint8List encodedValue;
     switch (value.runtimeType) {
       case String:
-        encodedValue = textEncoder!.encode(value);
+        encodedValue = textEncoder!.encode(value as String);
         break;
       case bool:
         encodedValue = Uint8List(1);
-        encodedValue[0] = value ? 1 : 0;
+        encodedValue[0] = value as bool ? 1 : 0;
         break;
       default:
         throw 'Invalid value type, expected string or boolean.';
@@ -714,7 +715,7 @@ class SigningRequestUtils {
 
   static Future<void> serializeActions(List<Action?> actions, {AbiProvider? abiProvider}) async {
     await Future.forEach(
-        actions, (dynamic action) => SigningRequestUtils.serializeAction(action, abiProvider: abiProvider));
+        actions, (Action? action) => SigningRequestUtils.serializeAction(action, abiProvider: abiProvider));
   }
 
   static Future<void> serializeAction(
@@ -726,13 +727,13 @@ class SigningRequestUtils {
     if (action?.data is String) {
       return;
     }
-    var contractAbi;
+    eosDart.Abi? contractAbi;
     if (abi != null) {
       contractAbi = abi;
     } else if (SigningRequestUtils.isIdentity(action)) {
       contractAbi = ESRConstants.signingRequestAbi(version);
     } else if (abiProvider != null) {
-      contractAbi = await abiProvider.getAbi(action?.account);
+      contractAbi = (await abiProvider.getAbi(action?.account)) as eosDart.Abi?;
     }
     if (contractAbi == null) {
       throw 'Missing abi provider';

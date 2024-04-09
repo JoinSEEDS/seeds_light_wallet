@@ -19,13 +19,13 @@ class OrganizationModel {
 
   factory OrganizationModel.fromJson(Map<String, dynamic> json) {
     return OrganizationModel(
-      orgName: json['org_name'],
-      owner: json['owner'],
-      status: json['status'],
-      regen: json['regen'],
-      reputation: json['reputation'],
-      voice: json['voice'],
-      planted: json['planted'],
+      orgName: json['org_name'] as String,
+      owner: json['owner'] as String,
+      status: json['status'] as int,
+      regen: json['regen'] as int,
+      reputation: json['reputation'] as int,
+      voice: json['voice'] as int,
+      planted: json['planted'] as String,
     );
   }
 }

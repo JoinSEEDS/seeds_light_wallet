@@ -43,7 +43,7 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
               final pageCommand = state.pageCommand;
               if (pageCommand is NavigateToSendConfirmation) {
                 final TransactionResult? result =
-                    await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+                    await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments) as TransactionResult?;
                 if (result != null) {
                   await _webViewController.runJavascript(
                       "setResponseCallbackLW({status: '${result.status.name}', message:'${result.message}'})");

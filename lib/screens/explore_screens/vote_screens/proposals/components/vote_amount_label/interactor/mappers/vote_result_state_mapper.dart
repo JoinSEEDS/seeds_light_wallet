@@ -8,7 +8,7 @@ class VoteResultStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      final VoteModel voteModel = result.asValue!.value;
+      final VoteModel voteModel = result.asValue!.value as VoteModel;
 
       return currentState.copyWith(pageState: PageState.success, amount: voteModel.amount);
     }

@@ -19,7 +19,7 @@ part 'switch_account_state.dart';
 
 class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
   final AuthenticationBloc _authenticationBloc;
-  SwitchAccountBloc(this._authenticationBloc, isRecoverPharseEnabled)
+  SwitchAccountBloc(this._authenticationBloc, bool isRecoverPharseEnabled)
       : super(SwitchAccountState.initial(isRecoverPharseEnabled)) {
     on<FindAccountsByKey>(_findAccountsByKey);
     on<OnAccountSelected>(_onAccountSelected);

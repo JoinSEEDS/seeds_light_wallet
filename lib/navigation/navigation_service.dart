@@ -49,6 +49,7 @@ import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_sc
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/interactor/viewmodels/receive_details.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -154,7 +155,7 @@ class NavigationService {
     Routes.joinRegion: (_) => const JoinRegionScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
-    Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
+    Routes.receiveQR: (ReceiveDetails args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
@@ -209,14 +210,14 @@ class NavigationService {
         // Pages that slides in from the right and exits in reverse
         return CupertinoPageRoute(
           settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments! as ReceiveDetails),
           fullscreenDialog: _fullScreenRoutes.contains(settings.name),
         );
       } else {
         // Pages slides the route upwards and fades it in, and exits in reverse
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments! as ReceiveDetails),
           fullscreenDialog: _fullScreenRoutes.contains(settings.name),
         );
       }

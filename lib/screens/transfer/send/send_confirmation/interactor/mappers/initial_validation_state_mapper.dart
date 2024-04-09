@@ -19,7 +19,7 @@ class InitialValidationStateMapper extends StateMapper {
       final token = TokenModel.fromId("$contract#$symbol");
       final double insufficiency = double.parse(amountRequested) - balance.quantity;
       final hasEnoughBalance = (token != null) ?
-          !token.blockTransfer(insufficiency, eosAction.data?['to']) :
+          !token.blockTransfer(insufficiency, eosAction.data?['to'] as String?) :
           insufficiency <= 0;
       if (hasEnoughBalance) {
         return currentState.copyWith(pageState: PageState.success);

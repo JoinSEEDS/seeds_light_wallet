@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema/json_schema.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
@@ -36,7 +36,7 @@ class TokenModel extends Equatable {
       CachedNetworkImageProvider(backgroundImageUrl,
         // unsuccessfully trying to catch http timeout
         // ref https://github.com/Baseflow/flutter_cached_network_image/issues/703
-        errorListener: () {
+        errorListener: (e) {
           print("CachedNetworkImageProvider: Image failed to load!");
         });
     } catch (e) {
@@ -68,7 +68,7 @@ class TokenModel extends Equatable {
     final result = await TokenModelsRepository().getSchema();
       if(result.isValue) {
         final tmastrSchemaMap = result.asValue!.value;
-        tmastrSchema = JsonSchema.createSchema(tmastrSchemaMap);
+        tmastrSchema = JsonSchema.create(tmastrSchemaMap);
         return Result.value(null);
       }
       print('Error getting Token Master schema from chain');
@@ -78,7 +78,7 @@ class TokenModel extends Equatable {
   static TokenModel? fromJson(Map<String,dynamic> data) {
     Map<String,dynamic> parsedJson;
     try {
-      parsedJson = json.decode(data["json"]);
+      parsedJson = json.decode(data["json"] as String) as Map<String, dynamic>;
     }
     catch (e) {
       print("in TokenModel ${data['symbolcode']}: $e");
@@ -104,22 +104,22 @@ class TokenModel extends Equatable {
     if(tmastrSchema == null) {
       return null;
     }
-    final validationErrors = tmastrSchema!.validateWithErrors(parsedJson);
+    final validationErrors = tmastrSchema!.validate(parsedJson).errors;
     if(validationErrors.isNotEmpty) {
       print('${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
       return null;
     }
     return TokenModel(
-        chainName: parsedJson["chain"]!,
-        contract: parsedJson["account"]!,
-        symbol: parsedJson["symbol"]!,
-        name: parsedJson["name"]!,
-        logoUrl: parsedJson["logo"]!,
-        balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
-        backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
-        overdraw: parsedJson["overdraw"] ?? "allow",
-        precision: parsedJson["precision"] ?? 4,
-        usecases: parsedJson["usecases"],
+        chainName: parsedJson["chain"]! as String,
+        contract: parsedJson["account"]! as String,
+        symbol: parsedJson["symbol"]! as String,
+        name: parsedJson["name"]! as String,
+        logoUrl: parsedJson["logo"]! as String,
+        balanceSubTitle: parsedJson["subtitle"] as String? ?? CurrencyInfoCard.defaultBalanceSubtitle,
+        backgroundImageUrl: parsedJson["bg_image"] as String? ?? CurrencyInfoCard.defaultBgImage,
+        overdraw: parsedJson["overdraw"] as String? ?? "allow",
+        precision: parsedJson["precision"] as int? ?? 4,
+        usecases: parsedJson["usecases"] as List<String>,
       );
   }
 
@@ -137,7 +137,7 @@ class TokenModel extends Equatable {
   static String getAssetString(String? id, double quantity) {
     if (id!=null && TokenModel.fromId(id)!=null && contractPrecisions.containsKey(id)) {
       final symbol = TokenModel.fromId(id)!.symbol;
-      return symbol==null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
+      return "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
     } else {
       return "";
     }
@@ -149,7 +149,7 @@ class TokenModel extends Equatable {
     if (ss.isEmpty) {
       return;
     }
-    contractPrecisions[this.id] = ss.length==1 ? 0 : ss[1].length;
+    contractPrecisions[id] = ss.length==1 ? 0 : ss[1].length;
   }
 
   // enabling 'send' transfer validity checks, e.g. Mutual Credit,

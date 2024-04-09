@@ -6,7 +6,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import "package:pointycastle/api.dart" show PublicKeyParameter;
-import 'package:pointycastle/ecc/api.dart' show ECPublicKey, ECSignature, ECPoint;
+import 'package:pointycastle/ecc/api.dart' show ECPoint, ECPublicKey, ECSignature;
 import "package:pointycastle/signers/ecdsa_signer.dart";
 import 'package:pointycastle/macs/hmac.dart';
 import "package:pointycastle/digests/sha256.dart";
@@ -87,13 +87,13 @@ class EOSSignature extends EOSKey {
     * @return {EOSPublicKey}
     */
   EOSPublicKey recover(dynamic data) {
-    var digest;
+    Digest digest;
 
     if (data is String) {
       var dataBuf = Uint8List.fromList(data.codeUnits);
       digest = sha256.convert(dataBuf);
     } else if (data is Uint8List || data is List<int>) {
-      digest = sha256.convert(data);
+      digest = sha256.convert(data as List<int>);
     } else {
       throw 'data must be String or uint8list';
     }

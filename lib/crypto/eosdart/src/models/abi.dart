@@ -5,11 +5,11 @@ import 'dart:typed_data';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import './conversion_helper.dart';
 import '../eosdart_base.dart';
 import '../jsons.dart';
 import '../numeric.dart';
 import '../serialize.dart' as ser;
+import './conversion_helper.dart';
 
 part 'abi.g.dart';
 
@@ -53,7 +53,7 @@ class AbiResp with ConversionHelper {
   /// Decodes an abi as Uint8List into json. */
   static Abi? _rawAbiToJson(Uint8List rawAbi) {
     Map<String?, Type> abiTypes = ser.getTypesFromAbi(
-        ser.createInitialTypes(), Abi.fromJson(json.decode(abiJson)));
+        ser.createInitialTypes(), Abi.fromJson(json.decode(abiJson) as Map<String, dynamic>));
     try {
       var buffer = ser.SerialBuffer(rawAbi);
       var str = buffer.getString();
@@ -63,9 +63,9 @@ class AbiResp with ConversionHelper {
       buffer.restartRead();
       var t = abiTypes['abi_def']!;
       var b = t.deserialize!(t, buffer);
-      return Abi.fromJson(json.decode(json.encode(b)));
+      return Abi.fromJson(json.decode(json.encode(b)) as Map<String, dynamic>);
     } catch (e) {
-      print(e.toString());
+      print(e);
       return null;
     }
   }

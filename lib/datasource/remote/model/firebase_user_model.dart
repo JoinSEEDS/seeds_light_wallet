@@ -10,7 +10,7 @@ class FirebaseUserModel extends Equatable {
 
   factory FirebaseUserModel.fromDocument(Map<String, dynamic> document, String account) {
     return FirebaseUserModel(
-      guardianRecoveryStarted: document[GUARDIAN_RECOVERY_STARTED_KEY],
+      guardianRecoveryStarted: document[GUARDIAN_RECOVERY_STARTED_KEY] as Timestamp,
       account: account,
     );
   }

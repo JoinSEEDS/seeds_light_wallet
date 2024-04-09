@@ -19,9 +19,9 @@ class MembersRepository extends HttpRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['rows'].toList();
-              return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['rows'] as List;
+              return allAccounts.map((item) => ProfileModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -46,9 +46,9 @@ class MembersRepository extends HttpRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['rows'].toList();
-              return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['rows'] as List;
+              return allAccounts.map((item) => ProfileModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -79,9 +79,9 @@ class MembersRepository extends HttpRepository {
 
     return http
         .post(mongoUrl, headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['items'].toList();
-              return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['items'] as List;
+              return allAccounts.map((item) => ProfileModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -123,10 +123,10 @@ class MembersRepository extends HttpRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ProfileModel?>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['rows'].toList();
+        .then((http.Response response) => mapHttpResponse<ProfileModel?>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['rows'] as List;
               if (allAccounts.isNotEmpty) {
-                return ProfileModel.fromJson(allAccounts[0]);
+                return ProfileModel.fromJson(allAccounts[0] as Map<String, dynamic>);
               } else {
                 return null;
               }

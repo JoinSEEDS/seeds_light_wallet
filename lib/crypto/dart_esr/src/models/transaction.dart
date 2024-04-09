@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/crypto/dart_esr/dart_esr.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
 
 part 'transaction.g.dart';
@@ -29,7 +29,7 @@ class Transaction {
   List<Object?>? contextFreeActions = [];
 
   @JsonKey(name: 'actions')
-  List<esr.Action?>? actions = [];
+  List<Action?>? actions = [];
 
   @JsonKey(name: 'transaction_extensions')
   List<Object?>? transactionExtensions = [];

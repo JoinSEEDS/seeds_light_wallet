@@ -17,11 +17,11 @@ class RefundModel extends Equatable {
 
   factory RefundModel.fromJson(Map<String, dynamic> json) {
     return RefundModel(
-      requestId: json['request_id'],
-      refundId: json['refund_id'],
-      amount: double.parse(json['amount'].split(' ').first),
-      requestTime: json['request_time'],
-      weeksDelay: json['weeks_delay'],
+      requestId: json['request_id'] as int,
+      refundId: json['refund_id'] as int,
+      amount: double.parse(json['amount'].split(' ').first as String),
+      requestTime: json['request_time'] as int,
+      weeksDelay: json['weeks_delay'] as int,
     );
   }
 

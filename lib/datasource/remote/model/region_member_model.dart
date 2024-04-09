@@ -13,9 +13,9 @@ class RegionMemberModel extends Equatable {
 
   factory RegionMemberModel.fromJson(Map<String, dynamic> json) {
     return RegionMemberModel(
-      region: json['region'],
-      account: json['account'],
-      joinedDate: json['joined_date'],
+      region: json['region'] as String,
+      account: json['account'] as String,
+      joinedDate: json['joined_date'] as String,
     );
   }
 

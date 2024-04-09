@@ -4,7 +4,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_signing_request_use_case.dart';
 import 'package:seeds/screens/explore_screens/swap_seeds/interactor/mappers/signing_result_state_mapper.dart';
-import 'package:webview_flutter/platform_interface.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part 'swap_seeds_event.dart';
 part 'swap_seeds_state.dart';

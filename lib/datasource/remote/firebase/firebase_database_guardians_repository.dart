@@ -18,7 +18,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       if (guardianNotification == null) {
         return false;
       } else {
-        return guardianNotification[GUARDIAN_NOTIFICATION_KEY];
+        return guardianNotification[GUARDIAN_NOTIFICATION_KEY] as bool;
       }
     }
 
@@ -44,7 +44,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
         .doc(userAccount)
         .snapshots()
         // ignore: cast_nullable_to_non_nullable
-        .map((user) => (user.data() as Map<String, dynamic>)[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+        .map((user) => (user.data() as Map<String, dynamic>)[GUARDIAN_CONTRACT_INITIALIZED] as bool? ?? false);
   }
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
@@ -104,7 +104,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       return ValueResult(value);
     }).catchError((onError) {
       // ignore: return_of_invalid_type_from_catch_error
-      return ErrorResult(onError);
+      return ErrorResult(onError as Object);
     });
   }
 

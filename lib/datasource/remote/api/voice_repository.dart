@@ -20,7 +20,7 @@ class VoiceRepository extends HttpRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (Map<String, dynamic> body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -40,7 +40,7 @@ class VoiceRepository extends HttpRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (Map<String, dynamic> body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -60,7 +60,7 @@ class VoiceRepository extends HttpRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (Map<String, dynamic> body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -79,7 +79,7 @@ class VoiceRepository extends HttpRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (Map<String, dynamic> body) {
               return VoiceModel.fromBalanceJson(body);
             }))
         .catchError((error) => mapHttpError(error));

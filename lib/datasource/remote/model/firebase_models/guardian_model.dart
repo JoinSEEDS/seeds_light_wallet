@@ -28,13 +28,13 @@ class GuardianModel {
 
   GuardianModel.fromMap(Map<String, dynamic> data)
       : this(
-          uid: data[UID_KEY],
-          status: fromStatusName(data[GUARDIANS_STATUS_KEY]),
-          type: fromTypeName(data[TYPE_KEY]),
-          dateCreated: data[GUARDIANS_DATE_CREATED_KEY],
-          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY],
-          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY],
-          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY],
+          uid: data[UID_KEY] as String,
+          status: fromStatusName(data[GUARDIANS_STATUS_KEY] as String?),
+          type: fromTypeName(data[TYPE_KEY] as String?),
+          dateCreated: data[GUARDIANS_DATE_CREATED_KEY] as Timestamp,
+          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY] as Timestamp,
+          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY] as Timestamp,
+          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY] as Timestamp,
         );
 
   GuardianModel copyWith({

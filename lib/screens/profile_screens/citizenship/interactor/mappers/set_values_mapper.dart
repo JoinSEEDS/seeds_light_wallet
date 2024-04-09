@@ -27,9 +27,9 @@ class SetValuesStateMapper extends StateMapper {
       citizenshipDataResults.retainWhere((Result i) => i.isValue);
       final values = citizenshipDataResults.map((Result i) => i.asValue!.value).toList();
 
-      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
-      final SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null);
-      final ScoreModel? reputationScore = values.firstWhere((i) => i is ScoreModel, orElse: () => null);
+      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null) as PlantedModel?;
+      final SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null) as SeedsHistoryModel?;
+      final ScoreModel? reputationScore = values.firstWhere((i) => i is ScoreModel, orElse: () => null) as ScoreModel?;
 
       final int planted = plantedSeeds?.quantity.toInt() ?? 0;
       final int transactions = seedsHistory?.totalNumberOfTransactions ?? 0;

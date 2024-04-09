@@ -37,7 +37,7 @@ class ClaimUnplantSeedsBalanceRow extends StatelessWidget {
                   onPressed: isClaimButtonEnable ? onTapClaim : null,
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-                      primary: AppColors.green1),
+                      foregroundColor: AppColors.green1),
                   child: const Text("Claim", style: TextStyle(fontSize: 10))),
             ),
             const SizedBox(width: 10),

@@ -9,9 +9,9 @@ class StatModel {
 
   factory StatModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
-      final supplyString = json['rows'][0]['supply'] ?? '';
-      final maxSupplyString = json['rows'][0]['max_supply'] ?? '';
-      final issuer = json['rows'][0]['issuer'] ?? '';
+      final supplyString = json['rows'][0]['supply'] as String? ?? '';
+      final maxSupplyString = json['rows'][0]['max_supply'] as String? ?? '';
+      final issuer = json['rows'][0]['issuer'] as String? ?? '';
       return StatModel(supplyString, maxSupplyString, issuer);
     } else {
       return const StatModel('', '', '');

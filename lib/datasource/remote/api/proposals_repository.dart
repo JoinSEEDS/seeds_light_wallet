@@ -34,8 +34,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<MoonPhaseModel>>(response, (dynamic body) {
-              return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
+        .then((http.Response response) => mapHttpResponse<List<MoonPhaseModel>>(response, (Map<String, dynamic> body) {
+              return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -56,8 +56,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteCycleModel>(response, (dynamic body) {
-              return VoteCycleModel.fromJson(body['rows'][0]);
+        .then((http.Response response) => mapHttpResponse<VoteCycleModel>(response, (Map<String, dynamic> body) {
+              return VoteCycleModel.fromJson(body['rows'][0] as Map<String, dynamic>);
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -80,9 +80,9 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (Map<String, dynamic> body) {
               final List<ProposalModel> result =
-                  body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+                  body['rows'].map((i) => ProposalModel.fromJson(i as Map<String, dynamic>)) as List<ProposalModel>;
               if (proposalType.filterByStage != null) {
                 result.retainWhere((e) => e.stage == proposalType.filterByStage);
               }
@@ -106,11 +106,11 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<ReferendumModel>>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<ReferendumModel>>(response, (Map<String, dynamic> body) {
               // The referendums do not have a status field as do the proposals, so the scope must be added
               // to each referendum, which also acts as a status field.
               final List<ReferendumModel> result =
-                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i, scope)).toList();
+                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i as Map<String, dynamic>, scope)) as List<ReferendumModel>;
               return result;
             }))
         .catchError((error) => mapHttpError(error));
@@ -125,8 +125,8 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<SupportLevelModel>>(response, (dynamic body) {
-              return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
+        .then((http.Response response) => mapHttpResponse<List<SupportLevelModel>>(response, (Map<String, dynamic> body) {
+              return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -147,7 +147,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (Map<String, dynamic> body) {
               return VoteModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -169,7 +169,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (Map<String, dynamic> body) {
               return VoteModel.fromJsonReferendum(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -193,7 +193,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -217,7 +217,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -233,7 +233,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -255,7 +255,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<DelegateModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<DelegateModel>(response, (Map<String, dynamic> body) {
               return DelegateModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -278,9 +278,9 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return http
         .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<DelegatorModel>>(response, (dynamic body) {
-              final List<dynamic> allDelegator = body['rows'].toList();
-              return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<DelegatorModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allDelegator = body['rows'] as List;
+              return allDelegator.map((item) => DelegatorModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -295,7 +295,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));

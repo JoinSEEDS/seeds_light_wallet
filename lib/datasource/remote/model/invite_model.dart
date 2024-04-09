@@ -31,13 +31,13 @@ class InviteModel extends Equatable {
 
   factory InviteModel.fromJson(Map<String, dynamic> json) {
     return InviteModel(
-      inviteId: json['invite_id'],
-      transferQuantity: json['transfer_quantity'],
-      sowQuantity: json['sow_quantity'],
-      sponsor: json['sponsor'],
-      account: json['account'],
-      inviteHash: json['invite_hash'],
-      inviteSecret: json['invite_secret'],
+      inviteId: json['invite_id'] as int,
+      transferQuantity: json['transfer_quantity'] as String,
+      sowQuantity: json['sow_quantity'] as String,
+      sponsor: json['sponsor'] as String,
+      account: json['account'] as String,
+      inviteHash: json['invite_hash'] as String,
+      inviteSecret: json['invite_secret'] as String,
     );
   }
 

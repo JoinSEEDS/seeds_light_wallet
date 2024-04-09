@@ -16,9 +16,9 @@ class RegionMessageModel {
 
   factory RegionMessageModel.mapToRegionMessageModel(QueryDocumentSnapshot event) {
     return RegionMessageModel(
-        regionAccount: event[regionAccountKey],
-        senderAccount: event[creatorAccountKey],
-        message: event[messageTextKey],
-        createdDate: event[dateCreatedKey]);
+        regionAccount: event[regionAccountKey] as String,
+        senderAccount: event[creatorAccountKey] as String,
+        message: event[messageTextKey] as String,
+        createdDate: event[dateCreatedKey] as DateTime);
   }
 }

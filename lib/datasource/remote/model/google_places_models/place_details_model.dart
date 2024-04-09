@@ -11,9 +11,9 @@ class PlacesDetailsResponse {
 
   factory PlacesDetailsResponse.fromJson(Map<String, dynamic> json) {
     return PlacesDetailsResponse(
-      result: PlaceDetails.fromJson(json['result']),
-      status: json['status'],
-      errorMessage: json['error_message'],
+      result: PlaceDetails.fromJson(json['result'] as Map<String, dynamic> ),
+      status: json['status'] as String,
+      errorMessage: json['error_message'] as String?,
     );
   }
 }
@@ -24,7 +24,7 @@ class PlaceDetails {
   const PlaceDetails(this.geometry);
 
   factory PlaceDetails.fromJson(Map<String, dynamic> json) {
-    return PlaceDetails(Geometry.fromJson(json['geometry']));
+    return PlaceDetails(Geometry.fromJson(json['geometry'] as Map<String, dynamic> ));
   }
 }
 
@@ -34,7 +34,7 @@ class Geometry {
   const Geometry(this.location);
 
   factory Geometry.fromJson(Map<String, dynamic> json) {
-    return Geometry(Location.fromJson(json['location']));
+    return Geometry(Location.fromJson(json['location'] as Map<String, dynamic> ));
   }
 }
 
@@ -45,7 +45,7 @@ class Location {
   const Location({required this.lat, required this.lng});
 
   factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(lat: json['lat'], lng: json['lng']);
+    return Location(lat: json['lat'] as double, lng: json['lng'] as double);
   }
 
   @override

@@ -14,7 +14,7 @@ class SingingRequestStateMapper extends StateMapper {
         pageCommand: ShowErrorMessage("Oops, something went wrong".i18n),
       );
     } else {
-      final SeedsESR? request = result.asValue!.value;
+      final SeedsESR? request = result.asValue!.value as SeedsESR?;
 
       if (request != null) {
         return currentState.copyWith(

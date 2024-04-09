@@ -56,8 +56,8 @@ class VouchedTab extends StatelessWidget {
                       enabled: state.canVouch,
                       title: 'Vouch for a member',
                       onPressed: () async {
-                        final shouldScreenReload =
-                            await NavigationService.of(context).navigateTo(Routes.vouchForAMember, state.vouched);
+                        final bool? shouldScreenReload =
+                            await NavigationService.of(context).navigateTo(Routes.vouchForAMember, state.vouched) as bool?;
                         if (shouldScreenReload != null) {
                           // ignore: use_build_context_synchronously
                           BlocProvider.of<VouchedBloc>(context).add(LoadUserVouchedList(shouldScreenReload));

@@ -16,7 +16,7 @@ class ESRConstants {
   static eosDart.Abi signingRequestAbi(int version) => eosDart.Abi.fromJson(
         json.decode(
           version < 3 ? signing_request_abis.signingRequestAbi : signing_request_v3_abis.signingRequestAbiV3,
-        ),
+        ) as Map<String, dynamic>,
       );
 
   static Map<String?, eosDart.Type> signingRequestAbiType(int version) =>

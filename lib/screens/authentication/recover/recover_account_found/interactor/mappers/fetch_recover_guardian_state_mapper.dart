@@ -16,9 +16,9 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     final Result userRecoversModel = result.userRecoversModel;
     final Result accountGuardians = result.accountGuardians;
 
-    final Uri? link = linkResult.asValue?.value;
-    final UserRecoversModel? userRecoversModelData = userRecoversModel.asValue?.value;
-    final UserGuardiansModel? userGuardiansModel = accountGuardians.asValue?.value;
+    final Uri? link = linkResult.asValue?.value as Uri?;
+    final UserRecoversModel? userRecoversModelData = userRecoversModel.asValue?.value as UserRecoversModel?;
+    final UserGuardiansModel? userGuardiansModel = accountGuardians.asValue?.value as UserGuardiansModel?;
 
     final hasFetchedGuardians = areAllResultsSuccess(members);
     final hasGuardians = members.isNotEmpty;

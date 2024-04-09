@@ -22,7 +22,7 @@ import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_c
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/make_resident_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/usecases/update_profile_image_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'profile_event.dart';
 

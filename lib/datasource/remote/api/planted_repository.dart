@@ -21,7 +21,7 @@ class PlantedRepository extends HttpRepository {
 
     return http
         .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<PlantedModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<PlantedModel>(response, (Map<String, dynamic> body) {
               return PlantedModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -41,9 +41,9 @@ class PlantedRepository extends HttpRepository {
 
     return http
         .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<RefundModel>>(response, (dynamic body) {
-              final List<dynamic> allRefunds = body['rows'].toList();
-              return allRefunds.map((item) => RefundModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<RefundModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allRefunds = body['rows'] as List;
+              return allRefunds.map((item) => RefundModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

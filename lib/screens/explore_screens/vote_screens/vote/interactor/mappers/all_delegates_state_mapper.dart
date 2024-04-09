@@ -15,9 +15,9 @@ class AllDelegatesStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure);
     } else {
-      final DelegateModel? allianceDelegate = results[_allianceDelegateResponseIndex].valueOrNull;
-      final DelegateModel? campaingDelegate = results[_campaingDelegateResponseIndex].valueOrNull;
-      final DelegateModel? milestoneDelegate = results[_milestoneDelegateResponseIndex].valueOrNull;
+      final DelegateModel? allianceDelegate = results[_allianceDelegateResponseIndex].valueOrNull as DelegateModel?;
+      final DelegateModel? campaingDelegate = results[_campaingDelegateResponseIndex].valueOrNull as DelegateModel?;
+      final DelegateModel? milestoneDelegate = results[_milestoneDelegateResponseIndex].valueOrNull as DelegateModel?;
       final List<CategoryDelegate> currentDelegates = [];
       if (allianceDelegate != null && allianceDelegate.hasDelegate) {
         currentDelegates

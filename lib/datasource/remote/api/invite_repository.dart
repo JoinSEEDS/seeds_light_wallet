@@ -61,7 +61,7 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -80,9 +80,9 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['rows'].toList();
-              return allAccounts.map((item) => ProfileModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['rows'] as List;
+              return allAccounts.map((item) => ProfileModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -91,7 +91,6 @@ class InviteRepository extends HttpRepository with EosRepository {
     print('[http] find invite by hash');
 
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-    // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
     final request = createRequest(
         code: SeedsCode.accountJoin,
@@ -104,9 +103,9 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return http
         .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<InviteModel>>(response, (dynamic body) {
-              final List<dynamic> invite = body['rows'].toList();
-              return invite.map((item) => InviteModel.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse<List<InviteModel>>(response, (Map<String, dynamic> body) {
+              final List<dynamic> invite = body['rows'] as List;
+              return invite.map((item) => InviteModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -155,7 +154,7 @@ class InviteRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));

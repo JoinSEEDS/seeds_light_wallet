@@ -68,7 +68,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
           if (pageCommand is NavigateToRouteWithArguments<ProposalsArgsData>) {
             final args = pageCommand.arguments
                 .copyWith(currentDelegates: BlocProvider.of<VoteBloc>(context).state.currentDelegates);
-            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, args);
+            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, args) as int?;
             if (index != null) {
               // 420 is the height of this proposal card
               // ignore: unawaited_futures

@@ -7,7 +7,7 @@ class Snack extends SnackBar {
   final String title;
   final ScaffoldMessengerState scaffoldMessengerState;
 
-  factory Snack(title, scaffoldMessengerState, SnackType type) {
+  factory Snack(String title, ScaffoldMessengerState scaffoldMessengerState, SnackType type) {
     late Color color;
     Duration duration = const Duration(seconds: 4);
     switch (type) {

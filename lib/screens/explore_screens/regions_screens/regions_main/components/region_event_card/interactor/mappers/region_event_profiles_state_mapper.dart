@@ -4,7 +4,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/regions_main/compo
 
 class RegionEventProfileMembersStateMapper extends StateMapper {
   RegionEventCardState mapResultsToState({required RegionEventCardState currentState, required Result result}) {
-    final List<ProfileModel> profiles = result.asValue?.value ?? [];
+    final List<ProfileModel> profiles = result.asValue?.value as List<ProfileModel>? ?? [];
     return currentState.copyWith(profiles: profiles);
   }
 }

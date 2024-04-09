@@ -6,7 +6,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/support/interactor/viewmodels/support_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportScreen extends StatelessWidget {

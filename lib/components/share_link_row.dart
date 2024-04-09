@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// Copy Link
 ///

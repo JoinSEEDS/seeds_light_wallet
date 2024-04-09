@@ -8,7 +8,7 @@ class UpdateProfileImageStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      final TransactionResponse res = result.asValue!.value;
+      final TransactionResponse res = result.asValue!.value as TransactionResponse;
       return currentState.copyWith(
         pageState: PageState.success,
         profile: currentState.profile!.copyWith(image: res.data!.image),

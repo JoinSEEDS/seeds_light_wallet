@@ -6,36 +6,25 @@ part of 'node_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NodeInfo _$NodeInfoFromJson(Map<String, dynamic> json) {
-  return NodeInfo()
-    ..serverVersion = json['server_version'] as String?
-    ..chainId = json['chain_id'] as String?
-    ..headBlockNum = json['head_block_num'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['head_block_num'])
-    ..lastIrreversibleBlockNum = json['last_irreversible_block_num'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['last_irreversible_block_num'])
-    ..lastIrreversibleBlockId = json['last_irreversible_block_id'] as String?
-    ..headBlockTime = json['head_block_time'] == null
-        ? null
-        : DateTime.parse(json['head_block_time'] as String)
-    ..headBlockProducer = json['head_block_producer'] as String?
-    ..virtualBlockCpuLimit = json['virtual_block_cpu_limit'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['virtual_block_cpu_limit'])
-    ..virtualBlockNetLimit = json['virtual_block_net_limit'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['virtual_block_net_limit'])
-    ..blockCpuLimit = json['block_cpu_limit'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['block_cpu_limit'])
-    ..blockNetLimit = json['block_net_limit'] == null
-        ? null
-        : ConversionHelper.getIntFromJson(json['block_net_limit'])
-    ..serverVersionString = json['server_version_string'] as String?
-    ..website = json['website'] as String?;
-}
+NodeInfo _$NodeInfoFromJson(Map<String, dynamic> json) => NodeInfo()
+  ..serverVersion = json['server_version'] as String?
+  ..chainId = json['chain_id'] as String?
+  ..headBlockNum = ConversionHelper.getIntFromJson(json['head_block_num'])
+  ..lastIrreversibleBlockNum =
+      ConversionHelper.getIntFromJson(json['last_irreversible_block_num'])
+  ..lastIrreversibleBlockId = json['last_irreversible_block_id'] as String?
+  ..headBlockTime = json['head_block_time'] == null
+      ? null
+      : DateTime.parse(json['head_block_time'] as String)
+  ..headBlockProducer = json['head_block_producer'] as String?
+  ..virtualBlockCpuLimit =
+      ConversionHelper.getIntFromJson(json['virtual_block_cpu_limit'])
+  ..virtualBlockNetLimit =
+      ConversionHelper.getIntFromJson(json['virtual_block_net_limit'])
+  ..blockCpuLimit = ConversionHelper.getIntFromJson(json['block_cpu_limit'])
+  ..blockNetLimit = ConversionHelper.getIntFromJson(json['block_net_limit'])
+  ..serverVersionString = json['server_version_string'] as String?
+  ..website = json['website'] as String?;
 
 Map<String, dynamic> _$NodeInfoToJson(NodeInfo instance) => <String, dynamic>{
       'server_version': instance.serverVersion,
@@ -50,5 +39,5 @@ Map<String, dynamic> _$NodeInfoToJson(NodeInfo instance) => <String, dynamic>{
       'block_cpu_limit': instance.blockCpuLimit,
       'block_net_limit': instance.blockNetLimit,
       'server_version_string': instance.serverVersionString,
-      'website': instance.website
+      'website': instance.website,
     };

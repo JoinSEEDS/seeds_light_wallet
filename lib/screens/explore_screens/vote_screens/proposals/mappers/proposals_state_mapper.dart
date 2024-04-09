@@ -27,9 +27,9 @@ class ProposalsStateMapper extends StateMapper {
     } else {
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
-      final ProfileModel? profile = values.firstWhereOrNull((i) => i is ProfileModel);
-      final List<ProposalModel> proposalsModel = values.firstWhereOrNull((i) => i is List<ProposalModel>);
-      final List<List<ReferendumModel>> referendumsLists = values.whereType<List<ReferendumModel>>().toList();
+      final ProfileModel? profile = values.firstWhereOrNull((i) => i is ProfileModel) as ProfileModel?;
+      final List<ProposalModel> proposalsModel = values.firstWhereOrNull((i) => i is List<ProposalModel>) as List<ProposalModel>;
+      final List<List<ReferendumModel>> referendumsLists = values.whereType<List<ReferendumModel>>() as List<List<ReferendumModel>>;
       List<ReferendumModel> referendumsModel = [];
       // For History section referendums need 2 request for passed and failed (2 lists)
       if (referendumsLists.length > oneReferendumList) {

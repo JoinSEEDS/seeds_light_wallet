@@ -21,7 +21,7 @@ abstract class HttpRepository {
         {
           print('Model Class: $modelMapper');
           final body = response.parseJson();
-          return ValueResult(modelMapper(body));
+          return ValueResult(modelMapper(body) as T);
         }
       default:
         print("network error: ${response.reasonPhrase}");
@@ -31,7 +31,7 @@ abstract class HttpRepository {
 
   ErrorResult mapHttpError(dynamic error) {
     print('mapHttpError: $error');
-    return ErrorResult(error);
+    return ErrorResult(error as Object);
   }
 
   String createRequest({

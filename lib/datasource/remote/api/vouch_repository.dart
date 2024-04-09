@@ -35,7 +35,7 @@ class VouchRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -64,10 +64,10 @@ class VouchRepository extends HttpRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<List<VouchModel>>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<VouchModel>>(response, (Map<String, dynamic> body) {
               print("result $isSponsor: $body");
-              final List<dynamic> items = body['rows'].toList();
-              return items.map((item) => VouchModel.fromJson(item)).toList();
+              final List<dynamic> items = body['rows'] as List;
+              return items.map((item) => VouchModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

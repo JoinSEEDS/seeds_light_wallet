@@ -13,10 +13,10 @@ class MoonPhaseModel {
 
   factory MoonPhaseModel.fromJson(Map<String, dynamic> json) {
     return MoonPhaseModel(
-      timestamp: json['timestamp'],
-      time: json['time'],
-      phaseName: json['phase_name'],
-      eclipse: json['eclipse'],
+      timestamp: json['timestamp'] as int,
+      time: json['time'] as String,
+      phaseName: json['phase_name'] as String,
+      eclipse: json['eclipse'] as String,
     );
   }
 }

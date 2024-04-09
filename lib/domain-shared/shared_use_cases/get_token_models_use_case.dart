@@ -35,10 +35,10 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
           break fetchOneUseCase;
         }
         final resultValue = acceptedTokenIdsResult.asValue!.value;
-        more = resultValue['more'];
+        more = resultValue['more'] as bool;
         final acceptances = resultValue['rows'].toList();
         final tokenIds = List<int>.from(
-            acceptances.map((row) => row['token_id']).toList());
+            acceptances.map((row) => row['token_id']) as List);
         if(tokenIds.isEmpty) {
           continue;
         }
@@ -64,8 +64,8 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
         return Result.error("failed to get master token list");
       }
       final resultValue = allTokensResult.asValue!.value;
-      more = resultValue["more"];
-      final allTokenRows = resultValue["rows"];
+      more = resultValue["more"] as bool;
+      final allTokenRows = resultValue["rows"] as List;
       final tokens = allTokenRows.where((row) {
         final id = row["id"];
         if (remainingIds.contains(id)) {

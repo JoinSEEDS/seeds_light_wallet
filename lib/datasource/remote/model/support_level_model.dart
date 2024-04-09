@@ -13,10 +13,10 @@ class SupportLevelModel {
 
   factory SupportLevelModel.fromJson(Map<String, dynamic> json) {
     return SupportLevelModel(
-      propcycle: json['propcycle'],
-      numProposals: json['num_proposals'],
-      totaVoiceCast: json['total_voice_cast'],
-      voiceNeeded: json['voice_needed'],
+      propcycle: json['propcycle'] as int,
+      numProposals: json['num_proposals'] as int,
+      totaVoiceCast: json['total_voice_cast']as int,
+      voiceNeeded: json['voice_needed'] as int,
     );
   }
 }

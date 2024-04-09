@@ -34,11 +34,11 @@ class GetProfileValuesUseCase extends NoInputUseCase<GetProfileValuesResponse> {
       return Result.error("Error fetching Profile Data");
     } else {
       final GetProfileValuesResponse result = GetProfileValuesResponse(
-        profileModel: response[_profileResultIndex].valueOrNull,
-        scoreModel: response[_contributionScoreResultIndex].valueOrNull,
-        organizationModel: response[_organizationResultIndex].valueOrNull,
-        canResident: response[_canResidentResultIndex].valueOrNull,
-        canCitizen: response[_canCitizenResultIndex].valueOrNull,
+        profileModel: response[_profileResultIndex].valueOrNull as ProfileModel?,
+        scoreModel: response[_contributionScoreResultIndex].valueOrNull as ScoreModel?,
+        organizationModel: response[_organizationResultIndex].valueOrNull as List<OrganizationModel>?,
+        canResident: response[_canResidentResultIndex].valueOrNull as TransactionResponse?,
+        canCitizen: response[_canCitizenResultIndex].valueOrNull as TransactionResponse?,
       );
 
       return Result.value(result);

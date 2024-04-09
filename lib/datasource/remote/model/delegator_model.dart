@@ -5,6 +5,6 @@ class DelegatorModel {
   const DelegatorModel({this.delegatee, required this.delegator});
 
   factory DelegatorModel.fromJson(Map<String, dynamic> json) {
-    return DelegatorModel(delegatee: json['delegatee'], delegator: json['delegator']);
+    return DelegatorModel(delegatee: json['delegatee'] as String, delegator: json['delegator'] as String);
   }
 }

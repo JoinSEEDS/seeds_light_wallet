@@ -6,11 +6,10 @@ part of 'authorization.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Authorization _$AuthorizationFromJson(Map<String, dynamic> json) {
-  return Authorization()
-    ..actor = json['actor'] as String
-    ..permission = json['permission'] as String;
-}
+Authorization _$AuthorizationFromJson(Map<String, dynamic> json) =>
+    Authorization()
+      ..actor = json['actor'] as String?
+      ..permission = json['permission'] as String?;
 
 Map<String, dynamic> _$AuthorizationToJson(Authorization instance) =>
     <String, dynamic>{

@@ -48,16 +48,16 @@ class RegionModel {
     print("json source $json");
 
     return RegionModel(
-      id: json['id'],
-      founder: json['founder'],
-      status: json['status'],
-      title: json['title'],
-      description: json['description'],
-      locationJson: json['locationjson'],
-      latitude: double.parse(json['latitude']),
-      longitude: double.parse(json['longitude']),
-      membersCount: json['members_count'],
-      createdAt: json['created_at'],
+      id: json['id'] as String,
+      founder: json['founder'] as String,
+      status: json['status'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      locationJson: json['locationjson'] as String,
+      latitude: double.parse(json['latitude'] as String),
+      longitude: double.parse(json['longitude'] as String),
+      membersCount: json['members_count'] as int,
+      createdAt: json['created_at'] as String,
     );
   }
 

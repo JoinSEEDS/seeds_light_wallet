@@ -49,19 +49,19 @@ class RegionEventModel {
   String get formattedCreatedTime => DateFormat.yMMMMEEEEd().format(DateTime.parse(createdTime.toDate().toString()));
 
   factory RegionEventModel.mapToRegionEventModel(QueryDocumentSnapshot<Map<String, dynamic>> event) {
-    final users = List<String>.from(event.getOrDefault(eventUsersKey, []));
+    final users = List<String>.from(event.getOrDefault(eventUsersKey, []) as List);
     return RegionEventModel(
       id: event.id,
-      regionAccount: event[regionAccountKey],
-      creatorAccount: event[creatorAccountKey],
-      eventName: event[eventNameKey],
-      eventDescription: event[eventDescriptionKey],
-      eventLocation: event[eventLocationKey][geoPointKey],
-      eventAddress: event[eventAddressKey],
-      eventImage: event[eventImageKey],
-      eventStartTime: event[eventStartTimeKey],
-      eventEndTime: event[eventEndTimeKey],
-      createdTime: event[dateCreatedKey],
+      regionAccount: event[regionAccountKey] as String,
+      creatorAccount: event[creatorAccountKey] as String,
+      eventName: event[eventNameKey] as String,
+      eventDescription: event[eventDescriptionKey] as String,
+      eventLocation: event[eventLocationKey][geoPointKey] as GeoPoint,
+      eventAddress: event[eventAddressKey] as String,
+      eventImage: event[eventImageKey] as String,
+      eventStartTime: event[eventStartTimeKey] as Timestamp,
+      eventEndTime: event[eventEndTimeKey] as Timestamp,
+      createdTime: event[dateCreatedKey] as Timestamp,
       users: users,
     );
   }

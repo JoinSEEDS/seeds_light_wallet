@@ -10,7 +10,7 @@ mixin ConversionHelper {
   static int? getIntFromJson(dynamic value) {
     switch (value.runtimeType) {
       case String:
-        return int.parse(value);
+        return int.parse(value as String);
       default:
         return value as int?;
     }

@@ -13,8 +13,8 @@ class RatesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch balance...');
     } else {
       /// note: we re-use existing conversion rates if we can't load new ones
-      final RateModel? seedsRateModel = results[0].asValue?.value ?? currentState.rates?[seedsTokenId];
-      final RateModel? telosRateModel = results[1].asValue?.value ?? currentState.rates?[telosTokenId];
+      final RateModel? seedsRateModel = results[0].asValue?.value as RateModel? ?? currentState.rates?[seedsTokenId];
+      final RateModel? telosRateModel = results[1].asValue?.value as RateModel? ?? currentState.rates?[telosTokenId];
       final rates = {
         husdTokenId: const RateModel(husdTokenId, 1),
       };
@@ -24,7 +24,7 @@ class RatesStateMapper extends StateMapper {
       if (telosRateModel != null) {
         rates[telosTokenId] = telosRateModel;
       }
-      final FiatRateModel? fiatRate = results[2].asValue?.value;
+      final FiatRateModel? fiatRate = results[2].asValue?.value as FiatRateModel?;
       return currentState.copyWith(rates: rates, fiatRate: fiatRate);
     }
   }

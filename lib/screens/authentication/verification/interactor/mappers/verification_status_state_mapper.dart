@@ -13,11 +13,11 @@ class VerificationStatusStateMapper extends StateMapper {
         biometricAuthError: true,
       );
     } else {
-      final BiometricAuthStatus biometricAuthStatus = result.asValue!.value;
+      final BiometricAuthStatus biometricAuthStatus = result.asValue!.value as BiometricAuthStatus;
       if (biometricAuthStatus == BiometricAuthStatus.authorized) {
         return currentState.copyWith(pageCommand: BiometricAuthorized());
       } else {
-        return currentState.copyWith(pageState: PageState.success, biometricAuthStatus: result.asValue!.value);
+        return currentState.copyWith(pageState: PageState.success, biometricAuthStatus: result.asValue!.value as BiometricAuthStatus?);
       }
     }
   }

@@ -8,7 +8,7 @@ class UserAccountStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
-      final ProfileModel? profile = result.asValue!.value;
+      final ProfileModel? profile = result.asValue!.value as ProfileModel?;
 
       return currentState.copyWith(pageState: PageState.success, profile: profile);
     }

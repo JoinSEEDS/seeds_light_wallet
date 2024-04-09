@@ -35,7 +35,7 @@ class FlagRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -64,7 +64,7 @@ class FlagRepository extends HttpRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (Map<String, dynamic> map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
@@ -90,8 +90,8 @@ class FlagRepository extends HttpRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
-              final List<dynamic> items = body['rows'].toList();
-              return items.map((item) => FlagModel.fromJson(item)).toList();
+              final List<dynamic> items = body['rows'] as List;
+              return items.map((item) => FlagModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -114,8 +114,8 @@ class FlagRepository extends HttpRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<List<FlagModel>>(response, (dynamic body) {
-              final List<dynamic> items = body['rows'].toList();
-              return items.map((item) => FlagModel.fromJson(item)).toList();
+              final List<dynamic> items = body['rows'] as List;
+              return items.map((item) => FlagModel.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

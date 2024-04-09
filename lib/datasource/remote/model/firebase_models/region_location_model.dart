@@ -13,10 +13,10 @@ class RegionLocation {
   });
 
   factory RegionLocation.fromMap(Map<String, dynamic> data) {
-    final GeoPoint geoPoint = data['point']['geopoint'];
+    final GeoPoint geoPoint = data['point']['geopoint'] as GeoPoint;
     return RegionLocation(
-      regionAccount: data['regionAccount'],
-      dateCreated: data['dateCreated'],
+      regionAccount: data['regionAccount'] as String,
+      dateCreated: data['dateCreated'] as Timestamp,
       geoPoint: GeoFirePoint(geoPoint.latitude, geoPoint.longitude),
     );
   }

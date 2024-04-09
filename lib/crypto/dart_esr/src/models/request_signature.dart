@@ -30,13 +30,13 @@ class RequestSignature {
   factory RequestSignature.fromBinary(eos.Type type, dynamic data) {
     eos.SerialBuffer? buffer;
     if (buffer is eos.SerialBuffer) {
-      buffer = data;
+      buffer = data as eos.SerialBuffer;
     } else if (buffer is Uint8List) {
-      buffer = eos.SerialBuffer(data);
+      buffer = eos.SerialBuffer(data as Uint8List);
     } else {
       throw 'Data must be either Uint8List or SerialBuffer';
     }
-    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer));
+    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer) as Map);
     return RequestSignature.fromJson(deserializedData);
   }
 

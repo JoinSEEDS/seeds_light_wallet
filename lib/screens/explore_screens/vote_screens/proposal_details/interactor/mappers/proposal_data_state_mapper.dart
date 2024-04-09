@@ -13,9 +13,9 @@ class ProposalDataStateMapper extends StateMapper {
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
 
-      final ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
-      final VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null);
-      final VoiceModel? voiceModel = values.firstWhere((i) => i is VoiceModel, orElse: () => null);
+      final ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null) as ProfileModel?;
+      final VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null) as VoteModel?;
+      final VoiceModel? voiceModel = values.firstWhere((i) => i is VoiceModel, orElse: () => null) as VoiceModel?;
 
       return currentState.copyWith(
         pageState: PageState.success,

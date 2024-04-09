@@ -21,7 +21,7 @@ class StatRepository extends HttpRepository {
 
     return http
         .post(statURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<StatModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<StatModel>(response, (Map<String, dynamic> body) {
               return StatModel.fromJson(body);
             }))
         .catchError((dynamic error) => mapHttpError(error));

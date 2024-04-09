@@ -12,7 +12,7 @@ import 'package:seeds/screens/profile_screens/security/components/guardian_secur
 import 'package:seeds/screens/profile_screens/security/components/security_card.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SecurityScreen extends StatelessWidget {
   const SecurityScreen({super.key});

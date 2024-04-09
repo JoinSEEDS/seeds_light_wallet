@@ -26,7 +26,7 @@ class GetGuardiansUseCase {
 
   GuardianModel mapGuardian(GuardianModel guardian, Iterable<Result<dynamic>> filtered) {
     final ProfileModel match =
-        filtered.firstWhere((element) => element.asValue!.value.account == guardian.uid).asValue!.value;
+        filtered.firstWhere((element) => element.asValue!.value.account == guardian.uid).asValue!.value as ProfileModel;
 
     return guardian.copyWith(image: match.image, nickname: match.nickname);
   }

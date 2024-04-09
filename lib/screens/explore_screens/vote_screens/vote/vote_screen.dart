@@ -55,7 +55,7 @@ class VoteScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              body: SafeArea(child: TabBarView(children: [for (var i in proposalTypes) ProposalsList(i)])),
+              body: SafeArea(child: TabBarView(children: [for (final i in proposalTypes) ProposalsList(i)])),
             );
           },
         ),

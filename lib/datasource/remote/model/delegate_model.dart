@@ -7,7 +7,7 @@ class DelegateModel {
   factory DelegateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
       final item = json['rows'].first;
-      return DelegateModel(item['delegatee']);
+      return DelegateModel(item['delegatee'] as String);
     } else {
       return const DelegateModel('');
     }

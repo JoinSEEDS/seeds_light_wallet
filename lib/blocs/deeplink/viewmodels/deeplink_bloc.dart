@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -39,7 +41,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
     FirebaseDynamicLinks.instance.onLink(
         onError: (error) async {},
         onSuccess: (dynamicLink) async {
-          final Uri? deepLink = dynamicLink?.link;
+          final Uri? deepLink = dynamicLink?.link as Uri?;
 
           if (deepLink != null) {
             add(HandleIncomingFirebaseDeepLink(deepLink));
@@ -70,7 +72,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
         add(HandleIncomingSigningRequest(uri));
       }
     }, onError: (err) {
-      print("ESR Error: ${err.toString()}");
+      print("ESR Error: ${err}");
     });
   }
 

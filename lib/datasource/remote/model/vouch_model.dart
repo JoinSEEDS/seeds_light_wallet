@@ -13,9 +13,9 @@ class VouchModel extends Equatable {
 
   factory VouchModel.fromJson(Map<String, dynamic> json) {
     return VouchModel(
-      sponsor: json['sponsor'],
-      account: json['account'],
-      vouchPoints: json['vouch_points'],
+      sponsor: json['sponsor'] as String,
+      account: json['account'] as String,
+      vouchPoints: json['vouch_points'] as int,
     );
   }
 

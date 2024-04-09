@@ -39,7 +39,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
     final result = await LoadMemberDataUseCase().run(account);
     // store result in cache
     if (!result.isError && result.asValue != null && result.asValue!.value is ProfileModel) {
-      final ProfileModel member = result.asValue!.value;
+      final ProfileModel member = result.asValue!.value as ProfileModel;
       await cacheRepository.saveMemberCacheItem(
         account,
         MemberModelCacheItem(

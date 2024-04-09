@@ -20,14 +20,14 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
-      final PlantedModel? plantedSeeds = values.firstWhereOrNull((element) => element is PlantedModel);
+      final PlantedModel? plantedSeeds = values.firstWhereOrNull((element) => element is PlantedModel) as PlantedModel?;
       final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
       final List<int> availableRequestIds = [];
       final int millisecondsPerWeek = 24 * 60 * 60 * 1000 * 7;
       bool enableClaimButton = false;
       double availableTotalClaim = 0;
-      final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
+      final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []) as List<RefundModel>;
 
       for (final element in refunds) {
         final int claimDate = (element.requestTime * 1000) + (element.weeksDelay * millisecondsPerWeek);

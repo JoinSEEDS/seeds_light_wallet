@@ -17,7 +17,7 @@ class PlantedModel {
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
       final value = json['rows'][0]['planted'] ?? 0.toString();
-      final amount = double.parse(value.split(' ').first);
+      final amount = double.parse(value.split(' ').first as String);
       return PlantedModel(amount);
     } else {
       return const PlantedModel(0);

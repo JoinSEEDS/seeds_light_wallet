@@ -9,7 +9,7 @@ class PredictionsStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, showLinearIndicator: false);
     } else {
-      final PlacesAutocompleteResponse response = result.asValue!.value;
+      final PlacesAutocompleteResponse response = result.asValue!.value as PlacesAutocompleteResponse;
       return currentState.copyWith(
         pageState: PageState.success,
         showLinearIndicator: false,

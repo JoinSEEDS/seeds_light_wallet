@@ -11,9 +11,9 @@ class PlacesAutocompleteResponse {
 
   factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) {
     return PlacesAutocompleteResponse(
-      predictions: json['predictions'].map<PredictionModel>((i) => PredictionModel.fromJson(i)).toList(),
-      status: json['status'],
-      errorMessage: json['error_message'],
+      predictions: json['predictions'].map<PredictionModel>((i) => PredictionModel.fromJson(i as Map<String, dynamic> )).toList(),
+      status: json['status'] as String,
+      errorMessage: json['error_message'] as String?,
     );
   }
 }
@@ -25,7 +25,7 @@ class PredictionModel {
   const PredictionModel({required this.placeId, required this.description});
 
   factory PredictionModel.fromJson(Map<String, dynamic> json) {
-    return PredictionModel(placeId: json['place_id'], description: json['description']);
+    return PredictionModel(placeId: json['place_id'] as String, description: json['description'] as String);
   }
 }
 

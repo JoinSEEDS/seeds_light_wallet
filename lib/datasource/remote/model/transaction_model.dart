@@ -27,23 +27,23 @@ class TransactionModel extends Equatable {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      from: json['act']['data']['from'],
-      to: json['act']['data']['to'],
-      quantity: json['act']['data']['quantity'],
-      memo: json['act']['data']['memo'],
-      timestamp: parseTimestamp(json['@timestamp']),
-      transactionId: json['trx_id'],
+      from: json['act']['data']['from'] as String,
+      to: json['act']['data']['to'] as String,
+      quantity: json['act']['data']['quantity'] as String,
+      memo: json['act']['data']['memo'] as String,
+      timestamp: parseTimestamp(json['@timestamp'] as String),
+      transactionId: json['trx_id'] as String,
     );
   }
 
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
-      from: json['act']['data']['from'],
-      to: json['act']['data']['to'],
-      quantity: json['act']['data']['quantity'],
-      memo: json['act']['data']['memo'],
-      timestamp: parseTimestamp(json['block_time']),
-      transactionId: json['trx_id'],
+      from: json['act']['data']['from'] as String,
+      to: json['act']['data']['to'] as String,
+      quantity: json['act']['data']['quantity'] as String,
+      memo: json['act']['data']['memo'] as String,
+      timestamp: parseTimestamp(json['block_time'] as String),
+      transactionId: json['trx_id'] as String?,
       //json["block_num"], // can add this later - neat but changes cache structure
     );
   }
@@ -52,10 +52,10 @@ class TransactionModel extends Equatable {
     if (genericModel.transaction.isTransfer) {
       final action = genericModel.transaction.actions.first;
       final data = action.data;
-      final String? from = data?['from'];
-      final String? to = data?['to'];
-      final String? quantity = data?['quantity'];
-      final String memo = data?['memo'] ?? "";
+      final String? from = data?['from'] as String?;
+      final String? to = data?['to'] as String?;
+      final String? quantity = data?['quantity'] as String?;
+      final String memo = data?['memo'] as String? ?? "";
       if (from != null && to != null && quantity != null) {
         return TransactionModel(
           from: from,

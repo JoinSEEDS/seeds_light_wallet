@@ -13,7 +13,7 @@ class Action {
   @JsonKey(name: 'name')
   String? name;
 
-  @JsonKey(name: 'authorization')
+  @JsonKey(name: 'authorization', readValue: mapAuthorizations)
   List<Authorization?>? authorization;
 
   @JsonKey(name: 'data')
@@ -21,6 +21,7 @@ class Action {
 
 //  @JsonKey(name: 'hex_data')
 //  String hexData;
+
 
   Action();
 
@@ -46,7 +47,12 @@ class Action {
     } else {
       throw 'Data must be either Uint8List or SerialBuffer';
     }
-    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer));
+    final deserializedData = Map<String, dynamic>.from(type.deserialize!(type, buffer) as Map);
     return Action.fromJson(deserializedData);
   }
 }
+  Object? mapAuthorizations(Map<dynamic, dynamic> json, String key) {
+    return (json[key] as List<Map>)
+        .map((e) =>   Authorization.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }

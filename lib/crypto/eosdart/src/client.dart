@@ -39,8 +39,8 @@ class EOSClient {
   }) {
     _mapKeys(privateKeys);
 
-    abiTypes = ser.getTypesFromAbi(ser.createInitialTypes(), Abi.fromJson(json.decode(abiJson)));
-    transactionTypes = ser.getTypesFromAbi(ser.createInitialTypes(), Abi.fromJson(json.decode(transactionJson)));
+    abiTypes = ser.getTypesFromAbi(ser.createInitialTypes(), Abi.fromJson(json.decode(abiJson) as Map<String, dynamic>));
+    transactionTypes = ser.getTypesFromAbi(ser.createInitialTypes(), Abi.fromJson(json.decode(transactionJson) as Map<String, dynamic>));
   }
 
   /// Sets private keys. Required to sign transactions.
@@ -74,7 +74,7 @@ class EOSClient {
   /// Get EOS Node Info
   Future<NodeInfo> getInfo() async {
     return _post('/chain/get_info', {}).then((nodeInfo) {
-      final NodeInfo info = NodeInfo.fromJson(nodeInfo);
+      final NodeInfo info = NodeInfo.fromJson(nodeInfo  as Map<String, dynamic>);
       return info;
     });
   }
@@ -107,7 +107,7 @@ class EOSClient {
       'reverse': reverse,
     });
     if (result is Map) {
-      return result['rows'].cast<Map<String, dynamic>>();
+      return result['rows'] as Future<List<Map<String, dynamic>>?>;
     }
     return [];
   }
@@ -145,49 +145,49 @@ class EOSClient {
   /// Get EOS Block Info
   Future<Block> getBlock(String blockNumOrId) async {
     return _post('/chain/get_block', {'block_num_or_id': blockNumOrId}).then((block) {
-      return Block.fromJson(block);
+      return Block.fromJson(block as Map<String, dynamic>);
     });
   }
 
   /// Get EOS Block Header State
   Future<BlockHeaderState> getBlockHeaderState(String blockNumOrId) async {
     return _post('/chain/get_block_header_state', {'block_num_or_id': blockNumOrId}).then((block) {
-      return BlockHeaderState.fromJson(block);
+      return BlockHeaderState.fromJson(block as Map<String, dynamic>);
     });
   }
 
   /// Get EOS abi from account name
   Future<AbiResp> getAbi(String accountName) async {
     return _post('/chain/get_abi', {'account_name': accountName}).then((abi) {
-      return AbiResp.fromJson(abi);
+      return AbiResp.fromJson(abi as Map<String, dynamic>);
     });
   }
 
   /// Get EOS raw abi from account name
   Future<AbiResp> getRawAbi(String? accountName) async {
     return _post('/chain/get_raw_abi', {'account_name': accountName}).then((abi) {
-      return AbiResp.fromJson(abi);
+      return AbiResp.fromJson(abi as Map<String, dynamic>);
     });
   }
 
   /// Get EOS raw code and abi from account name
   Future<AbiResp> getRawCodeAndAbi(String accountName) async {
     return _post('/chain/get_raw_code_and_abi', {'account_name': accountName}).then((abi) {
-      return AbiResp.fromJson(abi);
+      return AbiResp.fromJson(abi as Map<String, dynamic>);
     });
   }
 
   /// Get EOS account info form the given account name
   Future<Account> getAccount(String accountName) async {
     return _post('/chain/get_account', {'account_name': accountName}).then((account) {
-      return Account.fromJson(account);
+      return Account.fromJson(account as Map<String, dynamic>);
     });
   }
 
-  /// Get EOS account info form the given account name
+  /// Get EOS account info from the given account name
   Future<List<Holding>> getCurrencyBalance(String code, String account, [String? symbol]) async {
     return _post('/chain/get_currency_balance', {'code': code, 'account': account, 'symbol': symbol}).then((balance) {
-      return (balance as List).map((e) => Holding.fromJson(e)).toList();
+      return (balance as List).map((e) => Holding.fromJson(e as String)).toList();
     });
   }
 
@@ -198,33 +198,30 @@ class EOSClient {
     Transaction trx = await _fullFill(transaction, refBlock);
     trx = await _serializeActions(trx);
 
-    // raw abi to json
-//      AbiResp abiResp = await getRawAbi(account);
-//    print(abiResp.abi);
     return _post('/chain/get_required_keys', {'transaction': trx, 'available_keys': availableKeys})
         .then((requiredKeys) {
-      return RequiredKeys.fromJson(requiredKeys);
+      return RequiredKeys.fromJson(requiredKeys as Map<String, dynamic>);
     });
   }
 
   /// Get EOS account actions
   Future<Actions> getActions(String accountName, {int? pos, int? offset}) async {
     return _post('/history/get_actions', {'account_name': accountName, 'pot': pos, 'offset': offset}).then((actions) {
-      return Actions.fromJson(actions);
+      return Actions.fromJson(actions as Map<String, dynamic>);
     });
   }
 
   /// Get EOS transaction
   Future<TransactionBlock> getTransaction(String id, {int? blockNumHint}) async {
     return _post('/history/get_transaction', {'id': id, 'block_num_hint': blockNumHint}).then((transaction) {
-      return TransactionBlock.fromJson(transaction);
+      return TransactionBlock.fromJson(transaction as Map<String, dynamic>);
     });
   }
 
   /// Get Key Accounts
   Future<AccountNames> getKeyAccounts(String pubKey) async {
     return _post('/history/get_key_accounts', {'public_key': pubKey}).then((accountNames) {
-      return AccountNames.fromJson(accountNames);
+      return AccountNames.fromJson(accountNames as Map<String, dynamic>);
     });
   }
 

@@ -35,7 +35,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
 
     // Check if permissions are already set?
     // ignore: unnecessary_cast
-    for (final Map<String, dynamic>? acct in (ownerPermission.requiredAuth?.accounts ?? []) as List<dynamic>) {
+    for (final Map<String, dynamic>? acct in (ownerPermission.requiredAuth?.accounts ?? []) as List<Map<String, dynamic>>) {
       if (acct?['permission']['actor'] == SeedsCode.accountGuards.value) {
         print('permission already set, doing nothing');
         return currentPermissions;
@@ -47,7 +47,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
       'permission': {'actor': SeedsCode.accountGuards.value, 'permission': 'eosio.code'}
     });
 
-    return await _updatePermission(ownerPermission);
+    return _updatePermission(ownerPermission);
   }
 
   /// Step 2 setting up guardians - set the guardians for an account
@@ -205,19 +205,19 @@ class GuardiansRepository extends EosRepository with HttpRepository {
 
     return http
         .post(url, headers: headers, body: body)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              final List<dynamic> allAccounts = body['permissions'].toList();
-              return allAccounts.map((item) => Permission.fromJson(item)).toList();
+        .then((http.Response response) => mapHttpResponse(response, (Map<String, dynamic> body) {
+              final List<dynamic> allAccounts = body['permissions'] as List;
+              return allAccounts.map((item) => Permission.fromJson(item as Map<String, dynamic>)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<dynamic> _updatePermission(Permission permission) async {
+  Future<Result<dynamic>>_updatePermission(Permission permission) async {
     print('[eos] update permission ${permission.permName}');
 
     final permissionsMap = _requiredAuthToJson(permission.requiredAuth!);
 
-    print('converted JSPN: ${permissionsMap.toString()}');
+    print('converted JSON: ${permissionsMap.toString()}');
     final accountName = settingsStorage.accountName;
 
     final actions = [
@@ -287,7 +287,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              final rows = body["rows"] as List<dynamic>;
+              final rows = body["rows"] as List<Map<String, dynamic>>;
               return UserGuardiansModel.fromTableRows(rows);
             }))
         .catchError((error) => mapHttpError(error));

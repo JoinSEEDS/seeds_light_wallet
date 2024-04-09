@@ -19,7 +19,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_found/compo
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({super.key});

@@ -20,7 +20,7 @@ class SendTransactionUseCase {
       if (value.isError) {
         return value;
       } else {
-        final String transactionId = value.asValue!.value;
+        final String transactionId = value.asValue!.value as String;
         final transactionModel = GenericTransactionModel(
           transaction: transaction,
           transactionId: transactionId,

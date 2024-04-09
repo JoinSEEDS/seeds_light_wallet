@@ -13,7 +13,7 @@ class ClaimInviteMapper extends StateMapper {
         error: SignUpError.qRCodeScanFailed,
       );
     } else {
-      final String inviteMnemonic = result.asValue!.value;
+      final String inviteMnemonic = result.asValue!.value as String;
 
       return currentState.copyWith(
         claimInviteView: ClaimInviteView.processing,
@@ -30,7 +30,7 @@ class ClaimInviteMapper extends StateMapper {
         error: SignUpError.noInvitesFound,
       );
     } else {
-      final List<InviteModel> inviteModels = result.asValue!.value;
+      final List<InviteModel> inviteModels = result.asValue!.value as List<InviteModel>;
       if (inviteModels.isNotEmpty) {
         final InviteModel inviteModel = inviteModels.first;
         if (!inviteModel.isClaimed) {

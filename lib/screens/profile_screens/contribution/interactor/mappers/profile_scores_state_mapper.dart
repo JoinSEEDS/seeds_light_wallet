@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
@@ -17,11 +18,11 @@ class ProfileScoresStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       final score = ScoresViewModel(
-        contributionScore: results[_contributionScoreResultIndex].valueOrNull,
-        communityScore: results[_communityScoreResultIndex].valueOrNull,
-        reputationScore: results[_reputationScoreResultIndex].valueOrNull,
-        plantedScore: results[_plantedScoreResultIndex].valueOrNull,
-        transactionScore: results[_transactionScoreResultIndex].valueOrNull,
+        contributionScore: results[_contributionScoreResultIndex].valueOrNull as ScoreModel?,
+        communityScore: results[_communityScoreResultIndex].valueOrNull as ScoreModel?,
+        reputationScore: results[_reputationScoreResultIndex].valueOrNull as ScoreModel?,
+        plantedScore: results[_plantedScoreResultIndex].valueOrNull as ScoreModel?,
+        transactionScore: results[_transactionScoreResultIndex].valueOrNull as ScoreModel?,
       );
 
       return currentState.copyWith(pageState: PageState.success, score: score);

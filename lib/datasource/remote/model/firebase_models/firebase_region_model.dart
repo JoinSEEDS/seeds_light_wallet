@@ -20,20 +20,20 @@ class FirebaseRegion {
     final Map data = document.data()! as Map<String, dynamic>;
     return FirebaseRegion(
       id: document.id,
-      creatorAccount: data[creatorAccountKey],
-      dateCreated: data[dateCreatedKey],
-      geoPoint: data[pointKey][geoPointKey],
-      imageUrl: data[imageUrlKey],
+      creatorAccount: data[creatorAccountKey] as String,
+      dateCreated: data[dateCreatedKey] as Timestamp,
+      geoPoint: data[pointKey][geoPointKey] as GeoPoint,
+      imageUrl: data[imageUrlKey] as String,
     );
   }
 
   factory FirebaseRegion.fromQueryDocumentSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> region) {
     return FirebaseRegion(
       id: region.id,
-      creatorAccount: region[creatorAccountKey],
-      dateCreated: region[dateCreatedKey],
-      geoPoint: region[pointKey][geoPointKey],
-      imageUrl: region[imageUrlKey],
+      creatorAccount: region[creatorAccountKey] as String,
+      dateCreated: region[dateCreatedKey] as Timestamp,
+      geoPoint: region[pointKey][geoPointKey] as GeoPoint,
+      imageUrl: region[imageUrlKey] as String,
     );
   }
 }

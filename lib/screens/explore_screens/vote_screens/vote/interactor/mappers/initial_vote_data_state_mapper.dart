@@ -23,10 +23,10 @@ class InitialVoteDataStateMapper extends StateMapper {
       if (isMoonPhasesError) {
         return currentState.copyWith(pageState: PageState.failure, errorMessage: moonPhasesError);
       } else {
-        final VoteCycleModel voteCycle = results.first.asValue!.value;
-        final DelegateModel? allianceDelegate = results[_allianceDelegateResponseIndex].valueOrNull;
-        final DelegateModel? campaingDelegate = results[_campaingDelegateResponseIndex].valueOrNull;
-        final DelegateModel? milestoneDelegate = results[_milestoneDelegateResponseIndex].valueOrNull;
+        final VoteCycleModel voteCycle = results.first.asValue!.value as VoteCycleModel;
+        final DelegateModel? allianceDelegate = results[_allianceDelegateResponseIndex].valueOrNull as DelegateModel?;
+        final DelegateModel? campaingDelegate = results[_campaingDelegateResponseIndex].valueOrNull as DelegateModel?;
+        final DelegateModel? milestoneDelegate = results[_milestoneDelegateResponseIndex].valueOrNull as DelegateModel?;
         final List<CategoryDelegate> currentDelegates = [];
         if (allianceDelegate != null && allianceDelegate.hasDelegate) {
           currentDelegates

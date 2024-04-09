@@ -39,7 +39,7 @@ class EOSSerializeUtils {
       return esr.Identity.fromBinary(esr.ESRConstants.signingRequestAbiType(version)['identity']!, data);
     }
 
-    final buffer = eos.SerialBuffer(data);
+    final buffer = eos.SerialBuffer(data as Uint8List);
     return action.deserialize!(action, buffer);
   }
 

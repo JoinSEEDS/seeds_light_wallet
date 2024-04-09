@@ -10,7 +10,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TransactionDetailsBottomSheet extends StatelessWidget {
   final TransactionModel transaction;

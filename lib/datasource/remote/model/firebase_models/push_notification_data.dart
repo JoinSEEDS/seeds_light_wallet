@@ -15,7 +15,7 @@ class PushNotificationData {
   factory PushNotificationData.fromJson(Map<String, dynamic> json) {
     return PushNotificationData(
       notificationType: NotificationTypes.values.firstWhereOrNull((i) => i.name == json['notification_type_id']),
-      invoice: json['invoice'],
+      invoice: json['invoice'] as String?,
       isRefreshConfig: json['CONFIG_STATE'] != null,
     );
   }

@@ -17,7 +17,7 @@ import 'package:seeds/screens/explore_screens/regions_screens/join_region/intera
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/mappers/set_region_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/get_firebase_region_by_id_use_case.dart';
 import 'package:seeds/screens/explore_screens/regions_screens/regions_main/interactor/usecases/join_region_use_case.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'region_event.dart';
 

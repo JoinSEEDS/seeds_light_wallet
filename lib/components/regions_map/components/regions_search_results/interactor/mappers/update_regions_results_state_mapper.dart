@@ -13,7 +13,7 @@ class UpdateRegionsResultsStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, pageCommand: ShowErrorMessage(''));
     } else {
-      final List<FirebaseRegion> fireRegions = result.asValue!.value;
+      final List<FirebaseRegion> fireRegions = result.asValue!.value as List<FirebaseRegion>;
       final List<RegionModel> newRegions = [];
       for (final i in fireRegions) {
         final found = currentState.regions.singleWhereOrNull((r) => r.id == i.id);

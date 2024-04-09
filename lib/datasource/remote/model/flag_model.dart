@@ -15,10 +15,10 @@ class FlagModel extends Equatable {
 
   factory FlagModel.fromJson(Map<String, dynamic> json) {
     return FlagModel(
-      id: json['id'],
-      from: json['from'],
-      to: json['to'],
-      flagPoints: json['flag_points'],
+      id: json['id'] as int,
+      from: json['from'] as String,
+      to: json['to'] as String,
+      flagPoints: json['flag_points'] as int,
     );
   }
 

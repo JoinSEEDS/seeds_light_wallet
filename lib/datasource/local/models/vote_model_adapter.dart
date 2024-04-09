@@ -12,7 +12,7 @@ class VoteModelAdapter extends TypeAdapter<VoteModel> {
     fields.add(reader.readInt());
     reader.readByte();
     fields.add(reader.readBool());
-    return VoteModel(amount: fields[0], isVoted: fields[1]);
+    return VoteModel(amount: fields[0] as int, isVoted: fields[1] as bool);
   }
 
   @override
