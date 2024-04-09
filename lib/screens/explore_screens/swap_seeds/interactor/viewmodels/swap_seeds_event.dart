@@ -8,7 +8,7 @@ abstract class SwapSeedsEvent extends Equatable {
 }
 
 class OnMessageReceived extends SwapSeedsEvent {
-  final JavascriptMessage javascriptMessage;
+  final JavaScriptMessage javascriptMessage;
 
   const OnMessageReceived(this.javascriptMessage);
 

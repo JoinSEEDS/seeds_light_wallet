@@ -11,7 +11,7 @@ class PlacesAutocompleteResponse {
 
   factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) {
     return PlacesAutocompleteResponse(
-      predictions: json['predictions'].map<PredictionModel>((i) => PredictionModel.fromJson(i as Map<String, dynamic> )).toList(),
+      predictions: json['predictions'].map<PredictionModel>((i) => PredictionModel.fromJson(i as Map<String, dynamic> )) as List<PredictionModel>,
       status: json['status'] as String,
       errorMessage: json['error_message'] as String?,
     );

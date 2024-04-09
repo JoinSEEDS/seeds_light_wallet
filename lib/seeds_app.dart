@@ -35,7 +35,7 @@ class SeedsApp extends StatelessWidget {
                 BlocProvider.of<RootBloc>(context).add(const ClearRootBusEvent());
                 if (busEvent is ShowSnackBar) {
                   final ShowSnackBar event = busEvent;
-                  Snack(event.message, rootScaffoldMessengerKey.currentState, event.snackType).show();
+                  Snack(event.message, rootScaffoldMessengerKey.currentState!, event.snackType).show();
                 }
               },
             ),

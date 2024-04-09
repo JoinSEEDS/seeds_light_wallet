@@ -31,7 +31,7 @@ class VoteScreen extends StatelessWidget {
                               await NavigationService.of(context)
                                   .navigateTo(Routes.delegate)
                                   .then((shouldRefreshDelegates) {
-                                if (shouldRefreshDelegates != null && shouldRefreshDelegates) {
+                                if (shouldRefreshDelegates != null && shouldRefreshDelegates as bool) {
                                   BlocProvider.of<VoteBloc>(context).add(const OnRefreshCurrentDelegates());
                                 }
                               });

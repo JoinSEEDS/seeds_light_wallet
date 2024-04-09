@@ -4,7 +4,7 @@ class VoiceModel {
   const VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    if (json['rows'].isNotEmpty) {
+    if ((json['rows'] as List).isNotEmpty) {
       return VoiceModel(json['rows'][0]['balance'] as int);
     } else {
       return const VoiceModel(0);
@@ -12,7 +12,7 @@ class VoiceModel {
   }
 
   factory VoiceModel.fromBalanceJson(Map<String, dynamic> balanceJson) {
-    if (balanceJson["rows"].isNotEmpty) {
+    if ((balanceJson["rows"] as List).isNotEmpty) {
       return VoiceModel(balanceJson["rows"][0]["voice"] as int);
     } else {
       return const VoiceModel(0);

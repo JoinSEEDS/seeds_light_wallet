@@ -6,7 +6,7 @@ class VoteModel {
   const VoteModel({required this.amount, required this.isVoted});
 
   factory VoteModel.fromJson(Map<String, dynamic>? json) {
-    if (json != null && json['rows'].isNotEmpty) {
+    if (json != null && (json['rows'] as List).isNotEmpty) {
       final vote = json['rows'].first as Map<String, dynamic>;
       return VoteModel(amount: vote['favour'] == 1 ? vote['amount'] as int : -vote['amount'] as int, isVoted: true);
     } else {
@@ -15,7 +15,7 @@ class VoteModel {
   }
 
   factory VoteModel.fromJsonReferendum(Map<String, dynamic>? json) {
-    if (json != null && json['rows'].isNotEmpty) {
+    if (json != null && (json['rows'] as List).isNotEmpty) {
       final vote = json['rows'].first as Map<String, dynamic>;
       return VoteModel(amount: vote['favoured'] == 1 ? vote['amount'] as int : -vote['amount'] as int, isVoted: true);
     } else {

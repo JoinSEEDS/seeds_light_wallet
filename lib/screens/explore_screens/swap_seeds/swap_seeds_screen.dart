@@ -21,15 +21,37 @@ class SwapSeedsScreen extends StatefulWidget {
 }
 
 class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
-  late final WebViewController _webViewController;
+  final _webViewController = WebViewController()
+       
+    ..setBackgroundColor(AppColors.primary)
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (progress) => print('WebView is loading (progress : %$progress)'),
+        onPageStarted: (url) => print('Page started loading: $url'),
+        //onPageFinished: (_) => BlocProvider.of<SwapSeedsBloc>(context).add(const OnPageLoaded()),
+        onWebResourceError: (error) => print(error),
+        /*
+        javaScriptChannels: {
+          JavascriptChannel(
+            name: 'onSignTransactions',
+            onMessageReceived: (javascriptMessage) {
+              BlocProvider.of<SwapSeedsBloc>(context).add(OnMessageReceived(javascriptMessage));
+            },
+          ),
+          JavascriptChannel(
+            name: 'onLogin',
+            onMessageReceived: (_) {
+              runJavascript("setAccountNameFromLw('${settingsStorage.accountName}')");
+            },
+          )
+        },
+        */
+      )
+    )
+    ..loadRequest(Uri.parse(p2pAppUrl));
 
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +67,7 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
                 final TransactionResult? result =
                     await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments) as TransactionResult?;
                 if (result != null) {
-                  await _webViewController.runJavascript(
+                  await _webViewController.runJavaScript(
                       "setResponseCallbackLW({status: '${result.status.name}', message:'${result.message}'})");
                 }
               }
@@ -53,31 +75,7 @@ class _SwapSeedsScreenState extends State<SwapSeedsScreen> {
             builder: (context, state) {
               return Stack(
                 children: [
-                  WebView(
-                    initialUrl: p2pAppUrl,
-                    backgroundColor: AppColors.primary,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (webViewController) => _webViewController = webViewController,
-                    onPageStarted: (url) => print('Page started loading: $url'),
-                    onProgress: (progress) => print('WebView is loading (progress : %$progress)'),
-                    onPageFinished: (_) => BlocProvider.of<SwapSeedsBloc>(context).add(const OnPageLoaded()),
-                    onWebResourceError: (error) => print(error),
-                    javascriptChannels: {
-                      JavascriptChannel(
-                        name: 'onSignTransactions',
-                        onMessageReceived: (javascriptMessage) {
-                          BlocProvider.of<SwapSeedsBloc>(context).add(OnMessageReceived(javascriptMessage));
-                        },
-                      ),
-                      JavascriptChannel(
-                        name: 'onLogin',
-                        onMessageReceived: (_) async {
-                          await _webViewController
-                              .runJavascript("setAccountNameFromLw('${settingsStorage.accountName}')");
-                        },
-                      )
-                    },
-                  ),
+                  WebViewWidget(controller: _webViewController),
                   const Align(alignment: Alignment.topLeft, child: BackButton()),
                   if (state.pageState == PageState.loading) const FullPageLoadingIndicator()
                 ],

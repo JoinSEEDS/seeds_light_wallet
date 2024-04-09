@@ -8,7 +8,7 @@ class ScoreModel {
   double toDouble() => value.toDouble();
 
   factory ScoreModel.fromJson({required Map<String, dynamic> json, String fieldName = "rank"}) {
-    if (json['rows'].isNotEmpty) {
+    if ((json['rows'] as List).isNotEmpty) {
       final Map<String, dynamic> item = json['rows'][0] as Map<String, dynamic>;
       return ScoreModel(
         value: item[fieldName] as int,

@@ -8,7 +8,7 @@ class StatModel {
   const StatModel(this.supplyString, this.maxSupplyString, this.issuer);
 
   factory StatModel.fromJson(Map<String, dynamic>? json) {
-    if (json != null && json['rows'].isNotEmpty) {
+    if (json != null && (json['rows'] as List).isNotEmpty) {
       final supplyString = json['rows'][0]['supply'] as String? ?? '';
       final maxSupplyString = json['rows'][0]['max_supply'] as String? ?? '';
       final issuer = json['rows'][0]['issuer'] as String? ?? '';

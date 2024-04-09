@@ -15,7 +15,7 @@ class PlantedModel {
   String get roundedQuantity => quantity.seedsFormatted;
 
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
-    if (json != null && json['rows'].isNotEmpty) {
+    if (json != null && (json['rows'] as List).isNotEmpty) {
       final value = json['rows'][0]['planted'] ?? 0.toString();
       final amount = double.parse(value.split(' ').first as String);
       return PlantedModel(amount);

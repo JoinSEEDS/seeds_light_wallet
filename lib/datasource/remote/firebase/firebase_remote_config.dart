@@ -41,7 +41,7 @@ const String _unitTestDefaultV2EndpointUrl = "https://mainnet.telos.net";
 // END - UNIT TEST CONFIG
 
 class _FirebaseRemoteConfigService {
-  late RemoteConfig _remoteConfig;
+  late FirebaseRemoteConfig _remoteConfig;
 
   factory _FirebaseRemoteConfigService() => _instance;
 
@@ -77,7 +77,7 @@ class _FirebaseRemoteConfigService {
   }
 
   Future initialise() async {
-    _remoteConfig = RemoteConfig.instance;
+    _remoteConfig = FirebaseRemoteConfig.instance;
     await _remoteConfig.setDefaults(defaults);
 
     /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
