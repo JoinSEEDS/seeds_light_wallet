@@ -39,10 +39,9 @@ Future<void> main() async {
 
     if (kDebugMode) {
       /// Bloc logs only in debug (for better performance in release)
-      BlocOverrides.runZoned(() => runApp(const SeedsApp()), blocObserver: DebugBlocObserver());
-    } else {
-      runApp(const SeedsApp());
-    }
+      Bloc.observer = DebugBlocObserver();
+    } 
+    runApp(const SeedsApp());
   }, (error, stackTrace) async {
     //await FirebaseCrashlytics.instance.recordError(error, stack);
   });

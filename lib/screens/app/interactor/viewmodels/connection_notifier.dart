@@ -20,10 +20,11 @@ class ConnectionNotifier extends ChangeNotifier {
 
   final availableEndpoints = [
     remoteConfigurations.defaultEndPointUrl,
+    'https://mainnet.telos.net',
     'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
-    'https://api.eos.miami',
+    'https://telos.greymass.com',
   ];
 
   Future<void> discoverEndpoints() async {

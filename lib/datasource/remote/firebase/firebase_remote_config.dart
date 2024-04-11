@@ -128,7 +128,8 @@ class _FirebaseRemoteConfigService {
 List<FirebaseEosServer> parseEosServers(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map((json) => FirebaseEosServer.fromJson(json as Map<String, dynamic>)).toList() as List<FirebaseEosServer>;
+  return List<FirebaseEosServer>.of(parsed.map<FirebaseEosServer>((json) => FirebaseEosServer.fromJson(json as Map<String, dynamic>))
+     as Iterable<FirebaseEosServer>);
 }
 
 /// Singleton

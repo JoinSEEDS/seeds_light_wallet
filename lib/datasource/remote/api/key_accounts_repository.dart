@@ -14,7 +14,7 @@ class KeyAccountsRepository extends HttpRepository {
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 
-              final result = List<String>.from(body['account_names'] as List);
+              final result = List<String>.from(body['account_names'] as Iterable);
 
               result.sort();
 

@@ -121,7 +121,8 @@ class Routes {
 
 class NavigationService {
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
-  final _appRoutes = {
+  
+  final Map<String, Widget Function(Object?)> _appRoutes = {
     Routes.onboarding: (_) => const OnboardingScreen(),
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
@@ -155,7 +156,7 @@ class NavigationService {
     Routes.joinRegion: (_) => const JoinRegionScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
-    Routes.receiveQR: (ReceiveDetails args) => ReceiveDetailQrCodeScreen(args),
+    Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args! as ReceiveDetails),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
@@ -210,14 +211,14 @@ class NavigationService {
         // Pages that slides in from the right and exits in reverse
         return CupertinoPageRoute(
           settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments! as ReceiveDetails),
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
           fullscreenDialog: _fullScreenRoutes.contains(settings.name),
         );
       } else {
         // Pages slides the route upwards and fades it in, and exits in reverse
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => _appRoutes[settings.name]!(settings.arguments! as ReceiveDetails),
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
           fullscreenDialog: _fullScreenRoutes.contains(settings.name),
         );
       }

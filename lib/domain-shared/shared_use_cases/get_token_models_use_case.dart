@@ -38,7 +38,7 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
         more = resultValue['more'] as bool;
         final acceptances = resultValue['rows'].toList();
         final tokenIds = List<int>.from(
-            acceptances.map((row) => row['token_id']) as List);
+            acceptances.map((row) => row['token_id']) as Iterable);
         if(tokenIds.isEmpty) {
           continue;
         }

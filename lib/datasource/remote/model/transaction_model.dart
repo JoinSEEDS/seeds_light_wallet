@@ -25,17 +25,21 @@ class TransactionModel extends Equatable {
   @override
   List<Object?> get props => [transactionId];
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) {
-    return TransactionModel(
-      from: json['act']['data']['from'] as String,
-      to: json['act']['data']['to'] as String,
-      quantity: json['act']['data']['quantity'] as String,
-      memo: json['act']['data']['memo'] as String,
-      timestamp: parseTimestamp(json['@timestamp'] as String),
-      transactionId: json['trx_id'] as String,
-    );
+  static TransactionModel? fromJson(Map<String, dynamic> json) {
+    try {
+      return TransactionModel(
+        from: json['act']['data']['from'] as String,
+        to: json['act']['data']['to'] as String,
+        quantity: json['act']['data']['quantity'] as String,
+        memo: json['act']['data']['memo'] as String,
+        timestamp: parseTimestamp(json['@timestamp'] as String),
+        transactionId: json['trx_id'] as String?,
+      );
+    }
+    catch (e){
+      return null;
+    }
   }
-
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
       from: json['act']['data']['from'] as String,
