@@ -13,7 +13,9 @@ class Action {
   @JsonKey(name: 'name')
   String? name;
 
-  @JsonKey(name: 'authorization', readValue: mapAuthorizations)
+  @JsonKey(name: 'authorization', readValue: mapAuthorizations,
+    fromJson: authorizationsFromJson,
+  )
   List<Authorization?>? authorization;
 
   @JsonKey(name: 'data')
@@ -52,7 +54,11 @@ class Action {
   }
 }
   Object? mapAuthorizations(Map<dynamic, dynamic> json, String key) {
-    return (json[key] as List<Map>)
-        .map((e) =>   Authorization.fromJson(Map<String, dynamic>.from(e)))
-        .toList();
+    final x = List<Map>.from(json[key] as Iterable);
+    final y = List<Map<String, dynamic>>.from(x.map((e) => e.map((k,v) => MapEntry(k as String, v))));
+    return List<Authorization>.from((y.map((e) =>  Authorization.fromJson(e))) as Iterable);
   }
+
+List<Authorization?>? authorizationsFromJson(dynamic j) { 
+  return j as List<Authorization?>?  ;
+}

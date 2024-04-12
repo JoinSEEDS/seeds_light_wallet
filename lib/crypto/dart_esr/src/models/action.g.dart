@@ -9,10 +9,8 @@ part of 'action.dart';
 Action _$ActionFromJson(Map<String, dynamic> json) => Action()
   ..account = json['account'] as String?
   ..name = json['name'] as String?
-  ..authorization = (mapAuthorizations(json, 'authorization') as List<dynamic>?)
-      ?.map((e) =>
-          e == null ? null : Authorization.fromJson(e as Map<String, dynamic>))
-      .toList()
+  ..authorization =
+      authorizationsFromJson(mapAuthorizations(json, 'authorization'))
   ..data = json['data'];
 
 Map<String, dynamic> _$ActionToJson(Action instance) => <String, dynamic>{
