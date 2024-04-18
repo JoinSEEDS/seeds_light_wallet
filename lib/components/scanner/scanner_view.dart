@@ -23,35 +23,39 @@ class _ScannerViewState extends State<ScannerView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => widget._scannerBloc,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          BlocBuilder<ScannerBloc, ScannerState>(
-            builder: (_, state) {
-                return MobileScanner(
-                  fit:BoxFit.contain,
-                  onDetect: (capture) {
-                    if (state.gotValidQR ) {
-                        return;
-                    } else {
-                      widget._scannerBloc.add(const ShowLoading());
-                      widget.onCodeScanned(capture.barcodes.first.rawValue!);
-                    }
-                  });
-                },
+      child: ConstrainedBox(
+        //TODO(CH): fix layout, scan box not centered
+        constraints: BoxConstraints.expand(height:350, width:350),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            BlocBuilder<ScannerBloc, ScannerState>(
+              builder: (_, state) {
+                  return MobileScanner(
+                    //fit:BoxFit.contain,
+                    onDetect: (capture) {
+                      if (state.gotValidQR ) {
+                          return;
+                      } else {
+                        widget._scannerBloc.add(const ShowLoading());
+                        widget.onCodeScanned(capture.barcodes.first.rawValue!);
+                      }
+                    });
+                  },
+              ),
+            BlocBuilder<ScannerBloc, ScannerState>(
+              builder: (_, state) {
+                switch (state.scanStatus) {
+                  case ScanStatus.processing:
+                    return const Center(child: CircularProgressIndicator());
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
             ),
-          BlocBuilder<ScannerBloc, ScannerState>(
-            builder: (_, state) {
-              switch (state.scanStatus) {
-                case ScanStatus.processing:
-                  return const Center(child: CircularProgressIndicator());
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
-          ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 }

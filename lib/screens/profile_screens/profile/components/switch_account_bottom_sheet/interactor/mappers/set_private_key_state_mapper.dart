@@ -11,10 +11,10 @@ class SetFoundPrivateKeyStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, error: ImportKeyError.noPublicKeyFound);
     } else {
       ///-------GET PRIVATE KEY MATCHING ONE OF THE PUBLIC KEYS
-      for(final String publicKey in result.asValue!.value as List<String>) {
+      for(final String? publicKey in (result.asValue!.value as List<String?>)) {
         // Find the keys pair match the public key
         final Keys? keypair = currentState.keys.singleWhereOrNull((i) =>
-        i.publicKey == publicKey);
+        i.publicKey == publicKey!);
         if(keypair != null) {
           // Set the private key of the match pair
           return currentState.copyWith(
