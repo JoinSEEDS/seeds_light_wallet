@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:dynamic_parallel_queue/dynamic_parallel_queue.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/api/stat_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
+import 'package:seeds/screens/wallet/components/tokens_cards/interactor/usecases/load_token_balances_use_case.dart';
 
 class TokenModelSelector {
   final List<String> acceptList;
@@ -82,21 +84,30 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       final StatRepository _statRepository = StatRepository();
       List<TokenModel?> theseTokens = [];
       /// verify token contract on chain and get contract precision
-      await Future.forEach(tokens, (token) async {
-        final tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      loadData(token) async {
+        TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
         if (tm != null) {
-          await _statRepository.getTokenStat(
-              tokenContract: tm.contract, symbol: tm.symbol).then((stats) {
+          await _statRepository
+            .getTokenStat(tokenContract: tm.contract, symbol: tm.symbol)
+            .then(
+              (stats) async {
                 if (stats.asValue != null) {
                   final supply = stats.asValue!.value.supplyString;
                   tm.setPrecisionFromString(supply);
                   theseTokens.add(tm);
                   print("supply: $supply");
                 }
-              })
-              .catchError((dynamic error) => _statRepository.mapHttpError(error));
+              },
+            ).catchError((dynamic error) => _statRepository.mapHttpError(error));
         }
-      });
+      }
+      final queue = Queue(parallel: 5);
+      for (final dynamic token in tokens) {
+        queue.add(() async {
+          await loadData(token);
+        });
+      }
+      await queue.whenComplete();
       rv.addAll(theseTokens.whereNotNull());
           /// build a TokenModel from each selected token's metadata
     }
