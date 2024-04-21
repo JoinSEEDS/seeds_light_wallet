@@ -5,6 +5,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
+//TODO(CH): put private keys in a .env file
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
@@ -26,6 +27,8 @@ abstract class EosRepository {
     // "referendum", // referendum delegation not working on the contract side at the moment
   ];
 
+  //TODO(CH): generalize this to (1) don't fail on non-SEEDS-members, (2) support
+  //  alternative cpu payers
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     if (testnetMode) {
       return Transaction()..actions = actions;

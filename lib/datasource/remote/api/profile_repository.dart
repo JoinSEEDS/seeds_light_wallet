@@ -42,6 +42,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
 
     final url = Uri.parse('$host/v1/chain/get_account');
     final body = '{ "account_name": "$accountName" }';
+    final aboutMessage = 'getAccountPublicKeys from $url';
 
     return http
         .post(url, headers: headers, body: body)
@@ -51,8 +52,9 @@ class ProfileRepository extends HttpRepository with EosRepository {
               final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
               final RequiredAuth? activeAuth = activePermission.requiredAuth;
               return activeAuth?.keys?.map((e)=>e?.key).toList();
-            }))
-        .catchError((error) => mapHttpError(error));
+            },
+            about: aboutMessage))
+        .catchError((error) => mapHttpError(error, about: aboutMessage));
   }
 
   Future<Result<TransactionResponse>> updateProfile({

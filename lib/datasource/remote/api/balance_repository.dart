@@ -17,12 +17,13 @@ class BalanceRepository extends HttpRepository {
     ''';
 
     final balanceURL = Uri.parse('$baseURL/v1/chain/get_currency_balance');
-
+    final aboutMessage = 'getTokenBalance from $balanceURL';
     return http
         .post(balanceURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<BalanceModel>(response, (dynamic body) {
               return BalanceModel.fromJson(body as List);
-            }))
-        .catchError((dynamic error) => mapHttpError(error));
+            },
+            about: aboutMessage))
+        .catchError((dynamic error) => mapHttpError(error, about: aboutMessage));
   }
 }

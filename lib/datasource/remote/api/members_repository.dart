@@ -57,6 +57,7 @@ class MembersRepository extends HttpRepository {
     print("[http] getFullNameSearchMembers $filter");
 
     final mongoUrl = Uri.parse("https://mongo-api.hypha.earth/find");
+    final aboutMessage = 'getFullNameSearchMembers $filter from $mongoUrl';
 
     final params = '''
     {
@@ -82,8 +83,9 @@ class MembersRepository extends HttpRepository {
         .then((http.Response response) => mapHttpResponse<List<ProfileModel>>(response, (Map<String, dynamic> body) {
               final List<dynamic> allAccounts = body['items'] as List;
               return allAccounts.map((item) => ProfileModel.fromJson(item as Map<String, dynamic>)).toList();
-            }))
-        .catchError((error) => mapHttpError(error));
+            },
+            about: aboutMessage))
+        .catchError((error) => mapHttpError(error, about: aboutMessage));
   }
 
   // for now this returns 0 or 1 results
