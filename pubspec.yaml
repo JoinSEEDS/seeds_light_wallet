@@ -68,6 +68,7 @@ dependencies:
   json_schema: ^5.1.7
   path_drawing: ^1.0.1
   mobile_scanner: ^4.0.1
+  dynamic_parallel_queue: ^1.0.3+2
 
 dev_dependencies:
   flutter_test:
