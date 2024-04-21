@@ -24,7 +24,7 @@ Future<void> main() async {
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();
-    await TokenModel.installModels(['lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
+    await TokenModel.installModels(['localscale','lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());
