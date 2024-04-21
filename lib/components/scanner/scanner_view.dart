@@ -21,18 +21,17 @@ class _ScannerViewState extends State<ScannerView> {
 
    @override
   Widget build(BuildContext context) {
+    final mediaSize = MediaQuery.of(context).size;
     return BlocProvider(
       create: (_) => widget._scannerBloc,
-      child: ConstrainedBox(
-        //TODO(CH): fix layout, scan box not centered
-        constraints: BoxConstraints.expand(height:350, width:350),
+      child: Container(
+        constraints: BoxConstraints.expand(height:mediaSize.width*0.9, width:mediaSize.width*0.9),
         child: Stack(
           alignment: Alignment.center,
           children: [
             BlocBuilder<ScannerBloc, ScannerState>(
               builder: (_, state) {
                   return MobileScanner(
-                    //fit:BoxFit.contain,
                     onDetect: (capture) {
                       if (state.gotValidQR ) {
                           return;

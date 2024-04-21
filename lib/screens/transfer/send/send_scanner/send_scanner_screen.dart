@@ -43,44 +43,46 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
               NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments, true);
             }
           },
-          child: Column(
-            children: [
-              const SizedBox(height: 32),
-              Text(context.loc.transferSendScanQRCodePrompt, style: Theme.of(context).textTheme.button),
-              const SizedBox(height: 82),
-              _scannerWidget,
-              BlocBuilder<SendScannerBloc, SendScannerState>(
-                builder: (context, state) {
-                  switch (state.pageState) {
-                    case PageState.initial:
-                      _scannerWidget.scan();
-                      return const SizedBox.shrink();
-                    case PageState.loading:
-                      return const SizedBox.shrink();
-                    case PageState.failure:
-                      return Padding(
-                        padding: const EdgeInsets.all(32),
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                              color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              state.errorMessage!,
-                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
-                              textAlign: TextAlign.center,
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 32),
+                Text(context.loc.transferSendScanQRCodePrompt, style: Theme.of(context).textTheme.button),
+                const SizedBox(height: 82),
+                _scannerWidget,
+                BlocBuilder<SendScannerBloc, SendScannerState>(
+                  builder: (context, state) {
+                    switch (state.pageState) {
+                      case PageState.initial:
+                        _scannerWidget.scan();
+                        return const SizedBox.shrink();
+                      case PageState.loading:
+                        return const SizedBox.shrink();
+                      case PageState.failure:
+                        return Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                                color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                state.errorMessage!,
+                                style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    default:
-                      return const SizedBox.shrink();
-                  }
-                },
-              )
-            ],
+                        );
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
