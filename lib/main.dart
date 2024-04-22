@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: '.env');
     await Firebase.initializeApp();
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
