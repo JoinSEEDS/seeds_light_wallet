@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:dynamic_parallel_queue/dynamic_parallel_queue.dart';
-import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/api/stat_repository.dart';
+import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
-import 'package:seeds/screens/wallet/components/tokens_cards/interactor/usecases/load_token_balances_use_case.dart';
 
 class TokenModelSelector {
   final List<String> acceptList;
@@ -81,13 +82,13 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       for (final token in tokens) {
         token['usecases'] = useCaseMap[token['id']];
       }
-      final StatRepository _statRepository = StatRepository();
-      List<TokenModel?> theseTokens = [];
+      final StatRepository statRepository = StatRepository();
+      final List<TokenModel?> theseTokens = [];
       /// verify token contract on chain and get contract precision
-      loadData(token) async {
-        TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      Future loadData(token) async {
+        final TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
         if (tm != null) {
-          await _statRepository
+          await statRepository
             .getTokenStat(tokenContract: tm.contract, symbol: tm.symbol)
             .then(
               (stats) async {
@@ -98,14 +99,16 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
                   print("supply: $supply");
                 }
               },
-            ).catchError((dynamic error) => _statRepository.mapHttpError(error));
+            ).catchError((dynamic error) => statRepository.mapHttpError(error));
         }
       }
       final queue = Queue(parallel: 5);
       for (final dynamic token in tokens) {
-        queue.add(() async {
+        unawaited(
+          queue.add(() async {
           await loadData(token);
-        });
+          }
+        ));
       }
       await queue.whenComplete();
       rv.addAll(theseTokens.whereNotNull());

@@ -115,6 +115,7 @@ class MembersRepository extends HttpRepository {
     assert(accountName.length >= 2);
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+    final String aboutMessage = 'getMemberByAccountName $accountName from $membersURL';
 
     final request = createRequest(
         code: SeedsCode.accountAccounts,
@@ -132,7 +133,8 @@ class MembersRepository extends HttpRepository {
               } else {
                 return null;
               }
-            }))
-        .catchError((error) => mapHttpError(error));
+            },
+            about: aboutMessage))
+        .catchError((error) => mapHttpError(error, about: aboutMessage));
   }
 }

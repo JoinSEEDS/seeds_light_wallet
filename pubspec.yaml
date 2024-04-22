@@ -60,7 +60,6 @@ dependencies:
   pointycastle: ^3.4.0
   hdkey: ^0.0.1
   package_info_plus: ^7.0.0
-  #flutterfire_installations: ^0.1.0
   google_maps_flutter: ^2.1.1
   geolocator: ^11.0.0
   geocoding: ^3.0.0

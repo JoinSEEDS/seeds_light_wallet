@@ -39,14 +39,22 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
 
   Future<void> initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink.listen(
-        (pendingDynamicLinkData) {
-          if (pendingDynamicLinkData != null) {
-            HandleIncomingFirebaseDeepLink(pendingDynamicLinkData.link);
-          }
-        });
+      (pendingDynamicLinkData) {
+        // Set up the `onLink` event listener next as it may be received here
+        final Uri deepLink = pendingDynamicLinkData.link;
+        // Example of using the dynamic link to push the user to a different screen
+        add(HandleIncomingFirebaseDeepLink(deepLink));
+        // }
+      },
+      onError: (error) async {},
+    );
 
     final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      add(HandleIncomingFirebaseDeepLink(deepLink));
+    }
   }
 
   Future<void> initSigningRequests() async {
