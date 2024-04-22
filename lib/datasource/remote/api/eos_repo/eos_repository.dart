@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:async/async.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
-//TODO(CH): put private keys in a .env file
 abstract class EosRepository {
-  String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
+  late final String cpuPrivateKey = dotenv.env['PAYCPU_SEEDS_KEY'] ?? '';
+
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
   String onboardingAccountName = 'join.seeds';
   int guardianRecoveryTimeDelaySec = const Duration(hours: 24).inSeconds;
