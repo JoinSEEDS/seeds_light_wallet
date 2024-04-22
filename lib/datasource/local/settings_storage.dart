@@ -24,7 +24,8 @@ const String _kInRecoveryMode = 'in_recovery_mode';
 const String _kRecoveryLink = 'recovery_link';
 const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
-const String _kIsVisitor = 'is_visitor';
+// String _kIsVisitor = 'is_visitor';
+const String _kIsSeedsMember = 'is_seeds_member';
 const String _kIsFirstRun = 'is_first_run';
 const String _kIsFirstTimeOnDelegateScreen = 'is_first_time_on_delegate_screen';
 const String _kDateSinceRateAppPrompted = 'date_since_rate_app_prompted';
@@ -148,6 +149,11 @@ class _SettingsStorage {
   set isCitizen(bool? value) {
     if (value != null) {
       _preferences.setBool(_kIsCitizen, value);
+    }
+  }
+  set isSeedsMember(bool? value) {
+    if (value != null) {
+      _preferences.setBool(_kIsSeedsMember, value);
     }
   }
 
@@ -301,7 +307,7 @@ class _SettingsStorage {
       _preferences.remove(_kSelectedToken),
       _preferences.remove(_kTokensWhiteList),
       _preferences.remove(_kIsCitizen),
-      _preferences.remove(_kIsVisitor),
+      _preferences.remove(_kIsSeedsMember),
       _preferences.remove(_kIsFirstTimeOnDelegateScreen),
     ]);
   }
@@ -313,13 +319,19 @@ class _SettingsStorage {
   void saveSelectedFiatCurrency(String value) => selectedFiatCurrency = value;
 
   // ignore: use_setters_to_change_properties
-  void saveCitizenshipStatus(ProfileStatus status) {
-    if (status == ProfileStatus.citizen) {
-      isCitizen = true;
-    } else if (status == ProfileStatus.visitor) {
+  void saveCitizenshipStatus(ProfileStatus? status) {
+    if (status == null) {
       isCitizen = false;
-    } else if (status == ProfileStatus.resident) {
-      isCitizen = false;
+      isSeedsMember = false;
+    } else {
+      isSeedsMember = true;
+      if (status == ProfileStatus.citizen) {
+        isCitizen = true;
+      } else if (status == ProfileStatus.visitor) {
+        isCitizen = false;
+      } else if (status == ProfileStatus.resident) {
+        isCitizen = false;
+      }
     }
   }
 
