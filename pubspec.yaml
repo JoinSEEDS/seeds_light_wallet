@@ -69,6 +69,7 @@ dependencies:
   path_drawing: ^1.0.1
   mobile_scanner: ^4.0.1
   dynamic_parallel_queue: ^1.0.3+2
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -201,6 +202,7 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
+    - .env
     # assets end
 
   fonts:
