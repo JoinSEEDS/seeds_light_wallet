@@ -1,4 +1,4 @@
-import 'package:flutterfire_installations/flutterfire_installations.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class GetSupportDataUseCase {

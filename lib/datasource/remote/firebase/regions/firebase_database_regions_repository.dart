@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:seeds/components/regions_map/interactor/view_models/place.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_repository.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/firebase_region_model.dart';
@@ -33,7 +33,7 @@ const messageTextKey = "messageText";
 
 class FirebaseDatabaseRegionsRepository extends FirebaseDatabaseService {
   // Init firestore and geoFlutterFire
-  final _geo = Geoflutterfire();
+  final _geo = GeoFlutterFire();
 
   /// Create a region
   Future<Result<String>> createRegion({

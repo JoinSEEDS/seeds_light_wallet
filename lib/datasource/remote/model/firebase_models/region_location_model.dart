@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 
 class RegionLocation {
   final String regionAccount;
@@ -21,6 +21,6 @@ class RegionLocation {
     );
   }
 
-  double distanceTo(double lat, double lng) => geoPoint.kmDistance(lat: lat, lng: lng);
+  double distanceTo(double lat, double lng) => geoPoint.distance(lat: lat, lng: lng);
 
 }
