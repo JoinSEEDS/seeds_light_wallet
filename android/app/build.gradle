@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.joinseeds.seedswallet"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34  // Changed from flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
