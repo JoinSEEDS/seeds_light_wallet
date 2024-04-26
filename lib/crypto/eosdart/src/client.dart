@@ -227,7 +227,7 @@ class EOSClient {
         'accounts': [],
         'keys': [pubKey]
       }).then((response) {
-        final List<String> accountNames = List.from(response['accounts'].map((e) => e['account_name']));
+        final List<String> accountNames = List.from(response['accounts'].map((e) => e['account_name']) as Iterable);
         return AccountNames()..accountNames = accountNames.toSet().toList();
       });
     } catch (e) {

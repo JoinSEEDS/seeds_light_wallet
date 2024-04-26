@@ -8,7 +8,7 @@ class KeyAccountsRepository extends HttpRepository {
     print('[http] getAccountsByKey');
 
     final url = Uri.parse('$baseURL/v1/chain/get_accounts_by_authorizers');
-    final body = '{ "accounts": [], "keys": []"$publicKey"] }';
+    final body = '{ "accounts": [], "keys": ["$publicKey"] }';
 
     return http
         .post(url, headers: headers, body: body)
@@ -16,7 +16,7 @@ class KeyAccountsRepository extends HttpRepository {
               print('result: $body');
 
               final result =
-                  List<dynamic>.from(body['accounts']).map((e) => e['account_name']).toList().toSet().toList();
+                  List<dynamic>.from(body['accounts'] as Iterable).map((e) => e['account_name'] as String).toList().toSet().toList();
 
               result.sort();
 
