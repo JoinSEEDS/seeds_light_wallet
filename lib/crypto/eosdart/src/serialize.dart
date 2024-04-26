@@ -627,10 +627,10 @@ Map<String, Type> createInitialTypes() {
     "bool": createType(
       name: 'bool',
       serialize: (Type self, SerialBuffer buffer, Object data, {SerializerState? state, bool? allowExtensions}) {
-        buffer.push([data == null ? 1 : 0]);
+        buffer.push([data == true ? 1 : 0]);
       },
       deserialize: (Type self, SerialBuffer buffer, {SerializerState? state, bool? allowExtensions}) {
-        return buffer.get();
+        return buffer.get()!=0;
       },
     ),
     "uint8": createType(
