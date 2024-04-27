@@ -31,10 +31,10 @@ abstract class EosRepository {
   //TODO(CH): generalize this to (1) don't fail on non-SEEDS-members, (2) support
   //  alternative cpu payers
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
-    if (testnetMode) {
+    if (testnetMode|| !settingsStorage.isSeedsMember ) {
       return Transaction()..actions = actions;
     }
-
+    
     final freeAuth = <Authorization>[
       Authorization()
         ..actor = SeedsCode.accountHarvest.value

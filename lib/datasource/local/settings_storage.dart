@@ -78,6 +78,8 @@ class _SettingsStorage {
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
+  bool get isSeedsMember => _preferences.getBool(_kIsSeedsMember) ?? false;
+
   bool get isFirstTimeOnDelegateScreen => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
 
   bool get isFirstTimeOnRegionsScreen => _preferences.getBool(_kIsFirstTimeOnRegionsScreen) ?? true;
@@ -320,7 +322,7 @@ class _SettingsStorage {
 
   // ignore: use_setters_to_change_properties
   void saveCitizenshipStatus(ProfileStatus? status) {
-    if (status == null) {
+    if (status == null || status == ProfileStatus.unknown) {
       isCitizen = false;
       isSeedsMember = false;
     } else {
