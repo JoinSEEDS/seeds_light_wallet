@@ -64,6 +64,7 @@ dependencies:
   geoflutterfire2: ^2.3.15
   firebase_app_installations: ^0.2.3+4
   package_info_plus: ^4.1.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -193,6 +194,7 @@ flutter:
     - assets/animations/send_animation.json
     - assets/images/google/powered_by_google_on_white.png
     - assets/images/google/powered_by_google_on_non_white.png
+    - .env
     # assets end
 
   fonts:
