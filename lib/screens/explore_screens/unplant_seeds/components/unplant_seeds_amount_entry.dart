@@ -63,7 +63,7 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-                        primary: AppColors.green1,
+                        backgroundColor: AppColors.green1,
                       ),
                       onPressed: onTapMax,
                       child: const Text("MAX"),
