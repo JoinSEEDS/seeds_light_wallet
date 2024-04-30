@@ -222,27 +222,27 @@ class EOSClient {
   }
 
   /// Get Key Accounts
-  // Future<AccountNames> getKeyAccounts(String pubKey) async {
-  //   return _post('/history/get_key_accounts', {'public_key': pubKey}).then((accountNames) {
-  //     return AccountNames.fromJson(accountNames);
-  //   });
-  // }
+  Future<AccountNames> getKeyAccounts(String pubKey) async {
+    return _post('/history/get_key_accounts', {'public_key': pubKey}).then((accountNames) {
+      return AccountNames.fromJson(accountNames);
+    });
+  }
 
   // Get Key Accounts using new API: new get_accounts_by_authorizers API
-  Future<AccountNames> getAccountsByKey(String pubKey) async {
-    try {
-      return _post('/chain/get_accounts_by_authorizers', {
-        'accounts': [],
-        'keys': [pubKey]
-      }).then((response) {
-        final List<String> accountNames = List.from(response['accounts'].map((e) => e['account_name']));
-        return AccountNames()..accountNames = accountNames.toSet().toList();
-      });
-    } catch (e) {
-      print("getAccountsByKey error $e");
-      return AccountNames();
-    }
-  }
+  // Future<AccountNames> getAccountsByKey(String pubKey) async {
+  //   try {
+  //     return _post('/chain/get_accounts_by_authorizers', {
+  //       'accounts': [],
+  //       'keys': [pubKey]
+  //     }).then((response) {
+  //       final List<String> accountNames = List.from(response['accounts'].map((e) => e['account_name']));
+  //       return AccountNames()..accountNames = accountNames.toSet().toList();
+  //     });
+  //   } catch (e) {
+  //     print("getAccountsByKey error $e");
+  //     return AccountNames();
+  //   }
+  // }
 
   /// Push transaction to EOS chain
   Future<dynamic> pushTransaction(Transaction transaction,

@@ -58,6 +58,7 @@ class SeedsAppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColorSchemes.darkColorScheme.background,
       fontFamily: 'SFProDisplay',
       textTheme: SeedsTextTheme.darkTheme,
       brightness: Brightness.dark,
