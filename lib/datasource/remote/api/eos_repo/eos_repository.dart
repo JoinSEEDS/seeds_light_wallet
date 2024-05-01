@@ -10,7 +10,7 @@ abstract class EosRepository {
   late final String cpuPrivateKey = dotenv.env['PAYCPU_SEEDS_KEY'] ?? '';
 
   late final String onboardingPrivateKey = dotenv.env['ONBOARDING_SEEDS_KEY'] ?? '';
-;
+
   String onboardingAccountName = 'join.seeds';
   int guardianRecoveryTimeDelaySec = const Duration(hours: 24).inSeconds;
 
