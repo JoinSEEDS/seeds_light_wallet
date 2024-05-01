@@ -109,7 +109,7 @@ String binaryToDecimal(Uint8List bignum, {minDigits = 1}) {
 /// @param minDigits 0-pad result to this many digits
 String signedBinaryToDecimal(Uint8List bignum, {int minDigits = 1}) {
   if (isNegative(bignum)) {
-    var x = bignum.getRange(0, 0) as Uint8List;
+    var x = Uint8List.fromList(bignum.getRange(0, bignum.length).toList());
     negate(x);
     return '-' + binaryToDecimal(x, minDigits: minDigits);
   }
