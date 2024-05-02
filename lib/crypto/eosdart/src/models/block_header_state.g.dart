@@ -42,7 +42,7 @@ BlockHeaderState _$BlockHeaderStateFromJson(Map<String, dynamic> json) =>
               .toList()
       ..blockSigningKey = json['block_signing_key'] as String?
       ..confirmCount = (json['confirm_count'] as List<dynamic>?)
-          ?.map((e) => e as int)
+          ?.map((e) => (e as num).toInt())
           .toList()
       ..confirmations = json['confirmations'] as List<dynamic>?;
 
@@ -72,11 +72,11 @@ Header _$HeaderFromJson(Map<String, dynamic> json) => Header()
       ? null
       : DateTime.parse(json['timestamp'] as String)
   ..producer = json['producer'] as String?
-  ..confirmed = json['confirmed'] as int?
+  ..confirmed = (json['confirmed'] as num?)?.toInt()
   ..previous = json['previous'] as String?
   ..transactionMRoot = json['transaction_mroot'] as String?
   ..actionMRoot = json['action_mroot'] as String?
-  ..scheduleVersion = json['schedule_version'] as int?
+  ..scheduleVersion = (json['schedule_version'] as num?)?.toInt()
   ..headerExtensions = json['header_extensions'] as List<dynamic>?
   ..producerSignature = json['producer_signature'] as String?;
 
@@ -93,7 +93,7 @@ Map<String, dynamic> _$HeaderToJson(Header instance) => <String, dynamic>{
     };
 
 Schedule _$ScheduleFromJson(Map<String, dynamic> json) => Schedule()
-  ..version = json['version'] as int?
+  ..version = (json['version'] as num?)?.toInt()
   ..producers = (json['producers'] as List<dynamic>?)
       ?.map((e) =>
           e == null ? null : Producer.fromJson(e as Map<String, dynamic>))
@@ -118,7 +118,7 @@ BlockRootMerkle _$BlockRootMerkleFromJson(Map<String, dynamic> json) =>
       ..activeNodes = (json['_active_nodes'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList()
-      ..nodeCount = json['_node_count'] as int?;
+      ..nodeCount = (json['_node_count'] as num?)?.toInt();
 
 Map<String, dynamic> _$BlockRootMerkleToJson(BlockRootMerkle instance) =>
     <String, dynamic>{
