@@ -45,7 +45,7 @@ class AccountActionRow extends StatelessWidget {
                           child: Text(
                             nickname.isNotEmpty ? nickname : account,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.button,
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ),
                         const SizedBox(width: 10),

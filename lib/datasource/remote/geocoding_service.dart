@@ -8,9 +8,8 @@ class GeocodingService {
     String? localeIdentifier,
   }) async {
     try {
-      localeIdentifier ?? await setLocaleIdentifier(localeIdentifier!);
-      return Result.value(await placemarkFromCoordinates(lat, lng));
-    } catch (e) {
+      return Result.value(await placemarkFromCoordinates(lat, lng, localeIdentifier: localeIdentifier));
+   } catch (e) {
       print('Error getting places from coordinates $e');
       return Result.error(e);
     }

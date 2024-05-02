@@ -16,7 +16,7 @@ class SwapSeedsBloc extends Bloc<SwapSeedsEvent, SwapSeedsState> {
   }
 
   Future<void> _onMessageReceived(OnMessageReceived event, Emitter<SwapSeedsState> emit) async {
-    final result = await GetSigningRequestUseCase().run(event.javascriptMessage.message);
+    final result = await GetSigningRequestUseCase().run(event.javascriptMessage.message as String);
     emit(SigningResultStateMapper().mapResultToState(state, result));
   }
 }

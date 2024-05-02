@@ -1,9 +1,9 @@
 include: package:lint/analysis_options.yaml
 
 analyzer:
-  strong-mode:
-    implicit-casts: true
-    implicit-dynamic: true
+  #strong-mode:
+  #  implicit-casts: true
+  #  implicit-dynamic: true
   errors:
     avoid_print: ignore
     # treat missing required parameters as a warning (not a hint)

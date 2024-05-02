@@ -36,13 +36,13 @@ class SearchResultRow extends StatelessWidget {
                           child: Text(
                             member.nickname.isNotEmpty ? member.nickname : member.account,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.button,
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ),
                         const SizedBox(width: 10),
                         Text(
                           member.statusString,
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],
                     ),

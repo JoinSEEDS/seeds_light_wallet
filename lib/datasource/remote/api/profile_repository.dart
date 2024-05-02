@@ -31,7 +31,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (Map<String, dynamic> body) {
-              if ((body['rows']).length == 0 && remoteConfigurations.featureFlagNonMeberUseEnabledEnabled) {
+              if (body['rows'].length == 0 && remoteConfigurations.featureFlagNonMeberUseEnabledEnabled) {
                 return ProfileModel.usingDefaultValues(account: accountName);
               }
               return ProfileModel.fromJson(body['rows'][0] as Map<String, dynamic>);
