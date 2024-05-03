@@ -20,7 +20,6 @@ class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
     // If we are loading, dont handle any upcoming commands
     if (state.pageState != PageState.loading) {
       emit(state.copyWith(pageState: PageState.loading));
-    }
       final Result result = await ProcessScanResultUseCase().run(event.scanResult);
       if (result is ErrorResult) {
         emit(state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString()));
@@ -32,6 +31,6 @@ class SendScannerBloc extends Bloc<SendScannerEvent, SendScannerState> {
           ),
         ));
       }
-    
+    }
   }
 }
