@@ -14,9 +14,11 @@ class KeyAccountsRepository extends HttpRepository {
         .post(url, headers: headers, body: body)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
-
+              // restriction to `active` permission matches ProfileRepository.getAccountPublicKeys
               final result =
-                  List<dynamic>.from(body['accounts'] as Iterable).map((e) => e['account_name'] as String).toList().toSet().toList();
+                  List<dynamic>.from(body['accounts'] as List).cast<Map<String, dynamic>>()
+                    .where((e) => e['permission_name'] as String == 'active')
+                    .map((e) => e['account_name'] as String).toList().toSet().toList();
 
               result.sort();
 
