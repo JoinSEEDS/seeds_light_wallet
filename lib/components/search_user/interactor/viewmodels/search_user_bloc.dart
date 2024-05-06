@@ -19,6 +19,10 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     on<ClearIconTapped>(_clearIconTapped);
   }
 
+  String sanitizeQuery(String query) {
+    return query.toLowerCase().replaceAll(' ','');
+  }
+
   /// Debounce to avoid making search network calls each time the user types
   /// switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
   Stream<OnSearchChange> _transformEvents(
@@ -29,7 +33,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   Future<void> _onSearchChange(OnSearchChange event, Emitter<SearchUserState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showClearIcon: event.searchQuery.isNotEmpty));
     if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
-      final results = await SearchForMemberUseCase().run(event.searchQuery.toLowerCase());
+      final results = await SearchForMemberUseCase().run(sanitizeQuery(event.searchQuery));
       emit(SearchUserStateMapper().mapResultToState(
         currentState: state,
         seedsMembersResult: results[0],

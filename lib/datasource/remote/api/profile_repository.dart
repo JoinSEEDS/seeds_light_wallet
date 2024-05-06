@@ -147,7 +147,7 @@ class ProfileRepository extends HttpRepository with EosRepository {
         .then((http.Response response) => mapHttpResponse<ReferredAccounts>(response, (Map<String, dynamic> body) {
               return ReferredAccounts.fromJson(body);
             }))
-        .catchError((error) => mapHttpError(error));
+        .catchError((error) => mapHttpError(error, about: " from getReferredAccounts"));
   }
 
   Future<Result<TransactionResponse>> plantSeeds({required double amount, required String accountName}) async {
