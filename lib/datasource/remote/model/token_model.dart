@@ -122,10 +122,7 @@ class TokenModel extends Equatable {
     }
     final tokenList = tokenListResult.asValue!.value;
     for (final newtoken in tokenList) {
-      allTokens.removeWhere((token) =>
-          token.contract == newtoken.contract &&
-          token.chainName == newtoken.chainName &&
-          token.symbol == newtoken.symbol);
+      allTokens.removeWhere((token) => token.id == newtoken.id);
     }
     allTokens.addAll(tokenList);
   }
