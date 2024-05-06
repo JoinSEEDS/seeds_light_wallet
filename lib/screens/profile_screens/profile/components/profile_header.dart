@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/components/shimmer_circle.dart';
 import 'package:seeds/components/shimmer_rectangle.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -86,7 +87,8 @@ class ProfileHeader extends StatelessWidget {
                             const ShimmerRectangle(size: Size(94, 21))
                           else
                             Text(
-                              state.accountStatus.i18n,
+                              (settingsStorage.isSeedsMember ? "SEEDS " : "")
+                              +state.accountStatus.i18n,
                               style: Theme.of(context).textTheme.headline7LowEmphasis,
                             ),
                         ],
