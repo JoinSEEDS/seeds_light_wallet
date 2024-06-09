@@ -98,7 +98,7 @@ class TokenModel extends Equatable {
         symbol: parsedJson["symbol"]!,
         name: parsedJson["name"]!,
         logoUrl: parsedJson["logo"]!,
-        balanceSubTitle: parsedJson["subtitle"],
+        balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
         backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
         overdraw: parsedJson["overdraw"] ?? "allow",
         precision: parsedJson["precision"] ?? 4,
