@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_schema2/json_schema2.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_chain_names.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
@@ -149,7 +150,7 @@ class TokenModel extends Equatable {
 }
 
 const seedsToken = TokenModel(
-  chainName: "Telos",
+  chainName: SeedsChains.telos.value,
   contract: "token.seeds",
   symbol: "SEEDS",
   name: "Seeds",
