@@ -37,7 +37,7 @@ class TokenBalancesStateMapper {
           }
         } else {
           final BalanceModel balance = result.asValue!.value;
-          if (whitelisted || balance.quantity > 0) {
+          if (whitelisted || balance.quantity != 0) {
             available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
             newWhitelist.add(token.id);
           }

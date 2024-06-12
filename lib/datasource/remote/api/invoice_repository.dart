@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
@@ -17,7 +18,7 @@ class InvoiceRepository extends EosRepository {
     final Map<String, String> data = {
       'from': esr.ESRConstants.PlaceholderName,
       'to': accountName,
-      'quantity': tokenAmount.asFormattedString(),
+      'quantity': TokenModel.getAssetString(tokenAmount.id, tokenAmount.amount),
       'memo': memo ?? ''
     };
 

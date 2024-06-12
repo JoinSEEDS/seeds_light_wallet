@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 
 class KeyAccountsRepository extends HttpRepository {
+
   Future<Result<dynamic>> getKeyAccounts(String publicKey) {
     print('[http] getKeyAccounts');
 
@@ -14,7 +15,7 @@ class KeyAccountsRepository extends HttpRepository {
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 
-              final result = List<String>.from(body['account_names']);
+              final result = List<String>.from(body['account_names'] as Iterable);
 
               result.sort();
 
@@ -22,20 +23,23 @@ class KeyAccountsRepository extends HttpRepository {
             }))
         .catchError((dynamic error) => mapHttpError(error));
   }
-
+}
+    
   // Future<Result<dynamic>> getAccountsByKey(String publicKey) {
   //   print('[http] getAccountsByKey');
 
   //   final url = Uri.parse('$baseURL/v1/chain/get_accounts_by_authorizers');
-  //   final body = '{ "accounts": [], "keys": []"$publicKey"] }';
+  //   final body = '{ "accounts": [], "keys": ["$publicKey"] }';
 
   //   return http
   //       .post(url, headers: headers, body: body)
   //       .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
   //             print('result: $body');
-
+  //             // restriction to `active` permission matches ProfileRepository.getAccountPublicKeys
   //             final result =
-  //                 List<dynamic>.from(body['accounts']).map((e) => e['account_name']).toList().toSet().toList();
+  //                 List<dynamic>.from(body['accounts'] as List).cast<Map<String, dynamic>>()
+  //                   .where((e) => e['permission_name'] as String == 'active')
+  //                   .map((e) => e['account_name'] as String).toList().toSet().toList();
 
   //             result.sort();
 
@@ -43,4 +47,4 @@ class KeyAccountsRepository extends HttpRepository {
   //           }))
   //       .catchError((dynamic error) => mapHttpError(error));
   // }
-}
+

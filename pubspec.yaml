@@ -65,6 +65,7 @@ dependencies:
   firebase_app_installations: ^0.2.3+4
   package_info_plus: ^4.1.0
   flutter_dotenv: ^5.1.0
+  dynamic_parallel_queue: ^1.0.3+2
 
 dev_dependencies:
   flutter_test:

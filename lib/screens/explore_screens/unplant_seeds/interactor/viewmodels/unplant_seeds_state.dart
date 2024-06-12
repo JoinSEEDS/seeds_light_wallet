@@ -96,7 +96,7 @@ class UnplantSeedsState extends Equatable {
     );
   }
 
-  factory UnplantSeedsState.initial(RatesState ratesState, bool featureFlagDelegateEnabled) {
+  factory UnplantSeedsState.initial(RatesState ratesState, bool claimUnplantedSeedsEnabled) {
     return UnplantSeedsState(
       pageState: PageState.success,
       ratesState: ratesState,
@@ -106,7 +106,7 @@ class UnplantSeedsState extends Equatable {
       showMinPlantedBalanceAlert: false,
       isUnplantSeedsButtonEnabled: false,
       unplantedInputAmount: TokenDataModel(0),
-      showUnclaimedBalance: featureFlagDelegateEnabled,
+      showUnclaimedBalance: claimUnplantedSeedsEnabled,
       isClaimButtonEnabled: false,
     );
   }
