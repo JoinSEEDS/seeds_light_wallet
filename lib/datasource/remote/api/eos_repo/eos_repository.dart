@@ -3,7 +3,7 @@ import 'package:async/async.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_smart_contract_accounts.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
 abstract class EosRepository {

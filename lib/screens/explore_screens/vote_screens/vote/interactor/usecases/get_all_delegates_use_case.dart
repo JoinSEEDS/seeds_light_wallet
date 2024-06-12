@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_smart_contract_accounts.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 

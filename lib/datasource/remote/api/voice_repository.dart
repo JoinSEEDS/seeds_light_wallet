@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_smart_contract_accounts.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/model/voice_model.dart';
 
