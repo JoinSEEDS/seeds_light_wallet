@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:local_auth_ios/local_auth_ios.dart';
+import 'package:local_auth_darwin/local_auth_darwin.dart';
 
 class BiometricsService {
   final LocalAuthentication _localAuth;
