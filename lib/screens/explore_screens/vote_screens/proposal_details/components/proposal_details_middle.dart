@@ -47,7 +47,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                         const SizedBox(height: 30.0),
                       ],
                     ),
-                  Text('Created by'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                  Text('Created by'.i18n, style: Theme.of(context).textTheme.titleSmall),
                   const SizedBox(height: 10.0),
                   Row(
                     children: [
@@ -67,7 +67,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                                   Expanded(
                                     child: Text(
                                       state.proposals[state.currentIndex].creator,
-                                      style: Theme.of(context).textTheme.button,
+                                      style: Theme.of(context).textTheme.labelLarge,
                                     ),
                                   ),
                                   Text(
@@ -78,7 +78,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                               ),
                               const SizedBox(height: 10.0),
                               Row(
-                                children: [Text(state.creator!.nickname, style: Theme.of(context).textTheme.subtitle2)],
+                                children: [Text(state.creator!.nickname, style: Theme.of(context).textTheme.titleSmall)],
                               ),
                             ],
                           ),
@@ -100,12 +100,12 @@ class ProposalDetailsMiddle extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Setting: %s '.i18n.fill([(state.proposals[state.currentIndex].settingName)]),
+                          'Setting: %s '.i18n.fill([state.proposals[state.currentIndex].settingName]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'New Value: %s'.i18n.fill([(state.proposals[state.currentIndex].settingValue)]),
+                          'New Value: %s'.i18n.fill([state.proposals[state.currentIndex].settingValue]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                       ],
@@ -115,12 +115,12 @@ class ProposalDetailsMiddle extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
+                          'Recipient: %s '.i18n.fill([state.proposals[state.currentIndex].recipient]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
+                          'Requested: %s '.i18n.fill([state.proposals[state.currentIndex].quantity]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                         const SizedBox(height: 8),
@@ -130,12 +130,12 @@ class ProposalDetailsMiddle extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status.inCaps)]),
+                          'Status: %s '.i18n.fill([state.proposals[state.currentIndex].status.inCaps]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage.inCaps)]),
+                          'Stage: %s '.i18n.fill([state.proposals[state.currentIndex].stage.inCaps]),
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         ),
                       ],

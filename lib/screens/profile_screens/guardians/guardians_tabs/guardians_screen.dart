@@ -115,9 +115,9 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
                 child: RichText(
                   text: TextSpan(
                       text: 'A motion to Recover your Key has been initiated by '.i18n,
-                      style: Theme.of(context).textTheme.button,
+                      style: Theme.of(context).textTheme.labelLarge,
                       children: <TextSpan>[
-                        TextSpan(text: guardian.nickname, style: Theme.of(context).textTheme.button)
+                        TextSpan(text: guardian.nickname, style: Theme.of(context).textTheme.labelLarge)
                       ]),
                 ),
               ),

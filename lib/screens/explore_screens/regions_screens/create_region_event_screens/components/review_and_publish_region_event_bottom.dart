@@ -14,7 +14,7 @@ class ReviewAndPublishRegionEventBottom extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Details", style: Theme.of(context).textTheme.headline6),
+              Text("Details", style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -23,7 +23,7 @@ class ReviewAndPublishRegionEventBottom extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Text(state.eventDescription, style: Theme.of(context).textTheme.subtitle2)
+              Text(state.eventDescription, style: Theme.of(context).textTheme.titleSmall)
             ],
           ),
         );

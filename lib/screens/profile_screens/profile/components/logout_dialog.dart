@@ -28,7 +28,7 @@ class LogoutDialog extends StatelessWidget {
                   Text(
                     'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 36.0),
                   FlatButtonLong(

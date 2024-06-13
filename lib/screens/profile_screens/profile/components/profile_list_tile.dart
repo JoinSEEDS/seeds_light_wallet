@@ -22,7 +22,7 @@ class ProfileListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Text titleText = Text(title, style: Theme.of(context).textTheme.button);
+    final Text titleText = Text(title, style: Theme.of(context).textTheme.labelLarge);
     final Text trailingText = Text(trailing, style: Theme.of(context).textTheme.headline7LowEmphasis);
     return SizedBox(
       height: 60,

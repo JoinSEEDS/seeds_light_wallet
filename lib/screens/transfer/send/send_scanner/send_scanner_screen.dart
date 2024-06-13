@@ -46,7 +46,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text(context.loc.transferSendScanQRCodePrompt, style: Theme.of(context).textTheme.button),
+              Text(context.loc.transferSendScanQRCodePrompt, style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: 82),
               _scannerWidget,
               BlocBuilder<SendScannerBloc, SendScannerState>(
@@ -69,7 +69,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               state.errorMessage!,
-                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.orangeYellow),
                               textAlign: TextAlign.center,
                             ),
                           ),

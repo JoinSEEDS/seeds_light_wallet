@@ -19,7 +19,7 @@ class VoteSuccessDialog extends StatelessWidget {
           'Thank you for coming and contributing your voice to the collective decision making process. Please make sure to come back at the start of the next Voting Cycle to empower more people!'
               .i18n,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 16.0),
       ],

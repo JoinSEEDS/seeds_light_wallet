@@ -25,20 +25,20 @@ class CreateRegionConfirmationDialog extends StatelessWidget {
         },
         children: [
           const SizedBox(height: 10.0),
-          Text("Create Region Confirmation", style: Theme.of(context).textTheme.headline6),
+          Text("Create Region Confirmation", style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 30.0),
           RichText(
               textAlign: TextAlign.center,
               text: TextSpan(children: <TextSpan>[
-                TextSpan(text: "By selecting “Yes I’m sure”,", style: Theme.of(context).textTheme.subtitle2),
+                TextSpan(text: "By selecting “Yes I’m sure”,", style: Theme.of(context).textTheme.titleSmall),
                 TextSpan(text: " 1,000 Seeds", style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
                 TextSpan(
                     text: " will be staked and your region will be created for others to see and join.",
-                    style: Theme.of(context).textTheme.subtitle2)
+                    style: Theme.of(context).textTheme.titleSmall)
               ])),
           const SizedBox(height: 16.0),
           Text("Please make sure that everything is in order and that you are ready to create your region!",
-              style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+              style: Theme.of(context).textTheme.titleSmall, textAlign: TextAlign.center),
           const SizedBox(height: 20.0),
         ],
       ),

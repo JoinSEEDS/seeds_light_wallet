@@ -12,7 +12,7 @@ class VouchSuccessDialog extends StatelessWidget {
       singleLargeButtonTitle: "Close",
       children: [
         const SizedBox(height: 10.0),
-        Text('Successfully Vouched!', style: Theme.of(context).textTheme.headline6),
+        Text('Successfully Vouched!', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 10.0),
       ],
     );

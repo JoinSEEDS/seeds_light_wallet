@@ -35,21 +35,21 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(context.loc.transferReceivePaidSuccessHeader, style: Theme.of(context).textTheme.headline6)
+                Text(context.loc.transferReceivePaidSuccessHeader, style: Theme.of(context).textTheme.titleLarge)
               ],
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(args.transaction.doubleQuantity.seedsFormatted, style: Theme.of(context).textTheme.headline4),
+                Text(args.transaction.doubleQuantity.seedsFormatted, style: Theme.of(context).textTheme.headlineMedium),
                 Padding(
                   padding: const EdgeInsets.only(top: 14, left: 4),
-                  child: Text(args.transaction.symbol, style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(args.transaction.symbol, style: Theme.of(context).textTheme.titleSmall),
                 ),
               ],
             ),
-            Text(args.fiatData?.asFormattedString() ?? '', style: Theme.of(context).textTheme.subtitle2),
+            Text(args.fiatData?.asFormattedString() ?? '', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 30.0),
             Row(
               children: [
@@ -65,20 +65,20 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(args.from.nickname, textAlign: TextAlign.start, style: Theme.of(context).textTheme.button),
+                        Text(args.from.nickname, textAlign: TextAlign.start, style: Theme.of(context).textTheme.labelLarge),
                         const SizedBox(height: 8),
                         Text(args.transaction.from, style: Theme.of(context).textTheme.subtitle2LowEmphasis)
                       ],
                     ),
                   ),
                 ),
-                Container(
+                DecoratedBox(
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen6),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child:
-                        Text(context.loc.transferReceivePaidSuccessFrom, style: Theme.of(context).textTheme.subtitle2),
+                        Text(context.loc.transferReceivePaidSuccessFrom, style: Theme.of(context).textTheme.titleSmall),
                   ),
                 ),
               ],
@@ -86,20 +86,20 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text(context.loc.transferReceivePaidSuccessDate, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferReceivePaidSuccessDate, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy').format(DateTime.now()),
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             ),
             const SizedBox(height: 20.0),
             Row(
               children: [
-                Text(context.loc.transferReceivePaidSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferReceivePaidSuccessStatus, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 16),
-                Container(
+                DecoratedBox(
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen6),
                   child: Padding(
@@ -107,7 +107,7 @@ class ReceivePaidSuccessDialog extends StatelessWidget {
                     child: Text(
                       context.loc.transferReceivePaidSuccessButtonTitle,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
                 ),
