@@ -68,7 +68,7 @@ class DelegatesTab extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                             'Delegating your vote means to entrust the power of your vote to another Citizen.  Please choose your delegate carefully!',
-                            style: Theme.of(context).textTheme.subtitle2),
+                            style: Theme.of(context).textTheme.titleSmall),
                       ),
                       const SizedBox(height: 30),
                       DelegateCard(

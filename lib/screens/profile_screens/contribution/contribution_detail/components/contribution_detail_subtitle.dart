@@ -13,7 +13,7 @@ class ContributionDetailSubtitle extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
       padding: const EdgeInsets.all(horizontalEdgePadding),
       decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(8.0)),
-      child: Text(title, textAlign: TextAlign.center, style: Theme.of(context).textTheme.button),
+      child: Text(title, textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelLarge),
     );
   }
 }

@@ -31,11 +31,13 @@ class OnboardingPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 2,
           decoration: const BoxDecoration(
             color: AppColors.lightGreen4,
-            borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
+            borderRadius:
+                BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
           ),
           child: Center(
             child: Container(
-              padding: const EdgeInsets.only(bottom: 20, top: 50, right: 40, left: 40),
+              padding: const EdgeInsets.only(
+                  bottom: 20, top: 50, right: 40, left: 40),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -61,9 +63,11 @@ class OnboardingPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: Theme.of(context).textTheme.headline3),
+                        Text(title,
+                            style: Theme.of(context).textTheme.displaySmall),
                         const SizedBox(height: 30),
-                        Text(subTitle, style: Theme.of(context).textTheme.button),
+                        Text(subTitle,
+                            style: Theme.of(context).textTheme.labelLarge),
                       ],
                     ),
                   ],

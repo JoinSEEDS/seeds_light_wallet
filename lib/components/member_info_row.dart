@@ -31,19 +31,23 @@ class MemberInfoRow extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          member.nickname.isNotEmpty ? member.nickname : member.account,
+                          member.nickname.isNotEmpty
+                              ? member.nickname
+                              : member.account,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       Text(
                         member.statusString,
-                        style: Theme.of(context).textTheme.button,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(member.account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                  Text(member.account,
+                      style:
+                          Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                 ],
               ),
             ),

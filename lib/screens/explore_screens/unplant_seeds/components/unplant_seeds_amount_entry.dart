@@ -33,7 +33,7 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
               child: TextFormField(
                 controller: controller,
                 textAlign: TextAlign.end,
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   hintText: "0.0",

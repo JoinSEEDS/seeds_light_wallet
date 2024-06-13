@@ -76,20 +76,24 @@ class TextFormFieldCustom extends StatelessWidget {
         maxLines: maxLines,
         enabled: enabled,
         validator: validator,
-        style: Theme.of(context).textTheme.subtitle2,
+        style: Theme.of(context).textTheme.titleSmall,
         decoration: InputDecoration(
           suffixText: suffixText,
-          suffixStyle: Theme.of(context).textTheme.subtitle2,
+          suffixStyle: Theme.of(context).textTheme.titleSmall,
           suffixIcon: suffixIcon,
-          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.canopy)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.canopy)),
           counterText: counterText,
           hintText: hintText,
           labelText: labelText,
           errorText: errorText,
           errorMaxLines: 2,
           errorStyle: const TextStyle(color: Colors.red, wordSpacing: 4.0),
-          labelStyle: Theme.of(context).textTheme.subtitle3.copyWith(color: AppColors.white),
-          hintStyle: Theme.of(context).textTheme.button,
+          labelStyle: Theme.of(context)
+              .textTheme
+              .subtitle3
+              .copyWith(color: AppColors.white),
+          hintStyle: Theme.of(context).textTheme.labelLarge,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         ),

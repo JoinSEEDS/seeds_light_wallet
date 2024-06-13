@@ -13,7 +13,7 @@ class TransactionActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.grey1),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -26,7 +26,7 @@ class TransactionActionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(action.name?.inCaps ?? "", style: Theme.of(context).textTheme.headline7),
-                  Text(action.account ?? "", style: Theme.of(context).textTheme.subtitle2),
+                  Text(action.account ?? "", style: Theme.of(context).textTheme.titleSmall),
                 ],
               ),
               const Divider(color: AppColors.grey1),
@@ -41,7 +41,7 @@ class TransactionActionCard extends StatelessWidget {
                           children: [
                             Text(i.key.inCaps, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
                             const SizedBox(width: 4),
-                            Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.subtitle2)),
+                            Flexible(child: Text('${i.value}', style: Theme.of(context).textTheme.titleSmall)),
                           ],
                         ),
                       ),

@@ -18,7 +18,7 @@ class BiometricEnabledDialog extends StatelessWidget {
         Text(
           context.loc.securityBiometricEnabledDescription,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 16.0),
       ],

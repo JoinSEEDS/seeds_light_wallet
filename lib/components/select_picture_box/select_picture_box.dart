@@ -34,7 +34,11 @@ class SelectPictureBox extends StatelessWidget {
             dashPattern: [8, 4],
             strokeWidth: 2,
             color: AppColors.grey,
-            child: Ink(height: 200, child: Container(width: width, child: imageState(pictureBoxState, context)))));
+            child: Ink(
+                height: 200,
+                child: Container(
+                    width: width,
+                    child: imageState(pictureBoxState, context)))));
   }
 
   Widget imageState(PictureBoxState pictureState, BuildContext context) {
@@ -46,7 +50,7 @@ class SelectPictureBox extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Icon(Icons.add),
             const SizedBox(width: 6),
-            Text(title, style: Theme.of(context).textTheme.subtitle2)
+            Text(title, style: Theme.of(context).textTheme.titleSmall)
           ])
         ]);
       case PictureBoxState.imagePicked:

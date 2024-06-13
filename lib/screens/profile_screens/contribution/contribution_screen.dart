@@ -133,7 +133,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                                         maxLines: 2,
                                         style: Theme.of(context).textTheme.headline7),
                                     const SizedBox(height: 8.0),
-                                    Text('$_contribution/99', style: Theme.of(context).textTheme.headline3),
+                                    Text('$_contribution/99', style: Theme.of(context).textTheme.displaySmall),
                                   ],
                                 ),
                               ),
@@ -157,7 +157,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             title: 'Community'.i18n,
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_community',
-                            rateStyle: Theme.of(context).textTheme.headline4!,
+                            rateStyle: Theme.of(context).textTheme.headlineMedium!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.communityScore)),
                           ),
@@ -169,7 +169,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             title: 'Reputation'.i18n,
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_reputation',
-                            rateStyle: Theme.of(context).textTheme.headline4!,
+                            rateStyle: Theme.of(context).textTheme.headlineMedium!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.reputationScore)),
                           ),
@@ -181,7 +181,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             title: 'Planted'.i18n,
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_seeds',
-                            rateStyle: Theme.of(context).textTheme.headline4!,
+                            rateStyle: Theme.of(context).textTheme.headlineMedium!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.plantedScore)),
                           ),
@@ -193,7 +193,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                             title: 'Transactions'.i18n,
                             titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                             rate: '$_transactions',
-                            rateStyle: Theme.of(context).textTheme.headline4!,
+                            rateStyle: Theme.of(context).textTheme.headlineMedium!,
                             onPressed: () => BlocProvider.of<ContributionBloc>(context)
                                 .add(const ShowScoreDetails(ScoreType.transactionScore)),
                           ),

@@ -217,7 +217,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                     child: Text(widget.proposal.proposalCategory.localizedDescription(context).inCaps,
-                        style: Theme.of(context).textTheme.subtitle2),
+                        style: Theme.of(context).textTheme.titleSmall),
                   ),
                 ),
               ],
@@ -229,7 +229,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
             Positioned(
               top: 10.0,
               left: 26.0,
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(6.0)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

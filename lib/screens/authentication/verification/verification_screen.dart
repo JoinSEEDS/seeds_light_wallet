@@ -32,20 +32,25 @@ class VerificationScreen extends StatelessWidget {
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (context, state) {
                 final pageCommand = state.pageCommand;
-                BlocProvider.of<VerificationBloc>(context).add(const ClearVerificationPageCommand());
+                BlocProvider.of<VerificationBloc>(context)
+                    .add(const ClearVerificationPageCommand());
                 if (pageCommand is PasscodeNotMatch) {
-                  eventBus.fire(ShowSnackBar.success(context.loc.verificationScreenSnackBarError));
+                  eventBus.fire(ShowSnackBar.success(
+                      context.loc.verificationScreenSnackBarError));
                 } else if (pageCommand is BiometricAuthorized) {
                   if (_isUnpoppable) {
                     // Onboarding or timeout authentication: just unlock
-                    BlocProvider.of<AuthenticationBloc>(context).add(const UnlockWallet());
+                    BlocProvider.of<AuthenticationBloc>(context)
+                        .add(const UnlockWallet());
                   }
                   Navigator.of(context).pop(true);
                 } else if (pageCommand is PasscodeValid) {
-                  final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+                  final authenticationBloc =
+                      BlocProvider.of<AuthenticationBloc>(context);
                   if (state.isCreateMode) {
                     // Enable and save new passcode
-                    authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
+                    authenticationBloc
+                        .add(EnablePasscode(newPasscode: state.newPasscode!));
                     if (_isUnpoppable) {
                       authenticationBloc.add(const UnlockWallet());
                     }
@@ -66,28 +71,38 @@ class VerificationScreen extends StatelessWidget {
                   case PageState.failure:
                   case PageState.success:
                     return PasscodeScreen(
-                      title: Text(state.passcodeTitle.localizedDescription(context),
+                      title: Text(
+                          state.passcodeTitle.localizedDescription(context),
                           style: Theme.of(context).textTheme.titleSmall),
                       onPasscodeCompleted: (passcode) {
                         if (state.isCreateMode && state.newPasscode == null) {
-                          BlocProvider.of<VerificationBloc>(context).add(OnPasscodeCreated(passcode));
+                          BlocProvider.of<VerificationBloc>(context)
+                              .add(OnPasscodeCreated(passcode));
                         } else {
-                          BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode));
+                          BlocProvider.of<VerificationBloc>(context)
+                              .add(OnVerifyPasscode(passcode));
                         }
                       },
                       bottomWidget: state.showTryAgainBiometric
                           ? Padding(
                               padding: const EdgeInsets.only(top: 30),
                               child: InkWell(
-                                onTap: () => BlocProvider.of<VerificationBloc>(context).add(const InitBiometricAuth()),
+                                onTap: () =>
+                                    BlocProvider.of<VerificationBloc>(context)
+                                        .add(const InitBiometricAuth()),
                                 borderRadius: BorderRadius.circular(16.0),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 16.0),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16.0),
-                                      border: Border.all(color: AppColors.white)),
-                                  child: Text(context.loc.verificationScreenButtonTitle,
-                                      style: Theme.of(context).textTheme.subtitle2),
+                                      border:
+                                          Border.all(color: AppColors.white)),
+                                  child: Text(
+                                      context.loc.verificationScreenButtonTitle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall),
                                 ),
                               ),
                             )

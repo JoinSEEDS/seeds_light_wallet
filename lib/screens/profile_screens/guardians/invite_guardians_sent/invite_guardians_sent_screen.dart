@@ -27,7 +27,7 @@ class InviteGuardiansSentScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24.0),
                 child: Text(
                   "Invites Sent!".i18n,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
               ),

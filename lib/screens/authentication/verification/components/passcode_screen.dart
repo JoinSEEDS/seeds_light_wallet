@@ -18,13 +18,18 @@ class PasscodeScreen extends StatefulWidget {
   final ValueSetter<String> onPasscodeCompleted;
   final Widget? bottomWidget;
 
-  const PasscodeScreen({super.key, required this.title, required this.onPasscodeCompleted, this.bottomWidget});
+  const PasscodeScreen(
+      {super.key,
+      required this.title,
+      required this.onPasscodeCompleted,
+      this.bottomWidget});
 
   @override
   State<StatefulWidget> createState() => _PasscodeScreenState();
 }
 
-class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProviderStateMixin {
+class _PasscodeScreenState extends State<PasscodeScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
   String enteredPasscode = '';
@@ -32,8 +37,10 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
-    final Animation curve = CurvedAnimation(parent: controller, curve: _ShakeCurve());
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+    final Animation curve =
+        CurvedAnimation(parent: controller, curve: _ShakeCurve());
     animation = Tween(begin: 0.0, end: 10.0).animate(curve as Animation<double>)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -96,7 +103,9 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                         for (int i = 0; i < _passwordDigits; i++)
                           Container(
                             margin: const EdgeInsets.all(8),
-                            child: Circle(filled: i < enteredPasscode.length, extraSize: animation.value),
+                            child: Circle(
+                                filled: i < enteredPasscode.length,
+                                extraSize: animation.value),
                           ),
                       ],
                     ),
@@ -111,7 +120,8 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
               child: CupertinoButton(
                 onPressed: () {
                   if (enteredPasscode.isNotEmpty) {
-                    setState(() => enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1));
+                    setState(() => enteredPasscode = enteredPasscode.substring(
+                        0, enteredPasscode.length - 1));
                   }
                 },
                 child: Container(
@@ -119,7 +129,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                   child: enteredPasscode.isEmpty
                       ? const SizedBox.shrink()
                       : Text(context.loc.verificationPasscodeScreenButtonTitle,
-                          style: Theme.of(context).textTheme.subtitle2),
+                          style: Theme.of(context).textTheme.titleSmall),
                 ),
               ),
             ),
