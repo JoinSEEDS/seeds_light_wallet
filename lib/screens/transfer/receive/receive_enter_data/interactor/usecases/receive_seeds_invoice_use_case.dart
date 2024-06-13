@@ -1,15 +1,16 @@
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/invoice_repository.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
 import 'package:seeds/utils/result_extension.dart';
 
-class ReceiveSeedsInvoiceUseCase extends InputUseCase<ReceiveInvoiceResponse, _Input> {
+class ReceiveSeedsInvoiceUseCase
+    extends InputUseCase<ReceiveInvoiceResponse, _Input> {
   final InvoiceRepository _invoiceRepository = InvoiceRepository();
-  final CreateFirebaseDynamicLinkUseCase _firebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
+  final CreateFirebaseDynamicLinkUseCase _firebaseDynamicLinkUseCase =
+      CreateFirebaseDynamicLinkUseCase();
 
   static _Input input({required TokenDataModel tokenAmount, String? memo}) =>
       _Input(tokenAmount: tokenAmount, memo: memo);
@@ -26,10 +27,11 @@ class ReceiveSeedsInvoiceUseCase extends InputUseCase<ReceiveInvoiceResponse, _I
     if (invoice.isError) {
       return Result.error(invoice.asError!.error);
     } else {
-      final Result<Uri> decodedInvoice =
-          await _firebaseDynamicLinkUseCase.createDynamicLink(invoiceTargetLink, invoice.valueOrCrash);
+      final Result<Uri> decodedInvoice = await _firebaseDynamicLinkUseCase
+          .createDynamicLink(invoiceTargetLink, invoice.valueOrCrash);
 
-      return Result.value(ReceiveInvoiceResponse(invoice.valueOrCrash, decodedInvoice.valueOrNull));
+      return Result.value(ReceiveInvoiceResponse(
+          invoice.valueOrCrash, decodedInvoice.valueOrNull));
     }
   }
 }

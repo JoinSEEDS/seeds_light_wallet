@@ -30,7 +30,8 @@ class ImportWordsScreen extends StatelessWidget {
                 title: context.loc.importKeySearchButtonTitle,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
+                  BlocProvider.of<ImportKeyBloc>(context)
+                      .add(const FindAccountFromWords());
                 },
                 enabled: state.enableButton,
               ),
@@ -60,72 +61,92 @@ class ImportWordsScreen extends StatelessWidget {
                           return Padding(
                             padding: EdgeInsets.only(
                                 left: (index % _numberOfColumns == 0) ? 0 : 8,
-                                right: ((index + 1) % _numberOfColumns == 0) ? 0 : 8),
+                                right: ((index + 1) % _numberOfColumns == 0)
+                                    ? 0
+                                    : 8),
                             child: Autocomplete<String>(
-                              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                                textEditingController.text = state.userEnteredWords[index] ?? "";
+                              fieldViewBuilder: (context, textEditingController,
+                                  focusNode, onFieldSubmitted) {
+                                textEditingController.text =
+                                    state.userEnteredWords[index] ?? "";
                                 textEditingController.selection =
-                                    TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length));
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset:
+                                            textEditingController.text.length));
                                 return TextField(
                                   controller: textEditingController,
                                   focusNode: focusNode,
                                   autocorrect: false,
                                   enableSuggestions: false,
                                   enabled: true,
-                                  textInputAction: index < 11 ? TextInputAction.next : TextInputAction.done,
+                                  textInputAction: index < 11
+                                      ? TextInputAction.next
+                                      : TextInputAction.done,
                                   onChanged: (value) {
-                                    BlocProvider.of<ImportKeyBloc>(context)
-                                        .add(OnWordChange(word: value, wordIndex: index));
+                                    BlocProvider.of<ImportKeyBloc>(context).add(
+                                        OnWordChange(
+                                            word: value, wordIndex: index));
                                   },
                                   keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
-                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
                                     labelText: (index + 1).toString(),
                                     border: const OutlineInputBorder(),
                                   ),
                                 );
                               },
-                              optionsBuilder: (TextEditingValue textEditingValue) {
+                              optionsBuilder:
+                                  (TextEditingValue textEditingValue) {
                                 if (textEditingValue.text == '') {
                                   return const Iterable<String>.empty();
                                 }
                                 return wordList.where((String option) {
-                                  return option.startsWith(textEditingValue.text.toLowerCase());
+                                  return option.startsWith(
+                                      textEditingValue.text.toLowerCase());
                                 });
                               },
                               onSelected: (String selection) {
                                 FocusScope.of(context).nextFocus();
-                                BlocProvider.of<ImportKeyBloc>(context)
-                                    .add(OnWordChange(word: selection, wordIndex: index));
+                                BlocProvider.of<ImportKeyBloc>(context).add(
+                                    OnWordChange(
+                                        word: selection, wordIndex: index));
                               },
                             ),
                           );
                         }),
                       ),
-                      if (state.pageState != PageState.loading && state.accounts.isEmpty)
+                      if (state.pageState != PageState.loading &&
+                          state.accounts.isEmpty)
                         TextButton(
                           child: Text(context.loc.importWordClipBoardTitle),
                           onPressed: () {
-                            BlocProvider.of<ImportKeyBloc>(context).add(const OnUserPastedWords());
+                            BlocProvider.of<ImportKeyBloc>(context)
+                                .add(const OnUserPastedWords());
                           },
                         ),
                       const SizedBox(height: 16),
                       if (state.userEnteredWords.isEmpty)
                         RichText(
                           text: TextSpan(
-                            style: Theme.of(context).textTheme.subtitle2,
+                            style: Theme.of(context).textTheme.titleSmall,
                             children: <TextSpan>[
                               TextSpan(
-                                text: context.loc.importKeyImportUsingPrivateKeyActionLink,
-                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                text: context.loc
+                                    .importKeyImportUsingPrivateKeyActionLink,
+                                style:
+                                    Theme.of(context).textTheme.subtitle2Green2,
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).pop();
-                                    NavigationService.of(context).navigateTo(Routes.importKey);
+                                    NavigationService.of(context)
+                                        .navigateTo(Routes.importKey);
                                   },
                               ),
                               const TextSpan(text: " "),
-                              TextSpan(text: context.loc.importKeyImportUsingPrivateKeyDescription),
+                              TextSpan(
+                                  text: context.loc
+                                      .importKeyImportUsingPrivateKeyDescription),
                             ],
                           ),
                         ),

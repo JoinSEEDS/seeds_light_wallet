@@ -5,12 +5,12 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 
 class VoteProposalUseCase {
   Future<Result> run({required ProposalViewModel proposal, required int amount}) {
-    final ProposalsRepository _proposalsRepository = ProposalsRepository();
+    final ProposalsRepository proposalsRepository = ProposalsRepository();
     final String accountName = settingsStorage.accountName;
     if (proposal.proposalCategory == ProposalCategory.referendum) {
-      return _proposalsRepository.voteReferendum(id: proposal.id, amount: amount, accountName: accountName);
+      return proposalsRepository.voteReferendum(id: proposal.id, amount: amount, accountName: accountName);
     } else {
-      return _proposalsRepository.voteProposal(id: proposal.id, amount: amount, accountName: accountName);
+      return proposalsRepository.voteProposal(id: proposal.id, amount: amount, accountName: accountName);
     }
   }
 }

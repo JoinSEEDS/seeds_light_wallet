@@ -44,7 +44,7 @@ class DefaultAbiProvider implements AbiProvider {
 class DefaultTextEncoder implements TextEncoder {
   @override
   Uint8List encode(String input) {
-    return utf8.encode(input) as Uint8List;
+    return utf8.encode(input);
   }
 }
 
