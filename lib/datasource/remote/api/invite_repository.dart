@@ -91,7 +91,7 @@ class InviteRepository extends HttpRepository with EosRepository {
     print('[http] find invite by hash');
 
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-    // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
+    // 'https://node.hypha.earth/v1/chain/get_table_rows'; // `todo`: Why is this still Hypha when config has changed?
 
     final request = createRequest(
         code: SeedsCode.accountJoin,

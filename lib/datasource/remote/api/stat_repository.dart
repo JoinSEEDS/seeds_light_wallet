@@ -1,8 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
-import 'package:seeds/datasource/remote/model/balance_model.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/datasource/remote/model/stat_model.dart';
 
 class StatRepository extends HttpRepository {
@@ -23,7 +21,8 @@ class StatRepository extends HttpRepository {
 
     return http
         .post(statURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<StatModel>(response, (dynamic body) {
+        .then((http.Response response) =>
+            mapHttpResponse<StatModel>(response, (dynamic body) {
               return StatModel.fromJson(body);
             }))
         .catchError((dynamic error) => mapHttpError(error));

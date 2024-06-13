@@ -78,7 +78,7 @@ class _RecoverAccountSearchScreenState extends State<RecoverAccountSearchScreen>
                           },
                         ),
                         if (state.accountFound)
-                          Container(
+                          DecoratedBox(
                             decoration: BoxDecoration(
                               color: AppColors.darkGreen2,
                               borderRadius: BorderRadius.circular(defaultCardBorderRadius),

@@ -244,8 +244,8 @@ Uint8List digestSha256X2(Uint8List data) {
 IKey stringToKey(String s, KeyType type, int size, String suffix) {
   var whole = base58ToBinary(size + 4, s);
 
-  var result;
-  var digest;
+  IKey result;
+  List<int> digest;
   if (suffix == '') {
     result = IKey(type, whole.sublist(1,size));
     digest = digestSha256X2(whole.sublist(0,size));

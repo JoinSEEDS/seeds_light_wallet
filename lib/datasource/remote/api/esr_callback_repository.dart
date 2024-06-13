@@ -34,17 +34,18 @@ import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 /// At the moment can't justify the effort for a generic implementation.
 
 class ESRCallbackRepository extends HttpRepository {
-  Future<Result<bool>> callback(String _callbackUrl, String transactionId) {
-    print("[http] issue callback $_callbackUrl");
+  Future<Result<bool>> callback(String callbackUrl, String transactionId) {
+    print("[http] issue callback $callbackUrl");
 
-    final callbackUrl = fillTemplate(_callbackUrl, transactionId);
-    final uri = Uri.parse(callbackUrl);
+    final callbackURL = fillTemplate(callbackUrl, transactionId);
+    final uri = Uri.parse(callbackURL);
     final params = jsonEncode(uri.queryParameters);
     final postURI = Uri(scheme: uri.scheme, host: uri.host, path: uri.path);
 
     return http
         .post(postURI, headers: headers, body: params)
-        .then((http.Response response) => mapHttpResponse<bool>(response, (dynamic body) {
+        .then((http.Response response) =>
+            mapHttpResponse<bool>(response, (dynamic body) {
               return true;
             }))
         .catchError((error) => mapHttpError(error));
