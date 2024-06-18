@@ -19,18 +19,15 @@ class FlagUserConfirmationDialog extends StatelessWidget {
             return true;
           },
           child: CustomDialog(
-            icon: const CustomPaint(
-                size: Size(60, 60), painter: RedExclamationCircle()),
+            icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
             leftButtonTitle: 'Back',
             rightButtonTitle: "Yes I'm sure",
             onRightButtonPressed: () {
-              BlocProvider.of<FlagUserBloc>(context)
-                  .add(OnConfirmFlagUserTap());
+              BlocProvider.of<FlagUserBloc>(context).add(OnConfirmFlagUserTap());
               Navigator.of(context).pop();
             },
             children: [
-              Text('Are you sure?',
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text('Are you sure?', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10.0),
               Text(
                 'Flagging has strong negative consequences so please make sure you are flagging the right person!',
@@ -45,14 +42,9 @@ class FlagUserConfirmationDialog extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                     children: <TextSpan>[
                       TextSpan(
-                          text:
-                              '${state.selectedProfile?.nickname} (${state.selectedProfile?.account})',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2Green3LowEmphasis),
-                      TextSpan(
-                          text: '?',
-                          style: Theme.of(context).textTheme.titleSmall),
+                          text: '${state.selectedProfile?.nickname} (${state.selectedProfile?.account})',
+                          style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
+                      TextSpan(text: '?', style: Theme.of(context).textTheme.titleSmall),
                     ]),
               ),
             ],

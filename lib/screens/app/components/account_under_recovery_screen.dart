@@ -16,8 +16,7 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
         child: CustomDialog(
           singleLargeButtonTitle: 'Cancel Recovery'.i18n,
           onSingleLargeButtonPressed: () {
-            BlocProvider.of<AppBloc>(context)
-                .add(const OnStopGuardianActiveRecoveryTapped());
+            BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
           },
           children: [
             Container(
@@ -25,12 +24,9 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
               width: 250,
               decoration: const BoxDecoration(
                 color: AppColors.white,
-                borderRadius:
-                    BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+                borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                 image: DecorationImage(
-                    image: AssetImage(
-                        'assets/images/guardians/guardian_shield.png'),
-                    fit: BoxFit.fitWidth),
+                    image: AssetImage('assets/images/guardians/guardian_shield.png'), fit: BoxFit.fitWidth),
               ),
             ),
             const SizedBox(height: 20),

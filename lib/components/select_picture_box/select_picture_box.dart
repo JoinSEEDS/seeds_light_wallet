@@ -34,11 +34,7 @@ class SelectPictureBox extends StatelessWidget {
             dashPattern: [8, 4],
             strokeWidth: 2,
             color: AppColors.grey,
-            child: Ink(
-                height: 200,
-                child: Container(
-                    width: width,
-                    child: imageState(pictureBoxState, context)))));
+            child: Ink(height: 200, child: Container(width: width, child: imageState(pictureBoxState, context)))));
   }
 
   Widget imageState(PictureBoxState pictureState, BuildContext context) {

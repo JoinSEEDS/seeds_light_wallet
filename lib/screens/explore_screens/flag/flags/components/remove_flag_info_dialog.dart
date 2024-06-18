@@ -16,12 +16,10 @@ class RemoveFlagInfoDialog extends StatelessWidget {
       leftButtonTitle: 'Back',
       rightButtonTitle: "Yes I'm sure",
       onRightButtonPressed: () {
-        BlocProvider.of<FlagBloc>(context)
-            .add(OnRemoveUserFlagTapped(userAccount));
+        BlocProvider.of<FlagBloc>(context).add(OnRemoveUserFlagTapped(userAccount));
         Navigator.of(context).pop();
       },
-      icon: const CustomPaint(
-          size: Size(60, 60), painter: RedExclamationCircle()),
+      icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
       children: [
         Text('Are you sure?', style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),

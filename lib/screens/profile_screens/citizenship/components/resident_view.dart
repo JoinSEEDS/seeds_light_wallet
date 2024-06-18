@@ -20,8 +20,7 @@ class ResidentView extends StatefulWidget {
   _ResidentViewState createState() => _ResidentViewState();
 }
 
-class _ResidentViewState extends State<ResidentView>
-    with TickerProviderStateMixin {
+class _ResidentViewState extends State<ResidentView> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _timeLineAnimation;
   late Animation<double> _reputationAnimation;
@@ -38,8 +37,7 @@ class _ResidentViewState extends State<ResidentView>
 
   @override
   void initState() {
-    _controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _controller = AnimationController(duration: const Duration(seconds: 1), vsync: this);
     super.initState();
   }
 
@@ -53,46 +51,33 @@ class _ResidentViewState extends State<ResidentView>
   Widget build(BuildContext context) {
     return BlocConsumer<CitizenshipBloc, CitizenshipState>(
       listenWhen: (previous, current) =>
-          previous.pageState != PageState.success &&
-          current.pageState == PageState.success,
+          previous.pageState != PageState.success && current.pageState == PageState.success,
       listener: (context, state) {
-        _timeLineAnimation =
-            Tween<double>(begin: 0, end: state.progressTimeline)
-                .animate(_controller)
-              ..addListener(() {
-                setState(() => _timeLine = _timeLineAnimation.value.toInt());
-              });
-        _reputationAnimation = Tween<double>(
-                begin: 0, end: state.reputationScore?.toDouble() ?? 0)
-            .animate(_controller)
+        _timeLineAnimation = Tween<double>(begin: 0, end: state.progressTimeline).animate(_controller)
+          ..addListener(() {
+            setState(() => _timeLine = _timeLineAnimation.value.toInt());
+          });
+        _reputationAnimation = Tween<double>(begin: 0, end: state.reputationScore?.toDouble() ?? 0).animate(_controller)
           ..addListener(() {
             setState(() => _reputation = _reputationAnimation.value.toInt());
           });
-        _citizenCeremonyAnimation =
-            Tween<double>(begin: 0, end: state.citizenCeremony!.toDouble())
-                .animate(_controller)
-              ..addListener(() {
-                setState(() => _citizenCeremony =
-                    _citizenCeremonyAnimation.value.toInt() * 100);
-              });
-        _ageAnimation =
-            Tween<double>(begin: 0, end: state.profile!.accountAge.toDouble())
-                .animate(_controller)
-              ..addListener(() {
-                setState(() => _age = _ageAnimation.value.toInt());
-              });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds)
-            .animate(_controller)
+        _citizenCeremonyAnimation = Tween<double>(begin: 0, end: state.citizenCeremony!.toDouble()).animate(_controller)
+          ..addListener(() {
+            setState(() => _citizenCeremony = _citizenCeremonyAnimation.value.toInt() * 100);
+          });
+        _ageAnimation = Tween<double>(begin: 0, end: state.profile!.accountAge.toDouble()).animate(_controller)
+          ..addListener(() {
+            setState(() => _age = _ageAnimation.value.toInt());
+          });
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
-        _transactionsAnimation = Tween<double>(
-                begin: 0, end: state.seedsTransactionsCount?.toDouble())
-            .animate(_controller)
-          ..addListener(() {
-            setState(
-                () => _transactions = _transactionsAnimation.value.toInt());
-          });
+        _transactionsAnimation =
+            Tween<double>(begin: 0, end: state.seedsTransactionsCount?.toDouble()).animate(_controller)
+              ..addListener(() {
+                setState(() => _transactions = _transactionsAnimation.value.toInt());
+              });
         _controller.forward();
       },
       builder: (context, state) {
@@ -126,8 +111,7 @@ class _ResidentViewState extends State<ResidentView>
                         const SizedBox(height: 8.0),
                         Text(
                           state.profile!.statusString.i18n,
-                          style:
-                              Theme.of(context).textTheme.headline7LowEmphasis,
+                          style: Theme.of(context).textTheme.headline7LowEmphasis,
                         ),
                       ],
                     ),
@@ -137,8 +121,7 @@ class _ResidentViewState extends State<ResidentView>
                 DecoratedBox(
                   decoration: const BoxDecoration(
                     color: AppColors.lightGreen2,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(defaultCardBorderRadius)),
+                    borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -147,12 +130,8 @@ class _ResidentViewState extends State<ResidentView>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Progress Timeline'.i18n,
-                                style: Theme.of(context).textTheme.labelLarge),
-                            Text('$_timeLine%',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2LowEmphasis),
+                            Text('Progress Timeline'.i18n, style: Theme.of(context).textTheme.labelLarge),
+                            Text('$_timeLine%', style: Theme.of(context).textTheme.subtitle2LowEmphasis),
                           ],
                         ),
                         const SizedBox(height: 16.0),
@@ -178,21 +157,17 @@ class _ResidentViewState extends State<ResidentView>
                   childAspectRatio: 0.8,
                   children: <Widget>[
                     CircularProgressItem(
-                      icon: SvgPicture.asset(
-                          'assets/images/citizenship/community.svg'),
+                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
                       totalStep: citizenRequiredCitizenVouched * 100,
                       currentStep: _citizenCeremony,
                       circleRadius: 30,
                       title: 'Citizen Ceremony'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: _citizenCeremony == citizenRequiredCitizenVouched
-                          ? 'Passed'
-                          : 'Waiting',
+                      rate: _citizenCeremony == citizenRequiredCitizenVouched ? 'Passed' : 'Waiting',
                       rateStyle: Theme.of(context).textTheme.titleMedium!,
                     ),
                     CircularProgressItem(
-                      icon: SvgPicture.asset(
-                          'assets/images/citizenship/reputation.svg'),
+                      icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
                       totalStep: citizenRequiredReputation,
                       currentStep: _reputation,
                       circleRadius: 30,
@@ -202,8 +177,7 @@ class _ResidentViewState extends State<ResidentView>
                       rateStyle: Theme.of(context).textTheme.titleMedium!,
                     ),
                     CircularProgressItem(
-                      icon:
-                          SvgPicture.asset('assets/images/citizenship/age.svg'),
+                      icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
                       totalStep: citizenRequiredAccountAge,
                       currentStep: _age,
                       circleRadius: 30,
@@ -213,8 +187,7 @@ class _ResidentViewState extends State<ResidentView>
                       rateStyle: Theme.of(context).textTheme.titleMedium!,
                     ),
                     CircularProgressItem(
-                      icon: SvgPicture.asset(
-                          'assets/images/citizenship/planted.svg'),
+                      icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
                       totalStep: citizenRequiredPlantedSeeds,
                       currentStep: _seeds,
                       circleRadius: 30,
@@ -224,8 +197,7 @@ class _ResidentViewState extends State<ResidentView>
                       rateStyle: Theme.of(context).textTheme.titleMedium!,
                     ),
                     CircularProgressItem(
-                      icon: SvgPicture.asset(
-                          'assets/images/citizenship/transaction.svg'),
+                      icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
                       totalStep: citizenRequiredSeedsTransactions,
                       currentStep: _transactions,
                       circleRadius: 30,

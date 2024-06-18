@@ -24,9 +24,7 @@ class PlantSeedsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)
-            ..add(const LoadUserBalance()),
+      create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
         appBar: AppBar(title: Text(context.loc.plantSeedsAppBarTitle)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
@@ -34,23 +32,19 @@ class PlantSeedsScreen extends StatelessWidget {
           listener: (context, state) {
             final pageCommand = state.pageCommand;
             if (pageCommand is ShowPlantSeedsSuccess) {
-              const PlantSeedsSuccessDialog()
-                  .show(context, BlocProvider.of<PlantSeedsBloc>(context));
+              const PlantSeedsSuccessDialog().show(context, BlocProvider.of<PlantSeedsBloc>(context));
             }
             if (pageCommand is ShowError) {
-              eventBus.fire(ShowSnackBar(
-                  pageCommand.error.localizedDescription(context)));
+              eventBus.fire(ShowSnackBar(pageCommand.error.localizedDescription(context)));
             }
           },
-          buildWhen: (previous, current) =>
-              previous.pageState != current.pageState,
+          buildWhen: (previous, current) => previous.pageState != current.pageState,
           builder: (context, state) {
             switch (state.pageState) {
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.failure:
-                return FullPageErrorIndicator(
-                    errorMessage: state.error?.localizedDescription(context));
+                return FullPageErrorIndicator(errorMessage: state.error?.localizedDescription(context));
               case PageState.success:
                 return SafeArea(
                   minimum: const EdgeInsets.all(horizontalEdgePadding),
@@ -58,27 +52,21 @@ class PlantSeedsScreen extends StatelessWidget {
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          height: MediaQuery.of(context).size.height -
-                              Scaffold.of(context).appBarMaxHeight!,
+                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
                               const SizedBox(height: 16),
-                              Text(context.loc.plantSeedsPlantAmount,
-                                  style:
-                                      Theme.of(context).textTheme.titleLarge),
+                              Text(context.loc.plantSeedsPlantAmount, style: Theme.of(context).textTheme.titleLarge),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0),
                                 onValueChange: (value) {
-                                  BlocProvider.of<PlantSeedsBloc>(context).add(
-                                      OnAmountChange(amountChanged: value));
+                                  BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
                                 },
                                 autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 24),
-                              AlertInputValue(
-                                  context.loc.plantSeedsNotEnoughBalanceAlert,
-                                  isVisible: state.showAlert),
+                              AlertInputValue(context.loc.plantSeedsNotEnoughBalanceAlert, isVisible: state.showAlert),
                               const SizedBox(height: 24),
                               BalanceRow(
                                 label: context.loc.plantSeedsAvailableBalance,
@@ -97,8 +85,7 @@ class PlantSeedsScreen extends StatelessWidget {
                       ),
                       BlocBuilder<PlantSeedsBloc, PlantSeedsState>(
                         buildWhen: (previous, current) {
-                          return previous.isPlantSeedsButtonEnabled !=
-                              current.isPlantSeedsButtonEnabled;
+                          return previous.isPlantSeedsButtonEnabled != current.isPlantSeedsButtonEnabled;
                         },
                         builder: (context, state) {
                           return Align(
@@ -107,8 +94,7 @@ class PlantSeedsScreen extends StatelessWidget {
                               title: context.loc.plantSeedsPlantButtonTitle,
                               enabled: state.isPlantSeedsButtonEnabled,
                               onPressed: () =>
-                                  BlocProvider.of<PlantSeedsBloc>(context)
-                                      .add(const OnPlantSeedsButtonTapped()),
+                                  BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
                             ),
                           );
                         },

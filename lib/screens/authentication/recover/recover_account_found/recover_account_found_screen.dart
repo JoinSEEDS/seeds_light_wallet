@@ -27,28 +27,23 @@ class RecoverAccountFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: cast_nullable_to_non_nullable
-    final String userAccount =
-        ModalRoute.of(context)!.settings.arguments! as String;
+    final String userAccount = ModalRoute.of(context)!.settings.arguments! as String;
     return BlocProvider(
-      create: (_) =>
-          RecoverAccountFoundBloc(userAccount)..add(const FetchInitialData()),
+      create: (_) => RecoverAccountFoundBloc(userAccount)..add(const FetchInitialData()),
       child: BlocConsumer<RecoverAccountFoundBloc, RecoverAccountFoundState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
-          BlocProvider.of<RecoverAccountFoundBloc>(context)
-              .add(const ClearRecoverPageCommand());
+          BlocProvider.of<RecoverAccountFoundBloc>(context).add(const ClearRecoverPageCommand());
 
           if (pageCommand is ShowLinkCopied) {
-            eventBus.fire(ShowSnackBar.success(
-                context.loc.recoverAccountFoundShowLinkCopied));
+            eventBus.fire(ShowSnackBar.success(context.loc.recoverAccountFoundShowLinkCopied));
           } else if (pageCommand is ShowErrorMessage) {
             eventBus.fire(ShowSnackBar(pageCommand.message));
           } else if (pageCommand is CancelRecoveryProcess) {
             Navigator.of(context).pop();
           } else if (pageCommand is OnRecoverAccountSuccess) {
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(const OnRecoverAccount());
+            BlocProvider.of<AuthenticationBloc>(context).add(const OnRecoverAccount());
           }
         },
         builder: (context, state) {
@@ -67,9 +62,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
                         icon: const Icon(Icons.refresh),
-                        onPressed: () =>
-                            BlocProvider.of<RecoverAccountFoundBloc>(context)
-                                .add(const OnRefreshTapped()),
+                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnRefreshTapped()),
                       ),
                     )
                   ],
@@ -89,13 +82,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
         return const FullPageLoadingIndicator();
       case PageState.failure:
         return FullPageErrorIndicator(
-          errorMessage: state.error?.localizedDescription(context) ??
-              GlobalError.unknown.localizedDescription(context),
-          buttonTitle:
-              context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
-          buttonOnPressed: () =>
-              BlocProvider.of<RecoverAccountFoundBloc>(context)
-                  .add(const OnCancelProcessTapped()),
+          errorMessage: state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context),
+          buttonTitle: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
+          buttonOnPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
         );
       case PageState.success:
         switch (state.recoveryStatus) {
@@ -109,15 +98,12 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                     Stack(
                       children: [
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8, right: 8, top: 8),
+                          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                           child: TextFormFieldCustom(
                             enabled: false,
                             labelText: context.loc.recoverAccountFoundLinkTitle,
                             suffixIcon: const SizedBox.shrink(),
-                            controller: TextEditingController(
-                                text:
-                                    state.linkToActivateGuardians?.toString()),
+                            controller: TextEditingController(text: state.linkToActivateGuardians?.toString()),
                           ),
                         ),
                         Positioned(
@@ -126,12 +112,10 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8, top: 8),
                             child: IconButton(
-                              icon: const Icon(Icons.share,
-                                  color: AppColors.white),
+                              icon: const Icon(Icons.share, color: AppColors.white),
                               splashRadius: 30,
                               onPressed: () async {
-                                await Share.share(
-                                    state.linkToActivateGuardians!.toString());
+                                await Share.share(state.linkToActivateGuardians!.toString());
                               },
                             ),
                           ),
@@ -144,57 +128,44 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         children: [
                           Text(state.confirmedGuardianSignatures.toString(),
                               style: Theme.of(context).textTheme.button1),
-                          Text("/${state.userGuardiansData.length}",
-                              style: Theme.of(context).textTheme.button1),
+                          Text("/${state.userGuardiansData.length}", style: Theme.of(context).textTheme.button1),
                           const SizedBox(width: 24),
                           Flexible(
                             child: Text(
-                              context.loc
-                                  .recoverAccountFoundGuardiansAcceptedTitle,
-                              style:
-                                  Theme.of(context).textTheme.buttonLowEmphasis,
+                              context.loc.recoverAccountFoundGuardiansAcceptedTitle,
+                              style: Theme.of(context).textTheme.buttonLowEmphasis,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const Padding(
-                        padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
-                        child: DividerJungle()),
+                    const Padding(padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0), child: DividerJungle()),
                     const SizedBox(height: 16),
                     Expanded(
                       child: ListView(
                         children: state.userGuardiansData
                             .map((e) => GuardianRowWidget(
                                   guardianModel: e,
-                                  showGuardianSigned: state
-                                      .alreadySignedGuardians
-                                      .where((String element) =>
-                                          element == e.account)
+                                  showGuardianSigned: state.alreadySignedGuardians
+                                      .where((String element) => element == e.account)
                                       .isNotEmpty,
                                 ))
                             .toList(),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: horizontalEdgePadding, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding, vertical: 16),
                       child: FlatButtonLong(
                         title: context.loc.recoverAccountFoundReloadTitle,
-                        onPressed: () =>
-                            BlocProvider.of<RecoverAccountFoundBloc>(context)
-                                .add(const OnRefreshTapped()),
+                        onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnRefreshTapped()),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: horizontalEdgePadding),
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                       child: FlatButtonLongOutlined(
-                        title: context
-                            .loc.recoverAccountFoundFullPageErrorIndicatorTitle,
+                        title: context.loc.recoverAccountFoundFullPageErrorIndicatorTitle,
                         onPressed: () =>
-                            BlocProvider.of<RecoverAccountFoundBloc>(context)
-                                .add(const OnCancelProcessTapped()),
+                            BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnCancelProcessTapped()),
                       ),
                     ),
                   ],
@@ -206,104 +177,70 @@ class RecoverAccountFoundScreen extends StatelessWidget {
               bottomSheet: Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
                 child: FlatButtonLong(
-                  enabled: state.recoveryStatus ==
-                      RecoveryStatus.readyToClaimAccount,
+                  enabled: state.recoveryStatus == RecoveryStatus.readyToClaimAccount,
                   title: context.loc.recoverAccountFoundClaimButtonTitle,
-                  onPressed: () =>
-                      BlocProvider.of<RecoverAccountFoundBloc>(context)
-                          .add(const OnClaimAccountTapped()),
+                  onPressed: () => BlocProvider.of<RecoverAccountFoundBloc>(context).add(const OnClaimAccountTapped()),
                 ),
               ),
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: horizontalEdgePadding),
+                    padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
-                            context.loc
-                                .recoverAccountFoundAllGuardiansAcceptedTitle,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2LowEmphasis,
+                            context.loc.recoverAccountFoundAllGuardiansAcceptedTitle,
+                            style: Theme.of(context).textTheme.subtitle2LowEmphasis,
                             textAlign: TextAlign.center,
                           ),
                         ),
                         const SizedBox(height: 40),
-                        const Image(
-                            image: AssetImage(
-                                'assets/images/guardians/check_circle.png')),
+                        const Image(image: AssetImage('assets/images/guardians/check_circle.png')),
                         const SizedBox(height: 100),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               children: [
-                                Text(
-                                    state.currentRemainingTime
-                                            ?.hoursFormatted ??
-                                        '00',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium),
+                                Text(state.currentRemainingTime?.hoursFormatted ?? '00',
+                                    style: Theme.of(context).textTheme.headlineMedium),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 6),
-                                  child: Text(':',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium),
+                                  child: Text(':', style: Theme.of(context).textTheme.headlineMedium),
                                 )
                               ],
                             ),
                             Row(
                               children: [
-                                Text(
-                                    state.currentRemainingTime?.minFormatted ??
-                                        '00',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium),
+                                Text(state.currentRemainingTime?.minFormatted ?? '00',
+                                    style: Theme.of(context).textTheme.headlineMedium),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 6),
-                                  child: Text(':',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium),
+                                  child: Text(':', style: Theme.of(context).textTheme.headlineMedium),
                                 )
                               ],
                             ),
                             Row(
                               children: [
-                                Text(
-                                    '${state.currentRemainingTime?.secFormatted ?? '00'} ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium),
+                                Text('${state.currentRemainingTime?.secFormatted ?? '00'} ',
+                                    style: Theme.of(context).textTheme.headlineMedium),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 14),
-                              child: Text(
-                                  context.loc.recoverAccountFoundHoursLeft,
-                                  style:
-                                      Theme.of(context).textTheme.titleSmall),
+                              child: Text(context.loc.recoverAccountFoundHoursLeft,
+                                  style: Theme.of(context).textTheme.titleSmall),
                             )
                           ],
                         ),
                         const SizedBox(height: 20),
-                        if (state.recoveryStatus ==
-                            RecoveryStatus.readyToClaimAccount)
+                        if (state.recoveryStatus == RecoveryStatus.readyToClaimAccount)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(context
-                                  .loc.recoverAccountFoundRecoveredTitle),
-                              Text(state.userAccount)
-                            ],
+                            children: [Text(context.loc.recoverAccountFoundRecoveredTitle), Text(state.userAccount)],
                           ),
                         const SizedBox(height: 150),
                       ],

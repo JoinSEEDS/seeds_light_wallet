@@ -6,33 +6,25 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendAmountChangeMapper extends StateMapper {
-  SendEnterDataState mapResultToState(
-      SendEnterDataState currentState, RatesState rateState, String quantity) {
+  SendEnterDataState mapResultToState(SendEnterDataState currentState, RatesState rateState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
 
-    final tokenAmount =
-        TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+    final tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
     final selectedFiat = settingsStorage.selectedFiatCurrency;
     final fiatAmount = rateState.tokenToFiat(tokenAmount, selectedFiat);
     final toAccount = currentState.sendTo.account;
 
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
-    final double insufficiency =
-        currentState.availableBalance?.asFormattedString() ==
-                tokenAmount.asFormattedString()
-            ? 0.0
-            : parsedQuantity - currentAvailable;
+    final double insufficiency = currentState.availableBalance?.asFormattedString() == tokenAmount.asFormattedString()
+        ? 0.0
+        : parsedQuantity - currentAvailable;
 
     return currentState.copyWith(
       fiatAmount: fiatAmount,
-      isNextButtonEnabled: parsedQuantity > 0 &&
-          !settingsStorage.selectedToken
-              .blockTransfer(insufficiency, toAccount),
+      isNextButtonEnabled: parsedQuantity > 0 && !settingsStorage.selectedToken.blockTransfer(insufficiency, toAccount),
       tokenAmount: tokenAmount,
-      showAlert: settingsStorage.selectedToken
-              .warnTransfer(insufficiency, toAccount) !=
-          null,
+      showAlert: settingsStorage.selectedToken.warnTransfer(insufficiency, toAccount) != null,
     );
   }
 }

@@ -40,8 +40,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   void _onSubmitted() {
     FocusScope.of(context).unfocus();
     if (_formImportKey.currentState!.validate()) {
-      _importKeyBloc
-          .add(FindAccountByKey(privateKey: _keyController.text, words: []));
+      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
     }
   }
 
@@ -64,40 +63,32 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                         key: _formImportKey,
                         autovalidateMode: AutovalidateMode.disabled,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: horizontalEdgePadding),
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                           child: Column(
                             children: [
                               TextFormFieldCustom(
                                 autofocus: true,
-                                labelText: context
-                                    .loc.importKeyPrivateKeyFieldPlaceholder,
+                                labelText: context.loc.importKeyPrivateKeyFieldPlaceholder,
                                 suffixIcon: IconButton(
-                                  icon: const Icon(Icons.paste,
-                                      color: AppColors.white),
+                                  icon: const Icon(Icons.paste, color: AppColors.white),
                                   onPressed: () async {
-                                    final clipboardData =
-                                        await Clipboard.getData('text/plain');
-                                    final clipboardText =
-                                        clipboardData?.text ?? '';
+                                    final clipboardData = await Clipboard.getData('text/plain');
+                                    final clipboardText = clipboardData?.text ?? '';
                                     _keyController.text = clipboardText;
                                     // ignore: use_build_context_synchronously
-                                    BlocProvider.of<ImportKeyBloc>(context).add(
-                                        OnPrivateKeyChange(
-                                            privateKeyChanged: clipboardText));
+                                    BlocProvider.of<ImportKeyBloc>(context)
+                                        .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
                                     _onSubmitted();
                                   },
                                 ),
                                 onFieldSubmitted: (value) {
-                                  BlocProvider.of<ImportKeyBloc>(context).add(
-                                      OnPrivateKeyChange(
-                                          privateKeyChanged: value));
+                                  BlocProvider.of<ImportKeyBloc>(context)
+                                      .add(OnPrivateKeyChange(privateKeyChanged: value));
                                 },
                                 controller: _keyController,
                                 onChanged: (value) {
-                                  BlocProvider.of<ImportKeyBloc>(context).add(
-                                      OnPrivateKeyChange(
-                                          privateKeyChanged: value));
+                                  BlocProvider.of<ImportKeyBloc>(context)
+                                      .add(OnPrivateKeyChange(privateKeyChanged: value));
                                 },
                               ),
                             ],
@@ -112,21 +103,15 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                               style: Theme.of(context).textTheme.titleSmall,
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: context.loc
-                                        .importKeyImportUsingRecoveryPhraseActionLink,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2Green2,
+                                    text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,
+                                    style: Theme.of(context).textTheme.subtitle2Green2,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.of(context).pop();
-                                        NavigationService.of(context)
-                                            .navigateTo(Routes.importWords);
+                                        NavigationService.of(context).navigateTo(Routes.importWords);
                                       }),
                                 const TextSpan(text: " "),
-                                TextSpan(
-                                    text: context.loc
-                                        .importKeyImportUsingRecoveryPhraseDescription),
+                                TextSpan(text: context.loc.importKeyImportUsingRecoveryPhraseDescription),
                               ],
                             ),
                           ),
@@ -137,8 +122,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: horizontalEdgePadding),
+                    padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FlatButtonLong(

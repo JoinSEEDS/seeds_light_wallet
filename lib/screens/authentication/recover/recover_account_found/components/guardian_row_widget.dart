@@ -18,9 +18,7 @@ class GuardianRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        trailing: showGuardianSigned
-            ? const Icon(Icons.check_circle, color: AppColors.green)
-            : const SizedBox.shrink(),
+        trailing: showGuardianSigned ? const Icon(Icons.check_circle, color: AppColors.green) : const SizedBox.shrink(),
         leading: ProfileAvatar(
           size: 60,
           image: guardianModel.image,
@@ -28,13 +26,10 @@ class GuardianRowWidget extends StatelessWidget {
           nickname: guardianModel.nickname,
         ),
         title: Text(
-          (!guardianModel.nickname.isNullOrEmpty)
-              ? guardianModel.nickname
-              : guardianModel.account,
+          (!guardianModel.nickname.isNullOrEmpty) ? guardianModel.nickname : guardianModel.account,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        subtitle: Text(guardianModel.account,
-            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
+        subtitle: Text(guardianModel.account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
         onTap: () {});
   }
 }

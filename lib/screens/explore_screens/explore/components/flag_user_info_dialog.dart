@@ -11,11 +11,9 @@ class FlagUserInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: const CustomPaint(
-          size: Size(60, 60), painter: RedExclamationCircle()),
+      icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
       children: [
-        Text(context.loc.explorerFlagInfoDialogTitle,
-            style: Theme.of(context).textTheme.button1),
+        Text(context.loc.explorerFlagInfoDialogTitle, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 30.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

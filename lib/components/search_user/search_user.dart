@@ -29,16 +29,12 @@ class SearchUser extends StatelessWidget {
       child: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.only(
-                right: horizontalEdgePadding,
-                left: horizontalEdgePadding,
-                top: 10),
+            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
             child: SearchUserTextField(),
           ),
           if (title != null)
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+              padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Column(
@@ -56,12 +52,10 @@ class SearchUser extends StatelessWidget {
                 case PageState.loading:
                 case PageState.failure:
                 case PageState.success:
-                  if (state.pageState == PageState.success &&
-                      state.users.isEmpty) {
+                  if (state.pageState == PageState.success && state.users.isEmpty) {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                          child: Text(context.loc.searchUserNoUserFound)),
+                      child: Center(child: Text(context.loc.searchUserNoUserFound)),
                     );
                   } else {
                     return Expanded(

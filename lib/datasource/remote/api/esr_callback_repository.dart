@@ -44,8 +44,7 @@ class ESRCallbackRepository extends HttpRepository {
 
     return http
         .post(postURI, headers: headers, body: params)
-        .then((http.Response response) =>
-            mapHttpResponse<bool>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<bool>(response, (dynamic body) {
               return true;
             }))
         .catchError((error) => mapHttpError(error));

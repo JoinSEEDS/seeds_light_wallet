@@ -8,22 +8,16 @@ class ErrorDialog extends StatelessWidget {
   final String details;
   final VoidCallback? onRightButtonPressed;
 
-  const ErrorDialog(
-      {super.key,
-      required this.title,
-      required this.details,
-      this.onRightButtonPressed});
+  const ErrorDialog({super.key, required this.title, required this.details, this.onRightButtonPressed});
 
   Future<void> show(BuildContext context) {
-    return showDialog<void>(
-        context: context, barrierDismissible: false, builder: (_) => this);
+    return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: const CustomPaint(
-          size: Size(60, 60), painter: RedExclamationCircle()),
+      icon: const CustomPaint(size: Size(60, 60), painter: RedExclamationCircle()),
       rightButtonTitle: 'Retry',
       onRightButtonPressed: () {
         Navigator.of(context).pop();

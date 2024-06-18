@@ -40,17 +40,12 @@ class ClaimedInviteRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      (name != null && name?.isNotEmpty == true)
-                          ? name!
-                          : account,
+                      (name != null && name?.isNotEmpty == true) ? name! : account,
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                     const SizedBox(height: 8),
-                    Text(account,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2OpacityEmphasis)
+                    Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                   ],
                 ),
               ),

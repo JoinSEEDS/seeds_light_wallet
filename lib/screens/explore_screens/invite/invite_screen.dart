@@ -26,15 +26,13 @@ class InviteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)
-        ..add(const LoadUserBalance()),
+      create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
         appBar: AppBar(
           title: Text(context.loc.inviteScreenAppBarTitle),
           actions: [
             TextButton(
-              onPressed: () => NavigationService.of(context)
-                  .navigateTo(Routes.manageInvites),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.manageInvites),
               child: Text(
                 context.loc.inviteScreenManageInvitesTitle,
                 style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
@@ -61,8 +59,7 @@ class InviteScreen extends StatelessWidget {
               );
             }
             if (pageCommand is ShowErrorMessage) {
-              eventBus.fire(ShowSnackBar(
-                  pageCommand.message.localizedDescription(context)));
+              eventBus.fire(ShowSnackBar(pageCommand.message.localizedDescription(context)));
             }
           },
           builder: (context, state) {
@@ -80,29 +77,24 @@ class InviteScreen extends StatelessWidget {
                     children: [
                       SingleChildScrollView(
                         child: Container(
-                          height: MediaQuery.of(context).size.height -
-                              Scaffold.of(context).appBarMaxHeight!,
+                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                           child: Column(
                             children: [
                               const SizedBox(height: 16),
                               Text(context.loc.inviteScreenInputAmountTitle,
-                                  style:
-                                      Theme.of(context).textTheme.titleLarge),
+                                  style: Theme.of(context).textTheme.titleLarge),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0),
                                 onValueChange: (value) {
-                                  BlocProvider.of<InviteBloc>(context).add(
-                                      OnAmountChange(amountChanged: value));
+                                  BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
                                 },
                                 autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 24),
                               AlertInputValue(
-                                  state.errorMessage
-                                          ?.localizedDescription(context) ??
-                                      GlobalError.unknown
-                                          .localizedDescription(context),
+                                  state.errorMessage?.localizedDescription(context) ??
+                                      GlobalError.unknown.localizedDescription(context),
                                   isVisible: state.alertMessage != null),
                               const SizedBox(height: 24),
                               BalanceRow(
@@ -119,8 +111,7 @@ class InviteScreen extends StatelessWidget {
                         child: FlatButtonLong(
                           title: context.loc.inviteScreenButtonTitle,
                           enabled: state.isCreateInviteButtonEnabled,
-                          onPressed: () => BlocProvider.of<InviteBloc>(context)
-                              .add(const OnCreateInviteButtonTapped()),
+                          onPressed: () => BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
                         ),
                       ),
                     ],

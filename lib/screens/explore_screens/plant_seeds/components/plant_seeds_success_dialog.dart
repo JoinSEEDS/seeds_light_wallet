@@ -25,8 +25,7 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
         return true;
       },
       child: CustomDialog(
-        icon: SvgPicture.asset(
-            'assets/images/security/success_outlined_icon.svg'),
+        icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
         singleLargeButtonTitle: context.loc.genericCloseButtonTitle,
         onSingleLargeButtonPressed: () {
           Navigator.of(context).pop();
@@ -37,29 +36,19 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                BlocProvider.of<PlantSeedsBloc>(context)
-                    .state
-                    .tokenAmount
-                    .amountString(),
+                BlocProvider.of<PlantSeedsBloc>(context).state.tokenAmount.amountString(),
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12, left: 4),
-                child: Text(
-                    BlocProvider.of<PlantSeedsBloc>(context)
-                        .state
-                        .tokenAmount
-                        .symbol,
+                child: Text(BlocProvider.of<PlantSeedsBloc>(context).state.tokenAmount.symbol,
                     style: Theme.of(context).textTheme.titleSmall),
               ),
             ],
           ),
           const SizedBox(height: 4.0),
           Text(
-            BlocProvider.of<PlantSeedsBloc>(context)
-                .state
-                .fiatAmount
-                .asFormattedString(),
+            BlocProvider.of<PlantSeedsBloc>(context).state.fiatAmount.asFormattedString(),
             style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(height: 30.0),

@@ -51,8 +51,7 @@ class OnboardingState extends State<OnboardingScreen> {
                 height: height * 0.91,
                 viewportFraction: 1,
                 enableInfiniteScroll: false,
-                onPageChanged: (index, _) =>
-                    setState(() => _selectedIndex = index),
+                onPageChanged: (index, _) => setState(() => _selectedIndex = index),
               ),
             ),
             Expanded(
@@ -66,17 +65,14 @@ class OnboardingState extends State<OnboardingScreen> {
                           )
                         : const SizedBox.shrink(),
                   ),
-                  Expanded(
-                      child: DotsIndicator(
-                          dotsCount: 3, position: _selectedIndex.toDouble())),
+                  Expanded(child: DotsIndicator(dotsCount: 3, position: _selectedIndex.toDouble())),
                   if (_selectedIndex == 2)
                     Expanded(
                       child: Row(
                         children: [
                           Flexible(
                             child: InkWell(
-                              onTap: () => NavigationService.of(context)
-                                  .navigateTo(Routes.login, null, true),
+                              onTap: () => NavigationService.of(context).navigateTo(Routes.login, null, true),
                               child: Text(
                                 context.loc.onboardingJoinButtonTitle,
                                 maxLines: 2,

@@ -19,8 +19,8 @@ class ImportKeyAccountsWidget extends StatelessWidget {
     return BlocConsumer<ImportKeyBloc, ImportKeyState>(
       listenWhen: (_, current) => current.accountSelected != null,
       listener: (context, state) {
-        BlocProvider.of<AuthenticationBloc>(context).add(OnImportAccount(
-            account: state.accountSelected!, authData: state.authData!));
+        BlocProvider.of<AuthenticationBloc>(context)
+            .add(OnImportAccount(account: state.accountSelected!, authData: state.authData!));
       },
       builder: (context, state) {
         switch (state.pageState) {
@@ -29,8 +29,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
           case PageState.failure:
             return Center(
                 child: Text(
-              state.error?.localizedDescription(context) ??
-                  GlobalError.unknown.localizedDescription(context),
+              state.error?.localizedDescription(context) ?? GlobalError.unknown.localizedDescription(context),
               style: Theme.of(context).textTheme.subtitle1Red2,
             ));
           case PageState.success:
@@ -39,17 +38,13 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                 shrinkWrap: true,
                 children: state.accounts
                     .map((ProfileModel? profile) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: horizontalEdgePadding),
+                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: horizontalEdgePadding),
                           child: MaterialButton(
                             padding: EdgeInsets.zero,
                             color: AppColors.darkGreen2,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    defaultCardBorderRadius)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultCardBorderRadius)),
                             onPressed: () {
-                              context.read<ImportKeyBloc>().add(
-                                  AccountSelected(account: profile!.account));
+                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(top: 6, bottom: 6),
@@ -61,16 +56,12 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                   nickname: profile.nickname,
                                 ),
                                 title: Text(
-                                  profile.nickname.isNotEmpty
-                                      ? profile.nickname
-                                      : profile.account,
+                                  profile.nickname.isNotEmpty ? profile.nickname : profile.account,
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
                                 subtitle: Text(
                                   profile.account,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle3OpacityEmphasis,
+                                  style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                                 ),
                                 trailing: const Icon(Icons.navigate_next),
                               ),

@@ -22,8 +22,7 @@ class SeedsApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<RootBloc>(create: (_) => RootBloc()),
-          BlocProvider<AuthenticationBloc>(
-              create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
+          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
           BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
           BlocProvider<DeeplinkBloc>(create: (_) => DeeplinkBloc()),
         ],
@@ -33,38 +32,27 @@ class SeedsApp extends StatelessWidget {
               listenWhen: (_, current) => current.busEvent != null,
               listener: (context, state) {
                 final BusEvent busEvent = state.busEvent!;
-                BlocProvider.of<RootBloc>(context)
-                    .add(const ClearRootBusEvent());
+                BlocProvider.of<RootBloc>(context).add(const ClearRootBusEvent());
                 if (busEvent is ShowSnackBar) {
                   final ShowSnackBar event = busEvent;
-                  Snack(event.message, rootScaffoldMessengerKey.currentState,
-                          event.snackType)
-                      .show();
+                  Snack(event.message, rootScaffoldMessengerKey.currentState, event.snackType).show();
                 }
               },
             ),
             BlocListener<DeeplinkBloc, DeeplinkState>(
-              listenWhen: (previous, current) =>
-                  previous.inviteLinkData == null &&
-                  current.inviteLinkData != null,
-              listener: (context, _) =>
-                  BlocProvider.of<AuthenticationBloc>(context)
-                      .add(const OnInviteLinkRecived()),
+              listenWhen: (previous, current) => previous.inviteLinkData == null && current.inviteLinkData != null,
+              listener: (context, _) => BlocProvider.of<AuthenticationBloc>(context).add(const OnInviteLinkRecived()),
             )
           ],
           child: Builder(
             builder: (context) {
               final navigator = NavigationService.of(context);
               return GestureDetector(
-                onTap: () => BlocProvider.of<AuthenticationBloc>(context)
-                    .add(const InitAuthTimer()),
-                onPanDown: (_) => BlocProvider.of<AuthenticationBloc>(context)
-                    .add(const InitAuthTimer()),
-                onPanUpdate: (_) => BlocProvider.of<AuthenticationBloc>(context)
-                    .add(const InitAuthTimer()),
+                onTap: () => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
+                onPanDown: (_) => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
+                onPanUpdate: (_) => BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthTimer()),
                 child: MaterialApp(
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
                   theme: SeedsAppTheme.darkTheme,
                   scaffoldMessengerKey: rootScaffoldMessengerKey,
@@ -72,10 +60,8 @@ class SeedsApp extends StatelessWidget {
                   onGenerateRoute: navigator.onGenerateRoute,
                   builder: (_, child) {
                     return I18n(
-                      child:
-                          BlocListener<AuthenticationBloc, AuthenticationState>(
-                        listenWhen: (previous, current) =>
-                            previous.authStatus != current.authStatus,
+                      child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                        listenWhen: (previous, current) => previous.authStatus != current.authStatus,
                         listener: (_, state) {
                           switch (state.authStatus) {
                             case AuthStatus.emptyAccount:
@@ -90,14 +76,11 @@ class SeedsApp extends StatelessWidget {
                             case AuthStatus.emptyPasscode:
                             case AuthStatus.locked:
                               if (navigator.currentRouteName() == null ||
-                                  navigator.currentRouteName() ==
-                                      Routes.importKey ||
-                                  navigator.currentRouteName() ==
-                                      Routes.importWords) {
+                                  navigator.currentRouteName() == Routes.importKey ||
+                                  navigator.currentRouteName() == Routes.importWords) {
                                 navigator.pushAndRemoveAll(Routes.app);
                               }
-                              navigator
-                                  .navigateTo(Routes.verificationUnpoppable);
+                              navigator.navigateTo(Routes.verificationUnpoppable);
                               break;
                             case AuthStatus.unlocked:
                               navigator.pushApp();
