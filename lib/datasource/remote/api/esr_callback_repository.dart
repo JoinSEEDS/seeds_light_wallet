@@ -37,8 +37,8 @@ class ESRCallbackRepository extends HttpRepository {
   Future<Result<bool>> callback(String callbackUrl, String transactionId) {
     print("[http] issue callback $callbackUrl");
 
-    final callbackURL = fillTemplate(callbackUrl, transactionId);
-    final uri = Uri.parse(callbackURL);
+    final parsedUrl = fillTemplate(callbackUrl, transactionId);
+    final uri = Uri.parse(parsedUrl);
     final params = jsonEncode(uri.queryParameters);
     final postURI = Uri(scheme: uri.scheme, host: uri.host, path: uri.path);
 
