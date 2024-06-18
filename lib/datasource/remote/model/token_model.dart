@@ -34,9 +34,7 @@ class TokenModel extends Equatable {
   }
 
   ImageProvider get logo {
-    return logoUrl.startsWith("assets")
-        ? AssetImage(logoUrl) as ImageProvider
-        : NetworkImage(logoUrl);
+    return logoUrl.startsWith("assets") ? AssetImage(logoUrl) as ImageProvider : NetworkImage(logoUrl);
   }
 
   const TokenModel({
@@ -88,8 +86,7 @@ class TokenModel extends Equatable {
     }
     final validationErrors = tmastrSchema!.validate(parsedJson).errors;
     if (validationErrors.isNotEmpty) {
-      print(
-          '${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
+      print('${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
       return null;
     }
     return TokenModel(
@@ -98,10 +95,8 @@ class TokenModel extends Equatable {
       symbol: parsedJson["symbol"]!,
       name: parsedJson["name"]!,
       logoUrl: parsedJson["logo"]!,
-      balanceSubTitle:
-          parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
-      backgroundImageUrl:
-          parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
+      balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
+      backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
       overdraw: parsedJson["overdraw"] ?? "allow",
       precision: parsedJson["precision"] ?? 4,
       usecases: parsedJson["usecases"],
@@ -120,13 +115,9 @@ class TokenModel extends Equatable {
   List<Object?> get props => [chainName, contract, symbol];
 
   static String getAssetString(String? id, double quantity) {
-    if (id != null &&
-        TokenModel.fromId(id) != null &&
-        contractPrecisions.containsKey(id)) {
+    if (id != null && TokenModel.fromId(id) != null && contractPrecisions.containsKey(id)) {
       final symbol = TokenModel.fromId(id)!.symbol;
-      return symbol == null
-          ? ""
-          : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
+      return symbol == null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
     } else {
       return "";
     }
@@ -138,7 +129,7 @@ class TokenModel extends Equatable {
     if (ss.isEmpty) {
       return;
     }
-    contractPrecisions[this.id] = ss.length == 1 ? 0 : ss[1].length;
+    contractPrecisions[id] = ss.length == 1 ? 0 : ss[1].length;
   }
 
   // enabling 'send' transfer validity checks, e.g. Mutual Credit,
@@ -157,10 +148,8 @@ class TokenModel extends Equatable {
     return insufficiency > 0 ? "insufficient balance" : null;
   }
 
-  static Future<void> updateModels(List<String> acceptList,
-      [List<String>? infoList]) async {
-    final selector =
-        TokenModelSelector(acceptList: acceptList, infoList: infoList);
+  static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
+    final selector = TokenModelSelector(acceptList: acceptList, infoList: infoList);
     final tokenListResult = await GetTokenModelsUseCase().run(selector);
     if (tokenListResult.isError) {
       return;
@@ -175,8 +164,7 @@ class TokenModel extends Equatable {
     allTokens.addAll(tokenList);
   }
 
-  static Future<void> installModels(List<String> acceptList,
-      [List<String>? infoList]) async {
+  static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
     if (remoteConfigurations.featureFlagTokenMasterListEnabled) {
       final installResult = await installSchema();
       if (installResult.isValue) {
@@ -186,18 +174,15 @@ class TokenModel extends Equatable {
       }
     }
     allTokens = _staticTokenList;
-    contractPrecisions =
-        Map.fromEntries(allTokens.map((t) => MapEntry(t.id, t.precision)));
+    contractPrecisions = Map.fromEntries(allTokens.map((t) => MapEntry(t.id, t.precision)));
   }
 
   static void pruneRemoving(List<String> useCaseList) {
-    allTokens.removeWhere((token) =>
-        token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false);
+    allTokens.removeWhere((token) => token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false);
   }
 
   static void pruneKeeping(List<String> useCaseList) {
-    allTokens.removeWhere((token) =>
-        !(token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false));
+    allTokens.removeWhere((token) => !(token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false));
   }
 }
 
@@ -206,29 +191,20 @@ const seedsToken = TokenModel(
   contract: "token.seeds",
   symbol: "SEEDS",
   name: "Seeds",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/seeds/background.jpg',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
-final _staticTokenList = [
-  seedsToken,
-  _husdToken,
-  _hyphaToken,
-  _localScaleToken,
-  _starsToken,
-  _telosToken
-];
+final _staticTokenList = [seedsToken, _husdToken, _hyphaToken, _localScaleToken, _starsToken, _telosToken];
 const _husdToken = TokenModel(
   chainName: "Telos",
   contract: "husd.hypha",
   symbol: "HUSD",
   name: "HUSD",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/husd/background.jpg',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/husd/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
@@ -241,8 +217,7 @@ const _hyphaToken = TokenModel(
   contract: "hypha.hypha",
   symbol: "HYPHA",
   name: "Hypha",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
@@ -255,8 +230,7 @@ const _localScaleToken = TokenModel(
   contract: "token.local",
   symbol: "LSCL",
   name: "LocalScale",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/lscl/background.jpg',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
@@ -268,8 +242,7 @@ const _starsToken = TokenModel(
   contract: "star.seeds",
   symbol: "STARS",
   name: "Stars",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/stars/background.jpg',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/stars/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/stars/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
@@ -281,8 +254,7 @@ const _telosToken = TokenModel(
   contract: "eosio.token",
   symbol: "TLOS",
   name: "Telos",
-  backgroundImageUrl:
-      'assets/images/wallet/currency_info_cards/tlos/background.png',
+  backgroundImageUrl: 'assets/images/wallet/currency_info_cards/tlos/background.png',
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
   balanceSubTitle: 'Wallet Balance',
   overdraw: "block",
