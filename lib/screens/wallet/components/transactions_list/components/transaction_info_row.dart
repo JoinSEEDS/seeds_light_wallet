@@ -55,7 +55,7 @@ class TransactionInfoRow extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     state.localizedDisplayName(context),
-                                    style: Theme.of(context).textTheme.button,
+                                    style: Theme.of(context).textTheme.labelLarge,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -66,7 +66,7 @@ class TransactionInfoRow extends StatelessWidget {
                                 else
                                   Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
                                 const SizedBox(width: 4),
-                                Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
+                                Text(amount.seedsFormatted, style: Theme.of(context).textTheme.labelLarge),
                               ],
                             ),
                             const SizedBox(height: 10),

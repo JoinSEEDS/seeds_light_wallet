@@ -7,29 +7,29 @@ class TransactionLoadingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
+    return const Padding(
+      padding: EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
       child: Row(
         children: [
-          const ShimmerCircle(60),
+          ShimmerCircle(60),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(left: 10),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      const ShimmerRectangle(size: Size(110, 21)),
-                      const Spacer(),
-                      const ShimmerRectangle(size: Size(64, 21)),
+                      ShimmerRectangle(size: Size(110, 21)),
+                      Spacer(),
+                      ShimmerRectangle(size: Size(64, 21)),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Row(
                     children: [
-                      const ShimmerRectangle(size: Size(70, 16)),
-                      const Spacer(),
-                      const ShimmerRectangle(size: Size(44, 16)),
+                      ShimmerRectangle(size: Size(70, 16)),
+                      Spacer(),
+                      ShimmerRectangle(size: Size(44, 16)),
                     ],
                   )
                 ],

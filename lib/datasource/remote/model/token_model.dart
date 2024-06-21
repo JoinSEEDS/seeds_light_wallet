@@ -3,12 +3,11 @@ import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
+import 'package:json_schema/json_schema.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
-
 
 class TokenModel extends Equatable {
   static const seedsEcosysUsecase = 'seedsecosys';
@@ -29,16 +28,13 @@ class TokenModel extends Equatable {
   String get id => "$contract#$symbol";
 
   ImageProvider get backgroundImage {
-    return
-      backgroundImageUrl.startsWith("assets") ?
-      AssetImage(backgroundImageUrl) as ImageProvider :
-      NetworkImage(backgroundImageUrl);
+    return backgroundImageUrl.startsWith("assets")
+        ? AssetImage(backgroundImageUrl) as ImageProvider
+        : NetworkImage(backgroundImageUrl);
   }
+
   ImageProvider get logo {
-    return
-      logoUrl.startsWith("assets") ?
-      AssetImage(logoUrl) as ImageProvider :
-      NetworkImage(logoUrl);
+    return logoUrl.startsWith("assets") ? AssetImage(logoUrl) as ImageProvider : NetworkImage(logoUrl);
   }
 
   const TokenModel({
@@ -56,20 +52,20 @@ class TokenModel extends Equatable {
 
   static Future<Result<void>> installSchema() async {
     final result = await TokenModelsRepository().getSchema();
-      if(result.isValue) {
-        final tmastrSchemaMap = result.asValue!.value;
-        tmastrSchema = JsonSchema.createSchema(tmastrSchemaMap);
-        return Result.value(null);
-      }
-      print('Error getting Token Master schema from chain');
-      return result;
+    if (result.isValue) {
+      final tmastrSchemaMap = result.asValue!.value;
+      tmastrSchema = JsonSchema.create(tmastrSchemaMap);
+      return Result.value(null);
+    }
+    print('Error getting Token Master schema from chain');
+    return result;
   }
 
-  static TokenModel? fromJson(Map<String,dynamic> data) {
-    final Map<String,dynamic> parsedJson = json.decode(data["json"]);
+  static TokenModel? fromJson(Map<String, dynamic> data) {
+    final Map<String, dynamic> parsedJson = json.decode(data["json"]);
     bool extendJson(String dataField, String jsonField) {
       final jsonData = parsedJson[jsonField];
-      if( jsonData != null && jsonData != data[dataField] ) {
+      if (jsonData != null && jsonData != data[dataField]) {
         print('${data[dataField]}: mismatched $dataField in json'
             ' $jsonData, ${data[dataField]}');
         return false;
@@ -78,32 +74,33 @@ class TokenModel extends Equatable {
         return true;
       }
     }
-    if (!( extendJson("chainName", "chain") &&
-           extendJson("contract", "account") &&
-           extendJson("symbolcode", "symbol") &&
-           extendJson("usecases", "usecases"))) {
+
+    if (!(extendJson("chainName", "chain") &&
+        extendJson("contract", "account") &&
+        extendJson("symbolcode", "symbol") &&
+        extendJson("usecases", "usecases"))) {
       return null;
     }
-    if(tmastrSchema == null) {
+    if (tmastrSchema == null) {
       return null;
     }
-    final validationErrors = tmastrSchema!.validateWithErrors(parsedJson);
-    if(validationErrors.isNotEmpty) {
+    final validationErrors = tmastrSchema!.validate(parsedJson).errors;
+    if (validationErrors.isNotEmpty) {
       print('${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
       return null;
     }
     return TokenModel(
-        chainName: parsedJson["chain"]!,
-        contract: parsedJson["account"]!,
-        symbol: parsedJson["symbol"]!,
-        name: parsedJson["name"]!,
-        logoUrl: parsedJson["logo"]!,
-        balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
-        backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
-        overdraw: parsedJson["overdraw"] ?? "allow",
-        precision: parsedJson["precision"] ?? 4,
-        usecases: parsedJson["usecases"],
-      );
+      chainName: parsedJson["chain"]!,
+      contract: parsedJson["account"]!,
+      symbol: parsedJson["symbol"]!,
+      name: parsedJson["name"]!,
+      logoUrl: parsedJson["logo"]!,
+      balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
+      backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
+      overdraw: parsedJson["overdraw"] ?? "allow",
+      precision: parsedJson["precision"] ?? 4,
+      usecases: parsedJson["usecases"],
+    );
   }
 
   static TokenModel? fromId(String tokenId) {
@@ -118,9 +115,9 @@ class TokenModel extends Equatable {
   List<Object?> get props => [chainName, contract, symbol];
 
   static String getAssetString(String? id, double quantity) {
-    if (id!=null && TokenModel.fromId(id)!=null && contractPrecisions.containsKey(id)) {
+    if (id != null && TokenModel.fromId(id) != null && contractPrecisions.containsKey(id)) {
       final symbol = TokenModel.fromId(id)!.symbol;
-      return symbol==null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
+      return symbol == null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
     } else {
       return "";
     }
@@ -132,7 +129,7 @@ class TokenModel extends Equatable {
     if (ss.isEmpty) {
       return;
     }
-    contractPrecisions[this.id] = ss.length==1 ? 0 : ss[1].length;
+    contractPrecisions[id] = ss.length == 1 ? 0 : ss[1].length;
   }
 
   // enabling 'send' transfer validity checks, e.g. Mutual Credit,
@@ -146,6 +143,7 @@ class TokenModel extends Equatable {
     print("unexpected overdraw field: $overdraw");
     return false;
   }
+
   String? warnTransfer(double insufficiency, String? toAccount) {
     return insufficiency > 0 ? "insufficient balance" : null;
   }
@@ -153,39 +151,38 @@ class TokenModel extends Equatable {
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
     final selector = TokenModelSelector(acceptList: acceptList, infoList: infoList);
     final tokenListResult = await GetTokenModelsUseCase().run(selector);
-    if(tokenListResult.isError) {
+    if (tokenListResult.isError) {
       return;
     }
     final tokenList = tokenListResult.asValue!.value;
-    for(final newtoken in tokenList) {
-      allTokens.removeWhere((token) => token.contract==newtoken.contract
-                                       && token.chainName==newtoken.chainName
-                                       && token.symbol==newtoken.symbol);
+    for (final newtoken in tokenList) {
+      allTokens.removeWhere((token) =>
+          token.contract == newtoken.contract &&
+          token.chainName == newtoken.chainName &&
+          token.symbol == newtoken.symbol);
     }
     allTokens.addAll(tokenList);
   }
 
   static Future<void> installModels(List<String> acceptList, [List<String>? infoList]) async {
-    if( remoteConfigurations.featureFlagTokenMasterListEnabled) {
+    if (remoteConfigurations.featureFlagTokenMasterListEnabled) {
       final installResult = await installSchema();
-      if(installResult.isValue) {
+      if (installResult.isValue) {
         allTokens = [seedsToken];
         await updateModels(acceptList, infoList);
         return;
       }
     }
     allTokens = _staticTokenList;
-    contractPrecisions = Map.fromEntries(allTokens.map((t) => MapEntry(t.id , t.precision)));
+    contractPrecisions = Map.fromEntries(allTokens.map((t) => MapEntry(t.id, t.precision)));
   }
 
   static void pruneRemoving(List<String> useCaseList) {
-    allTokens.removeWhere((token) =>
-        token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false);
+    allTokens.removeWhere((token) => token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false);
   }
 
   static void pruneKeeping(List<String> useCaseList) {
-    allTokens.removeWhere((token) => !
-    (token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false));
+    allTokens.removeWhere((token) => !(token.usecases?.any((uc) => useCaseList.contains(uc)) ?? false));
   }
 }
 

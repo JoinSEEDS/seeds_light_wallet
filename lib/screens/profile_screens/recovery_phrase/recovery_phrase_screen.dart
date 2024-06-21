@@ -35,7 +35,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: Theme.of(context).textTheme.titleSmall,
                           children: <TextSpan>[
                             const TextSpan(text: 'Get a pen and paper before you start. \nWrite down or '),
                             TextSpan(

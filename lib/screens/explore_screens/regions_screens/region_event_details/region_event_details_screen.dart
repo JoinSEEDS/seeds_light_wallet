@@ -148,7 +148,7 @@ class RegionEventDetailsScreen extends StatelessWidget {
                         children: [
                           Text('Details', style: Theme.of(context).textTheme.headline7),
                           const SizedBox(height: 10.0),
-                          Text(event.eventAddress, style: Theme.of(context).textTheme.subtitle2),
+                          Text(event.eventAddress, style: Theme.of(context).textTheme.titleSmall),
                           const SizedBox(height: 16.0),
                           Row(
                             children: [

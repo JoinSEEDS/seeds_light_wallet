@@ -20,7 +20,7 @@ class ConfirmVoteDialog extends StatelessWidget {
         Text(
           'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!'.i18n,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 16.0),
       ],

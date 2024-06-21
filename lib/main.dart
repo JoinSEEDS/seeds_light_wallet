@@ -21,7 +21,7 @@ Future<void> main() async {
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: '.env');
+    await dotenv.load();
     await Firebase.initializeApp();
     await settingsStorage.initialise();
     await PushNotificationService().initialise();

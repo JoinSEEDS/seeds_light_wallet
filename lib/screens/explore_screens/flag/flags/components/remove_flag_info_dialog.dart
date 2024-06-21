@@ -30,7 +30,7 @@ class RemoveFlagInfoDialog extends StatelessWidget {
               Text(
                 'Removing the Flag means you believe the member is now acting in good faith. Penalties will be removed from the member. ',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 20.0),
             ],

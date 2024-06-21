@@ -40,7 +40,7 @@ class SearchUser extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    Text(title!, style: Theme.of(context).textTheme.subtitle2),
+                    Text(title!, style: Theme.of(context).textTheme.titleSmall),
                   ],
                 ),
               ),

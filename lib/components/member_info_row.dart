@@ -33,12 +33,12 @@ class MemberInfoRow extends StatelessWidget {
                         child: Text(
                           member.nickname.isNotEmpty ? member.nickname : member.account,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.button,
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       Text(
                         member.statusString,
-                        style: Theme.of(context).textTheme.button,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ],
                   ),

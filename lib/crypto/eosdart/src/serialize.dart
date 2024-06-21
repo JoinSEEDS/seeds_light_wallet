@@ -446,8 +446,8 @@ Type createType(
     void Function(Type self, SerialBuffer buffer, Object data, {SerializerState state, bool allowExtensions})?
         serialize,
     Object? Function(Type self, SerialBuffer buffer, {SerializerState? state, bool? allowExtensions})? deserialize,
-    String? baseName: "",
-    List<Field>? fields: const [],
+    String? baseName = "",
+    List<Field>? fields = const [],
     Type? extensionOf}) {
   var t = Type(
       aliasOfName: aliasOfName,

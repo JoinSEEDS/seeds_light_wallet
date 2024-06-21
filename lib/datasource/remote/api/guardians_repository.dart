@@ -217,7 +217,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
 
     final permissionsMap = _requiredAuthToJson(permission.requiredAuth!);
 
-    print('converted JSPN: ${permissionsMap.toString()}');
+    print('converted JSPN: $permissionsMap');
     final accountName = settingsStorage.accountName;
 
     final actions = [

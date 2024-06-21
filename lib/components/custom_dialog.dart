@@ -126,7 +126,7 @@ class CustomDialog extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: _avatarRadius,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       shape: BoxShape.circle,

@@ -33,22 +33,22 @@ class ClaimSeedsSuccessDialog extends StatelessWidget {
             children: [
               Text(
                 claimSeedsAmount.amountString(),
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12, left: 4),
-                child: Text(claimSeedsAmount.symbol, style: Theme.of(context).textTheme.subtitle2),
+                child: Text(claimSeedsAmount.symbol, style: Theme.of(context).textTheme.titleSmall),
               ),
             ],
           ),
           const SizedBox(height: 4.0),
           Text(
             claimSeedsAmountFiat.asFormattedString(),
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(height: 20.0),
           Text(context.loc.plantSeedsClaimSuccessMessage,
-              textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline6),
+              textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 20.0),
         ],
       ),

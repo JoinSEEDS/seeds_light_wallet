@@ -470,7 +470,7 @@ class SigningRequestManager {
       case 'action':
         return [Action.fromJson(Map<String, dynamic>.from(req[1]))];
       case 'action[]':
-        print("*** actions: ${req.toString()}");
+        print("*** actions: $req");
 
         final actions = req[1] as List;
         final List<Action> resultActions = List.from(actions.map(
@@ -674,7 +674,7 @@ class ResolvedSigningRequest {
       refBlockNnum = int.parse(payload.rbn!);
       refBlockPrefix = int.parse(payload.rid!);
     } catch (e) {
-      print("Error fromPayload: ${e.toString()}");
+      print("Error fromPayload: $e");
     }
 
     return request.resolve(

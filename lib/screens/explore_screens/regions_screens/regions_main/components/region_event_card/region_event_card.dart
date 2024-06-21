@@ -27,7 +27,7 @@ class RegionEventCard extends StatelessWidget {
             child: InkWell(
               onTap: () => NavigationService.of(context).navigateTo(Routes.regionEventDetails, event),
               borderRadius: BorderRadius.circular(16.0),
-              child: Container(
+              child: DecoratedBox(
                 decoration: state.isEventExpired
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
@@ -65,7 +65,7 @@ class RegionEventCard extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                                   child: Text(
                                     "The event has passed",
-                                    style: Theme.of(context).textTheme.subtitle2,
+                                    style: Theme.of(context).textTheme.titleSmall,
                                   ),
                                 ),
                               ),

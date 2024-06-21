@@ -33,7 +33,7 @@ abstract class EOSKey {
     } else {
       Uint8List check = key;
       if (keyType != null) {
-        check = concat(key, utf8.encode(keyType) as Uint8List);
+        check = concat(key, utf8.encode(keyType));
       }
       newChecksum = RIPEMD160Digest().process(check).sublist(0, 4);
     }
@@ -52,7 +52,7 @@ abstract class EOSKey {
 
     Uint8List keyBuffer = key;
     if (keyType != null) {
-      keyBuffer = concat(key, utf8.encode(keyType) as Uint8List);
+      keyBuffer = concat(key, utf8.encode(keyType));
     }
     Uint8List checksum = RIPEMD160Digest().process(keyBuffer).sublist(0, 4);
     return base58.encode(concat(key, checksum));

@@ -77,7 +77,7 @@ class OnboardingState extends State<OnboardingScreen> {
                                 context.loc.onboardingJoinButtonTitle,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.subtitle1,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
                           ),
