@@ -22,7 +22,7 @@ class TokenModel extends Equatable {
   final String logoUrl;
   final String balanceSubTitle;
   final String overdraw;
-  final int precision;
+  final int? precision; // precision can be in an "unknown" state
   final List<String>? usecases;
 
   String get id => "$contract#$symbol";

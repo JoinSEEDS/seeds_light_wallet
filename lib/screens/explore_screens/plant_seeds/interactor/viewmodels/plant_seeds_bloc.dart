@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/mappers/plant_seeds_result_mapper.dart';

@@ -8,14 +8,16 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 class TokenDataModel extends AmountDataModel {
   String? id;
   final TokenModel token;
-  TokenDataModel(double amount, {TokenModel this.token = seedsToken})
+  TokenDataModel(double amount, {required this.token})
       : super(
           amount: amount,
           symbol: token.symbol,
           precision: token.precision,
-        ) { id = token.id; }
+        ) {
+    id = token.id;
+  }
 
-  static TokenDataModel? from(double? amount, {TokenModel token = seedsToken}) =>
+  static TokenDataModel? from(double? amount, {required TokenModel token}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
 
   // ignore: prefer_constructors_over_static_methods

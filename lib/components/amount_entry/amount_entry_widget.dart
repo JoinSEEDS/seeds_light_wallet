@@ -66,7 +66,7 @@ class AmountEntryWidget extends StatelessWidget {
                           DecimalTextInputFormatter(
                             decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
                                 ? state.fiatAmount?.precision ?? 0
-                                : state.tokenAmount.precision,
+                                : state.tokenAmount.precision ?? 4,
                           )
                         ],
                       ),

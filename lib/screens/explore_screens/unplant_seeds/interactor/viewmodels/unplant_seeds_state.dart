@@ -105,7 +105,7 @@ class UnplantSeedsState extends Equatable {
       showOverBalanceAlert: false,
       showMinPlantedBalanceAlert: false,
       isUnplantSeedsButtonEnabled: false,
-      unplantedInputAmount: TokenDataModel(0),
+      unplantedInputAmount: TokenDataModel(0, token: seedsToken),
       showUnclaimedBalance: claimUnplantedSeedsEnabled,
       isClaimButtonEnabled: false,
     );
