@@ -3,6 +3,7 @@ import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/utils/read_times_tamp.dart';
 import 'package:seeds/utils/string_extension.dart';
 
+// Note: This should be called TransferActionModel - in another PR
 class TransactionModel extends Equatable {
   final String from;
   final String to;
@@ -25,32 +26,27 @@ class TransactionModel extends Equatable {
   @override
   List<Object?> get props => [transactionId];
 
-  static TransactionModel? fromJson(Map<String, dynamic> json) {
-    try {
-      return TransactionModel(
-        from: json['act']['data']['from'],
-        to: json['act']['data']['to'],
-        quantity: json['act']['data']['quantity'],
-        memo: json['act']['data']['memo'],
-        timestamp: parseTimestamp(json['@timestamp']),
-        transactionId: json['trx_id'],
-      );
-    }
-    catch (e){
-      return null;
-    }
+  static bool validateTokenTransferAction(Map<String, dynamic> json) {
+    final data = json['act']?['data'];
+    return data?['from'] != null &&
+        data?['to'] != null &&
+        data?['quantity'] != null &&
+        data?['memo'] != null &&
+        json['@timestamp'] != null &&
+        json['trx_id'] != null;
   }
 
-  factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
-    return TransactionModel(
-      from: json['act']['data']['from'],
-      to: json['act']['data']['to'],
-      quantity: json['act']['data']['quantity'],
-      memo: json['act']['data']['memo'],
-      timestamp: parseTimestamp(json['block_time']),
-      transactionId: json['trx_id'],
-      //json["block_num"], // can add this later - neat but changes cache structure
-    );
+  static TransactionModel? fromJson(Map<String, dynamic> json) {
+    return validateTokenTransferAction(json)
+        ? TransactionModel(
+            from: json['act']['data']['from'],
+            to: json['act']['data']['to'],
+            quantity: json['act']['data']['quantity'],
+            memo: json['act']['data']['memo'],
+            timestamp: parseTimestamp(json['@timestamp']),
+            transactionId: json['trx_id'],
+          )
+        : null;
   }
 
   static TransactionModel? fromTransaction(GenericTransactionModel genericModel) {

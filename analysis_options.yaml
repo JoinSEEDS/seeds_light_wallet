@@ -32,7 +32,7 @@ linter:
     always_put_control_body_on_new_line: true
     use_string_buffers: false
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
-    always_require_non_null_named_parameters: true
+    # always_require_non_null_named_parameters: true
     always_specify_types: false
     always_use_package_imports: true
     annotate_overrides: true
@@ -97,13 +97,13 @@ linter:
     hash_and_equals: true
     implementation_imports: true
     # - invariant_booleans # too many false positives: https://github.com/dart-lang/linter/issues/811
-    iterable_contains_unrelated_type: true
+    # iterable_contains_unrelated_type: true
     # - join_return_with_assignment # not required by flutter style
     leading_newlines_in_multiline_strings: true
     library_names: true
     library_prefixes: true
     #- lines_longer_than_80_chars # not required by flutter style
-    list_remove_unrelated_type: true
+    # list_remove_unrelated_type: true
     # - literal_only_boolean_expressions # too many false positives: https://github.com/dart-lang/sdk/issues/34181
     missing_whitespace_between_adjacent_strings: true
     no_adjacent_strings_in_list: true
@@ -134,7 +134,7 @@ linter:
     prefer_constructors_over_static_methods: true
     prefer_contains: true
     # - prefer_double_quotes # opposite of prefer_single_quotes
-    prefer_equal_for_default_values: true
+    # prefer_equal_for_default_values: true
     # - prefer_expression_function_bodies # conflicts with https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo#consider-using--for-short-functions-and-methods
     prefer_final_fields: true
     prefer_final_in_for_each: true
