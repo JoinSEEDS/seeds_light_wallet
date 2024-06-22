@@ -14,6 +14,8 @@ class TokenModel extends Equatable {
   static List<TokenModel> allTokens = [seedsToken];
   static JsonSchema? tmastrSchema;
   static Map<String, int?> contractPrecisions = {"token.seeds#SEEDS": 4};
+
+  final int? _precision; // precision can be in an "unknown" state
   final String chainName;
   final String contract;
   final String symbol;
@@ -22,10 +24,19 @@ class TokenModel extends Equatable {
   final String logoUrl;
   final String balanceSubTitle;
   final String overdraw;
-  final int precision;
   final List<String>? usecases;
 
-  String get id => "$contract#$symbol";
+  int? get precision {
+    if (_precision != null) {
+      return _precision;
+    } else {
+      return contractPrecisions[id];
+    }
+  }
+
+  String get id => getTokenId(contract: contract, symbol: symbol);
+
+  static String getTokenId({required String contract, required String symbol}) => "$contract#$symbol";
 
   ImageProvider get backgroundImage {
     return backgroundImageUrl.startsWith("assets")
@@ -46,9 +57,9 @@ class TokenModel extends Equatable {
     required this.logoUrl,
     required this.balanceSubTitle,
     required this.overdraw,
-    this.precision = 4,
+    int? precision,
     this.usecases,
-  });
+  }) : _precision = precision;
 
   static Future<Result<void>> installSchema() async {
     final result = await TokenModelsRepository().getSchema();
@@ -98,7 +109,7 @@ class TokenModel extends Equatable {
       balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
       backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
       overdraw: parsedJson["overdraw"] ?? "allow",
-      precision: parsedJson["precision"] ?? 4,
+      precision: parsedJson["precision"],
       usecases: parsedJson["usecases"],
     );
   }
@@ -130,6 +141,10 @@ class TokenModel extends Equatable {
       return;
     }
     contractPrecisions[id] = ss.length == 1 ? 0 : ss[1].length;
+  }
+
+  static void setTokenPrecision(int precision, {required String contract, required String symbol}) {
+    contractPrecisions[getTokenId(contract: contract, symbol: symbol)] = precision;
   }
 
   // enabling 'send' transfer validity checks, e.g. Mutual Credit,

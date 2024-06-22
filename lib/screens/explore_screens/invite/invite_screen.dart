@@ -8,6 +8,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
@@ -85,7 +86,7 @@ class InviteScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.titleLarge),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
-                                tokenDataModel: TokenDataModel(0),
+                                tokenDataModel: TokenDataModel(0, token: seedsToken),
                                 onValueChange: (value) {
                                   BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
                                 },

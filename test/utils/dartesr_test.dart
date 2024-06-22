@@ -4,6 +4,7 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/util/seeds_esr.dart';
 import 'package:seeds/datasource/remote/api/invoice_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 
 void main() {
   group('dartesr', () {
@@ -93,7 +94,7 @@ void main() {
 
     test('Encode and decode ESR code', () async {
       final result = await InvoiceRepository().createInvoice(
-        tokenAmount: TokenDataModel(100),
+        tokenAmount: TokenDataModel(100, token: seedsToken),
         accountName: "harvst.seeds",
         tokenContract: "token.seeds",
       );

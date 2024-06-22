@@ -3,6 +3,7 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
 import 'package:seeds/datasource/remote/model/refund_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -21,7 +22,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
       final PlantedModel? plantedSeeds = values.firstWhereOrNull((element) => element is PlantedModel);
-      final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
+      final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0, token: seedsToken);
 
       final List<int> availableRequestIds = [];
       final int millisecondsPerWeek = 24 * 60 * 60 * 1000 * 7;
@@ -46,11 +47,11 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       return currentState.copyWith(
         showMinPlantedBalanceAlert: (plantedSeeds?.quantity ?? 0) <= minPlanted,
         pageState: PageState.success,
-        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity ?? 0),
+        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity ?? 0, token: seedsToken),
         plantedBalanceFiat: currentState.ratesState.tokenToFiat(plantedAmount, selectedFiat),
-        availableClaimBalance: TokenDataModel(availableTotalClaim),
+        availableClaimBalance: TokenDataModel(availableTotalClaim, token: seedsToken),
         availableClaimBalanceFiat:
-            currentState.ratesState.tokenToFiat(TokenDataModel(availableTotalClaim), selectedFiat),
+            currentState.ratesState.tokenToFiat(TokenDataModel(availableTotalClaim, token: seedsToken), selectedFiat),
         availableRequestIds: availableRequestIds,
         isClaimButtonEnabled: enableClaimButton,
       );

@@ -1,6 +1,7 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_errors.dart';
@@ -12,7 +13,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
     final InviteError? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
-    final tokenAmount = TokenDataModel(parsedQuantity);
+    final tokenAmount = TokenDataModel(parsedQuantity, token: seedsToken);
 
     return currentState.copyWith(
       tokenAmount: tokenAmount,

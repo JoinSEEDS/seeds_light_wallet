@@ -1,6 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:dynamic_parallel_queue/dynamic_parallel_queue.dart';
-import 'package:seeds/datasource/remote/api/stat_repository.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/base_use_case.dart';
@@ -79,33 +77,41 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       for (final token in tokens) {
         token['usecases'] = useCaseMap[token['id']];
       }
-      final StatRepository _statRepository = StatRepository();
-      List<TokenModel?> theseTokens = [];
+      // final StatRepository _statRepository = StatRepository();
 
-      /// verify token contract on chain and get contract precision
-      loadData(token) async {
-        TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      // Note this can be made a lot nicer...
+      final List<TokenModel?> theseTokens = [];
+      for (final dynamic token in tokens) {
+        final TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
         if (tm != null) {
-          await _statRepository.getTokenStat(tokenContract: tm.contract, symbol: tm.symbol).then(
-            (stats) async {
-              if (stats.asValue != null) {
-                final supply = stats.asValue!.value.supplyString;
-                tm.setPrecisionFromString(supply);
-                theseTokens.add(tm);
-                print("supply: $supply");
-              }
-            },
-          ).catchError((dynamic error) => _statRepository.mapHttpError(error));
+          theseTokens.add(tm);
         }
       }
 
-      final queue = Queue(parallel: 5);
-      for (final dynamic token in tokens) {
-        queue.add(() async {
-          await loadData(token);
-        });
-      }
-      await queue.whenComplete();
+      /// verify token contract on chain and get contract precision
+      // Future<Result?> loadData(token) async {
+      //   final TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      //   if (tm != null) {
+      //     return await _statRepository.getTokenStat(tokenContract: tm.contract, symbol: tm.symbol).then(
+      //       (stats) async {
+      //         if (stats.asValue != null) {
+      //           final supply = stats.asValue!.value.supplyString;
+      //           tm.setPrecisionFromString(supply);
+      //           theseTokens.add(tm);
+      //           print("supply: $supply");
+      //         }
+      //       },
+      //     ).catchError((dynamic error) => _statRepository.mapHttpError(error));
+      //   }
+      // }
+
+      // final queue = Queue(parallel: 5);
+      // for (final dynamic token in tokens) {
+      //   queue.add(() async {
+      //     await loadData(token);
+      //   });
+      // }
+      // await queue.whenComplete();
       rv.addAll(theseTokens.whereNotNull());
 
       /// build a TokenModel from each selected token's metadata
