@@ -116,7 +116,7 @@ class TokenModel extends Equatable {
 
   static String getAssetString(String? id, double quantity) {
     if (id != null && TokenModel.fromId(id) != null && contractPrecisions.containsKey(id)) {
-      final symbol = TokenModel.fromId(id)!.symbol;
+      final symbol = TokenModel.fromId(id)?.symbol;
       return symbol == null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
     } else {
       return "";
