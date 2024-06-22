@@ -46,7 +46,7 @@ class SelectPictureBox extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Icon(Icons.add),
             const SizedBox(width: 6),
-            Text(title, style: Theme.of(context).textTheme.subtitle2)
+            Text(title, style: Theme.of(context).textTheme.titleSmall)
           ])
         ]);
       case PictureBoxState.imagePicked:

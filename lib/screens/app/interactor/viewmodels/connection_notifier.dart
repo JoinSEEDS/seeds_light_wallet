@@ -55,7 +55,7 @@ class ConnectionNotifier extends ChangeNotifier {
         return Endpoint(endpoint, infinitePing);
       }
     } catch (err) {
-      print('error pinging: ${err.toString()}');
+      print('error pinging: $err');
       return Endpoint(endpoint, doubleInfinitePing);
     }
   }

@@ -157,7 +157,7 @@ class EOSPrivateKey extends EOSKey {
 
   /// Sign the string data using the private key
   EOSSignature signString(String data) {
-    return sign(utf8.encode(data) as Uint8List);
+    return sign(utf8.encode(data));
   }
 
   /// Sign the SHA256 hashed data using the private key

@@ -96,7 +96,7 @@ class _UnplantSeedsScreenState extends State<UnplantSeedsScreen> {
                           child: Column(
                             children: [
                               const SizedBox(height: 26),
-                              Text('Unplant amount', style: Theme.of(context).textTheme.headline6),
+                              Text('Unplant amount', style: Theme.of(context).textTheme.titleLarge),
                               const SizedBox(height: 16),
                               UnplantSeedsAmountEntry(
                                 controller: _amountController,

@@ -28,7 +28,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                     text: TextSpan(
                         text: 'You have have fulfilled all the requirements and are now officially upgraded to be a '
                             .i18n,
-                        style: Theme.of(context).textTheme.subtitle2,
+                        style: Theme.of(context).textTheme.titleSmall,
                         children: <TextSpan>[
                           TextSpan(
                             text: "Citizen".i18n,
@@ -38,7 +38,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                             text:
                                 ' You now have the ability to vote on proposals! Go to the Explore section to see more.'
                                     .i18n,
-                            style: Theme.of(context).textTheme.subtitle2,
+                            style: Theme.of(context).textTheme.titleSmall,
                           )
                         ]),
                     textAlign: TextAlign.center,
@@ -51,7 +51,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                     text: TextSpan(
                         text: 'You have have fulfilled all the requirements and are now officially upgraded to be a '
                             .i18n,
-                        style: Theme.of(context).textTheme.subtitle2,
+                        style: Theme.of(context).textTheme.titleSmall,
                         children: <TextSpan>[
                           TextSpan(
                             text: "Resident",
@@ -59,7 +59,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                           ),
                           TextSpan(
                             text: 'Just one more level until you are a full-fledged Citizen.!'.i18n,
-                            style: Theme.of(context).textTheme.subtitle2,
+                            style: Theme.of(context).textTheme.titleSmall,
                           )
                         ]),
                     textAlign: TextAlign.center,

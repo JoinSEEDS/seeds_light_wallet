@@ -21,9 +21,9 @@ class GenericRegionDialog extends StatelessWidget {
       rightButtonTitle: context.loc.genericRegionConfirmImSureButton,
       onRightButtonPressed: () => Navigator.of(context).pop(true),
       children: [
-        Text(title, style: Theme.of(context).textTheme.headline6),
+        Text(title, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 40.0),
-        Text(description, style: Theme.of(context).textTheme.subtitle2),
+        Text(description, style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 20.0),
       ],
     );

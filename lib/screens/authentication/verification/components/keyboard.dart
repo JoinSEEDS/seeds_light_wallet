@@ -27,13 +27,13 @@ class Keyboard extends StatelessWidget {
                   child: InkWell(
                     splashColor: Colors.white.withOpacity(0.4),
                     onTap: () => onDigitTapped(i),
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.transparent,
                         border: Border.all(color: Colors.white),
                       ),
-                      child: Container(
+                      child: DecoratedBox(
                         decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
                         child: Center(
                           child: Text(i, style: const TextStyle(fontSize: 30, color: Colors.white), semanticsLabel: i),

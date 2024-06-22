@@ -51,11 +51,11 @@ class VoteScreen extends StatelessWidget {
                     indicatorSize: TabBarIndicatorSize.label,
                     unselectedLabelStyle: Theme.of(context).textTheme.buttonOpacityEmphasis,
                     labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                    tabs: [for (var i in proposalTypes) Tab(child: FittedBox(child: Text(i.type.i18n)))],
+                    tabs: [for (final i in proposalTypes) Tab(child: FittedBox(child: Text(i.type.i18n)))],
                   ),
                 ),
               ),
-              body: SafeArea(child: TabBarView(children: [for (var i in proposalTypes) ProposalsList(i)])),
+              body: SafeArea(child: TabBarView(children: [for (final i in proposalTypes) ProposalsList(i)])),
             );
           },
         ),

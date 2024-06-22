@@ -31,7 +31,7 @@ class VoteAmountLabel extends StatelessWidget {
                     child: SizedBox(width: 14.0, height: 14.0, child: CircularProgressIndicator(strokeWidth: 2))),
               );
             case PageState.success:
-              return Container(
+              return DecoratedBox(
                 decoration: BoxDecoration(color: AppColors.darkGreen3, borderRadius: BorderRadius.circular(6.0)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

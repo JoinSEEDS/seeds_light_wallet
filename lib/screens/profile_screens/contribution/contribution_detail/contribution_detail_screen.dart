@@ -58,7 +58,7 @@ class ContributionDetailScreen extends StatelessWidget {
                     Text(scoreDetails.scoreType,
                         textAlign: TextAlign.center, maxLines: 2, style: Theme.of(context).textTheme.headline7),
                     const SizedBox(height: 8.0),
-                    Text(scoreDetails.score.toString(), style: Theme.of(context).textTheme.headline3),
+                    Text(scoreDetails.score.toString(), style: Theme.of(context).textTheme.displaySmall),
                   ],
                 ),
               ),

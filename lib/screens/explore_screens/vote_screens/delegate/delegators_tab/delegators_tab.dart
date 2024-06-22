@@ -31,7 +31,7 @@ class DelegatorsTab extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                             'Delegators are Citizens that have chosen you to vote on their behalf. All votes already cast this cycle will not change.',
-                            style: Theme.of(context).textTheme.subtitle2),
+                            style: Theme.of(context).textTheme.titleSmall),
                       ),
                       Expanded(
                         child: state.delegators.isEmpty

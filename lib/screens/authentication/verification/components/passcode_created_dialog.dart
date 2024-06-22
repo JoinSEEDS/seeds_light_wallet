@@ -22,7 +22,7 @@ class PasscodeCreatedDialog extends StatelessWidget {
         Text(
           context.loc.verificationPasscodeDialogSubTitle,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 30.0),
       ],

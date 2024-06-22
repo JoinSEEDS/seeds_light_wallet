@@ -23,9 +23,9 @@ class VoteStatusLabel extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         children: [
-                          TextSpan(text: 'You must be a'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: 'You must be a'.i18n, style: Theme.of(context).textTheme.titleSmall),
                           TextSpan(text: ' Citizen '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                          TextSpan(text: 'to vote on proposals.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: 'to vote on proposals.'.i18n, style: Theme.of(context).textTheme.titleSmall),
                         ],
                       ),
                     ),
@@ -40,13 +40,13 @@ class VoteStatusLabel extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         children: [
-                          TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.titleSmall),
                           TextSpan(text: ' Voted with '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
                           TextSpan(
                               text: state.vote!.amount == 1
                                   ? '${state.vote!.amount} ' 'vote '.i18n
                                   : '${state.vote!.amount} ' 'votes'.i18n,
-                              style: Theme.of(context).textTheme.subtitle2),
+                              style: Theme.of(context).textTheme.titleSmall),
                         ],
                       ),
                     ),
@@ -65,12 +65,12 @@ class VoteStatusLabel extends StatelessWidget {
                           children: [
                             TextSpan(
                                 text: 'You have delegated your vote to'.i18n,
-                                style: Theme.of(context).textTheme.subtitle2),
+                                style: Theme.of(context).textTheme.titleSmall),
                             TextSpan(
                                 text: ' ${state.proposalDelegate}. ',
                                 style: Theme.of(context).textTheme.subtitle2Green2),
                             TextSpan(
-                                text: 'They are voting for you.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                                text: 'They are voting for you.'.i18n, style: Theme.of(context).textTheme.titleSmall),
                           ],
                         ),
                       ),
@@ -86,7 +86,7 @@ class VoteStatusLabel extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         children: [
-                          TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.titleSmall),
                           TextSpan(
                               text: ' - ${state.proposals[state.currentIndex].proposalCategory.name}: ',
                               style: Theme.of(context).textTheme.subtitle2Green2),
@@ -94,7 +94,7 @@ class VoteStatusLabel extends StatelessWidget {
                               text: state.voteAmount == 1
                                   ? '${state.voteAmount} ' 'vote '.i18n
                                   : '${state.voteAmount} ' 'votes'.i18n,
-                              style: Theme.of(context).textTheme.subtitle2),
+                              style: Theme.of(context).textTheme.titleSmall),
                         ],
                       ),
                     ),
@@ -109,7 +109,7 @@ class VoteStatusLabel extends StatelessWidget {
             padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
             child: Row(
               children: [
-                Text('Voting for this proposal is not open yet.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text('Voting for this proposal is not open yet.'.i18n, style: Theme.of(context).textTheme.titleSmall),
               ],
             ),
           );

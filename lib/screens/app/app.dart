@@ -140,7 +140,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         ),
         bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
           builder: (context, state) {
-            return Container(
+            return DecoratedBox(
               decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
               child: BottomNavigationBar(
                 currentIndex: state.index,
@@ -149,7 +149,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
                 selectedItemColor: AppColors.white,
                 items: [
-                  for (var i in _appScreenItems)
+                  for (final i in _appScreenItems)
                     BottomNavigationBarItem(
                       activeIcon:
                           Padding(padding: const EdgeInsets.only(bottom: 4.0), child: SvgPicture.asset(i.iconSelected)),

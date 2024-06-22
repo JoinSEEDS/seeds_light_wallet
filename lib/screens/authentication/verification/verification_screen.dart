@@ -87,7 +87,7 @@ class VerificationScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(16.0),
                                       border: Border.all(color: AppColors.white)),
                                   child: Text(context.loc.verificationScreenButtonTitle,
-                                      style: Theme.of(context).textTheme.subtitle2),
+                                      style: Theme.of(context).textTheme.titleSmall),
                                 ),
                               ),
                             )

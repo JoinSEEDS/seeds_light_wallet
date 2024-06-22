@@ -12,6 +12,9 @@ cd seeds_light_wallet
 flutter pub get
 flutter run
 ```
+## Code Rules
+- Set line length to 120 in your editor
+- Most other rules are definied in the flutter linter file.
 
 ## Build
 
