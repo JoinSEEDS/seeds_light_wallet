@@ -13,7 +13,7 @@ class GetReferredAccountsUseCase {
     } else {
       final ReferredAccounts referredAccounts = result.asValue!.value;
       //This is an expensive approach we need change it
-      return Future.wait([for (var i in referredAccounts.accounts) _profileRepository.getProfile(i)]);
+      return Future.wait([for (final i in referredAccounts.accounts) _profileRepository.getProfile(i)]);
     }
   }
 }

@@ -14,6 +14,7 @@ class TokenModel extends Equatable {
   static const seedsEcosysUsecase = 'seedsecosys';
   static List<TokenModel> allTokens = [seedsToken];
   static JsonSchema? tmastrSchema;
+  static Map<String, int?> contractPrecisions = {"token.seeds#SEEDS": 4};
   final String chainName;
   final String contract;
   final String symbol;
@@ -21,6 +22,7 @@ class TokenModel extends Equatable {
   final String backgroundImageUrl;
   final String logoUrl;
   final String balanceSubTitle;
+  final String overdraw;
   final int precision;
   final List<String>? usecases;
 
@@ -44,6 +46,7 @@ class TokenModel extends Equatable {
     required this.backgroundImageUrl,
     required this.logoUrl,
     required this.balanceSubTitle,
+    required this.overdraw,
     this.precision = 4,
     this.usecases,
   });
@@ -93,15 +96,16 @@ class TokenModel extends Equatable {
       symbol: parsedJson["symbol"]!,
       name: parsedJson["name"]!,
       logoUrl: parsedJson["logo"]!,
-      balanceSubTitle: parsedJson["subtitle"],
+      balanceSubTitle: parsedJson["subtitle"] ?? CurrencyInfoCard.defaultBalanceSubtitle,
       backgroundImageUrl: parsedJson["bg_image"] ?? CurrencyInfoCard.defaultBgImage,
+      overdraw: parsedJson["overdraw"] ?? "allow",
       precision: parsedJson["precision"] ?? 4,
       usecases: parsedJson["usecases"],
     );
   }
 
-  factory TokenModel.fromId(String tokenId) {
-    return allTokens.firstWhere((e) => e.id == tokenId);
+  static TokenModel? fromId(String tokenId) {
+    return allTokens.firstWhereOrNull((e) => e.id == tokenId);
   }
 
   static TokenModel? fromSymbolOrNull(String symbol) {
@@ -111,8 +115,38 @@ class TokenModel extends Equatable {
   @override
   List<Object?> get props => [chainName, contract, symbol];
 
-  String getAssetString(double quantity) {
-    return "${quantity.toStringAsFixed(precision)} $symbol";
+  static String getAssetString(String? id, double quantity) {
+    if (id != null && TokenModel.fromId(id) != null && contractPrecisions.containsKey(id)) {
+      final symbol = TokenModel.fromId(id)?.symbol;
+      return symbol == null ? "" : "${quantity.toStringAsFixed(contractPrecisions[id]!)} $symbol";
+    } else {
+      return "";
+    }
+  }
+
+  void setPrecisionFromString(String s) {
+    final amount = s.split(' ')[0];
+    final ss = amount.split('.');
+    if (ss.isEmpty) {
+      return;
+    }
+    contractPrecisions[id] = ss.length == 1 ? 0 : ss[1].length;
+  }
+
+  // enabling 'send' transfer validity checks, e.g. Mutual Credit,
+  //  membership limitations
+  bool blockTransfer(double insufficiency, String? toAccount) {
+    if (overdraw == "block") {
+      return insufficiency > 0;
+    } else if (overdraw == "allow") {
+      return false;
+    }
+    print("unexpected overdraw field: $overdraw");
+    return false;
+  }
+
+  String? warnTransfer(double insufficiency, String? toAccount) {
+    return insufficiency > 0 ? "insufficient balance" : null;
   }
 
   static Future<void> updateModels(List<String> acceptList, [List<String>? infoList]) async {
@@ -123,7 +157,10 @@ class TokenModel extends Equatable {
     }
     final tokenList = tokenListResult.asValue!.value;
     for (final newtoken in tokenList) {
-      allTokens.removeWhere((token) => token.id == newtoken.id);
+      allTokens.removeWhere((token) =>
+          token.contract == newtoken.contract &&
+          token.chainName == newtoken.chainName &&
+          token.symbol == newtoken.symbol);
     }
     allTokens.addAll(tokenList);
   }
@@ -138,6 +175,7 @@ class TokenModel extends Equatable {
       }
     }
     allTokens = _staticTokenList;
+    contractPrecisions = Map.fromEntries(allTokens.map((t) => MapEntry(t.id, t.precision)));
   }
 
   static void pruneRemoving(List<String> useCaseList) {
@@ -157,6 +195,7 @@ const seedsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
 
@@ -169,6 +208,7 @@ const _husdToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/husd/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   precision: 2,
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
@@ -181,6 +221,7 @@ const _hyphaToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   precision: 2,
   usecases: ["lightwallet", TokenModel.seedsEcosysUsecase],
 );
@@ -193,6 +234,7 @@ const _localScaleToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );
 
@@ -204,6 +246,7 @@ const _starsToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/stars/background.jpg',
   logoUrl: 'assets/images/wallet/currency_info_cards/stars/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );
 
@@ -215,5 +258,6 @@ const _telosToken = TokenModel(
   backgroundImageUrl: 'assets/images/wallet/currency_info_cards/tlos/background.png',
   logoUrl: 'assets/images/wallet/currency_info_cards/tlos/logo.png',
   balanceSubTitle: 'Wallet Balance',
+  overdraw: "block",
   usecases: ["lightwallet"],
 );

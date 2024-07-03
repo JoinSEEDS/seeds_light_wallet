@@ -94,7 +94,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                     if (state.proposals.isEmpty)
                       SliverFillRemaining(
                         child: Center(
-                          child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.button),
+                          child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.labelLarge),
                         ),
                       )
                     else

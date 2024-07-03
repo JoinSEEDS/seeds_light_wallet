@@ -31,29 +31,29 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(context.loc.transferTransactionSuccessHeader, style: Theme.of(context).textTheme.headline4)
+                Text(context.loc.transferTransactionSuccessHeader, style: Theme.of(context).textTheme.headlineMedium)
               ],
             ),
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text(context.loc.transferTransactionSuccessDate, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessDate, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy HH:mm').format(transactionModel.timestamp?.toLocal() ?? DateTime.now()),
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
             ),
             Row(
               children: [
-                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessID, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
                     transactionModel.transactionId ?? "",
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
                 IconButton(
@@ -69,9 +69,9 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
+                Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 16),
-                Container(
+                DecoratedBox(
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen6),
                   child: Padding(
@@ -79,7 +79,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                     child: Text(
                       context.loc.transferTransactionSuccessSuccessful,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
                 ),

@@ -12,17 +12,19 @@ class SendAmountChangeMapper extends StateMapper {
     final tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
     final selectedFiat = settingsStorage.selectedFiatCurrency;
     final fiatAmount = rateState.tokenToFiat(tokenAmount, selectedFiat);
+    final toAccount = currentState.sendTo.account;
 
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
-    final bool enoughBalance = parsedQuantity <= currentAvailable ||
-        currentState.availableBalance?.asFormattedString() == tokenAmount.asFormattedString();
+    final double insufficiency = currentState.availableBalance?.asFormattedString() == tokenAmount.asFormattedString()
+        ? 0.0
+        : parsedQuantity - currentAvailable;
 
     return currentState.copyWith(
       fiatAmount: fiatAmount,
-      isNextButtonEnabled: parsedQuantity > 0 && enoughBalance,
+      isNextButtonEnabled: parsedQuantity > 0 && !settingsStorage.selectedToken.blockTransfer(insufficiency, toAccount),
       tokenAmount: tokenAmount,
-      showAlert: !enoughBalance,
+      showAlert: settingsStorage.selectedToken.warnTransfer(insufficiency, toAccount) != null,
     );
   }
 }

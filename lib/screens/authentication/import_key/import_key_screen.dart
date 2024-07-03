@@ -100,7 +100,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                           padding: const EdgeInsets.all(16.0),
                           child: RichText(
                             text: TextSpan(
-                              style: Theme.of(context).textTheme.subtitle2,
+                              style: Theme.of(context).textTheme.titleSmall,
                               children: <TextSpan>[
                                 TextSpan(
                                     text: context.loc.importKeyImportUsingRecoveryPhraseActionLink,

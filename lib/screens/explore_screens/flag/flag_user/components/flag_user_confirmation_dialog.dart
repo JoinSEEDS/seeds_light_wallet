@@ -27,11 +27,11 @@ class FlagUserConfirmationDialog extends StatelessWidget {
               Navigator.of(context).pop();
             },
             children: [
-              Text('Are you sure?', style: Theme.of(context).textTheme.headline6),
+              Text('Are you sure?', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10.0),
               Text(
                 'Flagging has strong negative consequences so please make sure you are flagging the right person!',
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20.0),
@@ -39,12 +39,12 @@ class FlagUserConfirmationDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: 'Are you sure you would like to flag ',
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                     children: <TextSpan>[
                       TextSpan(
                           text: '${state.selectedProfile?.nickname} (${state.selectedProfile?.account})',
                           style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
-                      TextSpan(text: '?', style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: '?', style: Theme.of(context).textTheme.titleSmall),
                     ]),
               ),
             ],

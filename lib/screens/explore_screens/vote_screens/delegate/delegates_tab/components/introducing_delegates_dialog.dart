@@ -15,7 +15,7 @@ class IntroducingDelegatesDialog extends StatelessWidget {
         singleLargeButtonTitle: "Dismiss",
         onSingleLargeButtonPressed: () => Navigator.of(context).pop(),
         children: [
-          Text('Introducing Delegates!', style: Theme.of(context).textTheme.headline6),
+          Text('Introducing Delegates!', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 30.0),
           Image.asset('assets/images/explore/introducing_delegate.png'),
           const SizedBox(height: 30.0),

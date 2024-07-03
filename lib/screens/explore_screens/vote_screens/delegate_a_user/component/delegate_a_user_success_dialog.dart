@@ -27,10 +27,10 @@ class DelegateAUserSuccessDialog extends StatelessWidget {
               NavigationService.of(context).navigateTo(Routes.delegate);
             },
             children: [
-              Text('Delegate Chosen!', style: Theme.of(context).textTheme.headline6),
+              Text('Delegate Chosen!', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 30.0),
               Text('You have successfully chosen your delegate. They will now vote with the power of your vote.',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme.of(context).textTheme.titleSmall),
             ],
           ),
         );

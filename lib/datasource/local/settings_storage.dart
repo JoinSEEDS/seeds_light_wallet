@@ -73,7 +73,7 @@ class _SettingsStorage {
     if (storedValue != null && storedValue.split("#").length < 3) {
       storedValue = "$storedValue#telos";
     }
-    return TokenModel.fromId(storedValue ?? seedsToken.id);
+    return TokenModel.fromId(storedValue ?? seedsToken.id)!;
   }
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;

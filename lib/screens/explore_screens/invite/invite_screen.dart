@@ -82,7 +82,7 @@ class InviteScreen extends StatelessWidget {
                             children: [
                               const SizedBox(height: 16),
                               Text(context.loc.inviteScreenInputAmountTitle,
-                                  style: Theme.of(context).textTheme.headline6),
+                                  style: Theme.of(context).textTheme.titleLarge),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0),

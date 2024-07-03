@@ -21,12 +21,12 @@ Future<void> main() async {
   // for details: https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: '.env');
+    await dotenv.load();
     await Firebase.initializeApp();
     await settingsStorage.initialise();
     await PushNotificationService().initialise();
     await remoteConfigurations.initialise();
-    await TokenModel.installModels(['lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
+    await TokenModel.installModels(['localscale','lightwallet','experimental'], [TokenModel.seedsEcosysUsecase]);
     await Hive.initFlutter();
     Hive.registerAdapter(MemberModelCacheItemAdapter());
     Hive.registerAdapter(VoteModelAdapter());

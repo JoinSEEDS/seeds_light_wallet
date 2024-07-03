@@ -45,9 +45,9 @@ class MyGuardiansTab extends StatelessWidget {
                           onPressed: () {
                             BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [const Text("Activate "), const Icon(Icons.shield), const Text(" Guardians")],
+                            children: [Text("Activate "), Icon(Icons.shield), Text(" Guardians")],
                           ),
                         ),
                       ));

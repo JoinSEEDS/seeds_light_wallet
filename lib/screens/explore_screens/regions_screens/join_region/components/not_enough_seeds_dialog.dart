@@ -27,11 +27,11 @@ class NotEnoughSeedsDialog extends StatelessWidget {
         onRightButtonPressed: () => launchUrl(Uri.parse('$urlBuySeeds${settingsStorage.accountName}')),
         children: [
           const SizedBox(height: 10.0),
-          Text(context.loc.createRegionNotEnoughSeedsDialogTitle, style: Theme.of(context).textTheme.headline6),
+          Text(context.loc.createRegionNotEnoughSeedsDialogTitle, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 30.0),
           Text(
             context.loc.createRegionNotEnoughSeedsDialogSubtitle,
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20.0),

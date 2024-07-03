@@ -39,7 +39,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                 SingleChildScrollView(
                   child: CarouselSlider(
                     items: [
-                      for (var tokenBalanceViewModel in state.availableTokens)
+                      for (final tokenBalanceViewModel in state.availableTokens)
                         Container(
                           margin: EdgeInsets.only(
                               left: tokenBalanceViewModel.token == state.availableTokens.first.token ? 0 : 10.0,

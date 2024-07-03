@@ -1,12 +1,13 @@
 // ignore_for_file: always_use_package_imports, unnecessary_this, prefer_final_locals
 
 import 'dart:typed_data';
+
 import 'package:json_annotation/json_annotation.dart';
 
-import './action.dart';
-import './conversion_helper.dart';
 import '../eosdart_base.dart';
 import '../serialize.dart' as ser;
+import './action.dart';
+import './conversion_helper.dart';
 
 part 'transaction.g.dart';
 

@@ -119,7 +119,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                   child: enteredPasscode.isEmpty
                       ? const SizedBox.shrink()
                       : Text(context.loc.verificationPasscodeScreenButtonTitle,
-                          style: Theme.of(context).textTheme.subtitle2),
+                          style: Theme.of(context).textTheme.titleSmall),
                 ),
               ),
             ),

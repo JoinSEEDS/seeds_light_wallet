@@ -5,7 +5,8 @@ import 'package:seeds/utils/build_context_extension.dart';
 
 class CurrencyInfoCard extends StatelessWidget {
   // TODO(chuck): provide default image
-  static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.jpg';
+  static const defaultBgImage = 'assets/images/wallet/currency_info_cards/tlos/background.png';
+  static const defaultBalanceSubtitle = 'Balance';
 
   final TokenBalanceViewModel tokenBalance;
   final String fiatBalance;
@@ -33,7 +34,7 @@ class CurrencyInfoCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          if ((tokenBalance.token.usecases?.contains('experimental')) ?? false)
+          if (tokenBalance.token.usecases?.contains('experimental') ?? false)
             Container(
               width: 128,
               height: 128,
@@ -67,10 +68,10 @@ class CurrencyInfoCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 Text(context.loc.walletCurrencyCardBalance,
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor)),
                 const SizedBox(height: 6),
                 Text(tokenBalance.displayQuantity,
-                    style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: textColor)),
                 const SizedBox(height: 6),
                 Text(fiatBalance, style: Theme.of(context).textTheme.subtitle3.copyWith(color: textColor))
               ],

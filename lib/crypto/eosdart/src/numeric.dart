@@ -109,7 +109,7 @@ String binaryToDecimal(Uint8List bignum, {minDigits = 1}) {
 /// @param minDigits 0-pad result to this many digits
 String signedBinaryToDecimal(Uint8List bignum, {int minDigits = 1}) {
   if (isNegative(bignum)) {
-    var x = bignum.getRange(0, 0) as Uint8List;
+    var x = Uint8List.fromList(bignum.getRange(0, bignum.length).toList());
     negate(x);
     return '-' + binaryToDecimal(x, minDigits: minDigits);
   }
@@ -244,8 +244,8 @@ Uint8List digestSha256X2(Uint8List data) {
 IKey stringToKey(String s, KeyType type, int size, String suffix) {
   var whole = base58ToBinary(size + 4, s);
 
-  var result;
-  var digest;
+  IKey result;
+  List<int> digest;
   if (suffix == '') {
     result = IKey(type, whole.sublist(1,size));
     digest = digestSha256X2(whole.sublist(0,size));

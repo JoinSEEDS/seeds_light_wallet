@@ -17,12 +17,12 @@ class EditNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
-    assert(_profileModel != null);
+    final profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
+    assert(profileModel != null);
     return Scaffold(
       appBar: AppBar(title: Text(context.loc.editNameTitle)),
       body: BlocProvider(
-        create: (_) => EditNameBloc(_profileModel!),
+        create: (_) => EditNameBloc(profileModel!),
         child: BlocConsumer<EditNameBloc, EditNameState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {

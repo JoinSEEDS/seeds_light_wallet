@@ -22,13 +22,13 @@ class FlagUserInfoDialog extends StatelessWidget {
               Text(
                 context.loc.explorerFlagInfoDialogSubTitle,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 36.0),
               Text(
                 context.loc.explorerFlagInfoDialogSubTitlePartTwo,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 36.0),
               FlatButtonLong(
