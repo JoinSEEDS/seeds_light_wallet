@@ -67,7 +67,14 @@ class _SettingsStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromId(_preferences.getString(_kSelectedToken) ?? seedsToken.id) ?? seedsToken;
+  TokenModel get selectedToken {
+    var storedValue = _preferences.getString(_kSelectedToken);
+    // Compatibility with old format: [contract]#[symbol]
+    if (storedValue != null && storedValue.split("#").length < 3) {
+      storedValue = "$storedValue#telos";
+    }
+    return TokenModel.fromId(storedValue ?? seedsToken.id)!;
+  }
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:dynamic_parallel_queue/dynamic_parallel_queue.dart';
 import 'package:seeds/datasource/remote/api/stat_repository.dart';
@@ -83,8 +85,8 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       List<TokenModel?> theseTokens = [];
 
       /// verify token contract on chain and get contract precision
-      loadData(token) async {
-        TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      FutureOr loadData(token) async {
+        final TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
         if (tm != null) {
           await _statRepository.getTokenStat(tokenContract: tm.contract, symbol: tm.symbol).then(
             (stats) async {
@@ -95,7 +97,11 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
                 print("supply: $supply");
               }
             },
-          ).catchError((dynamic error) => _statRepository.mapHttpError(error));
+          ).catchError((dynamic error) {
+            // This entire code here is really funky - Nik
+            _statRepository.mapHttpError(error);
+            return null; // Ensure the handler returns a value assignable to FutureOr<Null>
+          });
         }
       }
 

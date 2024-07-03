@@ -25,7 +25,7 @@ class TokenModel extends Equatable {
   final int precision;
   final List<String>? usecases;
 
-  String get id => "$contract#$symbol";
+  String get id => "$contract#$symbol#$chainName";
 
   ImageProvider get backgroundImage {
     return backgroundImageUrl.startsWith("assets")
@@ -84,9 +84,9 @@ class TokenModel extends Equatable {
     if (tmastrSchema == null) {
       return null;
     }
-    final validationErrors = tmastrSchema!.validate(parsedJson).errors;
-    if (validationErrors.isNotEmpty) {
-      print('${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
+    final validationResult = tmastrSchema!.validate(parsedJson);
+    if (validationResult.errors.isNotEmpty) {
+      print('${data["symbolcode"]}:\t${validationResult.errors.map((e) => e.toString())}');
       return null;
     }
     return TokenModel(
