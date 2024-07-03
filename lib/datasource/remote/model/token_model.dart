@@ -3,8 +3,7 @@ import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:json_schema2/json_schema2.dart';
-import 'package:seeds/datasource/remote/api/http_repo/seeds_chain_names.dart';
+import 'package:json_schema/json_schema.dart';
 import 'package:seeds/datasource/remote/api/tokenmodels_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_token_models_use_case.dart';
@@ -55,7 +54,7 @@ class TokenModel extends Equatable {
     final result = await TokenModelsRepository().getSchema();
     if (result.isValue) {
       final tmastrSchemaMap = result.asValue!.value;
-      tmastrSchema = JsonSchema.createSchema(tmastrSchemaMap);
+      tmastrSchema = JsonSchema.create(tmastrSchemaMap);
       return Result.value(null);
     }
     print('Error getting Token Master schema from chain');
@@ -85,9 +84,9 @@ class TokenModel extends Equatable {
     if (tmastrSchema == null) {
       return null;
     }
-    final validationErrors = tmastrSchema!.validateWithErrors(parsedJson);
-    if (validationErrors.isNotEmpty) {
-      print('${data["symbolcode"]}:\t${validationErrors.map((e) => e.toString())}');
+    final validationResult = tmastrSchema!.validate(parsedJson);
+    if (validationResult.errors.isNotEmpty) {
+      print('${data["symbolcode"]}:\t${validationResult.errors.map((e) => e.toString())}');
       return null;
     }
     return TokenModel(
@@ -188,7 +187,7 @@ class TokenModel extends Equatable {
 }
 
 const seedsToken = TokenModel(
-  chainName: SeedsChains.telos.value,
+  chainName: "Telos",
   contract: "token.seeds",
   symbol: "SEEDS",
   name: "Seeds",
