@@ -12,7 +12,7 @@ cd seeds_light_wallet
 flutter pub get
 flutter run
 ```
-
+Note: build rainbow-apk branch with flutter v3.19.6
 ## Build
 
 ### Build for Android
