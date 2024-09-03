@@ -57,6 +57,7 @@ import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_
 import 'package:seeds/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/screens/transfer/send/send_search_user/send_expert_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
 /// Add only current routes in the app and that are used by [NavigationService]
@@ -74,6 +75,7 @@ class Routes {
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
   static const transfer = 'transfer';
+  static const transferExpert = 'transferExpert';
   static const sendEnterData = 'sendEnterData';
   static const delegate = 'delegate';
   static const delegateAUser = 'delegateAUser';
@@ -135,6 +137,7 @@ class NavigationService {
     Routes.signup: (_) => const SignupScreen(),
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
+    Routes.transferExpert: (_) => const SendExpertScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
