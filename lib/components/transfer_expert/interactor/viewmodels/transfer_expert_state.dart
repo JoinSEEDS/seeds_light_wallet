@@ -9,6 +9,7 @@ class TransferExpertState extends Equatable {
   final ProfileStatus? showOnlyCitizenshipStatus;
   final List<String>? authorizedAccounts;
   final Map<String, String?> selectedAccounts;
+  final List<String> validChainAccounts;
 
   const TransferExpertState({
     required this.pageState,
@@ -19,6 +20,7 @@ class TransferExpertState extends Equatable {
     this.showOnlyCitizenshipStatus,
     this.authorizedAccounts,
     required this.selectedAccounts,
+    required this.validChainAccounts,
 
   });
 
@@ -43,6 +45,7 @@ class TransferExpertState extends Equatable {
     ProfileStatus? showOnlyCitizenshipStatus,
     List<String>? authorizedAccounts,
     Map<String, String?>? selectedAccounts,
+    List<String>? validChainAccounts,
   }) {
     return TransferExpertState(
       pageState: pageState ?? this.pageState,
@@ -52,12 +55,9 @@ class TransferExpertState extends Equatable {
       noShowUsers: noShowUsers ?? this.noShowUsers,
       showOnlyCitizenshipStatus: showOnlyCitizenshipStatus ?? this.showOnlyCitizenshipStatus,
       authorizedAccounts: authorizedAccounts ?? this.authorizedAccounts,
-      selectedAccounts: selectedAccounts ?? this.selectedAccounts
+      selectedAccounts: selectedAccounts ?? this.selectedAccounts,
+      validChainAccounts: validChainAccounts ?? this.validChainAccounts,
     );
-  }
-
-  void updateAccountSelection(String key, String value) {
-    selectedAccounts[key] = value;
   }
 
   factory TransferExpertState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus) {
@@ -69,6 +69,7 @@ class TransferExpertState extends Equatable {
       showOnlyCitizenshipStatus: filterByCitizenshipStatus,
       authorizedAccounts: [],
       selectedAccounts: {},
+      validChainAccounts: [],
     );
   }
 }

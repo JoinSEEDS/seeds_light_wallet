@@ -38,7 +38,6 @@ class TransferExpert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String from = "";
     List<String> initialAuthAccounts = [];
     final EOSAccountRepository _accountRepository = EOSAccountRepository();
     return BlocProvider<TransferExpertBloc>(
@@ -61,18 +60,19 @@ class TransferExpert extends StatelessWidget {
             child: Row( children: [
               Expanded (child: 
                 SelectUserTextField(initialValue: settingsStorage.accountName,
-                 updater: (s) {
-                   from = s;
-                   },
                   accountKey: "from", 
                 )   
               ),
               SizedBox(width: 16),
-              SignerSelectField(
-                enabled: true, // if user is valid
-                account:from,
+              BlocBuilder<TransferExpertBloc, TransferExpertState>(
+                builder: (context, state) {
+                  return SignerSelectField(
+                    enabled: true, // if user is valid
+                    account: state.selectedAccounts["from"],
+                  );
+                },
               ),
-                SizedBox(width: 8),
+              SizedBox(width: 8),
             ])
           ),
           const Padding(

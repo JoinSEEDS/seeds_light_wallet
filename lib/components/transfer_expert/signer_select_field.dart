@@ -28,6 +28,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
   final EOSAccountRepository _accountRepository = EOSAccountRepository();
   List<String> authAccounts = [];
   String selectedId = settingsStorage.selectedToken.id;
+  String? fromAccount;
+
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
@@ -81,11 +83,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
 
   @override
   Widget build(BuildContext context) {
-    String? fromAccount;
-    authAccounts = [];
     return BlocListener<TransferExpertBloc, TransferExpertState>(
       listener: (context, state) {
-        print("-------signerselect--------");
         fromAccount = state.selectedAccounts["from"];
         _accountRepository.getEOSAccount(fromAccount!).then((result) {
           authAccounts = result.asValue!.value.permissions.permissions

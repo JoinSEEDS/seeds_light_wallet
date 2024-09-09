@@ -3,6 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/transfer_expert/interactor/mappers/transfer_expert_state_mapper.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
+import 'package:seeds/datasource/remote/model/eos_account_model.dart';
+import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
@@ -12,6 +15,7 @@ part 'transfer_expert_state.dart';
 
 class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> {
   final int _minTextLengthBeforeValidSearch = 2;
+  final _eosaccountrepository = EOSAccountRepository();
 
   TransferExpertBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus)
       : super(TransferExpertState.initial(noShowUsers, filterByCitizenshipStatus)) {
@@ -29,10 +33,16 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
   Future<void> _onSearchChange(OnSearchChange event, Emitter<TransferExpertState> emit) async {
     final newSelectedAccounts = Map<String, String>.from(state.selectedAccounts);
     newSelectedAccounts[event.accountKey] = event.searchQuery;
+    List<String> newValidChainAccounts = List<String>.from(state.validChainAccounts);
+    final accountModel = (await _eosaccountrepository.getEOSAccount(event.searchQuery)).asValue?.value;
+    accountModel != null ?
+      newValidChainAccounts.add(event.accountKey)
+      : newValidChainAccounts.remove(event.accountKey);
     emit(state.copyWith(
       pageState: PageState.loading,
       showClearIcon: event.searchQuery.isNotEmpty,
       selectedAccounts: newSelectedAccounts,
+      validChainAccounts: newValidChainAccounts,
     ));
   }
 

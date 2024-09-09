@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
@@ -24,6 +26,16 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
+  TextStyle? inputTextStyle;
+
+  @override
+  void initState(){;
+    _controller.text = widget.initialValue ?? "";
+    if (widget.accountKey != "" && widget.initialValue != null) {
+      BlocProvider.of<TransferExpertBloc>(context)
+        .add(OnSearchChange(searchQuery: widget.initialValue!.toLowerCase(), accountKey: widget.accountKey));
+      }
+  }
 
   @override
   void dispose() {
@@ -33,35 +45,52 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.initialValue != null) {
-      _controller.text = widget.initialValue!;
-      if (widget.updater != null) {
-        widget.updater!(_controller.text);
-      }
-      if (widget.accountKey != "") {
-        BlocProvider.of<TransferExpertBloc>(context)
-          .add(OnSearchChange(searchQuery: widget.initialValue!.toLowerCase(), accountKey: widget.accountKey));
-      }
+    if (widget.updater != null) {
+      widget.updater!(_controller.text);
     }
-    return TextField(
-      autofocus: true,
-      autocorrect: false,
-      controller: _controller,
-      onChanged: (value) {
-        if (widget.updater != null) {
-          widget.updater!(value);
-        }
-        if (widget.accountKey != "") {
-          BlocProvider.of<TransferExpertBloc>(context)
-            .add(OnSearchChange(searchQuery: value.toLowerCase(), accountKey: widget.accountKey));
-        }
-      },
-      decoration: InputDecoration(
-        enabledBorder: _searchBorder,
-        focusedBorder: _searchBorder,
-        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        hintText: context.loc.searchUserHintText,
-      ),
-    );
+    if (widget.accountKey != "") {
+      return BlocBuilder<TransferExpertBloc,TransferExpertState>(
+        builder: (context, state) { return TextField(
+          autofocus: true,
+          autocorrect: false,
+          controller: _controller,
+          style:  TextStyle(color: state.validChainAccounts.contains(widget.accountKey) ?
+            Colors.green : Colors.white),
+          onChanged: (value) {
+            if (widget.updater != null) {
+              widget.updater!(value);
+            }
+            BlocProvider.of<TransferExpertBloc>(context)
+              .add(OnSearchChange(searchQuery: value.toLowerCase(), accountKey: widget.accountKey));
+          },
+          decoration: InputDecoration(
+            enabledBorder: _searchBorder,
+            focusedBorder: _searchBorder,
+            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+            hintText: context.loc.searchUserHintText,
+          ),
+        );
+          }
+      );
+    } else {
+      return TextField(
+        autofocus: true,
+        autocorrect: false,
+        controller: _controller,
+        style:  TextStyle(color: Colors.purpleAccent),
+        onChanged: (value) {
+          if (widget.updater != null) {
+            widget.updater!(value);
+          }
+        },
+        decoration: InputDecoration(
+          enabledBorder: _searchBorder,
+          focusedBorder: _searchBorder,
+          border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+          hintText: context.loc.searchUserHintText,
+        ),
+      );
+    }
+
   }
 }
