@@ -10,7 +10,9 @@ import 'package:seeds/utils/build_context_extension.dart';
 class SelectUserTextField extends StatefulWidget {
   final String? initialValue;
   final Function(String s)? updater;
-  const SelectUserTextField({this.initialValue, this.updater = null, super.key});
+  final String accountKey;
+  const SelectUserTextField({this.initialValue, this.updater = null, this.accountKey = "", super.key});
+  
 
   @override
   _SelectUserTextFieldState createState() => _SelectUserTextFieldState();
@@ -36,6 +38,10 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
       if (widget.updater != null) {
         widget.updater!(_controller.text);
       }
+      if (widget.accountKey != "") {
+        BlocProvider.of<TransferExpertBloc>(context)
+          .add(OnSearchChange(searchQuery: widget.initialValue!.toLowerCase(), accountKey: widget.accountKey));
+      }
     }
     return TextField(
       autofocus: true,
@@ -44,6 +50,10 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
       onChanged: (value) {
         if (widget.updater != null) {
           widget.updater!(value);
+        }
+        if (widget.accountKey != "") {
+          BlocProvider.of<TransferExpertBloc>(context)
+            .add(OnSearchChange(searchQuery: value.toLowerCase(), accountKey: widget.accountKey));
         }
       },
       decoration: InputDecoration(

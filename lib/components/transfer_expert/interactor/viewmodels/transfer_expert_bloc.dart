@@ -20,29 +20,20 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
   }
 
   /// Debounce to avoid making search network calls each time the user types
-  /// switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
+  /// switchMap: To remove the previous event. Every time a        print('From ${state.selectedAccounts["from"]}'); new Stream is created, the previous Stream is discarded.
   Stream<OnSearchChange> _transformEvents(
       Stream<OnSearchChange> events, Stream<OnSearchChange> Function(OnSearchChange) transitionFn) {
     return events.debounceTime(const Duration(milliseconds: 300)).switchMap(transitionFn);
   }
 
   Future<void> _onSearchChange(OnSearchChange event, Emitter<TransferExpertState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading, showClearIcon: event.searchQuery.isNotEmpty));
-    state.selectedAccounts[event.accountKey] = event.searchQuery;
-    /*
-    if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
-      final results = await SearchForMemberUseCase().run(event.searchQuery.toLowerCase());
-      emit(TransferExpertStateMapper().mapResultToState(
-        currentState: state,
-        seedsMembersResult: results[0],
-        telosResult: results[1],
-        fullNameResult: results[2],
-        noShowUsers: state.noShowUsers,
-      ));
-    } else {
-      emit(state.copyWith(pageState: PageState.success));
-    }
-    */
+    final newSelectedAccounts = Map<String, String>.from(state.selectedAccounts);
+    newSelectedAccounts[event.accountKey] = event.searchQuery;
+    emit(state.copyWith(
+      pageState: PageState.loading,
+      showClearIcon: event.searchQuery.isNotEmpty,
+      selectedAccounts: newSelectedAccounts,
+    ));
   }
 
   void _clearIconTapped(ClearIconTapped event, Emitter<TransferExpertState> emit) {

@@ -1,12 +1,21 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart';
+import 'package:seeds/crypto/eosdart/eosdart.dart' as eos;
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+import 'package:seeds/datasource/remote/model/eos_account_model.dart';
+import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 class SignerSelectField extends StatefulWidget {
   final String? account;
-  final bool? enabled; 
+  final bool? enabled;
   const SignerSelectField({this.account, this.enabled, super.key});
 
   @override
@@ -15,7 +24,9 @@ class SignerSelectField extends StatefulWidget {
 
 class _SignerSelectFieldState extends State<SignerSelectField> {
   static const String addAccountLabel = "add account";
-  late List<String> authAccounts;// get from 
+  static const String updatePermissionsLabel = "update now";
+  final EOSAccountRepository _accountRepository = EOSAccountRepository();
+  List<String> authAccounts = [];
   String selectedId = settingsStorage.selectedToken.id;
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -28,30 +39,69 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
     super.dispose();
   }
 
-  void handleAuthSelect(String s) async {
+  void handleAuthSelect(String s, String? fromAccount) async {
     if (s == addAccountLabel) {
       print("navigate to new auth account entry screen");
       final result = await NavigationService.of(context).navigateTo(Routes.newAuthAccount, null, false) as String?;
       if (result != null) {
         authAccounts += [result];
       }
+    } else if (s == updatePermissionsLabel && fromAccount != null) {
+      print("build transaction and navigate to confirmation screen");
+      final account_info = (await _accountRepository.getEOSAccount(fromAccount)).asValue!.value;
+      final oldRequiredAuth = account_info.permissions.permissions
+        .firstWhere((p) => p.perm_name == "active" && p.parent == "owner").required_auth;
+      List<EOSAccountAuth> newAccountAuths = authAccounts.map((account) => EOSAccountAuth(
+        permission: EOSAccountAuthPermission(actor: account, permission: "active"),
+        weight: 1)).toList();
+      final newRequiredAuth = oldRequiredAuth.copyWith(accounts: newAccountAuths);
+
+      final trx = EOSTransaction.fromAction(
+        account: "eosio",
+        actionName: "updateauth",
+        data: {
+          "account": fromAccount,
+          "permission": "active",
+          "parent": "owner",
+          "auth": newRequiredAuth.toJson(),
+        }
+      );
+      eos.Authorization auth = eos.Authorization();
+      auth.actor = fromAccount;
+      auth.permission = "active";
+      trx.actions[0].authorization = [auth];
+      final args = SendConfirmationArguments(transaction: trx);
+      final result = (await NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, false)).toString();
     } else {
       authAccounts.remove(s);
     }
   }
+ 
+  
 
   @override
   Widget build(BuildContext context) {
-    final initialAuthAccounts = ["me", "my", "mine"]; //context.select((TransferExpertState state) => state.authorizedAccounts);
-    authAccounts = initialAuthAccounts;
-    return  PopupMenuButton(
+    String? fromAccount;
+    authAccounts = [];
+    return BlocListener<TransferExpertBloc, TransferExpertState>(
+      listener: (context, state) {
+        print("-------signerselect--------");
+        fromAccount = state.selectedAccounts["from"];
+        _accountRepository.getEOSAccount(fromAccount!).then((result) {
+          authAccounts = result.asValue!.value.permissions.permissions
+            .firstWhere((p) => p.perm_name == "active" && p.parent == "owner")
+            .required_auth.accounts.map((e) => e.permission.actor).toList();
+        }).catchError( (e) { print('signerselect $e'); } );
+        print('From ${state.selectedAccounts["from"]}');
+      },
+    child:  PopupMenuButton(
     offset: const Offset(0, 40),
     elevation: 2,
     onSelected: (String s) {
-      handleAuthSelect(s);
+      handleAuthSelect(s, fromAccount);
     },
     itemBuilder: (context) => (authAccounts
-                  .sorted((a, b) => a.compareTo(b)) + [addAccountLabel])
+                  .sorted((a, b) => a.compareTo(b)) + [addAccountLabel, updatePermissionsLabel])
                     .map<PopupMenuEntry<String>>(
                       (c) => PopupMenuItem<String>(
                         value: c,
@@ -70,7 +120,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
                               ),
                               Icon(
                                 c == addAccountLabel ? Icons.add_circle
-                                     : Icons.delete
+                                  : c == updatePermissionsLabel ? Icons.upgrade
+                                    : Icons.delete
                               )
 
                             ]
@@ -80,6 +131,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
                           ).toList(),
     child: 
         Icon(Icons.edit_note),
+    )
     );
   }
 }

@@ -10,6 +10,9 @@ import 'package:seeds/components/transfer_expert/signer_select_field.dart';
 import 'package:seeds/components/transfer_expert/token_select_field.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+import 'package:seeds/datasource/remote/model/eos_account_model.dart';
+import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
@@ -35,6 +38,9 @@ class TransferExpert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String from = "";
+    List<String> initialAuthAccounts = [];
+    final EOSAccountRepository _accountRepository = EOSAccountRepository();
     return BlocProvider<TransferExpertBloc>(
       create: (_) => TransferExpertBloc(null, null),
       child: Column(
@@ -55,15 +61,16 @@ class TransferExpert extends StatelessWidget {
             child: Row( children: [
               Expanded (child: 
                 SelectUserTextField(initialValue: settingsStorage.accountName,
-                 updater: (s) => 
-                   BlocProvider.of<TransferExpertBloc>(context)
-                     .add(OnSearchChange(searchQuery: s.toLowerCase(), accountKey: "from"))
+                 updater: (s) {
+                   from = s;
+                   },
+                  accountKey: "from", 
                 )   
               ),
               SizedBox(width: 16),
               SignerSelectField(
                 enabled: true, // if user is valid
-                account: 'chuckseattle' // state.transfer_fro
+                account:from,
               ),
                 SizedBox(width: 8),
             ])
@@ -80,10 +87,9 @@ class TransferExpert extends StatelessWidget {
             )),
             Padding(
             padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: SelectUserTextField(initialValue: settingsStorage.accountName,
-                 updater: (s) => 
-                   BlocProvider.of<TransferExpertBloc>(context)
-                     .add(OnSearchChange(searchQuery: s.toLowerCase(), accountKey: "from"))
+            child: SelectUserTextField(
+                 updater: (s) => { null },
+                 accountKey: "to",
                 )   
      ),
           const SizedBox(height: 16),
