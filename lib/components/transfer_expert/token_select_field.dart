@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_bloc.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -31,13 +32,14 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
 
   @override
   Widget build(BuildContext context) {
-    return  PopupMenuButton(
+    return PopupMenuButton(
     offset: const Offset(0, 40),
     elevation: 2,
     onSelected: (String s) {
       setState(() {
         selectedId = s;
-      }); },
+      });
+   },
     itemBuilder: (context) => tokenIds.sorted((a, b) => 
                   a.split('#')[1].compareTo(b.split("#")[1]))
                     .map<PopupMenuEntry<String>>(

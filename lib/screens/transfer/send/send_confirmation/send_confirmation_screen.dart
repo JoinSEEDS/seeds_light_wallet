@@ -21,6 +21,7 @@ import 'package:seeds/screens/transfer/send/send_confirmation/components/transac
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SendConfirmationScreen extends StatelessWidget {
@@ -30,7 +31,8 @@ class SendConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
     return BlocProvider(
-      create: (_) => SendConfirmationBloc(arguments)..add(const OnInitValidations()),
+      create: (_) => SendConfirmationBloc(arguments)
+        ..add(const OnInitValidations()),
       child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
         builder: (context, state) {
           return WillPopScope(
@@ -48,6 +50,7 @@ class SendConfirmationScreen extends StatelessWidget {
                   final pageCommand = state.pageCommand;
                   // Clear deeplink despite the submit result
                   BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
+
                   if (pageCommand is ShowTransferSuccess) {
                     Navigator.of(context).pop(state.transactionResult);
                     if (pageCommand.shouldShowInAppReview) {
@@ -67,6 +70,9 @@ class SendConfirmationScreen extends StatelessWidget {
                         BlocProvider.of<SendConfirmationBloc>(context).add(OnSendTransactionButtonPressed(rates));
                       },
                     ).show(context);
+                  } else if (pageCommand is RetryAsMsig) {
+                    final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                    BlocProvider.of<SendConfirmationBloc>(context).add(OnAuthorizationFailure(rates, context: context));
                   } else if (pageCommand is ShowInvalidTransactionReason) {
                     eventBus.fire(ShowSnackBar(pageCommand.reason));
                   }

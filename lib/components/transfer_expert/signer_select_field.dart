@@ -15,8 +15,8 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 
 class SignerSelectField extends StatefulWidget {
   final String? account;
-  final bool? enabled;
-  const SignerSelectField({this.account, this.enabled, super.key});
+  final bool enabled;
+  const SignerSelectField({this.account, this.enabled = false, super.key});
 
   @override
   _SignerSelectFieldState createState() => _SignerSelectFieldState();
@@ -49,7 +49,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
         authAccounts += [result];
       }
     } else if (s == updatePermissionsLabel && fromAccount != null) {
-      print("build transaction and navigate to confirmation screen");
+      // build transaction and navigate to confirmation screen
       final account_info = (await _accountRepository.getEOSAccount(fromAccount)).asValue!.value;
       final oldRequiredAuth = account_info.permissions.permissions
         .firstWhere((p) => p.perm_name == "active" && p.parent == "owner").required_auth;
@@ -58,7 +58,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
         weight: 1)).toList();
       final newRequiredAuth = oldRequiredAuth.copyWith(accounts: newAccountAuths);
 
-      final trx = EOSTransaction.fromAction(
+      final updateAuthTrx = EOSTransaction.fromAction(
         account: "eosio",
         actionName: "updateauth",
         data: {
@@ -71,8 +71,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
       eos.Authorization auth = eos.Authorization();
       auth.actor = fromAccount;
       auth.permission = "active";
-      trx.actions[0].authorization = [auth];
-      final args = SendConfirmationArguments(transaction: trx);
+      updateAuthTrx.actions[0].authorization = [auth];
+      final args = SendConfirmationArguments(transaction: updateAuthTrx);
       final result = (await NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, false)).toString();
     } else {
       authAccounts.remove(s);
@@ -94,6 +94,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
         print('From ${state.selectedAccounts["from"]}');
       },
     child:  PopupMenuButton(
+    enabled: widget.enabled,
     offset: const Offset(0, 40),
     elevation: 2,
     onSelected: (String s) {
@@ -129,7 +130,11 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
                               ),
                           ).toList(),
     child: 
-        Icon(Icons.edit_note),
+        Icon(
+          Icons.edit_note,
+            size: 36,
+            // TODO use theme colors
+            color: widget.enabled ? Colors.white : Colors.white30,),
     )
     );
   }

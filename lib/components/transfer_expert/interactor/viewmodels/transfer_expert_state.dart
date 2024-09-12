@@ -10,6 +10,7 @@ class TransferExpertState extends Equatable {
   final List<String>? authorizedAccounts;
   final Map<String, String?> selectedAccounts;
   final List<String> validChainAccounts;
+  final String deliveryToken;
 
   const TransferExpertState({
     required this.pageState,
@@ -21,7 +22,7 @@ class TransferExpertState extends Equatable {
     this.authorizedAccounts,
     required this.selectedAccounts,
     required this.validChainAccounts,
-
+    required this.deliveryToken,
   });
 
   @override
@@ -34,6 +35,7 @@ class TransferExpertState extends Equatable {
         showOnlyCitizenshipStatus,
         authorizedAccounts,
         selectedAccounts,
+        deliveryToken,
       ];
 
   TransferExpertState copyWith({
@@ -46,6 +48,7 @@ class TransferExpertState extends Equatable {
     List<String>? authorizedAccounts,
     Map<String, String?>? selectedAccounts,
     List<String>? validChainAccounts,
+    String? deliveryToken,
   }) {
     return TransferExpertState(
       pageState: pageState ?? this.pageState,
@@ -57,6 +60,7 @@ class TransferExpertState extends Equatable {
       authorizedAccounts: authorizedAccounts ?? this.authorizedAccounts,
       selectedAccounts: selectedAccounts ?? this.selectedAccounts,
       validChainAccounts: validChainAccounts ?? this.validChainAccounts,
+      deliveryToken: deliveryToken ?? this.deliveryToken,
     );
   }
 
@@ -70,6 +74,7 @@ class TransferExpertState extends Equatable {
       authorizedAccounts: [],
       selectedAccounts: {},
       validChainAccounts: [],
+      deliveryToken: settingsStorage.selectedToken.id
     );
   }
 }

@@ -23,3 +23,12 @@ class ClearIconTapped extends TransferExpertEvent {
   @override
   String toString() => 'ClearIconTapped';
 }
+
+class OnDeliveryTokenChange extends TransferExpertEvent {
+  final String tokenId;
+
+  const OnDeliveryTokenChange({required this.tokenId});
+
+  @override
+  String toString() => 'Delivery token changed to $tokenId';
+}

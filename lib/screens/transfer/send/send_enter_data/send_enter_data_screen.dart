@@ -24,16 +24,18 @@ import 'package:seeds/screens/transfer/send/send_enter_data/components/send_conf
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/navigation/navigation_service.dart';
+
 
 class SendEnterDataScreen extends StatelessWidget {
   const SendEnterDataScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ProfileModel memberModel = ModalRoute.of(context)!.settings.arguments! as ProfileModel;
+    final Map<String,ProfileModel> memberModels = (ModalRoute.of(context)!.settings.arguments! as Map<String, ProfileModel>)!;
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => SendEnterDataBloc(memberModel, rates)..add(InitSendDataArguments()),
+      create: (_) => SendEnterDataBloc(memberModels, rates)..add(InitSendDataArguments()),
       child: BlocListener<SendEnterDataBloc, SendEnterDataState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -41,6 +43,9 @@ class SendEnterDataScreen extends StatelessWidget {
 
           BlocProvider.of<SendEnterDataBloc>(context).add(const ClearSendEnterDataPageCommand());
 
+          if (command is NavigateToSendConfirmation) {
+            NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true);
+          } else
           if (command is ShowSendConfirmDialog) {
             showDialog<void>(
               context: context,
@@ -105,7 +110,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              SearchResultRow(member: memberModel),
+                              SearchResultRow(member: memberModels["to"]!),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),

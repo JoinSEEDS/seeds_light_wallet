@@ -5,6 +5,7 @@ class SendEnterDataState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final ProfileModel sendTo;
+  final ProfileModel? sendFrom;
   final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final RatesState ratesState;
@@ -21,6 +22,7 @@ class SendEnterDataState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     required this.sendTo,
+    this.sendFrom,
     this.fiatAmount,
     required this.ratesState,
     this.availableBalance,
@@ -39,6 +41,7 @@ class SendEnterDataState extends Equatable {
         pageCommand,
         errorMessage,
         sendTo,
+        sendFrom,
         fiatAmount,
         ratesState,
         availableBalance,
@@ -56,6 +59,7 @@ class SendEnterDataState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     ProfileModel? sendTo,
+    ProfileModel? sendFrom,
     FiatDataModel? fiatAmount,
     RatesState? ratesState,
     TokenDataModel? availableBalance,
@@ -72,6 +76,7 @@ class SendEnterDataState extends Equatable {
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       sendTo: sendTo ?? this.sendTo,
+      sendFrom: sendFrom ?? this.sendFrom,
       fiatAmount: fiatAmount ?? this.fiatAmount,
       ratesState: ratesState ?? this.ratesState,
       availableBalance: availableBalance ?? this.availableBalance,
@@ -85,10 +90,11 @@ class SendEnterDataState extends Equatable {
     );
   }
 
-  factory SendEnterDataState.initial(ProfileModel memberModel, RatesState ratesState) {
+  factory SendEnterDataState.initial(Map<String, ProfileModel> memberModels, RatesState ratesState,) {
     return SendEnterDataState(
       pageState: PageState.initial,
-      sendTo: memberModel,
+      sendTo: memberModels["to"]!,
+      sendFrom: memberModels["from"],
       ratesState: ratesState,
       isNextButtonEnabled: false,
       tokenAmount: TokenDataModel(0, token: settingsStorage.selectedToken),

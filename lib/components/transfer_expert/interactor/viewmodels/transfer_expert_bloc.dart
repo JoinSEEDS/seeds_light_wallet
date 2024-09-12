@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/transfer_expert/interactor/mappers/transfer_expert_state_mapper.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
 
@@ -21,6 +22,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       : super(TransferExpertState.initial(noShowUsers, filterByCitizenshipStatus)) {
     on<OnSearchChange>(_onSearchChange, transformer: _transformEvents);
     on<ClearIconTapped>(_clearIconTapped);
+    on<OnDeliveryTokenChange>(_onDeliveryTokenChange);
   }
 
   /// Debounce to avoid making search network calls each time the user types
@@ -46,6 +48,11 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     ));
   }
 
+  void _onDeliveryTokenChange(OnDeliveryTokenChange event, Emitter<TransferExpertState> emit) {
+    emit(state.copyWith(
+
+    ));
+  }  
   void _clearIconTapped(ClearIconTapped event, Emitter<TransferExpertState> emit) {
     emit(TransferExpertState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus));
   }

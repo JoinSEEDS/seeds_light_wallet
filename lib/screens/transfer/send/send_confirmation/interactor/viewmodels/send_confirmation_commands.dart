@@ -38,3 +38,9 @@ class ShowFailedTransactionReason extends TransactionPageCommand {
   final String details;
   ShowFailedTransactionReason({required this.title, required this.details});
 }
+
+
+class RetryAsMsig extends TransactionPageCommand {
+  RetryAsMsig();
+}
+

@@ -11,25 +11,40 @@ import 'package:seeds/components/transfer_expert/token_select_field.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 
 class TransferExpert extends StatelessWidget {
 
   final String walletTokenId;
+  final BuildContext outerContext;
 
   const TransferExpert({
     super.key,
-    required this.walletTokenId
+    required this.walletTokenId,
+    required this.outerContext,
   });
 
-  void onNextButtonTapped() {
+  void onNextButtonTapped(BuildContext context) async {
     // navigate to basic or expert send_confirmation
     print("Send: Next button pressed");
+    final state = BlocProvider.of<TransferExpertBloc>(context).state;
+    if (state.deliveryToken == settingsStorage.selectedToken.id) {
+      print("proxy token transfer");
+      Map<String, ProfileModel> profiles = {};
+      profiles["to"] = (await ProfileRepository().getProfile(state.selectedAccounts["to"]!)).asValue?.value
+        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["to"]!);
+      profiles["from"] = (await ProfileRepository().getProfile(state.selectedAccounts["from"]!)).asValue?.value
+        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["from"]!);
+      NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles);
+    }
+    
   }
 
   ///void updateText(BuildContext context, String key, String text) {
@@ -67,7 +82,7 @@ class TransferExpert extends StatelessWidget {
               BlocBuilder<TransferExpertBloc, TransferExpertState>(
                 builder: (context, state) {
                   return SignerSelectField(
-                    enabled: true, // if user is valid
+                    enabled: state.validChainAccounts.contains("from"), // if user is valid
                     account: state.selectedAccounts["from"],
                   );
                 },
@@ -126,17 +141,19 @@ class TransferExpert extends StatelessWidget {
             },
           ),
           */
-          Align(
+          BlocBuilder<TransferExpertBloc, TransferExpertState>(
+            builder: (context, state) {
+            return Align(
             alignment: Alignment.bottomCenter,
             child: FlatButtonLong(
               title: context.loc.transferSendNextButtonTitle,
               enabled: true, //state.isNextButtonEnabled,
               onPressed: () {
-                onNextButtonTapped();
+                onNextButtonTapped(context);
               },
             ),
-          )
-
+          );
+            })
         ],
       ),
     );

@@ -1,6 +1,9 @@
 import 'dart:convert';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/crypto/dart_esr/src/models/transaction.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -21,6 +24,12 @@ class SendTransactionStateMapper extends StateMapper {
     bool shouldShowInAppReview,
   ) {
     if (result.isError) {
+      if ((result.asError!.error as String).contains('missing_auth_exception')
+        || (result.asError!.error as String).contains('unsatisfied_authorization')) {
+        return currentState.copyWith(
+          pageCommand: RetryAsMsig(),
+        );
+      }
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowFailedTransactionReason(

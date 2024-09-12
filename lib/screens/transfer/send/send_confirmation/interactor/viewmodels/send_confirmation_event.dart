@@ -22,3 +22,13 @@ class OnSendTransactionButtonPressed extends SendConfirmationEvent {
   @override
   String toString() => 'OnSendTransactionButtonPressed { rates: $rates }';
 }
+
+class OnAuthorizationFailure extends SendConfirmationEvent {
+  final RatesState rates;
+  final BuildContext context;
+
+  const OnAuthorizationFailure(this.rates, {required this.context});
+
+  @override
+  String toString() => 'OnAuthorizationFailure { rates: $rates }';
+}

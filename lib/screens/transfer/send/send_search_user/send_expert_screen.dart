@@ -43,6 +43,7 @@ class SendExpertScreen extends StatelessWidget {
       ),
       body: TransferExpert(
         walletTokenId: settingsStorage.selectedToken.id,
+        outerContext: context,
       ),
     );
   }
