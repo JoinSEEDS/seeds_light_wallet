@@ -57,6 +57,7 @@ import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.
 import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/new_auth_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_expert_screen.dart';
@@ -122,6 +123,7 @@ class Routes {
   static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
   static const editRegionEventImage = 'editRegionEventImage';
   static const newAuthAccount = 'newAuthAccount';
+  static const sendAbroad = 'sendAbroad';
 }
 
 class NavigationService {
@@ -186,6 +188,7 @@ class NavigationService {
     Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),
     Routes.editRegionEventImage: (_) => const EditRegionEventImage(),
     Routes.newAuthAccount: (_) => const NewAuthScreen(),
+    Routes.sendAbroad: (_) => const SwapEnterDataScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too

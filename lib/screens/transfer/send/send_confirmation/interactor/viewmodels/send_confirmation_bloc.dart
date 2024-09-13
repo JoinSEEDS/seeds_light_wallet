@@ -74,34 +74,24 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
   }
   
   Future<void> _onAuthorizationFailure(OnAuthorizationFailure event, Emitter<SendConfirmationState> emit) async {
-    
-
-      final msigAction = EOSAction.fromESRAction(
-        (await
-        MsigProposal.msigProposalAction(
-          actions: state.transaction.actions.map((e) =>
-            esr.Action()
-            ..account = e.account
-            ..name = e.name
-            ..data=e.data
-            ..authorization = e.authorization?.map((e) => 
-              esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()
-          ).toList(),
-          auth: state.transaction.actions[0].authorization!.map((e) => 
-              esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList(),
-          proposer: settingsStorage.accountName,
-          proposalName: 'testprop${Random().nextInt(5)+1}',
-        ))!
-        
-      );
+    final msigAction = EOSAction.fromESRAction(
+      (await
+      MsigProposal.msigProposalAction(
+        actions: state.transaction.actions.map((e) =>
+          esr.Action()
+          ..account = e.account
+          ..name = e.name
+          ..data=e.data
+          ..authorization = e.authorization?.map((e) => 
+            esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()
+        ).toList(),
+        auth: state.transaction.actions[0].authorization!.map((e) => 
+            esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList(),
+        proposer: settingsStorage.accountName,
+        proposalName: 'testprop${Random().nextInt(5)+1}',
+      ))!
+    );
     final msigTransaction = EOSTransaction([ msigAction ]);
     emit(state.copyWith(pageState: PageState.success, transaction: msigTransaction));
-    //final args = SendConfirmationArguments(transaction: msigTransaction);
-    //final result = (await NavigationService.of(event.context).navigateTo(Routes.sendConfirmation, args, true)).toString();
- /*
-    final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
-    final bool shouldShowInAppReview = await inAppReview.isAvailable();
-    emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
-*/
   }
 }

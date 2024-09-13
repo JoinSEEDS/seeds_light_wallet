@@ -76,6 +76,14 @@ class SendConfirmationScreen extends StatelessWidget {
                             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                             BlocProvider.of<SendConfirmationBloc>(context).add(OnSendTransactionButtonPressed(rates));
                           },
+                          bottomButtonText: (pageCommand.failureClass == "canMsig") ?
+                            "Retry as Msig Proposal" : null,
+                          onBottomButtonPressed: (pageCommand.failureClass == "canMsig") ?
+                            () {
+                              final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                              BlocProvider.of<SendConfirmationBloc>(context).add(OnAuthorizationFailure(rates));
+                              Navigator.of(context).pop();
+                            } : null,
                         ).show(context);
                       } else if (pageCommand is RetryAsMsig) {
                         final RatesState rates = BlocProvider.of<RatesBloc>(context).state;

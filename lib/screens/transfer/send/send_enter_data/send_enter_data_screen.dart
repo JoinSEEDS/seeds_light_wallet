@@ -5,12 +5,17 @@ import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/alert_input_value.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
 import 'package:seeds/components/balance_row.dart';
+import 'package:seeds/components/error_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/datasource/local/models/eos_action.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
@@ -20,6 +25,7 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/viewmodels/switch_account_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
@@ -47,7 +53,38 @@ class SendEnterDataScreen extends StatelessWidget {
           final PageCommand? command = state.pageCommand;
           BlocProvider.of<SendEnterDataBloc>(context).add(const ClearSendEnterDataPageCommand());
 
-          if (command is NavigateToSendConfirmation) {
+          if (command is ShowFailedTransactionReason) {
+            ErrorDialog(
+              title: command.title,
+              details: command.details,
+              onRightButtonPressed: () {
+                final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                BlocProvider.of<SendEnterDataBloc>(context).add(OnSendButtonTapped());
+              },
+              bottomButtonText: (command.failureClass == "canMsig") ?
+                "Retry as Msig Proposal" : null,
+              onBottomButtonPressed: (command.failureClass == "canMsig") ?
+                () async {
+                  final transaction = SendEnterDataBloc.buildTransferTransaction(state);
+                  final args = SendConfirmationArguments(
+                    transaction: EOSTransaction( [
+                      EOSAction.fromESRAction(
+                         (await MsigProposal.msigProposalAction(
+                      actions: transaction.actions!.map((e) => e!,).toList(),
+                      auth: transaction.actions![0]!.authorization!.map((e) => 
+                        esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList(),
+                      proposer: settingsStorage.accountName,
+                      proposalName: 'bogus')
+                      )!
+                    )
+                    ]
+                    )
+                  );
+                  NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, true);
+                  //Navigator.of(context).pop();
+                } : null,
+            ).show(context);
+          } else if (command is NavigateToSendConfirmation) {
             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
             //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
             NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true);
@@ -113,6 +150,25 @@ class SendEnterDataScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              if (memberModels["from"]?.account != settingsStorage.accountName) 
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        //ctxt.loc.transferSendSendTo,
+                                        "Send From",
+                                        style: Theme.of(ctxt).textTheme.subtitle1,
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 8),
+                                    SearchResultRow(member: memberModels["from"]!),
+                                    const SizedBox(height: 16),
+                                  ]
+                                ),
+                               
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(

@@ -18,7 +18,7 @@ class TokenSelectField extends StatefulWidget {
 
 class _TokenSelectFieldState extends State<TokenSelectField> {
   List<String> tokenIds = TokenModel.allTokens.map((t)=>t.id).toList();
-  String selectedId = settingsStorage.selectedToken.id;
+  late String selectedId;
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
@@ -31,13 +31,22 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    selectedId = settingsStorage.selectedToken.id;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return BlocBuilder<TransferExpertBloc, TransferExpertState>(
+    builder: (context, state) {
     return PopupMenuButton(
     offset: const Offset(0, 40),
     elevation: 2,
     onSelected: (String s) {
+      context.read<TransferExpertBloc>().add(OnDeliveryTokenChange(tokenId: s));
       setState(() {
-        selectedId = s;
+        selectedId = s;   
       });
    },
     itemBuilder: (context) => tokenIds.sorted((a, b) => 
@@ -73,6 +82,8 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
         const SizedBox(width: 8),
       ]
     )
+    );
+    }
     );
   }
 }

@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/crypto/dart_esr/src/models/authorization.dart' as esr;
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart/src/models/action.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
@@ -36,19 +37,25 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
     on<ClearSendEnterDataPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  static EOSTransaction BuildTransferTransaction(SendEnterDataState state) {
+  static esr.Transaction  buildTransferTransaction(SendEnterDataState state) {
       final from = state.sendFrom?.account ?? settingsStorage.accountName;
-      return EOSTransaction.fromAction(
-        account: settingsStorage.selectedToken.contract,
-        actionName: transferAction,
-        data: {
-          'from': from,
-          'to': state.sendTo.account,
-          'quantity': TokenModel.getAssetString(state.tokenAmount.id, state.tokenAmount.amount),
-          'memo': state.memo,
-        },
-      )
-      ..actions[0].authorization = [ Authorization() ..actor = from ..permission = "active" ];
+      return esr.Transaction()
+        ..actions = [
+          esr.Action()
+            ..account = settingsStorage.selectedToken.contract
+            ..name = transferAction
+            ..data = {
+              'from': from,
+              'to': state.sendTo.account,
+              'quantity': TokenModel.getAssetString(state.tokenAmount.id, state.tokenAmount.amount),
+              'memo': state.memo,
+            }
+            ..authorization = [
+              esr.Authorization()
+                ..actor = from
+                ..permission = "active"
+            ]
+        ];
   }
 
   Future<void> _initSendDataArguments(InitSendDataArguments event, Emitter<SendEnterDataState> emit) async {
@@ -93,7 +100,8 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
         },
       ),
       */
-      BuildTransferTransaction(state),
+      EOSTransaction.fromESRActionsList( 
+        buildTransferTransaction(state).actions!.map((e) => e!).toList()),
       null,
     );
     final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();

@@ -15,10 +15,11 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 
 class SendTransactionMapper extends StateMapper {
   SendEnterDataState mapResultToState(SendEnterDataState currentState, Result result, bool shouldShowInAppReview) {
+    String failureClass = '';
     if (result.isError) {
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-
+/*
         final args = SendConfirmationArguments(
           transaction: SendEnterDataBloc.BuildTransferTransaction(currentState),
         );
@@ -26,11 +27,24 @@ class SendTransactionMapper extends StateMapper {
           pageCommand: NavigateToSendConfirmation(args),
           retryMsig: true,
         );
+*/
+      failureClass = "canMsig";
       }
+
+       return currentState.copyWith(
+        pageState: PageState.success,
+        pageCommand: ShowFailedTransactionReason(
+          title: 'Error Sending Transaction',
+          details: '${result.asError!.error}'.userErrorMessage,
+          failureClass: failureClass,
+        ),
+      );
+ /*
       return currentState.copyWith(
         pageState: PageState.failure,
         errorMessage: result.asError!.error.toString(),
         retryMsig: false);
+*/
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 

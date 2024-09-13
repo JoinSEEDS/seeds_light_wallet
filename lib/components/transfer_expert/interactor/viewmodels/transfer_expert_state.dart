@@ -10,6 +10,7 @@ class TransferExpertState extends Equatable {
   final List<String>? authorizedAccounts;
   final Map<String, String?> selectedAccounts;
   final List<String> validChainAccounts;
+  final String sendingToken;
   final String deliveryToken;
 
   const TransferExpertState({
@@ -22,6 +23,7 @@ class TransferExpertState extends Equatable {
     this.authorizedAccounts,
     required this.selectedAccounts,
     required this.validChainAccounts,
+    required this.sendingToken,
     required this.deliveryToken,
   });
 
@@ -35,6 +37,7 @@ class TransferExpertState extends Equatable {
         showOnlyCitizenshipStatus,
         authorizedAccounts,
         selectedAccounts,
+        sendingToken,
         deliveryToken,
       ];
 
@@ -48,6 +51,7 @@ class TransferExpertState extends Equatable {
     List<String>? authorizedAccounts,
     Map<String, String?>? selectedAccounts,
     List<String>? validChainAccounts,
+    String? sendingToken,
     String? deliveryToken,
   }) {
     return TransferExpertState(
@@ -60,6 +64,7 @@ class TransferExpertState extends Equatable {
       authorizedAccounts: authorizedAccounts ?? this.authorizedAccounts,
       selectedAccounts: selectedAccounts ?? this.selectedAccounts,
       validChainAccounts: validChainAccounts ?? this.validChainAccounts,
+      sendingToken: sendingToken ?? this.sendingToken,
       deliveryToken: deliveryToken ?? this.deliveryToken,
     );
   }
@@ -74,7 +79,8 @@ class TransferExpertState extends Equatable {
       authorizedAccounts: [],
       selectedAccounts: {},
       validChainAccounts: [],
-      deliveryToken: settingsStorage.selectedToken.id
+      sendingToken: settingsStorage.selectedToken.id,
+      deliveryToken: settingsStorage.selectedToken.id,
     );
   }
 }

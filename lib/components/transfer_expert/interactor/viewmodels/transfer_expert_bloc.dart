@@ -49,10 +49,9 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
   }
 
   void _onDeliveryTokenChange(OnDeliveryTokenChange event, Emitter<TransferExpertState> emit) {
-    emit(state.copyWith(
-
-    ));
+    emit(state.copyWith(deliveryToken: event.tokenId));
   }  
+  
   void _clearIconTapped(ClearIconTapped event, Emitter<TransferExpertState> emit) {
     emit(TransferExpertState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus));
   }

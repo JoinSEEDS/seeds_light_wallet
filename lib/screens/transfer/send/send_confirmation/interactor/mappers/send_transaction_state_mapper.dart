@@ -24,17 +24,17 @@ class SendTransactionStateMapper extends StateMapper {
     bool shouldShowInAppReview,
   ) {
     if (result.isError) {
+      String failureClass = '';
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-        return currentState.copyWith(
-          pageCommand: RetryAsMsig(),
-        );
+        failureClass = "canMsig";
       }
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowFailedTransactionReason(
           title: 'Error Sending Transaction',
           details: '${result.asError!.error}'.userErrorMessage,
+          failureClass: failureClass,
         ),
         transactionResult: TransactionResult(
           status: TransactionResultStatus.failure,

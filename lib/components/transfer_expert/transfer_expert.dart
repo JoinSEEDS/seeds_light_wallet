@@ -43,13 +43,13 @@ class TransferExpert extends StatelessWidget {
       profiles["from"] = (await ProfileRepository().getProfile(state.selectedAccounts["from"]!)).asValue?.value
         ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["from"]!);
       NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles);
+    } else {
+      // swap mode
+      NavigationService.of(context).navigateTo(Routes.sendAbroad);
     }
     
   }
 
-  ///void updateText(BuildContext context, String key, String text) {
-  //  BlocProvider.of<TransferExpertBloc>(context).add(OnSearchChange(searchQuery: text.toLowerCase(), accountKey: key));
-  //}
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,10 @@ class TransferExpert extends StatelessWidget {
               children: [
                 Text("Sending"),
                 const SizedBox(width: 8),
-                Text('${walletTokenId.split("#")[2]} (${walletTokenId.split("#")[1]})'),
+                BlocBuilder<TransferExpertBloc, TransferExpertState>(
+                  builder: (context, state) => 
+                   Text('${state.sendingToken.split("#")[2]} (${state.sendingToken.split("#")[1]})'),
+                ),
                 const SizedBox(width: 8),
                 Text("from"),
               ])
@@ -147,7 +150,8 @@ class TransferExpert extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: FlatButtonLong(
               title: context.loc.transferSendNextButtonTitle,
-              enabled: true, //state.isNextButtonEnabled,
+              enabled: state.validChainAccounts.contains("to")
+                && state.validChainAccounts.contains("from"),
               onPressed: () {
                 onNextButtonTapped(context);
               },
