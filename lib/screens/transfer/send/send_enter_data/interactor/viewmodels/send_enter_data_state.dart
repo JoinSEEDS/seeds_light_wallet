@@ -16,6 +16,7 @@ class SendEnterDataState extends Equatable {
   final bool shouldAutoFocusEnterField;
   final bool showAlert;
   final bool showSendingAnimation;
+  final bool? retryMsig;
 
   const SendEnterDataState({
     required this.pageState,
@@ -33,6 +34,7 @@ class SendEnterDataState extends Equatable {
     required this.shouldAutoFocusEnterField,
     required this.showAlert,
     required this.showSendingAnimation,
+    this.retryMsig,
   });
 
   @override
@@ -52,6 +54,7 @@ class SendEnterDataState extends Equatable {
         shouldAutoFocusEnterField,
         showAlert,
         showSendingAnimation,
+        retryMsig,
       ];
 
   SendEnterDataState copyWith({
@@ -70,6 +73,7 @@ class SendEnterDataState extends Equatable {
     bool? shouldAutoFocusEnterField,
     bool? showAlert,
     bool? showSendingAnimation,
+    bool? retryMsig,
   }) {
     return SendEnterDataState(
       pageState: pageState ?? this.pageState,
@@ -87,6 +91,7 @@ class SendEnterDataState extends Equatable {
       shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField,
       showAlert: showAlert ?? this.showAlert,
       showSendingAnimation: showSendingAnimation ?? this.showSendingAnimation,
+      retryMsig: retryMsig ?? this.retryMsig,
     );
   }
 
@@ -102,6 +107,7 @@ class SendEnterDataState extends Equatable {
       shouldAutoFocusEnterField: true,
       showAlert: false,
       showSendingAnimation: false,
+      retryMsig: false,
     );
   }
 }

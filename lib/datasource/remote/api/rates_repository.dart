@@ -9,17 +9,18 @@ import 'package:seeds/datasource/remote/model/rate_model.dart';
 class RatesRepository extends HttpRepository {
   Future<Result<FiatRateModel>> getFiatRates() {
     print("[http] get fiat rates");
-
+    final about = "fiat rates from api-payment.hypha.earth api";
     return http
         .get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=$fxApiKey"))
         .then((http.Response response) => mapHttpResponse<FiatRateModel>(response, (Map<String, dynamic> body) {
               return FiatRateModel.fromJson(body);
             }))
-        .catchError((error) => mapHttpError(error));
+        .catchError((error) => mapHttpError(error, about: about));
   }
 
   Future<Result<RateModel>> getSeedsRate() async {
     print('[http] get seeds rate USD');
+    final about = "SEEDS rate from tlosto.seeds contract";
 
     final request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
@@ -28,11 +29,12 @@ class RatesRepository extends HttpRepository {
         .then((http.Response response) => mapHttpResponse<RateModel>(response, (Map<String, dynamic> body) {
               return RateModel.fromSeedsJson(body);
             }))
-        .catchError((error) => mapHttpError(error));
+        .catchError((error) => mapHttpError(error, about: about));
   }
 
   Future<Result<RateModel>> getTelosRate() async {
     print('[http] get telos rate USD');
+    final about = "TLOS rate from ${SeedsCode.accountdelphioracle} constract";
 
     final params = createRequest(
       code: SeedsCode.accountdelphioracle,

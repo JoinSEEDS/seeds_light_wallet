@@ -21,13 +21,16 @@ class SendTransactionMapper extends StateMapper {
 
         final args = SendConfirmationArguments(
           transaction: SendEnterDataBloc.BuildTransferTransaction(currentState),
-          pageCommand: RetryAsMsig(),
         );
         return currentState.copyWith(
           pageCommand: NavigateToSendConfirmation(args),
+          retryMsig: true,
         );
       }
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: result.asError!.error.toString(),
+        retryMsig: false);
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
@@ -48,7 +51,11 @@ class SendTransactionMapper extends StateMapper {
       if (resultResponse.isTransfer) {
         eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
       }
-      return currentState.copyWith(pageState: PageState.success, pageCommand: pageCommand);
+      return currentState.copyWith(
+        pageState: PageState.success,
+        pageCommand: pageCommand,
+        retryMsig: false,
+      );
     }
   }
 }

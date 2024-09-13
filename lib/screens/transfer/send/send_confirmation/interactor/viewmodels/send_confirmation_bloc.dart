@@ -58,7 +58,8 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
         precision: 4,
         usecases: [],
       );
-      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(targetToken);
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase()
+        .run(targetToken, account: eosAction.data?['from'] as String);
       emit(InitialValidationStateMapper().mapResultToState(state, result));
     } else {
       emit(state.copyWith(pageState: PageState.success));
@@ -95,8 +96,8 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
       );
     final msigTransaction = EOSTransaction([ msigAction ]);
     emit(state.copyWith(pageState: PageState.success, transaction: msigTransaction));
-    final args = SendConfirmationArguments(transaction: msigTransaction);
-    final result = (await NavigationService.of(event.context).navigateTo(Routes.sendConfirmation, args, true)).toString();
+    //final args = SendConfirmationArguments(transaction: msigTransaction);
+    //final result = (await NavigationService.of(event.context).navigateTo(Routes.sendConfirmation, args, true)).toString();
  /*
     final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
     final bool shouldShowInAppReview = await inAppReview.isAvailable();

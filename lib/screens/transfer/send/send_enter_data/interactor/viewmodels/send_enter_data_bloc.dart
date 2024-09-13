@@ -53,7 +53,8 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
 
   Future<void> _initSendDataArguments(InitSendDataArguments event, Emitter<SendEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: false));
-    final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+    final Result<BalanceModel> result = await GetAvailableBalanceUseCase()
+      .run(settingsStorage.selectedToken, account: state.sendFrom?.account);
     emit(SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, 0.toString()));
   }
 

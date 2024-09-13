@@ -54,7 +54,6 @@ class SendConfirmationState extends Equatable {
   factory SendConfirmationState.initial(SendConfirmationArguments arguments) {
     return SendConfirmationState(
       pageState: PageState.initial,
-      pageCommand: arguments.pageCommand,
       transaction: arguments.transaction,
       transactionResult: const TransactionResult(),
       invalidTransaction: InvalidTransaction.none,

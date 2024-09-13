@@ -8,9 +8,9 @@ class GetAvailableBalanceUseCase extends InputUseCase<BalanceModel, TokenModel> 
   final BalanceRepository _balanceRepository = BalanceRepository();
 
   @override
-  Future<Result<BalanceModel>> run(TokenModel input) {
+  Future<Result<BalanceModel>> run(TokenModel input, {String? account}) {
     return _balanceRepository.getTokenBalance(
-      settingsStorage.accountName,
+      account ?? settingsStorage.accountName,
       tokenContract: input.contract,
       symbol: input.symbol,
     );
