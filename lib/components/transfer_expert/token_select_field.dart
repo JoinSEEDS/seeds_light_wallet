@@ -41,7 +41,7 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
       });
    },
     itemBuilder: (context) => tokenIds.sorted((a, b) => 
-                  a.split('#')[1].compareTo(b.split("#")[1]))
+                  a.split('#')[2].compareTo(b.split("#")[2]))
                     .map<PopupMenuEntry<String>>(
                       (c) => PopupMenuItem<String>(
                         value: c,
@@ -53,7 +53,7 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: Text('${c.split("#")[1]} (${c.split("#")[0]})',
+                                child: Text('${c.split("#")[2]} (${c.split("#")[1]})',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -67,7 +67,7 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
     child: Row (
       children: [
         const SizedBox(width: 8),
-        Text('${selectedId.split("#")[1]} (${selectedId.split("#")[0]})'),
+        Text('${selectedId.split("#")[2]} (${selectedId.split("#")[1]})'),
         const SizedBox(width: 8),
         Icon(Icons.arrow_drop_down),
         const SizedBox(width: 8),

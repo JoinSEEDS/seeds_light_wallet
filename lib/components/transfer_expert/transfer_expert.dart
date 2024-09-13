@@ -65,7 +65,7 @@ class TransferExpert extends StatelessWidget {
               children: [
                 Text("Sending"),
                 const SizedBox(width: 8),
-                Text('${walletTokenId.split("#")[1]} (${walletTokenId.split("#")[0]})'),
+                Text('${walletTokenId.split("#")[2]} (${walletTokenId.split("#")[1]})'),
                 const SizedBox(width: 8),
                 Text("from"),
               ])
