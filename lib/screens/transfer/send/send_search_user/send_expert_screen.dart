@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/components/search_user/search_user.dart';
+import 'package:seeds/components/transfer_expert/transfer_expert.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
-class SendSearchUserScreen extends StatelessWidget {
-  const SendSearchUserScreen({super.key});
+class SendExpertScreen extends StatelessWidget {
+  const SendExpertScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +28,11 @@ class SendSearchUserScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 12)
                 ))
              ],
-              selected: Set.from(['basic']),
+              selected: Set.from(['expert']),
               style: const ButtonStyle(
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity(vertical: -3) ),
-              onSelectionChanged: (s) {
-                print('select ${s}');
-                NavigationService.of(context).navigateTo(Routes.transferExpert, null, true);
-              }
+              onSelectionChanged: (s) => NavigationService.of(context).navigateTo(Routes.transfer, null, true)
           ),
           IconButton(
             icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg', height: 30),
@@ -43,13 +41,10 @@ class SendSearchUserScreen extends StatelessWidget {
           const SizedBox(width: 10)
         ],
       ),
-      body: SearchUser(
-        noShowUsers: [settingsStorage.accountName],
-        onUserSelected: (selectedUser) {
-          print('SendSearchUserScreen - onUserSelected: ${selectedUser.account}');
-          NavigationService.of(context).navigateTo(Routes.sendEnterData, {"to": selectedUser});
-        },
+      body: TransferExpert(
+        walletTokenId: settingsStorage.selectedToken.id,
+        outerContext: context,
       ),
     );
-  } 
+  }
 }

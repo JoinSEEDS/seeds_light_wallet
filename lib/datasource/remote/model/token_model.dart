@@ -15,7 +15,7 @@ class TokenModel extends Equatable {
   static const seedsEcosysUsecase = 'seedsecosys';
   static List<TokenModel> allTokens = [seedsToken];
   static JsonSchema? tmastrSchema;
-  static Map<String, int?> contractPrecisions = {"token.seeds#SEEDS": 4};
+  static Map<String, int?> contractPrecisions = {"Telos#token.seeds#SEEDS": 4};
   final String chainName;
   final String contract;
   final String symbol;
@@ -27,7 +27,7 @@ class TokenModel extends Equatable {
   final int precision;
   final List<String>? usecases;
 
-  String get id => "$contract#$symbol";
+  String get id => "$chainName#$contract#$symbol"; // check migration
 
   ImageProvider get backgroundImage {
     try {

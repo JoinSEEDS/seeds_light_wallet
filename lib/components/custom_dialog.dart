@@ -103,7 +103,7 @@ class CustomDialog extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && singleLargeButtonTitle.isNotEmpty)
+                  if (/*leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && */singleLargeButtonTitle.isNotEmpty)
                     Column(
                       children: [
                         const SizedBox(height: 30),
@@ -111,7 +111,8 @@ class CustomDialog extends StatelessWidget {
                           alignment: Alignment.bottomRight,
                           child: FlatButtonLong(
                             title: singleLargeButtonTitle,
-                            onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
+                            onPressed: 
+                              onSingleLargeButtonPressed ?? () => Navigator.pop(context),
                           ),
                         ),
                       ],

@@ -6,7 +6,8 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class SearchUserTextField extends StatefulWidget {
-  const SearchUserTextField({super.key});
+  final String? initialValue;
+  const SearchUserTextField({this.initialValue, super.key});
 
   @override
   _SearchUserTextFieldState createState() => _SearchUserTextFieldState();
@@ -27,6 +28,9 @@ class _SearchUserTextFieldState extends State<SearchUserTextField> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.initialValue != null) {
+      _controller.text = widget.initialValue!;
+    }
     return TextField(
       autofocus: true,
       autocorrect: false,

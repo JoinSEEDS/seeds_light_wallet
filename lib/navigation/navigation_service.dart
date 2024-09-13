@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,10 @@ import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.
 import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/screens/transfer/send/send_search_user/new_auth_screen.dart';
+import 'package:seeds/screens/transfer/send/send_search_user/send_expert_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
 /// Add only current routes in the app and that are used by [NavigationService]
@@ -74,6 +78,7 @@ class Routes {
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
   static const transfer = 'transfer';
+  static const transferExpert = 'transferExpert';
   static const sendEnterData = 'sendEnterData';
   static const delegate = 'delegate';
   static const delegateAUser = 'delegateAUser';
@@ -117,6 +122,8 @@ class Routes {
   static const editRegionEventLocation = 'editRegionEventLocation';
   static const editRegionEventTimeAndDate = 'editRegionEventTimeAndDate';
   static const editRegionEventImage = 'editRegionEventImage';
+  static const newAuthAccount = 'newAuthAccount';
+  static const sendAbroad = 'sendAbroad';
 }
 
 class NavigationService {
@@ -135,6 +142,7 @@ class NavigationService {
     Routes.signup: (_) => const SignupScreen(),
     Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
+    Routes.transferExpert: (_) => const SendExpertScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
@@ -179,6 +187,8 @@ class NavigationService {
     Routes.editRegionEventLocation: (_) => const EditRegionEventLocation(),
     Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),
     Routes.editRegionEventImage: (_) => const EditRegionEventImage(),
+    Routes.newAuthAccount: (_) => const NewAuthScreen(),
+    Routes.sendAbroad: (_) => const SwapEnterDataScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too
