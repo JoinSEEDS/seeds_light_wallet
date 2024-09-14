@@ -66,19 +66,29 @@ class SendEnterDataScreen extends StatelessWidget {
               onBottomButtonPressed: (command.failureClass == "canMsig") ?
                 () async {
                   final transaction = SendEnterDataBloc.buildTransferTransaction(state);
-                  final args = SendConfirmationArguments(
-                    transaction: EOSTransaction( [
-                      EOSAction.fromESRAction(
-                         (await MsigProposal.msigProposalAction(
+                  final auth = transaction.actions?[0]!.authorization?.map((e) => 
+                        esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList();
+                  if (auth == null || auth.length == 0) {
+                    Navigator.pop(context);
+                    return;
+                  } 
+                  final msigESRAction =         
+                    (await MsigProposal.msigProposalAction(
                       actions: transaction.actions!.map((e) => e!,).toList(),
                       auth: transaction.actions![0]!.authorization!.map((e) => 
                         esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList(),
                       proposer: settingsStorage.accountName,
-                      proposalName: 'bogus')
-                      )!
-                    )
-                    ]
-                    )
+                      proposalName: 'seeds${MsigProposal.RandomName(length: 5)}'
+                      )
+                    );
+                  if (msigESRAction == null) {
+                    Navigator.pop(context);
+                    return;
+                  }
+                  final args = SendConfirmationArguments(
+                    transaction: EOSTransaction( [
+                      EOSAction.fromESRAction(msigESRAction!)
+                    ] )
                   );
                   NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, true);
                   //Navigator.of(context).pop();

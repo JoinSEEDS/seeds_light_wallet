@@ -26,7 +26,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
   static const String addAccountLabel = "add account";
   static const String updatePermissionsLabel = "update now";
   final EOSAccountRepository _accountRepository = EOSAccountRepository();
-  List<String> authAccounts = [];
+  List< String> authAccounts = [];
   String selectedId = settingsStorage.selectedToken.id;
   String? fromAccount;
 
@@ -46,7 +46,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
       print("navigate to new auth account entry screen");
       final result = await NavigationService.of(context).navigateTo(Routes.newAuthAccount, null, false) as String?;
       if (result != null) {
-        authAccounts += [result];
+        authAccounts += [result+'@active@1'];
       }
     } else if (s == updatePermissionsLabel && fromAccount != null) {
       // build transaction and navigate to confirmation screen
@@ -54,8 +54,11 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
       final oldRequiredAuth = account_info.permissions.permissions
         .firstWhere((p) => p.perm_name == "active" && p.parent == "owner").required_auth;
       List<EOSAccountAuth> newAccountAuths = authAccounts.map((account) => EOSAccountAuth(
-        permission: EOSAccountAuthPermission(actor: account, permission: "active"),
-        weight: 1)).toList();
+        permission: EOSAccountAuthPermission(
+          actor: account.split('@')[0],
+          permission:account.split('@')[1]
+        ),
+        weight: int.parse(account.split('@')[2]))).toList();
       final newRequiredAuth = oldRequiredAuth.copyWith(accounts: newAccountAuths);
 
       final updateAuthTrx = EOSTransaction.fromAction(
@@ -89,7 +92,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
         _accountRepository.getEOSAccount(fromAccount!).then((result) {
           authAccounts = result.asValue!.value.permissions.permissions
             .firstWhere((p) => p.perm_name == "active" && p.parent == "owner")
-            .required_auth.accounts.map((e) => e.permission.actor).toList();
+            .required_auth.accounts.map((e) => 
+              '${e.permission.actor}@${e.permission.permission}@${e.weight}').toList();
         }).catchError( (e) { print('signerselect $e'); } );
         print('From ${state.selectedAccounts["from"]}');
       },
@@ -100,7 +104,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
     onSelected: (String s) {
       handleAuthSelect(s, fromAccount);
     },
-    itemBuilder: (context) => (authAccounts
+    itemBuilder: (context) => (authAccounts.where((element) => element.split('@')[1]=="active")
                   .sorted((a, b) => a.compareTo(b)) + [addAccountLabel, updatePermissionsLabel])
                     .map<PopupMenuEntry<String>>(
                       (c) => PopupMenuItem<String>(
@@ -113,7 +117,7 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: Text(c,
+                                child: Text(c.split('@')[0],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

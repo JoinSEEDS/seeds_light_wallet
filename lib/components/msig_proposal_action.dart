@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/crypto/dart_esr/src/models/authorization.dart';
@@ -11,49 +12,60 @@ import 'package:seeds/utils/result_extension.dart';
 
 
 class MsigProposal {
+
+  static FutureOr<List<Map<String, String>>?> signingAccounts(
+    {required esr.Authorization? auth }) async {
+    if (auth == null) {
+      return null;
+    }
+    final _accountRepository = EOSAccountRepository();
+    final account_info = (await _accountRepository.getEOSAccount(auth!.actor!)).asValue!.value;
+    final requiredAuthAccounts = account_info.permissions.permissions
+      .firstWhere((p) => p.perm_name == auth!.permission!).required_auth.accounts
+      .where((a) => a.permission != "eosio.code");
+    if (requiredAuthAccounts.isEmpty) {
+      return null;
+    }
+  return requiredAuthAccounts.map((e) => { "actor": e.permission.actor, "permission": e.permission.permission}).toList();
+  }
+
   // note we only pay attention to the first auth entry
   static FutureOr<esr.Action?> msigProposalAction(
     {required List<esr.Action> actions, required List<esr.Authorization?> auth, required String proposer, required String proposalName, int version = 2}) async {
-        final _accountRepository = EOSAccountRepository();
-        final account_info = (await _accountRepository.getEOSAccount(auth[0]!.actor!)).asValue!.value;
-        final requiredAuthAccounts = account_info.permissions.permissions
-          .firstWhere((p) => p.perm_name == auth[0]!.permission!).required_auth.accounts
-          .where((a) => a.permission != "eosio.code");
-        if (requiredAuthAccounts.isEmpty) {
-          return null;
-        }
-      final requested = requiredAuthAccounts.map((e) => { "actor": e.permission.actor, "permission": e.permission.permission}).toList();
-  
-        final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(actions: actions, chainId: chainId);
+       
+    final requested = await signingAccounts(auth: auth[0]);
+    if (requested == null) {
+      return null;
+    }
+    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(actions: actions, chainId: chainId);
 
-        var request = await esr.SigningRequestManager.create(args,
-            options: esr.defaultSigningRequestEncodingOptions(
-              nodeUrl: remoteConfigurations.defaultEndPointUrl,
-            ));
-
-        var ax = request.signingRequest.req![1] as Map<String, dynamic>;
-        var trx = {
-          "expiration" : DateTime.now().add(Duration(days: 1)).toString(),
-          "ref_block_num" : 0,
-          "ref_block_prefix" : 0,
-          "context_free_actions" : [],
-          "transaction_extensions" : [],
-          "delay_sec" : 0,
-          "max_cpu_usage_ms" : 0,
-          "max_net_usage_words" : 0,
-          "actions" : [ ax ] // >1 actions?
-        };
-        return esr.Action()
-          ..account = "eosio.msig"
-          ..name = "propose"
-          ..data = {
-            "proposal_name": proposalName,
-            "proposer": proposer,
-            "requested": requested,
-            "trx": trx,
-          }
-          ..authorization = [esr.Authorization() ..actor = proposer ..permission =  "active"]
-        ;
+    var request = await esr.SigningRequestManager.create(args,
+        options: esr.defaultSigningRequestEncodingOptions(
+          nodeUrl: remoteConfigurations.defaultEndPointUrl,
+        ));
+    var ax = request.signingRequest.req![1] as Map<String, dynamic>;
+    var trx = {
+      "expiration" : DateTime.now().add(Duration(days: 1)).toString(),
+      "ref_block_num" : 0,
+      "ref_block_prefix" : 0,
+      "context_free_actions" : [],
+      "transaction_extensions" : [],
+      "delay_sec" : 0,
+      "max_cpu_usage_ms" : 0,
+      "max_net_usage_words" : 0,
+      "actions" : [ ax ] // >1 actions?
+    };
+    return esr.Action()
+      ..account = "eosio.msig"
+      ..name = "propose"
+      ..data = {
+        "proposal_name": proposalName,
+        "proposer": proposer,
+        "requested": requested,
+        "trx": trx,
+      }
+      ..authorization = [esr.Authorization() ..actor = proposer ..permission =  "active"]
+    ;
   }
 
   static FutureOr<bool> IsMsigCandidate(String errorString, eos.Transaction transaction) async {
@@ -64,5 +76,14 @@ class MsigProposal {
     // TODO check that the threshold is greater than 1 and 
     // that there are at least two "account" type auths (excluding eosio.code's)
     return true;
+  }
+
+  static String RandomName({required int length}) {
+    const validChars = 'abcdefghijklmnopqrstuvwxyz12345';
+    String rv = '';
+    for (var i = 0; i < length; i++) { 
+      rv += validChars[Random().nextInt(validChars.length)];
+    }
+    return rv;
   }
 }

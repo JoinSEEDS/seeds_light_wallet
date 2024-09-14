@@ -19,32 +19,25 @@ class SendTransactionMapper extends StateMapper {
     if (result.isError) {
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-/*
-        final args = SendConfirmationArguments(
-          transaction: SendEnterDataBloc.BuildTransferTransaction(currentState),
-        );
-        return currentState.copyWith(
-          pageCommand: NavigateToSendConfirmation(args),
-          retryMsig: true,
-        );
-*/
-      failureClass = "canMsig";
+        // we want to check whether auth acct for first action has signers  
+        // however this takes an async chain lookup     
+        /*
+        final transaction = SendEnterDataBloc.buildTransferTransaction(currentState);
+        final auth = transaction.actions?[0]?.authorization?.map((e) => 
+                          esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
+        if (auth != null && MsigProposal.signingAccounts(auth: auth!) != null) {
+        */
+          failureClass = "canMsig";
+        //}
       }
-
-       return currentState.copyWith(
+      return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowFailedTransactionReason(
           title: 'Error Sending Transaction',
           details: '${result.asError!.error}'.userErrorMessage,
           failureClass: failureClass,
         ),
-      );
- /*
-      return currentState.copyWith(
-        pageState: PageState.failure,
-        errorMessage: result.asError!.error.toString(),
-        retryMsig: false);
-*/
+       );
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/msig_proposal_action.dart';
-import 'package:seeds/crypto/dart_esr/src/models/transaction.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
@@ -27,7 +27,15 @@ class SendTransactionStateMapper extends StateMapper {
       String failureClass = '';
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-        failureClass = "canMsig";
+        // we want to check whether auth acct for first action has signers  
+        // however this takes an async chain lookup     
+        /*
+        final auth = currentState.transaction.actions?[0]?.authorization?.map((e) => 
+                          esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
+        if (auth != null && await MsigProposal.signingAccounts(auth: auth!) != null) {
+        */ 
+          failureClass = "canMsig";
+        //}
       }
       return currentState.copyWith(
         pageState: PageState.success,
