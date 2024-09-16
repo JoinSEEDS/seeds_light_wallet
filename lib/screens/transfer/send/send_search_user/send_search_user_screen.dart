@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/search_user/search_user.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
@@ -45,9 +46,10 @@ class SendSearchUserScreen extends StatelessWidget {
       ),
       body: SearchUser(
         noShowUsers: [settingsStorage.accountName],
-        onUserSelected: (selectedUser) {
+        onUserSelected: (selectedUser) async {
           print('SendSearchUserScreen - onUserSelected: ${selectedUser.account}');
-          NavigationService.of(context).navigateTo(Routes.sendEnterData, {"to": selectedUser});
+          final walletProfile = (await ProfileRepository().getProfile(settingsStorage.accountName)).asValue?.value;
+          NavigationService.of(context).navigateTo(Routes.sendEnterData, {"to": selectedUser!, "from": walletProfile!});
         },
       ),
     );

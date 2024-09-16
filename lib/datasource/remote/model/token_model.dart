@@ -27,7 +27,7 @@ class TokenModel extends Equatable {
   final int precision;
   final List<String>? usecases;
 
-  String get id => "$chainName#$contract#$symbol"; // check migration
+  String get id => "$chainName#$contract#$symbol"; 
 
   ImageProvider get backgroundImage {
     try {

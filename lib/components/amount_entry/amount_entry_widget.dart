@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
@@ -12,31 +13,51 @@ import 'package:seeds/domain-shared/user_input_number_formatter.dart';
 class AmountEntryWidget extends StatelessWidget {
   final TokenDataModel tokenDataModel;
   final ValueSetter<String> onValueChange;
+  final ValueSetter<bool>? onFocusChanged;
   final bool autoFocus;
+  final String? fieldName;
 
   const AmountEntryWidget({
     super.key,
     required this.tokenDataModel,
     required this.onValueChange,
+    this.onFocusChanged,
     required this.autoFocus,
+    this.fieldName,
   });
 
   @override
   Widget build(BuildContext context) {
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+    bool xfrBlocAvail = true;
+    try {
+      BlocProvider.of<TransferExpertBloc>(context);
+    } catch (e) {
+      xfrBlocAvail = false;
+    }
     return BlocProvider(
-      create: (_) => AmountEntryBloc(rates, tokenDataModel),
-      child: BlocListener<AmountEntryBloc, AmountEntryState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {
-          final pageCommand = state.pageCommand;
+      lazy: false,
+      create: (_) => AmountEntryBloc(rates, tokenDataModel, fieldName: fieldName,
+        transferBloc: xfrBlocAvail ? BlocProvider.of<TransferExpertBloc>(context) : null),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AmountEntryBloc, AmountEntryState>(
+            listenWhen: (_, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
+            listener: (context, state) { 
+              final pageCommand = state.pageCommand;
+              
+              if (pageCommand is SendTextInputDataBack) {
+                onValueChange(pageCommand.textToSend);
+              }
+              if (pageCommand is PushTextIntoField) {
 
-          if (pageCommand is SendTextInputDataBack) {
-            onValueChange(pageCommand.textToSend);
-          }
-
-          BlocProvider.of<AmountEntryBloc>(context).add(const ClearAmountEntryPageCommand());
-        },
+                // TODO  jam this text into editing field
+              }
+              BlocProvider.of<AmountEntryBloc>(context).add(const ClearAmountEntryPageCommand());
+            }
+          ),
+     
+        ],
         child: BlocBuilder<AmountEntryBloc, AmountEntryState>(
           builder: (BuildContext context, AmountEntryState state) {
             return Column(
@@ -45,7 +66,10 @@ class AmountEntryWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
+                      child:
+                      FocusScope(
                       child: TextFormField(
+                        initialValue: fieldName == "to" ? "2" : "3",
                         textAlign: TextAlign.end,
                         style: Theme.of(context).textTheme.headlineMedium,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -70,6 +94,10 @@ class AmountEntryWidget extends StatelessWidget {
                           )
                         ],
                       ),
+                      onFocusChange: (hasFocus) {
+                        onFocusChanged != null ?   onFocusChanged!(hasFocus) : null;
+                      },
+                      )
                     ),
                     const SizedBox(width: 4),
                     Expanded(

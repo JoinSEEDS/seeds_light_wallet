@@ -9,7 +9,7 @@ class SendAmountChangeMapper extends StateMapper {
   SendEnterDataState mapResultToState(SendEnterDataState currentState, RatesState rateState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
 
-    final tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+    final tokenAmount = TokenDataModel(parsedQuantity, token: currentState.tokenAmount.token);
     final selectedFiat = settingsStorage.selectedFiatCurrency;
     final fiatAmount = rateState.tokenToFiat(tokenAmount, selectedFiat);
     final toAccount = currentState.sendTo.account;

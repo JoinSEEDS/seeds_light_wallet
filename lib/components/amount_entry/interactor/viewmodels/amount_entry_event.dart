@@ -36,3 +36,12 @@ class OnCurrencySwitchButtonTapped extends AmountEntryEvent {
   @override
   String toString() => 'OnCurrencySwitchButtonTapped';
 }
+
+class OnPushAmount extends AmountEntryEvent {
+  final String amountChanged;
+
+  const OnPushAmount({required this.amountChanged});
+
+  @override
+  String toString() => 'OnPushAmount { OnPushAmount: $amountChanged }';
+}

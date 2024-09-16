@@ -45,7 +45,7 @@ class TransferExpert extends StatelessWidget {
       NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles);
     } else {
       // swap mode
-      NavigationService.of(context).navigateTo(Routes.sendAbroad);
+      NavigationService.of(context).navigateTo(Routes.sendAbroad, context);
     }
     
   }
@@ -56,6 +56,7 @@ class TransferExpert extends StatelessWidget {
     List<String> initialAuthAccounts = [];
     final EOSAccountRepository _accountRepository = EOSAccountRepository();
     return BlocProvider<TransferExpertBloc>(
+      lazy: false,
       create: (_) => TransferExpertBloc(null, null),
       child: Column(
         children: [

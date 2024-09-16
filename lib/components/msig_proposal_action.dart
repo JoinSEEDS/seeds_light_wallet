@@ -22,7 +22,7 @@ class MsigProposal {
     final account_info = (await _accountRepository.getEOSAccount(auth!.actor!)).asValue!.value;
     final requiredAuthAccounts = account_info.permissions.permissions
       .firstWhere((p) => p.perm_name == auth!.permission!).required_auth.accounts
-      .where((a) => a.permission != "eosio.code");
+      .where((a) => a.permission.permission != "eosio.code");
     if (requiredAuthAccounts.isEmpty) {
       return null;
     }

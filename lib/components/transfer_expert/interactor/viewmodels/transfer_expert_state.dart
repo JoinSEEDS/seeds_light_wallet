@@ -12,6 +12,8 @@ class TransferExpertState extends Equatable {
   final List<String> validChainAccounts;
   final String sendingToken;
   final String deliveryToken;
+  final TokenDataModel? swapSendAmount;
+  final TokenDataModel? swapDeliverAmount;
 
   const TransferExpertState({
     required this.pageState,
@@ -25,6 +27,8 @@ class TransferExpertState extends Equatable {
     required this.validChainAccounts,
     required this.sendingToken,
     required this.deliveryToken,
+    this.swapSendAmount,
+    this.swapDeliverAmount,
   });
 
   @override
@@ -39,6 +43,8 @@ class TransferExpertState extends Equatable {
         selectedAccounts,
         sendingToken,
         deliveryToken,
+        swapSendAmount,
+        swapDeliverAmount,
       ];
 
   TransferExpertState copyWith({
@@ -53,6 +59,8 @@ class TransferExpertState extends Equatable {
     List<String>? validChainAccounts,
     String? sendingToken,
     String? deliveryToken,
+    TokenDataModel? swapSendAmount,
+    TokenDataModel? swapDeliverAmount,
   }) {
     return TransferExpertState(
       pageState: pageState ?? this.pageState,
@@ -66,6 +74,8 @@ class TransferExpertState extends Equatable {
       validChainAccounts: validChainAccounts ?? this.validChainAccounts,
       sendingToken: sendingToken ?? this.sendingToken,
       deliveryToken: deliveryToken ?? this.deliveryToken,
+      swapSendAmount: swapSendAmount ?? this.swapSendAmount,
+      swapDeliverAmount: swapDeliverAmount ?? this.swapDeliverAmount,
     );
   }
 
@@ -81,6 +91,8 @@ class TransferExpertState extends Equatable {
       validChainAccounts: [],
       sendingToken: settingsStorage.selectedToken.id,
       deliveryToken: settingsStorage.selectedToken.id,
+      swapSendAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
+      swapDeliverAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
     );
   }
 }

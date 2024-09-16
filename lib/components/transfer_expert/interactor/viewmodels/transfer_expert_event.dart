@@ -32,3 +32,13 @@ class OnDeliveryTokenChange extends TransferExpertEvent {
   @override
   String toString() => 'Delivery token changed to $tokenId';
 }
+
+class OnSwapInputAmountChange extends TransferExpertEvent {
+  final double newAmount;
+  final String selected;
+
+  const OnSwapInputAmountChange({required this.newAmount, required this.selected});
+
+  @override
+  String toString() => 'Swap input value for "$selected" changed to $newAmount';
+}

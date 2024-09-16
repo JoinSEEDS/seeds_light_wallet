@@ -43,7 +43,7 @@ class SendEnterDataScreen extends StatelessWidget {
   Widget build(BuildContext pageContext) {
     final Map<String,ProfileModel> memberModels = (ModalRoute.of(pageContext)!.settings.arguments! as Map<String, ProfileModel>)!;
     final RatesState rates = BlocProvider.of<RatesBloc>(pageContext).state;
-
+    
     return BlocProvider<SendEnterDataBloc>(
       lazy: false,
       create: (_) => SendEnterDataBloc(memberModels, rates)..add(InitSendDataArguments()),
@@ -182,7 +182,8 @@ class SendEnterDataScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  ctxt.loc.transferSendSendTo,
+                                  ctxt.loc.transferSendSendTo + ' (${state.tokenAmount.symbol})',
+                                  //'Send ${state.tokenAmount.symbol} to',
                                   style: Theme.of(ctxt).textTheme.subtitle1,
                                 ),
                               ),
