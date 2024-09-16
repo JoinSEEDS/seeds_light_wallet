@@ -10,14 +10,15 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/domain-shared/user_input_number_formatter.dart';
 
-class AmountEntryWidget extends StatelessWidget {
+class AmountEntryWidget extends StatefulWidget {
   final TokenDataModel tokenDataModel;
   final ValueSetter<String> onValueChange;
   final ValueSetter<bool>? onFocusChanged;
   final bool autoFocus;
   final String? fieldName;
 
-  const AmountEntryWidget({
+
+const AmountEntryWidget({
     super.key,
     required this.tokenDataModel,
     required this.onValueChange,
@@ -27,7 +28,35 @@ class AmountEntryWidget extends StatelessWidget {
   });
 
   @override
+  _AmountEntryWidgetState createState() => _AmountEntryWidgetState();
+}
+
+class _AmountEntryWidgetState extends State<AmountEntryWidget> {
+  final TextEditingController _controller = TextEditingController();
+  String? newText;
+
+  @override
+  void initState(){;
+    _controller.text = "0.0";
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void pushText(String text){
+    _controller.text = text;
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+   // if (widget.updater != null) {
+   //   widget.updater!(_controller.text);
+   // }
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     bool xfrBlocAvail = true;
     try {
@@ -37,7 +66,7 @@ class AmountEntryWidget extends StatelessWidget {
     }
     return BlocProvider(
       lazy: false,
-      create: (_) => AmountEntryBloc(rates, tokenDataModel, fieldName: fieldName,
+      create: (_) => AmountEntryBloc(rates, widget.tokenDataModel, fieldName: widget.fieldName,
         transferBloc: xfrBlocAvail ? BlocProvider.of<TransferExpertBloc>(context) : null),
       child: MultiBlocListener(
         listeners: [
@@ -47,11 +76,10 @@ class AmountEntryWidget extends StatelessWidget {
               final pageCommand = state.pageCommand;
               
               if (pageCommand is SendTextInputDataBack) {
-                onValueChange(pageCommand.textToSend);
+                widget.onValueChange(pageCommand.textToSend);
               }
               if (pageCommand is PushTextIntoField) {
-
-                // TODO  jam this text into editing field
+                pushText(pageCommand.textToPush);
               }
               BlocProvider.of<AmountEntryBloc>(context).add(const ClearAmountEntryPageCommand());
             }
@@ -69,7 +97,7 @@ class AmountEntryWidget extends StatelessWidget {
                       child:
                       FocusScope(
                       child: TextFormField(
-                        initialValue: fieldName == "to" ? "2" : "3",
+                        controller: _controller,
                         textAlign: TextAlign.end,
                         style: Theme.of(context).textTheme.headlineMedium,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -81,7 +109,7 @@ class AmountEntryWidget extends StatelessWidget {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                         ),
-                        autofocus: autoFocus,
+                        autofocus: widget.autoFocus,
                         onChanged: (value) {
                           BlocProvider.of<AmountEntryBloc>(context).add(OnAmountChange(amountChanged: value));
                         },
@@ -95,7 +123,7 @@ class AmountEntryWidget extends StatelessWidget {
                         ],
                       ),
                       onFocusChange: (hasFocus) {
-                        onFocusChanged != null ?   onFocusChanged!(hasFocus) : null;
+                        widget.onFocusChanged != null ? widget.onFocusChanged!(hasFocus) : null;
                       },
                       )
                     ),
