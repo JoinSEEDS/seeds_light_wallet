@@ -160,36 +160,18 @@ class SendEnterDataScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (memberModels["from"]?.account != settingsStorage.accountName) 
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        //ctxt.loc.transferSendSendTo,
-                                        "Send From",
-                                        style: Theme.of(ctxt).textTheme.subtitle1,
-                                      ),
-                                    ),
 
-                                    const SizedBox(height: 8),
-                                    SearchResultRow(member: memberModels["from"]!),
-                                    const SizedBox(height: 16),
-                                  ]
-                                ),
-                               
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  ctxt.loc.transferSendSendTo + ' (${state.tokenAmount.symbol})',
-                                  //'Send ${state.tokenAmount.symbol} to',
+                                  //ctxt.loc.transferSendSendTo + ' (${state.tokenAmount.symbol})',
+                                  'Send ${state.tokenAmount.symbol} to',
                                   style: Theme.of(ctxt).textTheme.subtitle1,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               SearchResultRow(member: memberModels["to"]!),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 8),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
                                 onValueChange: (value) {
@@ -211,18 +193,39 @@ class SendEnterDataScreen extends StatelessWidget {
                                       BlocProvider.of<SendEnterDataBloc>(ctxt).add(OnMemoChange(memoChanged: value));
                                     },
                                   ),
-                                  const SizedBox(height: 16),
-                                  BalanceRow(
-                                    label: ctxt.loc.transferSendAvailableBalance,
-                                    fiatAmount: state.availableBalanceFiat,
-                                    tokenAmount: state.availableBalance,
-                                  ),
-                                  const SizedBox(height: 100),
+
+
                                 ],
                               ),
-                            ],
+
+                              if (memberModels["from"]?.account != settingsStorage.accountName) 
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      //ctxt.loc.transferSendSendTo,
+                                      "Send From",
+                                      style: Theme.of(ctxt).textTheme.subtitle1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  SearchResultRow(member: memberModels["from"]!),
+                                  const SizedBox(height: 16),
+                                ]
+                              ),
+                              const SizedBox(height: 16),
+                              BalanceRow(
+                                label: ctxt.loc.transferSendAvailableBalance,
+                                fiatAmount: state.availableBalanceFiat,
+                                tokenAmount: state.availableBalance,
+                              ),
+                              const SizedBox(height: 24), 
+                            ]
                           ),
                         ),
+
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: FlatButtonLong(

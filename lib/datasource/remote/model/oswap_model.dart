@@ -17,7 +17,9 @@ class OswapModel {
 
   SwapResult swapOutput({int? inAssetId, String? inTokenId, double? inAmount,
     int? outAssetId, String? outTokenId, double? outAmount}) {
-    if(inAmount != null && outAmount == null) {
+    OswapPoolBalance? inputPoolBalance;
+    OswapPoolBalance? outputPoolBalance;
+
       var inAsset = inAssetId;
       if(inTokenId != null && inAssetId == null) {
         // look up AssetId...
@@ -26,7 +28,7 @@ class OswapModel {
       if(inAsset == null) {
         return SwapResult(error: "input asset not specified");
       }
-      final inputPoolBalance = balances.firstWhereOrNull((bal) => bal.assetId == inAsset!);
+      inputPoolBalance = balances.firstWhereOrNull((bal) => bal.assetId == inAsset!);
       if (inputPoolBalance == null) {
         return SwapResult(error: "invalid input asset $inAssetId");
       }
@@ -39,28 +41,47 @@ class OswapModel {
       if(outAsset == null) {
         return SwapResult(error: "output asset not specified");
       }
-      final outputPoolBalance = balances.firstWhereOrNull((bal) => bal.assetId == outAsset!);
+      outputPoolBalance = balances.firstWhereOrNull((bal) => bal.assetId == outAsset!);
       if (outputPoolBalance == null) {
         return SwapResult(error: "invalid output asset $outAssetId");
       }
+      if(inAmount != null && outAmount == null) {
+        // exact input
+        // floating point calculation, exact in
+        double in_bal_before = inputPoolBalance.balance;
+        double in_amount = inAmount;
+        double in_bal_after = in_bal_before + in_amount;
+        double lc = math.log(in_bal_after/in_bal_before);
+        double out_weight = outputPoolBalance.weight;
+        double in_weight = inputPoolBalance.weight;
+        double lnc = -in_weight/out_weight * lc;
+        double out_bal_before = outputPoolBalance.balance;
+        double out_bal_after = out_bal_before * math.exp(lnc);
+        double computed_amt = out_bal_before - out_bal_after;
 
-      // floating point calculation, exact in
-      double in_bal_before = inputPoolBalance.balance!;
-      double in_amount = inAmount;
-      double in_bal_after = in_bal_before + in_amount;
-      double lc = math.log(in_bal_after/in_bal_before);
-      double out_weight = outputPoolBalance.weight;
-      double in_weight = inputPoolBalance.weight;
-      double lnc = -in_weight/out_weight * lc;
-      double out_bal_before = outputPoolBalance.balance;
-      double out_bal_after = out_bal_before * math.exp(lnc);
-      double computed_amt = out_bal_before - out_bal_after;
+        return SwapResult(result: computed_amt);
+      }
+      if (inAmount == null && outAmount != null) {
+        // exact output
+        // floating point calculation, exact out
+        double out_bal_before = outputPoolBalance!.balance;
+        double out_amount = outAmount;
+        double out_bal_after = out_bal_before - out_amount;
+        if (out_bal_after <= 0) {
+          return SwapResult(error: "pool contains ${out_bal_before} tokens; insufficient");
+        }
+        double lc = math.log(out_bal_after/out_bal_before);
+        double out_weight = outputPoolBalance.weight;
+        double in_weight = inputPoolBalance!.weight;
+        double lnc = -out_weight/in_weight * lc;
+        double in_bal_before = inputPoolBalance.balance;
+        double in_bal_after = in_bal_before * math.exp(lnc);
+        double computed_amt = in_bal_after - in_bal_before;
 
-      return SwapResult(result: computed_amt);
-    } else {
-      return SwapResult(error: "not implemented");
+        return SwapResult(result: computed_amt);
+      } else {
+        return SwapResult(error: "swap config error");
     }
-
   }
 }
 

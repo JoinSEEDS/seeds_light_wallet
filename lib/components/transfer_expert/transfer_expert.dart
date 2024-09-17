@@ -60,6 +60,24 @@ class TransferExpert extends StatelessWidget {
       create: (_) => TransferExpertBloc(null, null),
       child: Column(
         children: [
+          const Padding(
+            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+            child: Row( children: [
+              Text("Delivering"),
+              const SizedBox(width: 8),
+              TokenSelectField(),
+              const SizedBox(width: 8),
+              Text("to"),
+            ]
+            )
+            ),
+            Padding(
+            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+            child: SelectUserTextField(
+                 updater: (s) => { null },
+                 accountKey: "to",
+                )   
+          ),
           Padding(
             padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
             child: Row(
@@ -94,23 +112,10 @@ class TransferExpert extends StatelessWidget {
               SizedBox(width: 8),
             ])
           ),
-          const Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: Row( children: [
-              Text("Delivering"),
-              const SizedBox(width: 8),
-              TokenSelectField(),
-              const SizedBox(width: 8),
-              Text("to"),
-            ]
-            )),
-            Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: SelectUserTextField(
-                 updater: (s) => { null },
-                 accountKey: "to",
-                )   
-     ),
+
+
+      
+
           const SizedBox(height: 16),
           /*
           BlocBuilder<SearchUserBloc, SearchUserState>(

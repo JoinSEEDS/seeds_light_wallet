@@ -64,7 +64,8 @@ class SwapEnterDataScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  "Deliver ${state.deliveryToken.split('#')[2]} to",//context.loc.transferSendSendTo,
+                                  //context.loc.transferSendSendTo,
+                                  "Deliver ${state.deliveryToken.split('#')[2]} to",
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                               ),
@@ -155,9 +156,6 @@ class SwapEnterDataScreen extends StatelessWidget {
 
                                   ]
                                 ),
-  /////////////////////                             
-
-    ///////////////////                          
                           
                             ],
                           ),

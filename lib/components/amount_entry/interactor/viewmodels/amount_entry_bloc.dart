@@ -31,12 +31,12 @@ class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
         String newAmount = "";
         if (fieldName == "from") {
           if (transferState.swapSendAmount!.amount != state.tokenAmount.amount) {
-            newAmount = transferState.swapSendAmount!.amount.toString();
+            newAmount = transferState.swapSendAmount!.amountString();
             add(OnPushAmount(amountChanged: newAmount));
           }
         }  else if (fieldName == "to") {
           if (transferState.swapDeliverAmount!.amount != state.tokenAmount.amount) {
-            newAmount = transferState.swapDeliverAmount!.amount.toString();
+            newAmount = transferState.swapDeliverAmount!.amountString();
             add(OnPushAmount(amountChanged: newAmount));
           }
         } 
