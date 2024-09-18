@@ -45,7 +45,7 @@ class MsigProposal {
         ));
     var ax = request.signingRequest.req![1] as Map<String, dynamic>;
     var trx = {
-      "expiration" : DateTime.now().add(Duration(days: 1)).toString(),
+      "expiration" : DateTime.now().add(Duration(days: 5)).toString(),
       "ref_block_num" : 0,
       "ref_block_prefix" : 0,
       "context_free_actions" : [],
