@@ -42,3 +42,11 @@ class OnSwapInputAmountChange extends TransferExpertEvent {
   @override
   String toString() => 'Swap input value for "$selected" changed to $newAmount';
 }
+
+class OnOSwapLoad extends TransferExpertEvent {
+
+  const OnOSwapLoad();
+
+  @override
+  String toString() => 'oSwapLoad';
+}

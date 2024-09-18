@@ -16,7 +16,7 @@ class RateModel {
   }
 
   factory RateModel.fromSeedsJson(Map<String, dynamic>? json) {
-    const seedsTokenId = 'token.seeds#SEEDS';
+    const seedsTokenId = 'Telos#token.seeds#SEEDS';
     if (json != null && (json['rows'] as List).isNotEmpty) {
       final value = json['rows'][0]['current_seeds_per_usd'] ?? 0.toString();
       final amount = double.parse(value.split(' ').first as String);

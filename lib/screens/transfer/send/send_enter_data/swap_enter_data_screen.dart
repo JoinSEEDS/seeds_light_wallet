@@ -16,6 +16,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/datasource/remote/model/oswap_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
@@ -32,6 +33,7 @@ class SwapEnterDataScreen extends StatelessWidget {
     bool deliverFieldHasFocus = false;
     final BuildContext? fromContext = (ModalRoute.of(context)!.settings.arguments as BuildContext)!;
     BuildContext? toAmountEntryContext;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Send Abroad"),//Text(context.loc.transferSendSearchTitle),

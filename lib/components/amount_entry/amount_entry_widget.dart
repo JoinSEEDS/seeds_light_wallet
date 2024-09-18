@@ -32,12 +32,18 @@ const AmountEntryWidget({
 }
 
 class _AmountEntryWidgetState extends State<AmountEntryWidget> {
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
   String? newText;
 
   @override
-  void initState(){;
-    _controller.text = "0.0";
+  void initState(){
+    _controller = TextEditingController();
+    // because onValueChange doesn't trigger automatically when user clears field
+    _controller.addListener(() { 
+      if (_controller.value.text == '') {
+        widget.onValueChange("0.0");
+      }
+    });
     super.initState();
   }
 
@@ -96,35 +102,40 @@ class _AmountEntryWidgetState extends State<AmountEntryWidget> {
                     Expanded(
                       child:
                       FocusScope(
-                      child: TextFormField(
-                        controller: _controller,
-                        textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        decoration: const InputDecoration(
-                          hintText: "0.0",
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                        ),
-                        autofocus: widget.autoFocus,
-                        onChanged: (value) {
-                          BlocProvider.of<AmountEntryBloc>(context).add(OnAmountChange(amountChanged: value));
+                        child: 
+                          TextFormField(
+                            controller: _controller,
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            decoration: const InputDecoration(
+                              hintText: "0.0",
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                            ),
+                            autofocus: widget.autoFocus,
+                            onChanged: (value) {
+                              BlocProvider.of<AmountEntryBloc>(context).add(OnAmountChange(amountChanged: value));
+                            },
+                          
+                            inputFormatters: [
+                              UserInputNumberFormatter(),
+                              DecimalTextInputFormatter(
+                                decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
+                                    ? state.fiatAmount?.precision ?? 0
+                                    : state.tokenAmount.precision,
+                              )
+                            ],
+                            
+                          ),
+                        onFocusChange: (hasFocus) {
+                          if (widget.onFocusChanged != null) {
+                            widget.onFocusChanged!(hasFocus);
+                          }
                         },
-                        inputFormatters: [
-                          UserInputNumberFormatter(),
-                          DecimalTextInputFormatter(
-                            decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
-                                ? state.fiatAmount?.precision ?? 0
-                                : state.tokenAmount.precision,
-                          )
-                        ],
-                      ),
-                      onFocusChange: (hasFocus) {
-                        widget.onFocusChanged != null ? widget.onFocusChanged!(hasFocus) : null;
-                      },
                       )
                     ),
                     const SizedBox(width: 4),

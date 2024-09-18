@@ -1,9 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
 
 /// multilateral token swap pool
 class OswapModel {
+  static const Map<String, String> chainIds = 
+    {'4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11': 'Telos'};
   List<OswapPoolBalance> balances = [];
 
   OswapModel();
@@ -12,6 +16,10 @@ class OswapModel {
 
     balances.add(OswapPoolBalance(assetId: 0, tokenId: "Telos#token.seeds#SEEDS", balance: 1000, weight: 0.5));
     balances.add(OswapPoolBalance(assetId: 1, tokenId: "Telos#hypha.hypha#COSEEDS", balance: 2000, weight: 0.5));
+    return this;
+  }
+
+  OswapModel loadTest() {
     return this;
   }
 
@@ -101,4 +109,36 @@ class SwapResult {
   double? result;
 
   SwapResult({this.error, this.result});
+}
+
+class OswapAsset {
+  late int assetId;
+  late String tokenId;
+  bool active;
+  String metadata;
+  double weight;
+
+  OswapAsset({required this.assetId, required this.tokenId, this.active = false, this.metadata = "", this.weight = 1.0});
+
+  static OswapAsset? fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return null;
+    } else {
+      final String chain_code = json['chain_code'] as String;
+      final String? chainName = OswapModel.chainIds[chain_code];
+      if (chainName == null) {
+        return null;
+      }
+      final String contract_name = json['contract_name'] as String;
+      final String symbol = json['symbol'] as String;
+      final tokenId = '$chainName#$contract_name#$symbol';
+      return OswapAsset(
+        assetId: json['token_id'] as int,
+        tokenId: tokenId,
+        active: json['active'] as int != 0,
+        metadata: json['metadata'] as String,
+        weight: double.parse(json['weight'] as String),
+      );
+    }
+  }
 }

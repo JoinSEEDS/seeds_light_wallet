@@ -6,9 +6,11 @@ import 'package:seeds/components/transfer_expert/interactor/mappers/transfer_exp
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/model/oswap_model.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+import 'package:seeds/datasource/remote/api/oswaps_repository.dart';
 
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
@@ -21,7 +23,10 @@ part 'transfer_expert_state.dart';
 class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> {
   final int _minTextLengthBeforeValidSearch = 2;
   final _eosaccountrepository = EOSAccountRepository();
-  final _oswapPool = OswapModel().initTest();
+  final _oswapPool = OswapModel().loadTest(); //.initTest();
+  final _oswapsRepository = OswapsRepository();
+  final _balanceRepository = BalanceRepository();
+
 
   TransferExpertBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus)
       : super(TransferExpertState.initial(noShowUsers, filterByCitizenshipStatus)) {
@@ -29,6 +34,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     on<ClearIconTapped>(_clearIconTapped);
     on<OnDeliveryTokenChange>(_onDeliveryTokenChange);
     on<OnSwapInputAmountChange>(_onSwapInputAmountChange);
+    on<OnOSwapLoad>(_onOSwapLoad);
   }
 
   /// Debounce to avoid making search network calls each time the user types
@@ -91,5 +97,25 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       }
     }
   }  
-  
+
+  void _onOSwapLoad(OnOSwapLoad event, Emitter<TransferExpertState> emit) async {
+    final result = await _oswapsRepository.getAssetList();
+    if (result.isValue) {
+      final list = result.asValue!.value;
+      for (var i = 0; i < list.length; ++i) {
+        final asset = list[i];
+        final balanceModelResult = await _balanceRepository.getTokenBalance(OswapsRepository.defaultPoolContract,
+          tokenContract: asset.tokenId.split('#')[1],
+          symbol: asset.tokenId.split('#')[2], );
+          if(balanceModelResult.isValue) {
+            _oswapPool.balances.add(OswapPoolBalance(assetId: asset.assetId, tokenId: asset.tokenId,
+                weight: asset.weight, active: asset.active, balance: balanceModelResult.asValue!.value.quantity));
+          }  
+      };
+
+
+     //   balances.add(OswapPoolBalance(assetId: 0, tokenId: "Telos#token.seeds#SEEDS", balance: 1000, weight: 0.5));
+
+    }
+  }
 }

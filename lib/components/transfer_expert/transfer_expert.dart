@@ -11,6 +11,7 @@ import 'package:seeds/components/transfer_expert/token_select_field.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
+import 'package:seeds/datasource/remote/api/oswaps_repository.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
@@ -45,6 +46,7 @@ class TransferExpert extends StatelessWidget {
       NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles);
     } else {
       // swap mode
+      BlocProvider.of<TransferExpertBloc>(context).add(const OnOSwapLoad());
       NavigationService.of(context).navigateTo(Routes.sendAbroad, context);
     }
     
