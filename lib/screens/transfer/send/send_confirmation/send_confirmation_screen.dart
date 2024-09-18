@@ -83,28 +83,14 @@ class SendConfirmationScreen extends StatelessWidget {
                               final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                               BlocProvider.of<SendConfirmationBloc>(context).add(OnAuthorizationFailure(rates));
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
+                              // Navigator.of(context).pop(); // is there a use case where we want double pop?
                             } : null,
                         ).show(context);
-                        /*
-                      } else if (pageCommand is RetryAsMsig) {
-                        final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                        BlocProvider.of<SendConfirmationBloc>(context).add(OnAuthorizationFailure(rates));*/
                       } else if (pageCommand is ShowInvalidTransactionReason) {
                         eventBus.fire(ShowSnackBar(pageCommand.reason));
                       }
                     },
                   ),
-                  /*BlocListener<SendEnterDataBloc, SendEnterDataState>(
-                    //bloc: BlocProvider.of<SendEnterDataBloc>(context),
-                    listenWhen: (_, current) => current.retryMsig == true,
-                    listener: (ctxt, state) {
-                      if (state.retryMsig == true) {
-                        final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                        BlocProvider.of<SendConfirmationBloc>(context).add(OnAuthorizationFailure(rates, context: context));
-                      }
-                    }
-                  )*/
                 ],
                 child:
                 BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
