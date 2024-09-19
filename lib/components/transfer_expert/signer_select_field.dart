@@ -89,13 +89,13 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
     return BlocListener<TransferExpertBloc, TransferExpertState>(
       listener: (context, state) {
         fromAccount = state.selectedAccounts["from"];
-        _accountRepository.getEOSAccount(fromAccount!).then((result) {
-          authAccounts = result.asValue!.value.permissions.permissions
+        try {
+          authAccounts = state.accountPermissions["from"]!.permissions.permissions
             .firstWhere((p) => p.perm_name == "active" && p.parent == "owner")
             .required_auth.accounts.map((e) => 
               '${e.permission.actor}@${e.permission.permission}@${e.weight}').toList();
-        }).catchError( (e) { print('signerselect $e'); } );
-        print('From ${state.selectedAccounts["from"]}');
+        } catch (e) { print ('signerselect on invalid account $fromAccount : $e'); };
+        print('From $fromAccount');
       },
     child:  PopupMenuButton(
     enabled: widget.enabled,

@@ -70,9 +70,18 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
 
   Future<void> _onSendTransaction(OnSendTransactionButtonPressed event, Emitter<SendConfirmationState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
+    // check whether this transaction has multisig signers available
+    //  leave a breadcrumb in case it fails after submission
+    String failureClass = '';
+    final auth = state.transaction.actions?[0]?.authorization?.map((e) => 
+                      esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
+    if (auth != null && await MsigProposal.signingAccounts(auth: auth!) != null) { 
+      failureClass = "canMsig";
+    }
     final Result result = await SendTransactionUseCase().run(state.transaction, state.callback);
     final bool shouldShowInAppReview = await inAppReview.isAvailable();
-    emit(SendTransactionStateMapper().mapResultToState(state, result, event.rates, shouldShowInAppReview));
+    emit(SendTransactionStateMapper().mapResultToState(currentState: state, result: result,
+      rateState: event.rates, shouldShowInAppReview: shouldShowInAppReview, failureClass: failureClass));
   }
   
   Future<void> _onAuthorizationFailure(OnAuthorizationFailure event, Emitter<SendConfirmationState> emit) async {

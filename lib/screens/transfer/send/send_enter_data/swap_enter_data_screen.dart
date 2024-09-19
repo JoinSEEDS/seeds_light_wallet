@@ -75,7 +75,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                               SearchResultRow(member: ProfileModel.usingDefaultValues(
                                 account: state.selectedAccounts["to"] ?? '----')
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 4),
                               AmountEntryWidget(
                                 tokenDataModel: state.swapDeliverAmount!,
                                 onValueChange: (value) {
@@ -92,7 +92,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                               ),
 
    /////////// memo
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 8),
                               Column(
                                 children: [
                                   TextFormFieldLight(
@@ -127,7 +127,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                                     SearchResultRow(member: ProfileModel.usingDefaultValues(
                                       account: state.selectedAccounts["from"] ?? '----'),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: 4),
                                     AmountEntryWidget(
                                       tokenDataModel: state.swapSendAmount!,
                                       onValueChange: (value) {

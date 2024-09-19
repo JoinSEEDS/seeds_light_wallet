@@ -18,24 +18,15 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendTransactionStateMapper extends StateMapper {
   SendConfirmationState mapResultToState(
-    SendConfirmationState currentState,
-    Result result,
-    RatesState rateState,
-    bool shouldShowInAppReview,
+    {required SendConfirmationState currentState,
+    required Result result,
+    required RatesState rateState,
+    required bool shouldShowInAppReview,
+    required String failureClass,}
   ) {
     if (result.isError) {
-      String failureClass = '';
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-        // we want to check whether auth acct for first action has signers  
-        // however this takes an async chain lookup     
-        /*
-        final auth = currentState.transaction.actions?[0]?.authorization?.map((e) => 
-                          esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
-        if (auth != null && await MsigProposal.signingAccounts(auth: auth!) != null) {
-        */ 
-          failureClass = "canMsig";
-        //}
       }
       return currentState.copyWith(
         pageState: PageState.success,

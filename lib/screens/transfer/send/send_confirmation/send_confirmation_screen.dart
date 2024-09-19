@@ -37,9 +37,6 @@ class SendConfirmationScreen extends StatelessWidget {
         ..add(const OnInitValidations()),
       child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
         builder: (context, state) {
-          /*BlocProvider.value(
-            value: BlocProvider.of<SendConfirmationBloc>(pageContext),
-            child: SendEnterDataScreen(),);*/
           return WillPopScope(
             onWillPop: () async {
               // Clear deeplink on navigate back (i.e. cancel confirm link)

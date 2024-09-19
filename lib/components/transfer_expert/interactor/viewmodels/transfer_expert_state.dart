@@ -7,8 +7,9 @@ class TransferExpertState extends Equatable {
   final bool showClearIcon;
   final List<String>? noShowUsers;
   final ProfileStatus? showOnlyCitizenshipStatus;
-  final List<String>? authorizedAccounts;
+  //final List<String>? authorizedAccounts;
   final Map<String, String?> selectedAccounts;
+  final Map<String, EOSAccountModel?> accountPermissions;
   final List<String> validChainAccounts;
   final String sendingToken;
   final String deliveryToken;
@@ -22,7 +23,8 @@ class TransferExpertState extends Equatable {
     required this.showClearIcon,
     this.noShowUsers,
     this.showOnlyCitizenshipStatus,
-    this.authorizedAccounts,
+    //this.authorizedAccounts,
+    required this.accountPermissions,
     required this.selectedAccounts,
     required this.validChainAccounts,
     required this.sendingToken,
@@ -39,7 +41,8 @@ class TransferExpertState extends Equatable {
         showClearIcon,
         noShowUsers,
         showOnlyCitizenshipStatus,
-        authorizedAccounts,
+        //authorizedAccounts,
+        accountPermissions,
         selectedAccounts,
         sendingToken,
         deliveryToken,
@@ -54,7 +57,8 @@ class TransferExpertState extends Equatable {
     bool? showClearIcon,
     List<String>? noShowUsers,
     ProfileStatus? showOnlyCitizenshipStatus,
-    List<String>? authorizedAccounts,
+    //List<String>? authorizedAccounts,
+    Map<String, EOSAccountModel?>? accountPermissions,
     Map<String, String?>? selectedAccounts,
     List<String>? validChainAccounts,
     String? sendingToken,
@@ -69,7 +73,8 @@ class TransferExpertState extends Equatable {
       showClearIcon: showClearIcon ?? this.showClearIcon,
       noShowUsers: noShowUsers ?? this.noShowUsers,
       showOnlyCitizenshipStatus: showOnlyCitizenshipStatus ?? this.showOnlyCitizenshipStatus,
-      authorizedAccounts: authorizedAccounts ?? this.authorizedAccounts,
+      //authorizedAccounts: authorizedAccounts ?? this.authorizedAccounts,
+      accountPermissions: accountPermissions ?? this.accountPermissions,
       selectedAccounts: selectedAccounts ?? this.selectedAccounts,
       validChainAccounts: validChainAccounts ?? this.validChainAccounts,
       sendingToken: sendingToken ?? this.sendingToken,
@@ -86,7 +91,8 @@ class TransferExpertState extends Equatable {
       showClearIcon: false,
       noShowUsers: noShowUsers,
       showOnlyCitizenshipStatus: filterByCitizenshipStatus,
-      authorizedAccounts: [],
+      //authorizedAccounts: [],
+      accountPermissions: {},
       selectedAccounts: {},
       validChainAccounts: [],
       sendingToken: settingsStorage.selectedToken.id,

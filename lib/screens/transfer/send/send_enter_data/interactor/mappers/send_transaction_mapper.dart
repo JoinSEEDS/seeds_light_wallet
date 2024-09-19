@@ -14,21 +14,11 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 
 class SendTransactionMapper extends StateMapper {
-  SendEnterDataState mapResultToState(SendEnterDataState currentState, Result result, bool shouldShowInAppReview) {
-    String failureClass = '';
+  SendEnterDataState mapResultToState({required SendEnterDataState currentState, required Result result,
+    required bool shouldShowInAppReview, required String failureClass})  {
     if (result.isError) {
       if ((result.asError!.error as String).contains('missing_auth_exception')
         || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-        // we want to check whether auth acct for first action has signers  
-        // however this takes an async chain lookup     
-        /*
-        final transaction = SendEnterDataBloc.buildTransferTransaction(currentState);
-        final auth = transaction.actions?[0]?.authorization?.map((e) => 
-                          esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
-        if (auth != null && MsigProposal.signingAccounts(auth: auth!) != null) {
-        */
-          failureClass = "canMsig";
-        //}
       }
       return currentState.copyWith(
         pageState: PageState.success,

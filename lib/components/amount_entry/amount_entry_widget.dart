@@ -60,9 +60,6 @@ class _AmountEntryWidgetState extends State<AmountEntryWidget> {
 
   @override
   Widget build(BuildContext context) {
-   // if (widget.updater != null) {
-   //   widget.updater!(_controller.text);
-   // }
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     bool xfrBlocAvail = true;
     try {

@@ -23,7 +23,7 @@ part 'transfer_expert_state.dart';
 class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> {
   final int _minTextLengthBeforeValidSearch = 2;
   final _eosaccountrepository = EOSAccountRepository();
-  final _oswapPool = OswapModel().loadTest(); //.initTest();
+  final _oswapPool = OswapModel().loadTest();
   final _oswapsRepository = OswapsRepository();
   final _balanceRepository = BalanceRepository();
 
@@ -48,7 +48,9 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     final newSelectedAccounts = Map<String, String>.from(state.selectedAccounts);
     newSelectedAccounts[event.accountKey] = event.searchQuery;
     List<String> newValidChainAccounts = List<String>.from(state.validChainAccounts);
+    final newAccountPermissions = Map<String, EOSAccountModel?>.from(state.accountPermissions);
     final accountModel = (await _eosaccountrepository.getEOSAccount(event.searchQuery)).asValue?.value;
+    newAccountPermissions[event.accountKey] = accountModel;
     accountModel != null ?
       newValidChainAccounts.add(event.accountKey)
       : newValidChainAccounts.remove(event.accountKey);
@@ -56,6 +58,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       pageState: PageState.loading,
       showClearIcon: event.searchQuery.isNotEmpty,
       selectedAccounts: newSelectedAccounts,
+      accountPermissions: newAccountPermissions,
       validChainAccounts: newValidChainAccounts,
     ));
   }

@@ -13,6 +13,13 @@ import 'package:seeds/utils/result_extension.dart';
 
 class MsigProposal {
 
+  static FutureOr<bool> canMsig(esr.Transaction transaction) async { 
+    
+    final auth = transaction.actions?[0]?.authorization?.map((e) => 
+      esr.Authorization() ..actor = e?.actor ..permission = e?.permission ).toList()?[0];
+    return (auth != null && await MsigProposal.signingAccounts(auth: auth!) != null); 
+  }
+
   static FutureOr<List<Map<String, String>>?> signingAccounts(
     {required esr.Authorization? auth }) async {
     if (auth == null) {

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/crypto/eosdart/eosdart.dart';
 import 'package:seeds/crypto/eosdart/src/models/action.dart';
@@ -87,24 +88,20 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
   
   Future<void> _onSendButtonTapped(OnSendButtonTapped event, Emitter<SendEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: true));
+
+    final esrTransaction = buildTransferTransaction(state);
+    final transaction = EOSTransaction.fromESRActionsList(esrTransaction.actions!.map((e) => e!).toList());
+    String failureClass = (await MsigProposal.canMsig(esrTransaction)) ? 'canMsig' : '';
     final Result result = await SendTransactionUseCase().run(
-      /*
-      EOSTransaction.fromAction(
-        account: settingsStorage.selectedToken.contract,
-        actionName: transferAction,
-        data: {
-          'from': state.sendFrom?.account ?? settingsStorage.accountName,
-          'to': state.sendTo.account,
-          'quantity': TokenModel.getAssetString(state.tokenAmount.id, state.tokenAmount.amount),
-          'memo': state.memo,
-        },
-      ),
-      */
-      EOSTransaction.fromESRActionsList( 
-        buildTransferTransaction(state).actions!.map((e) => e!).toList()),
+      transaction,
       null,
     );
     final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
-    emit(SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview));
+
+    emit(SendTransactionMapper().mapResultToState(
+      currentState: state,
+      result: result,
+      shouldShowInAppReview: shouldShowInAppReview,
+      failureClass: failureClass));
   }
 }
