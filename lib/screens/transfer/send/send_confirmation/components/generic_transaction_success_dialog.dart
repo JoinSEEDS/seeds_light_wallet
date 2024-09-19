@@ -67,6 +67,31 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 )
               ],
             ),
+            if (transactionModel.transaction.actions[0].name == "propose"
+              && transactionModel.transaction.actions[0].account == "eosio.msig")
+            Row(
+              children: [
+                Text("Multisig Proposal:", style: Theme.of(context).textTheme.subtitle2),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    transactionModel.transaction.actions[0].data?["proposal_name"] as String? ?? "",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.copy),
+                  color: AppColors.lightGreen6,
+                  onPressed: () {
+                    final proposal_name = transactionModel.transaction.actions[0].data?["proposal_name"] as String? ?? "";
+                    Clipboard.setData(ClipboardData(
+                            text: 'https://explorer.telos.net/proposal/$proposal_name'))
+                        .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
+                  },
+                )
+              ],
+            ),
             Row(
               children: [
                 Text(context.loc.transferTransactionSuccessStatus, style: Theme.of(context).textTheme.subtitle2),
