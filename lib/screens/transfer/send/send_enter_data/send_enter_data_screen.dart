@@ -61,9 +61,9 @@ class SendEnterDataScreen extends StatelessWidget {
                 final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                 BlocProvider.of<SendEnterDataBloc>(context).add(OnSendButtonTapped());
               },
-              bottomButtonText: (command.failureClass == "canMsig") ?
+              bottomButtonText: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
                 "Retry as Msig Proposal" : null,
-              onBottomButtonPressed: (command.failureClass == "canMsig") ?
+              onBottomButtonPressed: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
                 () async {
                   final transaction = SendEnterDataBloc.buildTransferTransaction(state);
                   final auth = transaction.actions?[0]!.authorization?.map((e) => 

@@ -1,29 +1,27 @@
-import 'dart:convert';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/datasource/remote/model/transaction_results.dart';
+import 'package:seeds/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 
-class SendTransactionStateMapper extends StateMapper {
-  SendConfirmationState mapResultToState(
-    {required SendConfirmationState currentState,
-    required Result result,
-    required RatesState rateState,
-    required bool shouldShowInAppReview,
-    required String failureClass,}
-  ) {
+
+class SendExpertTransactionMapper extends StateMapper {
+  TransferExpertState mapResultToState({required TransferExpertState currentState, required Result result,
+    required bool shouldShowInAppReview, required String failureClass})  {
     if (result.isError) {
       return currentState.copyWith(
         pageState: PageState.success,
@@ -32,40 +30,41 @@ class SendTransactionStateMapper extends StateMapper {
           details: '${result.asError!.error}'.userErrorMessage,
           failureClass: failureClass,
         ),
-        transactionResult: TransactionResult(
-          status: TransactionResultStatus.failure,
-          message: '${result.asError!.error}',
-        ),
-      );
+       );
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
       final int currentDate = DateTime.now().millisecondsSinceEpoch;
       bool _shouldShowInAppReview = shouldShowInAppReview;
 
-      if (settingsStorage.dateSinceRateAppPrompted != null && shouldShowInAppReview) {
+      if (settingsStorage.dateSinceRateAppPrompted != null && _shouldShowInAppReview) {
         final int millisecondsPerMoth = 24 * 60 * 60 * 1000 * 30;
         final dateUntilAppRateCanAsk = settingsStorage.dateSinceRateAppPrompted! + millisecondsPerMoth;
         _shouldShowInAppReview = currentDate > dateUntilAppRateCanAsk;
       }
 
+      final pageCommand = SendExpertTransactionMapper.transactionResultPageCommand(
+        resultResponse,
+        currentState.ratesState,
+        _shouldShowInAppReview,
+      );
+      if (resultResponse.isTransfer) {
+        eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
+      }
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: transactionResultPageCommand(resultResponse, rateState, _shouldShowInAppReview),
-        transactionResult: TransactionResult(
-          status: TransactionResultStatus.success,
-          message: resultResponse.transactionModel.transactionId!,
-        ),
+        pageCommand: pageCommand,
       );
     }
   }
 
-  // TODO(n13): move this from here and put it in its own class - something to distinguish between
+
+// TODO(n13): move this from here and put it in its own class - something to distinguish between
   // known and generic (unknown) types of transactions results. Now we have generic and transfer, could
   // add invite, guardians, etc - all transactions we know about.
   static TransactionPageCommand transactionResultPageCommand(
     SendTransactionResponse resultResponse,
-    RatesState rateState,
+    RatesState? rateState,  // nullable for trial implementation
     bool shouldShowInAppReview,
   ) {
     if (resultResponse.isTransfer) {
@@ -78,7 +77,7 @@ class SendTransactionStateMapper extends StateMapper {
       final TokenModel? token = TokenModel.fromSymbolOrNull(transfer.symbol);
       if (token != null) {
         final TokenDataModel tokenAmount = TokenDataModel(transfer.doubleQuantity, token: token);
-        fiatAmount = rateState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
+        fiatAmount = rateState?.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
       }
 
       return ShowTransferSuccess(
@@ -91,15 +90,5 @@ class SendTransactionStateMapper extends StateMapper {
       return ShowTransactionSuccess(resultResponse.transactionModel);
     }
   }
-}
-
-extension EosErrorParser on String {
-  String get userErrorMessage {
-    try {
-      return jsonDecode(this)["error"]["details"][0]["message"] as String;
-    } catch (error) {
-      print("Error decoding error message $this $error");
-      return this;
-    }
-  }
+  
 }

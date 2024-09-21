@@ -43,11 +43,11 @@ class TransferExpert extends StatelessWidget {
         ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["to"]!);
       profiles["from"] = (await ProfileRepository().getProfile(state.selectedAccounts["from"]!)).asValue?.value
         ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["from"]!);
-      NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles);
+      NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles); // SendEnterDataScreen
     } else {
       // swap mode
       BlocProvider.of<TransferExpertBloc>(context).add(const OnOSwapLoad());
-      NavigationService.of(context).navigateTo(Routes.sendAbroad, context);
+      NavigationService.of(context).navigateTo(Routes.sendAbroad, context); // SwapEnterDataScreen
     }
     
   }

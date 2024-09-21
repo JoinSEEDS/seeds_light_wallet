@@ -50,3 +50,20 @@ class OnOSwapLoad extends TransferExpertEvent {
   @override
   String toString() => 'oSwapLoad';
 }
+
+class OnSwapNextButtonTapped extends TransferExpertEvent {
+  final TransferExpertState state;
+
+  const OnSwapNextButtonTapped(this.state);
+
+  @override
+  String toString() => 'Swap next button tapped';
+}
+
+class OnSwapSendButtonTapped extends TransferExpertEvent {
+
+  const OnSwapSendButtonTapped();
+
+  @override
+  String toString() => 'Swap send button tapped';
+}

@@ -17,9 +17,6 @@ class SendTransactionMapper extends StateMapper {
   SendEnterDataState mapResultToState({required SendEnterDataState currentState, required Result result,
     required bool shouldShowInAppReview, required String failureClass})  {
     if (result.isError) {
-      if ((result.asError!.error as String).contains('missing_auth_exception')
-        || (result.asError!.error as String).contains('unsatisfied_authorization')) {
-      }
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowFailedTransactionReason(

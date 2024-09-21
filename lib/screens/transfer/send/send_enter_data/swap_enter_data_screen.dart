@@ -1,28 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/alert_input_value.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
-import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
 import 'package:seeds/components/balance_row.dart';
+import 'package:seeds/components/error_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/remote/model/oswap_model.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
 import 'package:seeds/components/search_result_row.dart';
+import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
-import 'package:seeds/components/transfer_expert/components/select_user_text_field.dart';
 import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/datasource/local/models/eos_action.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/datasource/remote/model/oswap_model.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_dialog.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:seeds/utils/build_context_extension.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
+
+
 
 class SwapEnterDataScreen extends StatelessWidget {
   const SwapEnterDataScreen({super.key});
@@ -31,10 +42,96 @@ class SwapEnterDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     bool sendFieldHasFocus = false;
     bool deliverFieldHasFocus = false;
-    final BuildContext? fromContext = (ModalRoute.of(context)!.settings.arguments as BuildContext)!;
+    final BuildContext fromContext = (ModalRoute.of(context)!.settings.arguments as BuildContext);
     BuildContext? toAmountEntryContext;
 
-    return Scaffold(
+    
+
+    return BlocListener<TransferExpertBloc, TransferExpertState>(
+        bloc: BlocProvider.of<TransferExpertBloc>(fromContext),
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          final PageCommand? command = state.pageCommand;
+          //BlocProvider.of<TransferExpertBloc>(context).add(const ClearSendEnterDataPageCommand());
+
+          if (command is ShowFailedTransactionReason) {
+            ErrorDialog(
+              title: command.title,
+              details: command.details,
+              onRightButtonPressed: () {
+                final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                BlocProvider.of<TransferExpertBloc>(context).add(OnSwapSendButtonTapped());
+              },
+              bottomButtonText: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
+                "Retry as Msig Proposal" : null,
+              onBottomButtonPressed: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
+                () async {
+                  final transaction = TransferExpertBloc.buildOswapTransaction(state, pool: BlocProvider.of<TransferExpertBloc>(context).oswapPool);
+                  final auth = transaction?.actions?[0]!.authorization?.map((e) => 
+                        esr.Authorization() ..actor = e?.actor as String? ..permission = e?.permission as String? ).toList();
+                  if (auth == null || auth.length == 0) {
+                    Navigator.pop(context);
+                    return;
+                  } 
+                  final msigESRAction =         
+                    (await MsigProposal.msigProposalAction(
+                      actions: transaction!.actions!.map((e) => e!,).toList(),
+                      auth: transaction.actions![0]!.authorization!.map((e) => 
+                        esr.Authorization() ..actor = e?.actor as String? ..permission = e?.permission as String? ).toList(),
+                      proposer: settingsStorage.accountName,
+                      proposalName: 'seeds${MsigProposal.RandomName(length: 5)}'
+                      )
+                    );
+                  if (msigESRAction == null) {
+                    Navigator.pop(context);
+                    return;
+                  }
+                  final args = SendConfirmationArguments(
+                    transaction: EOSTransaction( [
+                      EOSAction.fromESRAction(msigESRAction!)
+                    ] )
+                  );
+                  NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, true);
+                  //Navigator.of(context).pop();
+                } : null,
+            ).show(context);
+          } else if (command is NavigateToSendConfirmation) {
+            final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+            //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
+            NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true);
+          } else
+          if (command is ShowSendConfirmDialog) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button
+              builder: (_) => SendConfirmationDialog(
+                onSendButtonPressed: () {
+                  BlocProvider.of<TransferExpertBloc>(context).add(const OnSwapSendButtonTapped());
+                },
+                tokenAmount: command.tokenAmount,
+                fiatAmount: command.fiatAmount,
+                toAccount: command.toAccount,
+                toImage: command.toImage,
+                toName: command.toName,
+                memo: command.memo,
+              ),
+            );
+          } else if (command is ShowTransferSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
+            if (command.shouldShowInAppReview) {
+              InAppReview.instance.requestReview();
+              settingsStorage.saveDateSinceRateAppPrompted(DateTime.now().millisecondsSinceEpoch);
+            }
+            SendTransactionSuccessDialog.fromPageCommand(command).show(context);
+          } else if (command is ShowTransactionSuccess) {
+            Navigator.of(context).pop(); // pop send
+            Navigator.of(context).pop(); // pop scanner
+            GenericTransactionSuccessDialog(command.transactionModel).show(context);
+          }
+        },
+
+    child: Scaffold(
       appBar: AppBar(
         title: Text("Send Abroad"),//Text(context.loc.transferSendSearchTitle),
         actions: [
@@ -53,6 +150,14 @@ class SwapEnterDataScreen extends StatelessWidget {
           BlocBuilder<TransferExpertBloc, TransferExpertState>(
           builder: (context, state) { 
           final proxySend = state.selectedAccounts["from"] != settingsStorage.accountName;
+          /*
+          if (state.pageState == PageState.loading) {
+                  /// We want to show special animation only when the user confirms send.
+                  return state.showSendingAnimation
+                      ? const SendLoadingIndicator()
+                      : const SafeArea(child: FullPageLoadingIndicator());
+          }
+          */
           return SafeArea(
                     minimum: const EdgeInsets.all(horizontalEdgePadding),
                     child: Stack(
@@ -168,9 +273,9 @@ class SwapEnterDataScreen extends StatelessWidget {
                             title: context.loc.transferSendNextButtonTitle,
                             enabled: true,//state.isNextButtonEnabled,
                             onPressed: () {
-                              eventBus.fire(ShowSnackBar("Swap transaction not implemented"));
+                              //eventBus.fire(ShowSnackBar("Swap transaction not implemented"));
 
-                              //BlocProvider.of<TransferExpertBloc>(context).add(const OnSwapNextButtonTapped());
+                              BlocProvider.of<TransferExpertBloc>(context).add(OnSwapNextButtonTapped(state));
                             },
                           ),
                         ),
@@ -181,6 +286,7 @@ class SwapEnterDataScreen extends StatelessWidget {
         }
       )
       )
+    )
     );
   }
 }

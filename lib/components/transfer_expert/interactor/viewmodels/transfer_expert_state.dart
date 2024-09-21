@@ -15,6 +15,9 @@ class TransferExpertState extends Equatable {
   final String deliveryToken;
   final TokenDataModel? swapSendAmount;
   final TokenDataModel? swapDeliverAmount;
+  final PageCommand? pageCommand;
+  final RatesState? ratesState;
+  final bool showSendingAnimation;
 
   const TransferExpertState({
     required this.pageState,
@@ -31,6 +34,9 @@ class TransferExpertState extends Equatable {
     required this.deliveryToken,
     this.swapSendAmount,
     this.swapDeliverAmount,
+    this.pageCommand,
+    this.ratesState,
+    required this.showSendingAnimation,
   });
 
   @override
@@ -48,6 +54,9 @@ class TransferExpertState extends Equatable {
         deliveryToken,
         swapSendAmount,
         swapDeliverAmount,
+        pageCommand,
+        ratesState,
+        showSendingAnimation,
       ];
 
   TransferExpertState copyWith({
@@ -65,6 +74,9 @@ class TransferExpertState extends Equatable {
     String? deliveryToken,
     TokenDataModel? swapSendAmount,
     TokenDataModel? swapDeliverAmount,
+    PageCommand? pageCommand,
+    RatesState? ratesState,
+    bool? showSendingAnimation,
   }) {
     return TransferExpertState(
       pageState: pageState ?? this.pageState,
@@ -81,10 +93,13 @@ class TransferExpertState extends Equatable {
       deliveryToken: deliveryToken ?? this.deliveryToken,
       swapSendAmount: swapSendAmount ?? this.swapSendAmount,
       swapDeliverAmount: swapDeliverAmount ?? this.swapDeliverAmount,
+      pageCommand: pageCommand ?? this.pageCommand,
+      ratesState: ratesState ?? this.ratesState,
+      showSendingAnimation: showSendingAnimation ?? showSendingAnimation ?? this.showSendingAnimation,
     );
   }
 
-  factory TransferExpertState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus) {
+  factory TransferExpertState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus,) {
     return TransferExpertState(
       pageState: PageState.initial,
       users: [],
@@ -99,6 +114,7 @@ class TransferExpertState extends Equatable {
       deliveryToken: settingsStorage.selectedToken.id,
       swapSendAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
       swapDeliverAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
+      showSendingAnimation: false,
     );
   }
 }

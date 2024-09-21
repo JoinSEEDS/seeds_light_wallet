@@ -31,6 +31,7 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
   @override
   void initState(){;
     _controller.text = widget.initialValue ?? "";
+
     if (widget.accountKey != "" && widget.initialValue != null) {
       BlocProvider.of<TransferExpertBloc>(context)
         .add(OnSearchChange(searchQuery: widget.initialValue!.toLowerCase(), accountKey: widget.accountKey));
