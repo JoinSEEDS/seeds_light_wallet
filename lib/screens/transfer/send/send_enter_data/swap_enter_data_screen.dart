@@ -56,7 +56,7 @@ class SwapEnterDataScreen extends StatelessWidget {
 
     return BlocListener<TransferExpertBloc, TransferExpertState>(
         bloc: BlocProvider.of<TransferExpertBloc>(fromContext),
-        listenWhen: (_, current) => current.pageCommand != null,
+        listenWhen: (_, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
         listener: (context, state) {
           final PageCommand? command = state.pageCommand;
           //BlocProvider.of<TransferExpertBloc>(context).add(const ClearSendEnterDataPageCommand());
@@ -105,25 +105,8 @@ class SwapEnterDataScreen extends StatelessWidget {
           } else if (command is NavigateToSendConfirmation) {
             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
             //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
-            NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true);
-          } else
-          if (command is ShowSendConfirmDialog) {
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false, // user must tap button
-              builder: (_) => SendConfirmationDialog(
-                onSendButtonPressed: () {
-                  BlocProvider.of<TransferExpertBloc>(context).add(const OnSwapSendButtonTapped());
-                },
-                tokenAmount: command.tokenAmount,
-                fiatAmount: command.fiatAmount,
-                toAccount: command.toAccount,
-                toImage: command.toImage,
-                toName: command.toName,
-                memo: command.memo,
-              ),
-            );
-          } else if (command is ShowTransferSuccess) {
+            NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true); // SendConfirmationScreen
+          }  else if (command is ShowTransferSuccess) {
             Navigator.of(context).pop(); // pop send
             Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
@@ -212,7 +195,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                                     hintText: context.loc.transferMemoFieldHint,
                                     maxLength: blockChainMaxChars,
                                     onChanged: (String value) {
-                                      //BlocProvider.of<SendEnterDataBloc>(context).add(OnMemoChange(memoChanged: value));
+                                      BlocProvider.of<TransferExpertBloc>(context).add(OnMemoChange(memoChanged: value));
                                     },
                                   ),
                                   const SizedBox(height: 16),
@@ -282,7 +265,6 @@ class SwapEnterDataScreen extends StatelessWidget {
                             enabled: true,//state.isNextButtonEnabled,
                             onPressed: () {
                               //eventBus.fire(ShowSnackBar("Swap transaction not implemented"));
-
                               BlocProvider.of<TransferExpertBloc>(context).add(OnSwapNextButtonTapped(state));
                             },
                           ),

@@ -118,11 +118,6 @@ class MsigProposal {
 
       final rv = response.encode();
       return rv;
-      /*
-      .then((esr.SigningRequestManager response) => response.encode() ))
-      // ignore: return_of_invalid_type_from_catch_error
-      .catchError((error) => mapEosError(error));
-      */
 
   }
 }

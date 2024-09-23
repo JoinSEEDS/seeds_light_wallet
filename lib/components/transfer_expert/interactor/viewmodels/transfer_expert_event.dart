@@ -61,9 +61,24 @@ class OnSwapNextButtonTapped extends TransferExpertEvent {
 }
 
 class OnSwapSendButtonTapped extends TransferExpertEvent {
-
+  
   const OnSwapSendButtonTapped();
 
   @override
   String toString() => 'Swap send button tapped';
+}
+
+class OnMemoChange extends TransferExpertEvent {
+  final String memoChanged;
+
+  const OnMemoChange({required this.memoChanged});
+
+  @override
+  String toString() => 'OnMemoChange: { OnMemoChange: $memoChanged }';
+}
+class ClearPageCommand extends TransferExpertEvent {
+
+  const ClearPageCommand();
+  @override
+  String toString() => 'ClearPageCommand';
 }

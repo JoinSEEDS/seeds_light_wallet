@@ -7,27 +7,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/components/transfer_expert/interactor/mappers/send_expert_transaction_mapper.dart';
-import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
 import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
+import 'package:seeds/components/transfer_expert/interactor/mappers/send_expert_transaction_mapper.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/balance_repository.dart';
-import 'package:seeds/datasource/remote/model/eos_account_model.dart';
-import 'package:seeds/datasource/remote/model/oswap_model.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
 import 'package:seeds/datasource/remote/api/oswaps_repository.dart';
+import 'package:seeds/datasource/remote/model/eos_account_model.dart';
+import 'package:seeds/datasource/remote/model/oswap_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
+import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/mappers/send_transaction_mapper.dart';
-
 
 part 'transfer_expert_event.dart';
 part 'transfer_expert_state.dart';
@@ -48,6 +48,9 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     on<OnSwapInputAmountChange>(_onSwapInputAmountChange);
     on<OnOSwapLoad>(_onOSwapLoad);
     on<OnSwapNextButtonTapped>(_onSwapNextButtonTapped);
+    on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
+    on<ClearPageCommand>((event, emit) => emit(state.copyWith(pageCommand: NoCommand())));
+
   }
 
   Future<double?> balance(String account, String tokenId) async {
@@ -149,46 +152,18 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
   }
   
   void _onSwapNextButtonTapped(OnSwapNextButtonTapped event, Emitter<TransferExpertState> emit) async {
-
-    emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: true));
     final esrTransaction = buildOswapTransaction(state, pool: oswapPool);
     if (esrTransaction == null) {
-      return;
-    }
-    final transaction = EOSTransaction.fromESRActionsList(esrTransaction!.actions!.map((e) => e!).toList());
-
-    String failureClass = (await MsigProposal.canMsig(esrTransaction)) ? 'canMsig' : '';
-    
-    final Result result = await SendTransactionUseCase().run(transaction, null, );
-    
-    final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
-    
-    emit(SendExpertTransactionMapper().mapResultToState(
-      currentState: state,
-      result: result,
-      shouldShowInAppReview: shouldShowInAppReview,
-      failureClass: failureClass));
-    
-  }
-
- Future<void> _onSwapSendButtonTapped(OnSwapSendButtonTapped event, Emitter<TransferExpertState> emit) async {
-    emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: true));
-
-    final esrTransaction = buildOswapTransaction(state, pool: oswapPool);
-    if (esrTransaction == null) {
-      return; // set result as error?
+      return; // set result as error? snackbar?
     }
     final transaction = EOSTransaction.fromESRActionsList(esrTransaction.actions!.map((e) => e!).toList());
-    String failureClass = (await MsigProposal.canMsig(esrTransaction)) ? 'canMsig' : '';
-    final Result result = await SendTransactionUseCase().run(
-      transaction,
-      null,
-    );
-    final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
- }
+    final args = SendConfirmationArguments(transaction: transaction);
+    emit(state.copyWith(
+      pageCommand: NavigateToSendConfirmation(args)
+    ));
+  }
 
-
-  static esr.Transaction?  buildOswapTransaction(TransferExpertState state, { required OswapModel pool, String poolContract = OswapsRepository.defaultPoolContract}) {
+   static esr.Transaction?  buildOswapTransaction(TransferExpertState state, { required OswapModel pool, String poolContract = OswapsRepository.defaultPoolContract}) {
       final from = state.selectedAccounts["from"];
       final to = state.selectedAccounts["to"];
       final inAssetId = pool.balances.firstWhereOrNull((bal) => bal.tokenId == state.sendingToken)?.assetId;
@@ -215,7 +190,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
               'in_token_id': inAssetId,
               'out_token_id': outAssetId,
               'out_amount': deliverAmount,
-              'memo': "swap", //state.memo,
+              'memo': state.memo,
             }
             ..authorization = [
               esr.Authorization()
@@ -234,7 +209,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
               'from': from,
               'to': poolContract,
               'quantity': sendAmount,
-              'memo': "swap", //state.memo,
+              'memo': "swap (nominal send ${state.swapSendAmount!.amountString()})",
             }
             ..authorization = [
               esr.Authorization()

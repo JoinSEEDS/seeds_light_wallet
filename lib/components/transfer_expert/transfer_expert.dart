@@ -18,6 +18,7 @@ import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
@@ -51,6 +52,7 @@ class TransferExpert extends StatelessWidget {
       // swap mode
       final bal = await BlocProvider.of<TransferExpertBloc>(context)
         .balance(state.selectedAccounts["from"] ?? "", state.sendingToken ?? "");
+      BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
       BlocProvider.of<TransferExpertBloc>(context).add(const OnOSwapLoad());
       NavigationService.of(context).navigateTo(Routes.sendAbroad, SwapEnterDataArgs(context: context, senderBalance: bal ?? 0)); // SwapEnterDataScreen
     }

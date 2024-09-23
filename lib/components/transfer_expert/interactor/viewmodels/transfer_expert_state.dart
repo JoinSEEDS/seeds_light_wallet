@@ -18,6 +18,7 @@ class TransferExpertState extends Equatable {
   final PageCommand? pageCommand;
   final RatesState? ratesState;
   final bool showSendingAnimation;
+  final String memo;
 
   const TransferExpertState({
     required this.pageState,
@@ -37,6 +38,7 @@ class TransferExpertState extends Equatable {
     this.pageCommand,
     this.ratesState,
     required this.showSendingAnimation,
+    required this.memo,
   });
 
   @override
@@ -57,6 +59,7 @@ class TransferExpertState extends Equatable {
         pageCommand,
         ratesState,
         showSendingAnimation,
+        memo,
       ];
 
   TransferExpertState copyWith({
@@ -77,6 +80,7 @@ class TransferExpertState extends Equatable {
     PageCommand? pageCommand,
     RatesState? ratesState,
     bool? showSendingAnimation,
+    String? memo,
   }) {
     return TransferExpertState(
       pageState: pageState ?? this.pageState,
@@ -95,7 +99,8 @@ class TransferExpertState extends Equatable {
       swapDeliverAmount: swapDeliverAmount ?? this.swapDeliverAmount,
       pageCommand: pageCommand ?? this.pageCommand,
       ratesState: ratesState ?? this.ratesState,
-      showSendingAnimation: showSendingAnimation ?? showSendingAnimation ?? this.showSendingAnimation,
+      showSendingAnimation: showSendingAnimation ?? this.showSendingAnimation,
+      memo: memo ?? this.memo,
     );
   }
 
@@ -115,6 +120,7 @@ class TransferExpertState extends Equatable {
       swapSendAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
       swapDeliverAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
       showSendingAnimation: false,
+      memo: "",
     );
   }
 }
