@@ -59,7 +59,7 @@ class SwapEnterDataScreen extends StatelessWidget {
         listenWhen: (_, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
         listener: (context, state) {
           final PageCommand? command = state.pageCommand;
-          BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
+          //BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
           if (command is NavigateToSendConfirmation) {
             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
             //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
