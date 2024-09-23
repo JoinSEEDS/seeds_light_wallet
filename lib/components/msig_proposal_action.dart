@@ -93,4 +93,36 @@ class MsigProposal {
     }
     return rv;
   }
+
+  static FutureOr<String?> ApprovalESR ({required String proposer, required String proposalName, String permission = "active"}) async {
+    final approvalAction = esr.Action()
+      ..account = "eosio.msig"
+      ..name = "approve"
+      ..data = {
+        "proposal_name": proposalName,
+        "proposer": proposer,
+        "level": {
+          "actor": esr.ESRConstants.PlaceholderName,
+          "permission": permission,
+        }
+      }
+      ..authorization = [esr.Authorization() ..actor = esr.ESRConstants.PlaceholderName ..permission = permission]
+    ;
+
+    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: approvalAction, chainId: chainId);
+
+    final response = await esr.SigningRequestManager.create(args,
+      options: esr.defaultSigningRequestEncodingOptions(
+        nodeUrl: remoteConfigurations.defaultEndPointUrl,
+          ));
+
+      final rv = response.encode();
+      return rv;
+      /*
+      .then((esr.SigningRequestManager response) => response.encode() ))
+      // ignore: return_of_invalid_type_from_catch_error
+      .catchError((error) => mapEosError(error));
+      */
+
+  }
 }

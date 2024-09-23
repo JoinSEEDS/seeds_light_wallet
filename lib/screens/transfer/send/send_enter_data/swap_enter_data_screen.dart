@@ -34,6 +34,12 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 import 'package:seeds/utils/build_context_extension.dart';
 
 
+class SwapEnterDataArgs {
+  final BuildContext context;
+  final double senderBalance;
+
+  SwapEnterDataArgs({required this.context, required this.senderBalance});
+}
 
 class SwapEnterDataScreen extends StatelessWidget {
   const SwapEnterDataScreen({super.key});
@@ -42,10 +48,11 @@ class SwapEnterDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     bool sendFieldHasFocus = false;
     bool deliverFieldHasFocus = false;
-    final BuildContext fromContext = (ModalRoute.of(context)!.settings.arguments as BuildContext);
+    final args = ModalRoute.of(context)!.settings.arguments as SwapEnterDataArgs;
+    final fromContext = args.context;
+    final senderBalance = args.senderBalance;
     BuildContext? toAmountEntryContext;
 
-    
 
     return BlocListener<TransferExpertBloc, TransferExpertState>(
         bloc: BlocProvider.of<TransferExpertBloc>(fromContext),
@@ -238,6 +245,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                                       onValueChange: (value) {
                                         final newAmount = double.tryParse(value);
                                         if (newAmount != null && sendFieldHasFocus ) {
+                                          //availableBalanceExceeded = newAmount > senderBalance;
                                           BlocProvider.of<TransferExpertBloc>(context).add(OnSwapInputAmountChange(newAmount: newAmount, selected: "from"));
                                         }
                                       },
@@ -249,14 +257,14 @@ class SwapEnterDataScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 16),
                                     AlertInputValue(context.loc.transferSendNotEnoughBalanceAlert,
-                                      isVisible: true), //state.showAlert),
+                                      isVisible: (state.swapSendAmount?.amount ?? 0) > senderBalance), 
                                     const SizedBox(height: 16),
 
                                   
                                   BalanceRow(
                                     label: context.loc.transferSendAvailableBalance,
                                     fiatAmount: FiatDataModel(111), // state.availableBalanceFiat,
-                                    tokenAmount: TokenDataModel(333), //state.availableBalance,
+                                    tokenAmount: TokenDataModel.from(senderBalance, token: state.swapSendAmount!.token)
                                   ),
                                   
                                   const SizedBox(height: 100),

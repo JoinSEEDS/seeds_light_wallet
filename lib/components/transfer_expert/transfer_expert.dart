@@ -8,8 +8,10 @@ import 'package:seeds/components/transfer_expert/components/select_user_text_fie
 import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/components/transfer_expert/signer_select_field.dart';
 import 'package:seeds/components/transfer_expert/token_select_field.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
 import 'package:seeds/datasource/remote/api/oswaps_repository.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
@@ -18,6 +20,7 @@ import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
@@ -46,8 +49,10 @@ class TransferExpert extends StatelessWidget {
       NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles); // SendEnterDataScreen
     } else {
       // swap mode
+      final bal = await BlocProvider.of<TransferExpertBloc>(context)
+        .balance(state.selectedAccounts["from"] ?? "", state.sendingToken ?? "");
       BlocProvider.of<TransferExpertBloc>(context).add(const OnOSwapLoad());
-      NavigationService.of(context).navigateTo(Routes.sendAbroad, context); // SwapEnterDataScreen
+      NavigationService.of(context).navigateTo(Routes.sendAbroad, SwapEnterDataArgs(context: context, senderBalance: bal ?? 0)); // SwapEnterDataScreen
     }
     
   }

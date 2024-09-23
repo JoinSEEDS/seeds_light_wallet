@@ -50,6 +50,17 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     on<OnSwapNextButtonTapped>(_onSwapNextButtonTapped);
   }
 
+  Future<double?> balance(String account, String tokenId) async {
+    final balanceModelResult = await _balanceRepository.getTokenBalance(
+      account,
+      tokenContract: tokenId.split('#')[1],
+      symbol: tokenId.split('#')[2], );
+    if (balanceModelResult.isError) {
+      return null;
+    }
+    return balanceModelResult.asValue!.value.quantity;
+  }
+
   /// Debounce to avoid making search network calls each time the user types
   /// switchMap: To remove the previous event. Every time a        print('From ${state.selectedAccounts["from"]}'); new Stream is created, the previous Stream is discarded.
   Stream<OnSearchChange> _transformEvents(
@@ -98,6 +109,8 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       if (swapout.error == null) {
         tokenDeliverAmount = TokenDataModel(swapout.result!, token: TokenModel.fromId(state.deliveryToken)!);
         emit(state.copyWith(swapDeliverAmount: tokenDeliverAmount));
+      } else {
+        eventBus.fire(ShowSnackBar(swapout.error!));
       }
     } 
     if (event.selected == "to") {
@@ -110,23 +123,27 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       if (swapout.error == null) {
         tokenSendAmount = TokenDataModel(swapout.result!, token: TokenModel.fromId(state.sendingToken)!);
         emit(state.copyWith(swapSendAmount: tokenSendAmount));
+      } else {
+        eventBus.fire(ShowSnackBar(swapout.error!));
       }
     }
   }  
 
+  // TODO: refactor, we should get full asset list when user selects expert mode send
+  // and use that to present available options in drop-down list.
+  // We need to update asset balances only for the two active assets when we
+  // load the send abroad screen
   void _onOSwapLoad(OnOSwapLoad event, Emitter<TransferExpertState> emit) async {
     final result = await _oswapsRepository.getAssetList();
     if (result.isValue) {
       final list = result.asValue!.value;
       for (var i = 0; i < list.length; ++i) {
         final asset = list[i];
-        final balanceModelResult = await _balanceRepository.getTokenBalance(OswapsRepository.defaultPoolContract,
-          tokenContract: asset.tokenId.split('#')[1],
-          symbol: asset.tokenId.split('#')[2], );
-          if(balanceModelResult.isValue) {
-            oswapPool.balances.add(OswapPoolBalance(assetId: asset.assetId, tokenId: asset.tokenId,
-                weight: asset.weight, active: asset.active, balance: balanceModelResult.asValue!.value.quantity));
-          }  
+        final assetBalance = await balance(OswapsRepository.defaultPoolContract, asset.tokenId);
+        if (assetBalance != null) {
+          oswapPool.balances.add(OswapPoolBalance(assetId: asset.assetId, tokenId: asset.tokenId,
+            weight: asset.weight, active: asset.active, balance: assetBalance));
+        }
       };
     }
   }
