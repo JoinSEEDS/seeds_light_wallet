@@ -59,50 +59,8 @@ class SwapEnterDataScreen extends StatelessWidget {
         listenWhen: (_, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
         listener: (context, state) {
           final PageCommand? command = state.pageCommand;
-          //BlocProvider.of<TransferExpertBloc>(context).add(const ClearSendEnterDataPageCommand());
-
-          if (command is ShowFailedTransactionReason) {
-            ErrorDialog(
-              title: command.title,
-              details: command.details,
-              onRightButtonPressed: () {
-                final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                BlocProvider.of<TransferExpertBloc>(context).add(OnSwapSendButtonTapped());
-              },
-              bottomButtonText: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
-                "Retry as Msig Proposal" : null,
-              onBottomButtonPressed: (command.failureClass == "canMsig" && command.details.contains('authority')) ?
-                () async {
-                  final transaction = TransferExpertBloc.buildOswapTransaction(state, pool: BlocProvider.of<TransferExpertBloc>(context).oswapPool);
-                  final auth = transaction?.actions?[0]!.authorization?.map((e) => 
-                        esr.Authorization() ..actor = e?.actor as String? ..permission = e?.permission as String? ).toList();
-                  if (auth == null || auth.length == 0) {
-                    Navigator.pop(context);
-                    return;
-                  } 
-                  final msigESRAction =         
-                    (await MsigProposal.msigProposalAction(
-                      actions: transaction!.actions!.map((e) => e!,).toList(),
-                      auth: transaction.actions![0]!.authorization!.map((e) => 
-                        esr.Authorization() ..actor = e?.actor as String? ..permission = e?.permission as String? ).toList(),
-                      proposer: settingsStorage.accountName,
-                      proposalName: 'seeds${MsigProposal.RandomName(length: 5)}'
-                      )
-                    );
-                  if (msigESRAction == null) {
-                    Navigator.pop(context);
-                    return;
-                  }
-                  final args = SendConfirmationArguments(
-                    transaction: EOSTransaction( [
-                      EOSAction.fromESRAction(msigESRAction!)
-                    ] )
-                  );
-                  NavigationService.of(context).navigateTo(Routes.sendConfirmation, args, true);
-                  //Navigator.of(context).pop();
-                } : null,
-            ).show(context);
-          } else if (command is NavigateToSendConfirmation) {
+          BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
+          if (command is NavigateToSendConfirmation) {
             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
             //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
             NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true); // SendConfirmationScreen
@@ -140,14 +98,6 @@ class SwapEnterDataScreen extends StatelessWidget {
           BlocBuilder<TransferExpertBloc, TransferExpertState>(
           builder: (context, state) { 
           final proxySend = state.selectedAccounts["from"] != settingsStorage.accountName;
-          /*
-          if (state.pageState == PageState.loading) {
-                  /// We want to show special animation only when the user confirms send.
-                  return state.showSendingAnimation
-                      ? const SendLoadingIndicator()
-                      : const SafeArea(child: FullPageLoadingIndicator());
-          }
-          */
           return SafeArea(
                     minimum: const EdgeInsets.all(horizontalEdgePadding),
                     child: Stack(

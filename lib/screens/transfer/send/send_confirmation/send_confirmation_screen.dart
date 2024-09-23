@@ -94,7 +94,9 @@ class SendConfirmationScreen extends StatelessWidget {
                   builder: (context, state) {
                     switch (state.pageState) {
                       case PageState.loading:
-                        return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
+                        final showFlyingCoin = state.isTransfer ||
+                          state.transaction.actions[0].name == "exprepto";
+                        return showFlyingCoin? const SendLoadingIndicator() : const FullPageLoadingIndicator();
                       case PageState.failure:
                         return FullPageErrorIndicator(errorMessage: state.errorMessage);
                       case PageState.success:
