@@ -114,7 +114,7 @@ Map<String, dynamic> _$AbiErrorMessagesToJson(AbiErrorMessages instance) =>
 
 AbiExtensions _$AbiExtensionsFromJson(Map<String, dynamic> json) =>
     AbiExtensions(
-      json['tag'] as int?,
+      (json['tag'] as num?)?.toInt(),
       json['value'] as String?,
     );
 

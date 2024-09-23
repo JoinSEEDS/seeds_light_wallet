@@ -1,6 +1,9 @@
 import 'dart:convert';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -15,10 +18,11 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendTransactionStateMapper extends StateMapper {
   SendConfirmationState mapResultToState(
-    SendConfirmationState currentState,
-    Result result,
-    RatesState rateState,
-    bool shouldShowInAppReview,
+    {required SendConfirmationState currentState,
+    required Result result,
+    required RatesState rateState,
+    required bool shouldShowInAppReview,
+    required String failureClass,}
   ) {
     if (result.isError) {
       return currentState.copyWith(
@@ -26,6 +30,7 @@ class SendTransactionStateMapper extends StateMapper {
         pageCommand: ShowFailedTransactionReason(
           title: 'Error Sending Transaction',
           details: '${result.asError!.error}'.userErrorMessage,
+          failureClass: failureClass,
         ),
         transactionResult: TransactionResult(
           status: TransactionResultStatus.failure,

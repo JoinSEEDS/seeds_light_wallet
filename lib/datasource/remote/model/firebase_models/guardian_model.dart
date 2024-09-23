@@ -32,9 +32,9 @@ class GuardianModel {
           status: fromStatusName(data[GUARDIANS_STATUS_KEY] as String?),
           type: fromTypeName(data[TYPE_KEY] as String?),
           dateCreated: data[GUARDIANS_DATE_CREATED_KEY] as Timestamp,
-          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY] as Timestamp,
-          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY] as Timestamp,
-          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY] as Timestamp,
+          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY] as Timestamp?,
+          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY] as Timestamp?,
+          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY] as Timestamp?,
         );
 
   GuardianModel copyWith({

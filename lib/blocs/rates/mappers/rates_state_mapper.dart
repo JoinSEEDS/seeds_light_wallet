@@ -5,9 +5,9 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 
 class RatesStateMapper extends StateMapper {
-  static const husdTokenId = 'husd.hypha#HUSD';
-  static const telosTokenId = 'eosio.token#TLOS';
-  static const seedsTokenId = 'token.seeds#SEEDS';
+  static const husdTokenId = 'Telos#husd.hypha#HUSD';
+  static const telosTokenId = 'Telos#eosio.token#TLOS';
+  static const seedsTokenId = 'Telos#token.seeds#SEEDS';
   RatesState mapResultToState(RatesState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch balance...');

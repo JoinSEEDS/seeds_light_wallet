@@ -26,7 +26,21 @@ class SigningRequest {
 
   SigningRequest();
 
-  factory SigningRequest.fromJson(Map<String, dynamic> json) => _$SigningRequestFromJson(json);
+  factory SigningRequest.fromJson(Map<String, dynamic> json) {
+    final List info = json['info'] as List;
+    final List<InfoPair> infos = info
+      .map((e) => (InfoPair()
+        ..key = e['key'] as String 
+        ..value = e['value'] as String))
+      .toList();
+    return SigningRequest()
+      ..chainId = json['chain_id'] as List<dynamic>?
+      ..req = json['req'] as List<dynamic>?
+      ..flags = (json['flags'] as num).toInt()
+      ..callback = json['callback'] as String?
+      ..info = infos;
+  }
+
 
   Map<String, dynamic> toJson() => _$SigningRequestToJson(this);
 

@@ -5,6 +5,7 @@ class SendEnterDataState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final ProfileModel sendTo;
+  final ProfileModel? sendFrom;
   final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final RatesState ratesState;
@@ -15,12 +16,14 @@ class SendEnterDataState extends Equatable {
   final bool shouldAutoFocusEnterField;
   final bool showAlert;
   final bool showSendingAnimation;
+  final bool? retryMsig;
 
   const SendEnterDataState({
     required this.pageState,
     this.pageCommand,
     this.errorMessage,
     required this.sendTo,
+    this.sendFrom,
     this.fiatAmount,
     required this.ratesState,
     this.availableBalance,
@@ -31,6 +34,7 @@ class SendEnterDataState extends Equatable {
     required this.shouldAutoFocusEnterField,
     required this.showAlert,
     required this.showSendingAnimation,
+    this.retryMsig,
   });
 
   @override
@@ -39,6 +43,7 @@ class SendEnterDataState extends Equatable {
         pageCommand,
         errorMessage,
         sendTo,
+        sendFrom,
         fiatAmount,
         ratesState,
         availableBalance,
@@ -49,6 +54,7 @@ class SendEnterDataState extends Equatable {
         shouldAutoFocusEnterField,
         showAlert,
         showSendingAnimation,
+        retryMsig,
       ];
 
   SendEnterDataState copyWith({
@@ -56,6 +62,7 @@ class SendEnterDataState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     ProfileModel? sendTo,
+    ProfileModel? sendFrom,
     FiatDataModel? fiatAmount,
     RatesState? ratesState,
     TokenDataModel? availableBalance,
@@ -66,12 +73,14 @@ class SendEnterDataState extends Equatable {
     bool? shouldAutoFocusEnterField,
     bool? showAlert,
     bool? showSendingAnimation,
+    bool? retryMsig,
   }) {
     return SendEnterDataState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       sendTo: sendTo ?? this.sendTo,
+      sendFrom: sendFrom ?? this.sendFrom,
       fiatAmount: fiatAmount ?? this.fiatAmount,
       ratesState: ratesState ?? this.ratesState,
       availableBalance: availableBalance ?? this.availableBalance,
@@ -82,13 +91,15 @@ class SendEnterDataState extends Equatable {
       shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField,
       showAlert: showAlert ?? this.showAlert,
       showSendingAnimation: showSendingAnimation ?? this.showSendingAnimation,
+      retryMsig: retryMsig ?? this.retryMsig,
     );
   }
 
-  factory SendEnterDataState.initial(ProfileModel memberModel, RatesState ratesState) {
+  factory SendEnterDataState.initial(Map<String, ProfileModel> memberModels, RatesState ratesState,) {
     return SendEnterDataState(
       pageState: PageState.initial,
-      sendTo: memberModel,
+      sendTo: memberModels["to"]!,
+      sendFrom: memberModels["from"],
       ratesState: ratesState,
       isNextButtonEnabled: false,
       tokenAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
@@ -96,6 +107,7 @@ class SendEnterDataState extends Equatable {
       shouldAutoFocusEnterField: true,
       showAlert: false,
       showSendingAnimation: false,
+      retryMsig: false,
     );
   }
 }

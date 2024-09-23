@@ -36,5 +36,13 @@ class ShowInvalidTransactionReason extends TransactionPageCommand {
 class ShowFailedTransactionReason extends TransactionPageCommand {
   final String title;
   final String details;
-  ShowFailedTransactionReason({required this.title, required this.details});
+  late String failureClass;
+  ShowFailedTransactionReason({required this.title, required this.details, this.failureClass = ''});
 }
+
+
+class RetryAsMsig extends TransactionPageCommand {
+  RetryAsMsig();
+}
+
+

@@ -29,17 +29,17 @@ class _DashPainter extends CustomPainter {
       ..strokeCap = strokeCap
       ..style = PaintingStyle.stroke;
 
-    Path _path;
+    Path path;
     if (customPath != null) {
-      _path = dashPath(
+      path = dashPath(
         customPath!(size),
         dashArray: CircularIntervalList(dashPattern),
       );
     } else {
-      _path = _getPath(size);
+      path = _getPath(size);
     }
 
-    canvas.drawPath(_path, paint);
+    canvas.drawPath(path, paint);
   }
 
   /// Returns a [Path] based on the the [borderType] parameter

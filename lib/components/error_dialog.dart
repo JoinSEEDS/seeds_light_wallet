@@ -7,8 +7,11 @@ class ErrorDialog extends StatelessWidget {
   final String title;
   final String details;
   final VoidCallback? onRightButtonPressed;
+  final String? bottomButtonText;
+  final VoidCallback? onBottomButtonPressed;
 
-  const ErrorDialog({super.key, required this.title, required this.details, this.onRightButtonPressed});
+  const ErrorDialog({super.key, required this.title, required this.details, this.onRightButtonPressed,
+    this.bottomButtonText, this.onBottomButtonPressed});
 
   Future<void> show(BuildContext context) {
     return showDialog<void>(context: context, barrierDismissible: false, builder: (_) => this);
@@ -24,14 +27,19 @@ class ErrorDialog extends StatelessWidget {
         onRightButtonPressed?.call();
       },
       leftButtonTitle: context.loc.genericCancelButtonTitle,
+      singleLargeButtonTitle: bottomButtonText ?? '',
+      onSingleLargeButtonPressed: () { 
+        Navigator.of(context).pop;
+        onBottomButtonPressed?.call();
+      },
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 20.0),
-        Text(details, style: Theme.of(context).textTheme.subtitle2),
+        Text(details, style: Theme.of(context).textTheme.titleSmall),
       ],
     );
   }

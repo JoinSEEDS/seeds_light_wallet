@@ -55,8 +55,9 @@ class MembersRepository extends HttpRepository {
 
   Future<Result<List<ProfileModel>>> getFullNameSearchMembers(String filter) async {
     print("[http] getFullNameSearchMembers $filter");
-
-    final mongoUrl = Uri.parse("https://mongo-api.hypha.earth/find");
+      // https://mongo-api.hypha.earth/find is not being maintained 5/24
+      //  and takes a long time to return error, so give quicker fail "forbidden"
+    final mongoUrl = Uri.parse("https://mongo-api.hypha.earth/find_failme");
     final aboutMessage = 'getFullNameSearchMembers $filter from $mongoUrl';
 
     final params = '''

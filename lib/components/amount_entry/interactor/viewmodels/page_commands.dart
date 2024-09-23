@@ -5,3 +5,9 @@ class SendTextInputDataBack extends PageCommand {
 
   SendTextInputDataBack(this.textToSend);
 }
+
+class PushTextIntoField extends PageCommand {
+  final String textToPush;
+
+  PushTextIntoField(this.textToPush);
+}

@@ -98,10 +98,11 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
                   theseTokens.add(tm);
                   print("supply: $supply");
                 }
-              },
-            ).catchError((dynamic error) => statRepository.mapHttpError(error));
+              }
+            );
         }
       }
+      // ignore: avoid_redundant_argument_values
       final queue = Queue(parallel: 5);
       for (final dynamic token in tokens) {
         unawaited(

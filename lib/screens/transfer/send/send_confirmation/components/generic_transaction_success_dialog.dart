@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/custom_dialog.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -62,6 +63,35 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(
                             text: transactionModel.transactionId ?? context.loc.transferTransactionSuccessNoID))
+                        .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
+                  },
+                )
+              ],
+            ),
+            if (transactionModel.transaction.actions[0].name == "propose"
+              && transactionModel.transaction.actions[0].account == "eosio.msig")
+            Row(
+              children: [
+                Text("Multisig Proposal:", style: Theme.of(context).textTheme.subtitle2),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    transactionModel.transaction.actions[0].data?["proposal_name"] as String? ?? "",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.copy),
+                  color: AppColors.lightGreen6,
+                  onPressed: () async {
+                    final proposalName = transactionModel.transaction.actions[0].data?["proposal_name"] as String? ?? "";
+                    final proposer = transactionModel.transaction.actions[0].data?["proposer"] as String? ?? "";
+                    final esrString = await MsigProposal.ApprovalESR(proposer: proposer, proposalName: proposalName);
+                    final approvalLink = (esrString == null) ? '$proposalName by $proposer' :
+                      'https://eosio.to/${esrString!.replaceAll("esr://", "")}';
+                    Clipboard.setData(ClipboardData(
+                            text: approvalLink))
                         .then((_) => eventBus.fire(ShowSnackBar(context.loc.transferTransactionSuccessCopiedMessage)));
                   },
                 )

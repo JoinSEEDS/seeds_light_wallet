@@ -15,7 +15,7 @@ ActionWithReceipt _$ActionWithReceiptFromJson(Map<String, dynamic> json) =>
           ? null
           : Action.fromJson(json['act'] as Map<String, dynamic>)
       ..contextFree = json['context_free'] as bool?
-      ..elapsed = json['elapsed'] as int?
+      ..elapsed = (json['elapsed'] as num?)?.toInt()
       ..console = json['console'] as String?
       ..trxId = json['trx_id'] as String?
       ..blockNum = ConversionHelper.getIntFromJson(json['block_num'])

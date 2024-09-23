@@ -64,12 +64,12 @@ class DottedBorder extends StatelessWidget {
   /// * Cannot be null or empty
   /// * If [dashPattern] has only 1 element, it cannot be 0
   bool _isValidDashPattern(List<double>? dashPattern) {
-    final Set<double>? _dashSet = dashPattern?.toSet();
-    if (_dashSet == null) {
+    final Set<double>? dashSet = dashPattern?.toSet();
+    if (dashSet == null) {
       return false;
-    } else if (_dashSet.length == 1 && _dashSet.elementAt(0) == 0.0) {
+    } else if (dashSet.length == 1 && dashSet.elementAt(0) == 0.0) {
       return false;
-    } else if (_dashSet.isEmpty) {
+    } else if (dashSet.isEmpty) {
       return false;
     }
     return true;

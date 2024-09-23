@@ -2,6 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
+import 'package:seeds/crypto/eosdart/eosdart.dart';
+import 'package:seeds/crypto/eosdart/src/models/action.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
@@ -24,8 +28,8 @@ part 'send_enter_data_event.dart';
 part 'send_enter_data_state.dart';
 
 class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
-  SendEnterDataBloc(ProfileModel memberModel, RatesState rates)
-      : super(SendEnterDataState.initial(memberModel, rates)) {
+  SendEnterDataBloc(Map<String,ProfileModel> memberModels, RatesState rates)
+      : super(SendEnterDataState.initial(memberModels, rates)) {
     on<InitSendDataArguments>(_initSendDataArguments);
     on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
     on<OnAmountChange>(_onAmountChange);
@@ -34,9 +38,31 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
     on<ClearSendEnterDataPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
+  static esr.Transaction  buildTransferTransaction(SendEnterDataState state) {
+      final from = state.sendFrom?.account ?? settingsStorage.accountName;
+      return esr.Transaction()
+        ..actions = [
+          esr.Action()
+            ..account = settingsStorage.selectedToken.contract
+            ..name = transferAction
+            ..data = {
+              'from': from,
+              'to': state.sendTo.account,
+              'quantity': TokenModel.getAssetString(state.tokenAmount.id, state.tokenAmount.amount),
+              'memo': state.memo,
+            }
+            ..authorization = [
+              esr.Authorization()
+                ..actor = from
+                ..permission = "active"
+            ]
+        ];
+  }
+
   Future<void> _initSendDataArguments(InitSendDataArguments event, Emitter<SendEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: false));
-    final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+    final Result<BalanceModel> result = await GetAvailableBalanceUseCase()
+      .run(settingsStorage.selectedToken, account: state.sendFrom?.account);
     emit(SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, 0.toString()));
   }
 
@@ -59,22 +85,23 @@ class SendEnterDataBloc extends Bloc<SendEnterDataEvent, SendEnterDataState> {
     ));
   }
 
+  
   Future<void> _onSendButtonTapped(OnSendButtonTapped event, Emitter<SendEnterDataState> emit) async {
     emit(state.copyWith(pageState: PageState.loading, showSendingAnimation: true));
+
+    final esrTransaction = buildTransferTransaction(state);
+    final transaction = EOSTransaction.fromESRActionsList(esrTransaction.actions!.map((e) => e!).toList());
+    String failureClass = (await MsigProposal.canMsig(esrTransaction)) ? 'canMsig' : '';
     final Result result = await SendTransactionUseCase().run(
-      EOSTransaction.fromAction(
-        account: settingsStorage.selectedToken.contract,
-        actionName: transferAction,
-        data: {
-          'from': settingsStorage.accountName,
-          'to': state.sendTo.account,
-          'quantity': TokenModel.getAssetString(state.tokenAmount.id, state.tokenAmount.amount),
-          'memo': state.memo,
-        },
-      ),
+      transaction,
       null,
     );
     final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
-    emit(SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview));
+
+    emit(SendTransactionMapper().mapResultToState(
+      currentState: state,
+      result: result,
+      shouldShowInAppReview: shouldShowInAppReview,
+      failureClass: failureClass));
   }
 }

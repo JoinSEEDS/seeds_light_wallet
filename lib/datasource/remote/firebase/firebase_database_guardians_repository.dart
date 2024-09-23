@@ -35,7 +35,6 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
         .collection(GUARDIANS_COLLECTION_KEY)
         .snapshots()
         .asyncMap((QuerySnapshot event) => event.docs.map(
-            // ignore: cast_nullable_to_non_nullable
             (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data() as Map<String, dynamic>)).toList());
   }
 

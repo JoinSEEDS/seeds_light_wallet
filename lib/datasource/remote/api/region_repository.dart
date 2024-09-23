@@ -103,7 +103,7 @@ class RegionRepository extends HttpRepository with EosRepository {
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse<RegionMemberModel?>(response, (Map<String, dynamic> body) {
-              final List<Map<String, dynamic>> items = body['rows'] as List<Map<String, dynamic>>;
+              final List<Map<String, dynamic>> items = (body['rows'] as List).cast<Map<String, dynamic>>();
               if (items.isEmpty) {
                 return null;
               } else {
