@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -64,6 +66,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<void> _onAppMounted(OnAppMounted event, Emitter<AppState> emit) async {
+    // Firebase was misconfigured at some point
+    final String account = settingsStorage.accountName;
+    if (account != '') {
+      await FirebaseMessageTokenRepository().setFirebaseMessageToken(account);
+    }
+
     // The first time app widged is mounted, check if there is a signing request waiting.
     if (_deeplinkBloc.state.signingRequest != null) {
       // When user clicks a signing deeplink
