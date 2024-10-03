@@ -83,19 +83,20 @@ class GetTokenModelsUseCase extends InputUseCase<List<TokenModel>, TokenModelSel
       List<TokenModel?> theseTokens = [];
 
       /// verify token contract on chain and get contract precision
-      loadData(token) async {
-        TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
+      Future<void> loadData(dynamic token) async {
+        final TokenModel? tm = TokenModel.fromJson(token as Map<String, dynamic>);
         if (tm != null) {
-          await _statRepository.getTokenStat(tokenContract: tm.contract, symbol: tm.symbol).then(
-            (stats) async {
-              if (stats.asValue != null) {
-                final supply = stats.asValue!.value.supplyString;
-                tm.setPrecisionFromString(supply);
-                theseTokens.add(tm);
-                print("supply: $supply");
-              }
-            },
-          ).catchError((dynamic error) => _statRepository.mapHttpError(error));
+          try {
+            final stats = await _statRepository.getTokenStat(tokenContract: tm.contract, symbol: tm.symbol);
+            if (stats.isValue) {
+              final supply = stats.asValue!.value.supplyString;
+              tm.setPrecisionFromString(supply);
+              theseTokens.add(tm);
+              print("supply: $supply");
+            }
+          } catch (error) {
+            _statRepository.mapHttpError(error);
+          }
         }
       }
 
