@@ -16,7 +16,7 @@ const String _featureFlagRegions = 'feature_flag_regions_enabled';
 const String _featureFlagTokenMasterList = 'feature_flag_token_master_list_enabled';
 
 // MAINNET CONFIG
-const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
+const String _eosEndpoints = '[ { "url": "https://mainnet.telos.net", "isDefault": true } ]';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 // we need a separate endpoint for v2/history as most nodes don't support v2
