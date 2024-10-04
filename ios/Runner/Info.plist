@@ -48,6 +48,9 @@
 		<string>https://joinseeds.com</string>
 		<string>https://seedswallet.page.link</string>
 	</array>
+    <!-- Firebase related key -->
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
