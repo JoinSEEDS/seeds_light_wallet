@@ -36,8 +36,9 @@ class OnDeliveryTokenChange extends TransferExpertEvent {
 class OnSwapInputAmountChange extends TransferExpertEvent {
   final double newAmount;
   final String selected;
+  final GlobalKey<AmountEntryWidgetState> otherKey;
 
-  const OnSwapInputAmountChange({required this.newAmount, required this.selected});
+  const OnSwapInputAmountChange({required this.newAmount, required this.selected, required this.otherKey});
 
   @override
   String toString() => 'Swap input value for "$selected" changed to $newAmount';

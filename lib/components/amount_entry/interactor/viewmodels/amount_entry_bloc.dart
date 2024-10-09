@@ -20,28 +20,10 @@ class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
   TransferExpertBloc? transferBloc;
   String? fieldName;
   StreamSubscription? transferBlocSubscription;
-  late bool xfrBlocAvail;
   AmountEntryBloc(RatesState rates, TokenDataModel tokenDataModel,
    {required this.transferBloc, this.fieldName})
       : super(AmountEntryState.initial(rates, tokenDataModel)) {
 
-    xfrBlocAvail = transferBloc != null;
-    if (xfrBlocAvail) {
-      transferBlocSubscription = transferBloc!.stream.listen((transferState) {
-        String newAmount = "";
-        if (fieldName == "from") {
-          if (transferState.swapSendAmount!.amount != state.tokenAmount.amount) {
-            newAmount = transferState.swapSendAmount!.amountString();
-            add(OnPushAmount(amountChanged: newAmount));
-          }
-        }  else if (fieldName == "to") {
-          if (transferState.swapDeliverAmount!.amount != state.tokenAmount.amount) {
-            newAmount = transferState.swapDeliverAmount!.amountString();
-            add(OnPushAmount(amountChanged: newAmount));
-          }
-        } 
-      });
-    };
     on<OnCurrencySwitchButtonTapped>(_onCurrencySwitchButtonTapped);
     on<OnAmountChange>((event, emit) => emit(AmountChangeMapper().mapResultToState(state, event.amountChanged)));
     on<ClearAmountEntryPageCommand>((_, emit) => emit(state.copyWith(pageCommand: NoCommand())));
@@ -53,8 +35,4 @@ class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
     add(OnAmountChange(amountChanged: state.textInput));
   }
 
-  Future<void> close() {
-    transferBlocSubscription?.cancel();
-    return super.close();
-  }
 }

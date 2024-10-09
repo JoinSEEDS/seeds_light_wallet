@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
 import 'package:seeds/components/msig_proposal_action.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
 import 'package:seeds/components/transfer_expert/interactor/mappers/send_expert_transaction_mapper.dart';
@@ -112,6 +113,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       if (swapout.error == null) {
         tokenDeliverAmount = TokenDataModel(swapout.result!, token: TokenModel.fromId(state.deliveryToken)!);
         emit(state.copyWith(swapDeliverAmount: tokenDeliverAmount));
+        event.otherKey.currentState!.pushText(tokenDeliverAmount.amountString());
       } else {
         eventBus.fire(ShowSnackBar(swapout.error!));
       }
@@ -126,6 +128,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       if (swapout.error == null) {
         tokenSendAmount = TokenDataModel(swapout.result!, token: TokenModel.fromId(state.sendingToken)!);
         emit(state.copyWith(swapSendAmount: tokenSendAmount));
+        event.otherKey.currentState!.pushText(tokenSendAmount.amountString());
       } else {
         eventBus.fire(ShowSnackBar(swapout.error!));
       }

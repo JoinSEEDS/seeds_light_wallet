@@ -20,19 +20,20 @@ class AmountEntryWidget extends StatefulWidget {
 
 
 const AmountEntryWidget({
-    super.key,
+    Key? key,
     required this.tokenDataModel,
     required this.onValueChange,
     this.onFocusChanged,
     required this.autoFocus,
     this.fieldName,
-  });
+  }) : super(key: key);
 
   @override
-  _AmountEntryWidgetState createState() => _AmountEntryWidgetState();
+  AmountEntryWidgetState createState() => AmountEntryWidgetState();
 }
 
-class _AmountEntryWidgetState extends State<AmountEntryWidget> {
+// public class in order to support GlobalKey
+class AmountEntryWidgetState extends State<AmountEntryWidget> {
   late TextEditingController _controller;
   String? newText;
 

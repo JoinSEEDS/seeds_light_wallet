@@ -188,7 +188,7 @@ class NavigationService {
     Routes.editRegionEventTimeAndDate: (_) => const EditRegionEventTimeAndDate(),
     Routes.editRegionEventImage: (_) => const EditRegionEventImage(),
     Routes.newAuthAccount: (_) => const NewAuthScreen(),
-    Routes.sendAbroad: (_) => const SwapEnterDataScreen(),
+    Routes.sendAbroad: (_) => SwapEnterDataScreen(), // was const
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too

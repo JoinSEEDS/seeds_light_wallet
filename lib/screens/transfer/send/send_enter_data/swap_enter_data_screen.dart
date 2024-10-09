@@ -5,6 +5,7 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/alert_input_value.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
+import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
 import 'package:seeds/components/balance_row.dart';
 import 'package:seeds/components/error_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
@@ -42,7 +43,9 @@ class SwapEnterDataArgs {
 }
 
 class SwapEnterDataScreen extends StatelessWidget {
-  const SwapEnterDataScreen({super.key});
+  final keyDeliverAmount = GlobalKey<AmountEntryWidgetState>();
+  final keySendAmount = GlobalKey<AmountEntryWidgetState>();
+  SwapEnterDataScreen({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -122,11 +125,13 @@ class SwapEnterDataScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               AmountEntryWidget(
+                                key: keyDeliverAmount,
                                 tokenDataModel: state.swapDeliverAmount!,
                                 onValueChange: (value) {
                                   final newAmount = double.tryParse(value);
                                   if (newAmount != null && deliverFieldHasFocus) {
-                                    BlocProvider.of<TransferExpertBloc>(context).add(OnSwapInputAmountChange(newAmount: newAmount, selected: "to"));
+                                    BlocProvider.of<TransferExpertBloc>(context)
+                                      .add(OnSwapInputAmountChange(newAmount: newAmount, selected: "to", otherKey: keySendAmount));
                                   }
                                 },
                                 autoFocus: state.pageState == PageState.initial,
@@ -174,12 +179,14 @@ class SwapEnterDataScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     AmountEntryWidget(
+                                      key: keySendAmount,
                                       tokenDataModel: state.swapSendAmount!,
                                       onValueChange: (value) {
                                         final newAmount = double.tryParse(value);
                                         if (newAmount != null && sendFieldHasFocus ) {
                                           //availableBalanceExceeded = newAmount > senderBalance;
-                                          BlocProvider.of<TransferExpertBloc>(context).add(OnSwapInputAmountChange(newAmount: newAmount, selected: "from"));
+                                          BlocProvider.of<TransferExpertBloc>(context)
+                                           .add(OnSwapInputAmountChange(newAmount: newAmount, selected: "from", otherKey: keyDeliverAmount));
                                         }
                                       },
                                       autoFocus: state.pageState == PageState.initial,
