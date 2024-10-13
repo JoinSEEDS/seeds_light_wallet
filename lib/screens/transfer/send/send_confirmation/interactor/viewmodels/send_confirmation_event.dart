@@ -31,3 +31,12 @@ class OnAuthorizationFailure extends SendConfirmationEvent {
   @override
   String toString() => 'OnAuthorizationFailure { rates: $rates }';
 }
+
+class OnMakeForeignButtonPressed extends SendConfirmationEvent {
+  final BuildContext context;
+
+  const OnMakeForeignButtonPressed(this.context);
+
+  @override
+  String toString() => 'OnMakeForeignButtonPressed';
+}

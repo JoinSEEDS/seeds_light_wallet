@@ -123,6 +123,19 @@ class SendConfirmationScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
+                              if (state.invalidTransaction != InvalidTransaction.none
+                                    && state.isTransfer) 
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: FlatButtonLong(
+                                  title: "send via exchange", //context.loc.transferConfirmationButton,
+                                  onPressed: () {
+                                    BlocProvider.of<SendConfirmationBloc>(context)
+                                        .add(OnMakeForeignButtonPressed(context));
+                                  },
+                                ),
+                              ),
+                              
                               Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: FlatButtonLong(

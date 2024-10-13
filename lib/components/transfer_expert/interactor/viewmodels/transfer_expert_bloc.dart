@@ -1,16 +1,10 @@
-import 'package:async/async.dart';
-import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
-import 'package:seeds/components/msig_proposal_action.dart';
-import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
-import 'package:seeds/components/transfer_expert/interactor/mappers/send_expert_transaction_mapper.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
@@ -18,6 +12,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/datasource/remote/api/eosaccount_repository.dart';
 import 'package:seeds/datasource/remote/api/oswaps_repository.dart';
+import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/eos_account_model.dart';
 import 'package:seeds/datasource/remote/model/oswap_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
@@ -26,9 +21,9 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
-import 'package:seeds/screens/transfer/send/send_enter_data/interactor/mappers/send_transaction_mapper.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 
 part 'transfer_expert_event.dart';
 part 'transfer_expert_state.dart';
@@ -41,8 +36,8 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
   final _balanceRepository = BalanceRepository();
 
 
-  TransferExpertBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus)
-      : super(TransferExpertState.initial(noShowUsers, filterByCitizenshipStatus)) {
+  TransferExpertBloc(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus, {bool preset = false})
+      : super(TransferExpertState.initial(noShowUsers, filterByCitizenshipStatus, preset: preset)) {
     on<OnSearchChange>(_onSearchChange, transformer: _transformEvents);
     on<ClearIconTapped>(_clearIconTapped);
     on<OnDeliveryTokenChange>(_onDeliveryTokenChange);
@@ -50,7 +45,10 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
     on<OnOSwapLoad>(_onOSwapLoad);
     on<OnSwapNextButtonTapped>(_onSwapNextButtonTapped);
     on<OnMemoChange>((event, emit) => emit(state.copyWith(memo: event.memoChanged)));
+    on<OnSendNextButtonTapped>(_onSendNextButtonTapped);
     on<ClearPageCommand>((event, emit) => emit(state.copyWith(pageCommand: NoCommand())));
+    on<PresetPageCommand>((event, emit) => emit(state.copyWith(pageCommand: Preset())));
+    on<SwapPresetPageCommand>((event, emit) => emit(state.copyWith(pageCommand: SwapPreset())));
 
   }
 
@@ -74,14 +72,16 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
 
   Future<void> _onSearchChange(OnSearchChange event, Emitter<TransferExpertState> emit) async {
     final newSelectedAccounts = Map<String, String>.from(state.selectedAccounts);
-    newSelectedAccounts[event.accountKey] = event.searchQuery;
+    newSelectedAccounts.remove(event.accountKey);
     List<String> newValidChainAccounts = List<String>.from(state.validChainAccounts);
+    newValidChainAccounts.removeWhere((e) => e == event.accountKey);
     final newAccountPermissions = Map<String, EOSAccountModel?>.from(state.accountPermissions);
     final accountModel = (await _eosaccountrepository.getEOSAccount(event.searchQuery)).asValue?.value;
     newAccountPermissions[event.accountKey] = accountModel;
-    accountModel != null ?
-      newValidChainAccounts.add(event.accountKey)
-      : newValidChainAccounts.remove(event.accountKey);
+    if(accountModel != null) {
+      newValidChainAccounts.add(event.accountKey);
+      newSelectedAccounts[event.accountKey] = event.searchQuery;
+    }
     emit(state.copyWith(
       pageState: PageState.loading,
       showClearIcon: event.searchQuery.isNotEmpty,
@@ -90,7 +90,7 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
       validChainAccounts: newValidChainAccounts,
     ));
   }
-
+ 
   void _onDeliveryTokenChange(OnDeliveryTokenChange event, Emitter<TransferExpertState> emit) {
     emit(state.copyWith(deliveryToken: event.tokenId,
       swapDeliverAmount: TokenDataModel(0.0, token: TokenModel.fromId(event.tokenId)!)));
@@ -152,6 +152,40 @@ class TransferExpertBloc extends Bloc<TransferExpertEvent, TransferExpertState> 
         }
       };
     }
+    final args = SwapTxArgs (
+      selectedAccounts: state.selectedAccounts,
+      sendingToken: state.sendingToken,
+      deliveryToken: state.deliveryToken,
+      memo: state.memo,
+      context: event.context,
+      senderBalance: event.bal,
+    );
+    emit(state.copyWith(pageCommand: NavigateToSwap(args)));
+   }
+   
+  void _onSendNextButtonTapped(OnSendNextButtonTapped event, Emitter<TransferExpertState> emit) async {
+    // navigate to basic or expert send_confirmation
+    print("Send: Next button pressed");
+    //final context = event.context;
+    //final state = BlocProvider.of<TransferExpertBloc>(context).state;
+    if (state.deliveryToken == settingsStorage.selectedToken.id) {
+      print("proxy token transfer");
+      Map<String, ProfileModel> profiles = {};
+      profiles["to"] = (await ProfileRepository().getProfile(state.selectedAccounts["to"]!)).asValue?.value
+        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["to"]!);
+      profiles["from"] = (await ProfileRepository().getProfile(state.selectedAccounts["from"]!)).asValue?.value
+        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["from"]!);
+      emit(state.copyWith(pageCommand: NavigateToSendEnterData(profiles))); // SendEnterDataScreen
+    } else {
+      // swap mode
+
+      final bal = await balance(state.selectedAccounts["from"] ?? "", state.sendingToken ?? "");
+      add(const ClearPageCommand());
+      add(OnOSwapLoad(context: event.context, bal: bal ?? 0)); // TODO add context & balance args
+      // TODO: defer navigation until oswap load has finished (PageCommand?)
+      //NavigationService.of(context).navigateTo(Routes.sendAbroad, SwapEnterDataArgs(context: context, senderBalance: bal ?? 0)); // SwapEnterDataScreen
+    }
+    
   }
   
   void _onSwapNextButtonTapped(OnSwapNextButtonTapped event, Emitter<TransferExpertState> emit) async {

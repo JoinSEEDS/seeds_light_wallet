@@ -10,13 +10,14 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/utils/build_context_extension.dart';
 
 class TokenSelectField extends StatefulWidget {
-  const TokenSelectField({super.key});
+  final String? i;
+  const TokenSelectField({Key? key, this.i}) : super(key: key);
 
   @override
-  _TokenSelectFieldState createState() => _TokenSelectFieldState();
+  TokenSelectFieldState createState() => TokenSelectFieldState();
 }
 
-class _TokenSelectFieldState extends State<TokenSelectField> {
+class TokenSelectFieldState extends State<TokenSelectField> {
   List<String> tokenIds = TokenModel.allTokens.map((t)=>t.id).toList();
   late String selectedId;
   final _searchBorder = const OutlineInputBorder(
@@ -33,7 +34,7 @@ class _TokenSelectFieldState extends State<TokenSelectField> {
   @override
   void initState() {
     super.initState();
-    selectedId = settingsStorage.selectedToken.id;
+    selectedId = widget.i ?? settingsStorage.selectedToken.id;
   }
 
   @override

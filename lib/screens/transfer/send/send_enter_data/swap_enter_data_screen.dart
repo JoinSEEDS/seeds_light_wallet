@@ -33,41 +33,63 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/utils/observer_utils.dart';
 
 
-class SwapEnterDataArgs {
-  final BuildContext context;
-  final double senderBalance;
+class SwapTxArgs {
+   Map<String, String?>? selectedAccounts;
+   String? sendingToken;
+   String? deliveryToken;
+   TokenDataModel? swapSendAmount;
+   TokenDataModel? swapDeliverAmount;
+   String? memo;
 
-  SwapEnterDataArgs({required this.context, required this.senderBalance});
+   double? senderBalance;
+   BuildContext? context;
+
+SwapTxArgs({this.selectedAccounts, this.sendingToken, this.deliveryToken,
+  this.swapSendAmount, this.swapDeliverAmount, this.memo, this.senderBalance, this.context});
+
 }
 
-class SwapEnterDataScreen extends StatelessWidget {
+class SwapEnterDataScreen extends StatelessWidget with RouteAware {
   final keyDeliverAmount = GlobalKey<AmountEntryWidgetState>();
   final keySendAmount = GlobalKey<AmountEntryWidgetState>();
+  late TransferExpertBloc txbloc;
+  late SwapTxArgs args;
   SwapEnterDataScreen({super.key});
-  
+
+  @override
+  void didPush() {
+    txbloc.add(SwapPresetPageCommand());
+  }
+
+
   @override
   Widget build(BuildContext context) {
     bool sendFieldHasFocus = false;
     bool deliverFieldHasFocus = false;
-    final args = ModalRoute.of(context)!.settings.arguments as SwapEnterDataArgs;
-    final fromContext = args.context;
-    final senderBalance = args.senderBalance;
-    BuildContext? toAmountEntryContext;
-
+    args = ModalRoute.of(context)!.settings.arguments as SwapTxArgs;
+    final senderBalance = args.senderBalance!; // TODO: if null, get balance
+    final fromContext = args.context!;
+    txbloc = BlocProvider.of<TransferExpertBloc>(fromContext);
+    ObserverUtils.routeObserver.subscribe(this, ModalRoute.of(context)!); // how to dispose??
 
     return BlocListener<TransferExpertBloc, TransferExpertState>(
         bloc: BlocProvider.of<TransferExpertBloc>(fromContext),
-        listenWhen: (_, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
+        listenWhen: (previous, current) =>  !(current.pageCommand is NoCommand),
         listener: (context, state) {
           final PageCommand? command = state.pageCommand;
-          //BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
-          if (command is NavigateToSendConfirmation) {
+          if (command is SwapPreset) {
+            keyDeliverAmount.currentState!.pushText(args.swapDeliverAmount!.amountString());
+            BlocProvider.of<TransferExpertBloc>(fromContext).add(OnSwapInputAmountChange(
+              newAmount: args.swapDeliverAmount?.amount ?? 9.9,
+              selected: "to", otherKey: keySendAmount));
+          } else if (command is NavigateToSendConfirmation) {
             final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
             //BlocProvider.of<SendConfirmationBloc>(pageContext).add(OnAuthorizationFailure(rates));
             NavigationService.of(context).navigateTo(Routes.sendConfirmation, command.arguments, true); // SendConfirmationScreen
-          }  else if (command is ShowTransferSuccess) {
+          } else if (command is ShowTransferSuccess) {
             Navigator.of(context).pop(); // pop send
             Navigator.of(context).pop(); // pop scanner
             if (command.shouldShowInAppReview) {
@@ -80,9 +102,16 @@ class SwapEnterDataScreen extends StatelessWidget {
             Navigator.of(context).pop(); // pop scanner
             GenericTransactionSuccessDialog(command.transactionModel).show(context);
           }
+          BlocProvider.of<TransferExpertBloc>(fromContext).add(const ClearPageCommand());
+
         },
 
-    child: Scaffold(
+    child: BlocBuilder<TransferExpertBloc, TransferExpertState>(
+      bloc: BlocProvider.of<TransferExpertBloc>(fromContext),
+      builder: (context, state) {
+        final proxySend = state.selectedAccounts["from"] != settingsStorage.accountName;
+        return
+     Scaffold(
       appBar: AppBar(
         title: Text("Send Abroad"),//Text(context.loc.transferSendSearchTitle),
         actions: [
@@ -94,14 +123,7 @@ class SwapEnterDataScreen extends StatelessWidget {
         ],
       ),
       body: 
-      fromContext == null ? Text("error: no context") :
-      BlocProvider.value(
-        value: BlocProvider.of<TransferExpertBloc>(fromContext!),
-        child: 
-          BlocBuilder<TransferExpertBloc, TransferExpertState>(
-          builder: (context, state) { 
-          final proxySend = state.selectedAccounts["from"] != settingsStorage.accountName;
-          return SafeArea(
+          SafeArea(
                     minimum: const EdgeInsets.all(horizontalEdgePadding),
                     child: Stack(
                       children: [
@@ -130,11 +152,11 @@ class SwapEnterDataScreen extends StatelessWidget {
                                 onValueChange: (value) {
                                   final newAmount = double.tryParse(value);
                                   if (newAmount != null && deliverFieldHasFocus) {
-                                    BlocProvider.of<TransferExpertBloc>(context)
+                                    BlocProvider.of<TransferExpertBloc>(fromContext)
                                       .add(OnSwapInputAmountChange(newAmount: newAmount, selected: "to", otherKey: keySendAmount));
                                   }
                                 },
-                                autoFocus: state.pageState == PageState.initial,
+                                autoFocus: true, //state.pageState == PageState.initial,
                                 fieldName: "to",
                                 onFocusChanged: (hasFocus) {
                                   deliverFieldHasFocus = hasFocus;
@@ -146,11 +168,12 @@ class SwapEnterDataScreen extends StatelessWidget {
                               Column(
                                 children: [
                                   TextFormFieldLight(
+                                    initialText: args?.memo, 
                                     labelText: context.loc.transferMemoFieldLabel,
                                     hintText: context.loc.transferMemoFieldHint,
                                     maxLength: blockChainMaxChars,
                                     onChanged: (String value) {
-                                      BlocProvider.of<TransferExpertBloc>(context).add(OnMemoChange(memoChanged: value));
+                                      BlocProvider.of<TransferExpertBloc>(fromContext).add(OnMemoChange(memoChanged: value));
                                     },
                                   ),
                                   const SizedBox(height: 16),
@@ -185,11 +208,11 @@ class SwapEnterDataScreen extends StatelessWidget {
                                         final newAmount = double.tryParse(value);
                                         if (newAmount != null && sendFieldHasFocus ) {
                                           //availableBalanceExceeded = newAmount > senderBalance;
-                                          BlocProvider.of<TransferExpertBloc>(context)
+                                          BlocProvider.of<TransferExpertBloc>(fromContext)
                                            .add(OnSwapInputAmountChange(newAmount: newAmount, selected: "from", otherKey: keyDeliverAmount));
                                         }
                                       },
-                                      autoFocus: state.pageState == PageState.initial,
+                                      autoFocus: false, //state.pageState == PageState.initial,
                                       fieldName: "from",
                                       onFocusChanged: (hasFocus) {
                                         sendFieldHasFocus = hasFocus;
@@ -197,7 +220,7 @@ class SwapEnterDataScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 16),
                                     AlertInputValue(context.loc.transferSendNotEnoughBalanceAlert,
-                                      isVisible: (state.swapSendAmount?.amount ?? 0) > senderBalance), 
+                                      isVisible: (state.swapSendAmount?.amount ?? 0) > senderBalance!), 
                                     const SizedBox(height: 16),
 
                                   
@@ -222,17 +245,18 @@ class SwapEnterDataScreen extends StatelessWidget {
                             enabled: true,//state.isNextButtonEnabled,
                             onPressed: () {
                               //eventBus.fire(ShowSnackBar("Swap transaction not implemented"));
-                              BlocProvider.of<TransferExpertBloc>(context).add(OnSwapNextButtonTapped(state));
+                              BlocProvider.of<TransferExpertBloc>(fromContext).add(OnSwapNextButtonTapped(state));
                             },
                           ),
                         ),
 
               ]
             )
-          );
-        }
-      )
-      )
+          )    
+      );
+
+     }
+    
     )
     );
   }

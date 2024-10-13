@@ -11,6 +11,7 @@ class TextFormFieldLight extends StatelessWidget {
   final Widget? suffixIcon;
   final String? hintText;
   final String? labelText;
+  final String? initialText;
 
   const TextFormFieldLight({
     super.key,
@@ -20,6 +21,7 @@ class TextFormFieldLight extends StatelessWidget {
     this.suffixIcon,
     this.hintText,
     this.labelText,
+    this.initialText,
   });
 
   @override
@@ -27,6 +29,7 @@ class TextFormFieldLight extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        initialValue: initialText,
         maxLength: maxLength,
         controller: controller,
         onChanged: onChanged,

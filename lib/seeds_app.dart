@@ -10,6 +10,7 @@ import 'package:seeds/components/snack.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/utils/observer_utils.dart';
 
 class SeedsApp extends StatelessWidget {
   const SeedsApp({super.key});
@@ -57,6 +58,7 @@ class SeedsApp extends StatelessWidget {
                   theme: SeedsAppTheme.darkTheme,
                   scaffoldMessengerKey: rootScaffoldMessengerKey,
                   navigatorKey: navigator.appNavigatorKey,
+                  navigatorObservers: [ObserverUtils.routeObserver], // chuck
                   onGenerateRoute: navigator.onGenerateRoute,
                   builder: (_, child) {
                     return I18n(

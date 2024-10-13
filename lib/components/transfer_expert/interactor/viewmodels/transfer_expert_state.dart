@@ -104,9 +104,11 @@ class TransferExpertState extends Equatable {
     );
   }
 
-  factory TransferExpertState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus,) {
+  factory TransferExpertState.initial(List<String>? noShowUsers, ProfileStatus? filterByCitizenshipStatus, {bool preset = false}) {
+
     return TransferExpertState(
       pageState: PageState.initial,
+      pageCommand: preset ? Preset() : null,
       users: [],
       showClearIcon: false,
       noShowUsers: noShowUsers,

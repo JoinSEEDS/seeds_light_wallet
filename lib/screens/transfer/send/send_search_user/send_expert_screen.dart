@@ -5,12 +5,15 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/utils/build_context_extension.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
+
 
 class SendExpertScreen extends StatelessWidget {
   const SendExpertScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    SwapTxArgs? args = ModalRoute.of(context)!.settings.arguments as SwapTxArgs?;
     return Scaffold(
       appBar: AppBar(
         title: Text(context.loc.transferSendSearchTitle),
@@ -44,6 +47,7 @@ class SendExpertScreen extends StatelessWidget {
       body: TransferExpert(
         walletTokenId: settingsStorage.selectedToken.id,
         outerContext: context,
+        args: args,
       ),
     );
   }

@@ -17,10 +17,10 @@ class SelectUserTextField extends StatefulWidget {
   
 
   @override
-  _SelectUserTextFieldState createState() => _SelectUserTextFieldState();
+  SelectUserTextFieldState createState() => SelectUserTextFieldState();
 }
 
-class _SelectUserTextFieldState extends State<SelectUserTextField> {
+class SelectUserTextFieldState extends State<SelectUserTextField> {
   final TextEditingController _controller = TextEditingController();
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -28,6 +28,10 @@ class _SelectUserTextFieldState extends State<SelectUserTextField> {
   );
   TextStyle? inputTextStyle;
 
+  void setText(String t) {
+    _controller.text = t;
+  }
+  
   @override
   void initState(){;
     _controller.text = widget.initialValue ?? "";

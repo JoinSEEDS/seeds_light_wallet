@@ -8,9 +8,11 @@ import 'package:flutter/widgets.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/msig_proposal_action.dart';
+import 'package:seeds/components/transfer_expert/interactor/viewmodels/transfer_expert_bloc.dart';
 import 'package:seeds/crypto/dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/eos_permissions_model.dart';
@@ -20,12 +22,13 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/initial_validation_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 
 part 'send_confirmation_event.dart';
 part 'send_confirmation_state.dart';
@@ -37,6 +40,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     on<OnInitValidations>(_onInitValidations);
     on<OnSendTransactionButtonPressed>(_onSendTransaction);
     on<OnAuthorizationFailure>(_onAuthorizationFailure);
+    on<OnMakeForeignButtonPressed>(_onMakeForeignButtonPressed);
   }
 
   Future<void> _onInitValidations(OnInitValidations event, Emitter<SendConfirmationState> emit) async {
@@ -113,5 +117,27 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     } else {
       eventBus.fire(ShowSnackBar("Cannot create msig proposal for this transaction."));
     }
+  }
+
+
+  Future<void> _onMakeForeignButtonPressed(OnMakeForeignButtonPressed event, Emitter<SendConfirmationState> emit) async {
+    // collect data to launch swap transaction (transferExpert route = send_expert_screen)
+    
+    final transactionData = state.transaction.actions[0].data!;
+    final contract = state.transaction.actions[0].account;
+    final symbol = transactionData["quantity"].split(" ")[1] as String;
+    final tokenId = 'Telos#${contract}#${symbol}';
+
+    SwapTxArgs args = SwapTxArgs( 
+      selectedAccounts: {"to": transactionData["to"] as String, "from": transactionData["from"] as String},
+      sendingToken: settingsStorage.selectedToken.id,
+      deliveryToken: tokenId,
+      swapDeliverAmount: TokenDataModel(
+        double.parse(transactionData["quantity"].split(" ")[0] as String),
+        token: TokenModel.fromId(tokenId)!),
+      memo: transactionData["memo"] as String,
+      );
+    NavigationService.of(event.context).navigateTo(Routes.transferExpert, args, false);
+
   }
 }

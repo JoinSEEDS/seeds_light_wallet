@@ -26,155 +26,187 @@ import 'package:seeds/utils/build_context_extension.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
 class TransferExpert extends StatelessWidget {
-
   final String walletTokenId;
   final BuildContext outerContext;
+  final SwapTxArgs? args;
 
-  const TransferExpert({
+  //final keyDeliverToken = GlobalKey<TokenSelectFieldState>();
+  final keyToUserText = GlobalKey<SelectUserTextFieldState>();
+  final keyFromUserText = GlobalKey<SelectUserTextFieldState>();
+
+  TransferExpert({
     super.key,
     required this.walletTokenId,
     required this.outerContext,
+    this.args,
   });
-
-  void onNextButtonTapped(BuildContext context) async {
-    // navigate to basic or expert send_confirmation
-    print("Send: Next button pressed");
-    final state = BlocProvider.of<TransferExpertBloc>(context).state;
-    if (state.deliveryToken == settingsStorage.selectedToken.id) {
-      print("proxy token transfer");
-      Map<String, ProfileModel> profiles = {};
-      profiles["to"] = (await ProfileRepository().getProfile(state.selectedAccounts["to"]!)).asValue?.value
-        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["to"]!);
-      profiles["from"] = (await ProfileRepository().getProfile(state.selectedAccounts["from"]!)).asValue?.value
-        ?? ProfileModel.usingDefaultValues(account: state.selectedAccounts["from"]!);
-      NavigationService.of(context).navigateTo(Routes.sendEnterData, profiles); // SendEnterDataScreen
-    } else {
-      // swap mode
-      final bal = await BlocProvider.of<TransferExpertBloc>(context)
-        .balance(state.selectedAccounts["from"] ?? "", state.sendingToken ?? "");
-      BlocProvider.of<TransferExpertBloc>(context).add(const ClearPageCommand());
-      BlocProvider.of<TransferExpertBloc>(context).add(const OnOSwapLoad());
-      NavigationService.of(context).navigateTo(Routes.sendAbroad, SwapEnterDataArgs(context: context, senderBalance: bal ?? 0)); // SwapEnterDataScreen
-    }
-    
-  }
-
 
   @override
   Widget build(BuildContext context) {
     List<String> initialAuthAccounts = [];
     final EOSAccountRepository _accountRepository = EOSAccountRepository();
+    final txArgs = ModalRoute.of(context)!.settings.arguments as SwapTxArgs?;
     return BlocProvider<TransferExpertBloc>(
       lazy: false,
-      create: (_) => TransferExpertBloc(null, null),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: Row( children: [
-              Text("Delivering"),
-              const SizedBox(width: 8),
-              TokenSelectField(),
-              const SizedBox(width: 8),
-              Text("to"),
-            ]
-            )
-            ),
-            Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: SelectUserTextField(
-                 updater: (s) => { null },
-                 accountKey: "to",
-                )   
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: Row(
-              children: [
-                Text("Sending"),
-                const SizedBox(width: 8),
-                BlocBuilder<TransferExpertBloc, TransferExpertState>(
-                  builder: (context, state) => 
-                   Text('${state.sendingToken.split("#")[2]} (${state.sendingToken.split("#")[1]})'),
+      create: (_) => TransferExpertBloc(null, null, preset: txArgs != null),
+      child: BlocConsumer<TransferExpertBloc, TransferExpertState>(
+        listenWhen: (previous, current) => current.pageCommand != null && !(current.pageCommand is NoCommand),
+        listener: (context, state) {
+          bool clearCommand = false;
+          final command = state.pageCommand;
+          if (command is NavigateToSwap) {
+            final ar = (command! as NavigateToSwap).arguments as SwapTxArgs
+            ..swapDeliverAmount = txArgs?.swapDeliverAmount;
+
+            //BlocProvider.of<TransferExpertBloc>(context).add(SwapPresetPageCommand());
+            NavigationService.of(context).navigateTo(Routes.sendAbroad, ar);
+            clearCommand = true;
+          }
+          if (command is NavigateToSendEnterData) {
+            NavigationService.of(context).navigateTo(command.route, command.arguments);
+            clearCommand = true;
+          }
+          if (command is Preset && txArgs != null) {
+            final deliveryId = txArgs!.deliveryToken ?? settingsStorage.selectedToken.id;
+            //keyDeliverToken.currentState!.selectedId = deliveryId;
+            BlocProvider.of<TransferExpertBloc>(context).add(OnDeliveryTokenChange(tokenId: deliveryId));
+            if (txArgs!.selectedAccounts?["to"] != null) {
+              keyToUserText.currentState!.setText(txArgs!.selectedAccounts!["to"]!);
+              BlocProvider.of<TransferExpertBloc>(context)
+                .add(OnSearchChange(searchQuery: txArgs!.selectedAccounts!["to"]!, accountKey: "to"));
+            }
+            if (txArgs!.selectedAccounts?["from"] != null) {
+              keyFromUserText.currentState!.setText(txArgs!.selectedAccounts!["from"]!);
+              //BlocProvider.of<TransferExpertBloc>(context)
+              //  .add(OnSearchChange(searchQuery: txArgs!.selectedAccounts!["from"]!, accountKey: "from"));
+            }
+            if (txArgs!.memo != null) {
+              BlocProvider.of<TransferExpertBloc>(context)
+                .add(OnMemoChange(memoChanged: txArgs!.memo!));
+            }
+            
+            clearCommand = true;
+          }
+          if (clearCommand){
+            BlocProvider.of<TransferExpertBloc>(context).add(ClearPageCommand());
+          }
+        },
+        builder:(context, state) {
+          return    
+
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+                child: Row( children: [
+                  Text("Delivering"),
+                  const SizedBox(width: 8),
+                  TokenSelectField(
+                    i: txArgs?.deliveryToken,
+                  ),
+                  const SizedBox(width: 8),
+                  Text("to"),
+                ]
+                )
                 ),
-                const SizedBox(width: 8),
-                Text("from"),
-              ])
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
-            child: Row( children: [
-              Expanded (child: 
-                SelectUserTextField(initialValue: settingsStorage.accountName,
-                  accountKey: "from", 
-                )   
+                Padding(
+                padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+                child: SelectUserTextField(
+                    key: keyToUserText,
+                    initialValue: state.selectedAccounts?["to"],
+                    accountKey: "to",
+                    )   
               ),
-              SizedBox(width: 16),
-              BlocBuilder<TransferExpertBloc, TransferExpertState>(
-                builder: (context, state) {
-                  return SignerSelectField(
-                    enabled: state.validChainAccounts.contains("from"), // if user is valid
-                    account: state.selectedAccounts["from"],
-                  );
+              Padding(
+                padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+                child: Row(
+                  children: [
+                    Text("Sending"),
+                    const SizedBox(width: 8),
+                    BlocBuilder<TransferExpertBloc, TransferExpertState>(
+                      builder: (context, state) => 
+                      Text('${state.sendingToken.split("#")[2]} (${state.sendingToken.split("#")[1]})'),
+                    ),
+                    const SizedBox(width: 8),
+                    Text("from"),
+                  ])
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
+                child: Row( children: [
+                  Expanded (child: 
+                    SelectUserTextField(
+                      key: keyFromUserText,
+                      initialValue: state.selectedAccounts?["from"] ?? settingsStorage.accountName,
+                      accountKey: "from", 
+                    )   
+                  ),
+                  SizedBox(width: 16),
+                  BlocBuilder<TransferExpertBloc, TransferExpertState>(
+                    builder: (context, state) {
+                      return SignerSelectField(
+                        enabled: state.validChainAccounts.contains("from"), // if user is valid
+                        account: state.selectedAccounts["from"],
+                      );
+                    },
+                  ),
+                  SizedBox(width: 8),
+                ])
+              ),
+
+              const SizedBox(height: 16),
+              /*
+              BlocBuilder<SearchUserBloc, SearchUserState>(
+                builder: (_, state) {
+                  switch (state.pageState) {
+                    case PageState.loading:
+                    case PageState.failure:
+                    case PageState.success:
+                      if (state.pageState == PageState.success && state.users.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(child: Text(context.loc.searchUserNoUserFound)),
+                        );
+                      } else {
+                        return Expanded(
+                          child: ListView.builder(
+                            itemCount: state.users.length,
+                            itemBuilder: (_, index) {
+                              final ProfileModel user = state.users[index];
+                              return SearchResultRow(
+                                key: Key(user.account),
+                                member: user,
+                                //onTap: () => onUserSelected(user),
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    default:
+                      return const SizedBox.shrink();
+                  }
                 },
               ),
-              SizedBox(width: 8),
-            ])
-          ),
-
-
-      
-
-          const SizedBox(height: 16),
-          /*
-          BlocBuilder<SearchUserBloc, SearchUserState>(
-            builder: (_, state) {
-              switch (state.pageState) {
-                case PageState.loading:
-                case PageState.failure:
-                case PageState.success:
-                  if (state.pageState == PageState.success && state.users.isEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(child: Text(context.loc.searchUserNoUserFound)),
-                    );
-                  } else {
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: state.users.length,
-                        itemBuilder: (_, index) {
-                          final ProfileModel user = state.users[index];
-                          return SearchResultRow(
-                            key: Key(user.account),
-                            member: user,
-                            //onTap: () => onUserSelected(user),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
-          ),
-          */
-          BlocBuilder<TransferExpertBloc, TransferExpertState>(
-            builder: (context, state) {
-            return Align(
-            alignment: Alignment.bottomCenter,
-            child: FlatButtonLong(
-              title: context.loc.transferSendNextButtonTitle,
-              enabled: state.validChainAccounts.contains("to")
-                && state.validChainAccounts.contains("from"),
-              onPressed: () {
-                onNextButtonTapped(context);
-              },
-            ),
+              */
+              BlocBuilder<TransferExpertBloc, TransferExpertState>(
+                builder: (context, state) {
+                return Align(
+                alignment: Alignment.bottomCenter,
+                child: FlatButtonLong(
+                  title: context.loc.transferSendNextButtonTitle,
+                  enabled: state.validChainAccounts.contains("to")
+                    && state.validChainAccounts.contains("from"),
+                  onPressed: () {
+                    BlocProvider.of<TransferExpertBloc>(context).add(OnSendNextButtonTapped(context: context));
+                  },
+                ),
+              );
+                })
+            ],
           );
-            })
-        ],
-      ),
+      
+      }
+      )
     );
   }
 }

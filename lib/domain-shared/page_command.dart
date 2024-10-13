@@ -1,5 +1,7 @@
+import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/swap_enter_data_screen.dart';
 
 abstract class PageCommand {}
 
@@ -36,7 +38,24 @@ class NavigateToSendConfirmation extends NavigateToRouteWithArguments {
   NavigateToSendConfirmation(SendConfirmationArguments args) : super(route: Routes.sendConfirmation, arguments: args);
 }
 
+class NavigateToSwap extends NavigateToRouteWithArguments {
+  NavigateToSwap(SwapTxArgs args) : super(route: Routes.sendAbroad, arguments: args);
+}
+
+class NavigateToSendEnterData extends NavigateToRouteWithArguments {
+  NavigateToSendEnterData(Map<String, ProfileModel> args) : super(route: Routes.sendEnterData, arguments: args);
+}
+
 class NoCommand extends PageCommand {
 
   NoCommand();
+}
+
+class Preset extends PageCommand {
+
+  Preset();
+}
+class SwapPreset extends PageCommand {
+
+  SwapPreset();
 }

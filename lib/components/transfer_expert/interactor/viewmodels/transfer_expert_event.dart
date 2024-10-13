@@ -45,11 +45,13 @@ class OnSwapInputAmountChange extends TransferExpertEvent {
 }
 
 class OnOSwapLoad extends TransferExpertEvent {
-
-  const OnOSwapLoad();
+  final double bal;
+  final BuildContext context;
+ 
+  const OnOSwapLoad({required this.context, required this.bal});
 
   @override
-  String toString() => 'oSwapLoad';
+  String toString() => 'oSwapLoad, bal ${bal} ';
 }
 
 class OnSwapNextButtonTapped extends TransferExpertEvent {
@@ -59,6 +61,15 @@ class OnSwapNextButtonTapped extends TransferExpertEvent {
 
   @override
   String toString() => 'Swap next button tapped';
+}
+
+class OnSendNextButtonTapped extends TransferExpertEvent {
+  final BuildContext context;
+
+  const OnSendNextButtonTapped({required this.context});
+
+  @override
+  String toString() => 'OnSendNextButtonTapped';
 }
 
 class OnSwapSendButtonTapped extends TransferExpertEvent {
@@ -82,4 +93,16 @@ class ClearPageCommand extends TransferExpertEvent {
   const ClearPageCommand();
   @override
   String toString() => 'ClearPageCommand';
+}
+class PresetPageCommand extends TransferExpertEvent {
+  
+  const PresetPageCommand();
+  @override
+  String toString() => 'PresetPageCommand';
+}
+class SwapPresetPageCommand extends TransferExpertEvent {
+  
+  const SwapPresetPageCommand();
+  @override
+  String toString() => 'SwapPresetPageCommand';
 }
