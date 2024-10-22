@@ -475,7 +475,7 @@ int checkRange(int orig, int converted) {
 }
 
 DateTime checkDateParse(String date) {
-  var result = DateTime.parse(date + 'Z');
+  var result = DateTime.parse(date.endsWith('Z') ? date : date + 'Z');
   return result;
 }
 
@@ -975,7 +975,7 @@ deserializeArray(Type self, SerialBuffer buffer, {SerializerState? state, allowE
   return result;
 }
 
-serializeOptional(Type self, SerialBuffer buffer, Object data, {SerializerState? state, allowExtensions = true}) {
+serializeOptional(Type self, SerialBuffer buffer, Object? data, {SerializerState? state, allowExtensions = true}) {
   if (state == null) state = SerializerState();
   if (data == null) {
     buffer.push([0]);
