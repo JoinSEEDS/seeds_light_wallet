@@ -87,6 +87,8 @@ class _SignerSelectFieldState extends State<SignerSelectField> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<TransferExpertBloc, TransferExpertState>(
+      listenWhen: (previous, current) => 
+        current.selectedAccounts["from"] != previous.selectedAccounts["from"],
       listener: (context, state) {
         fromAccount = state.selectedAccounts["from"];
         try {
